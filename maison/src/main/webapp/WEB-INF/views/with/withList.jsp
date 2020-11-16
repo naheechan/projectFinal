@@ -8,4 +8,8 @@
 	<jsp:param name="title" value="함께해요"/>
 </jsp:include>
 
+<jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
+	<jsp:param name="menuTitle" value="함께해요"/>
+</jsp:include>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		
