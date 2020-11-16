@@ -53,7 +53,7 @@
 							<li><a href="shop-detail.html">질문해요</a></li>
 						</ul>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑해요</a></li>
+					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑시계</a></li>
 				</ul>
 			</div>
             <!-- /.navbar-collapse -->
@@ -62,6 +62,8 @@
             <div class="attr-nav">
                 <ul>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    
+                    <li class="login"><a href="#"><i class="fas fa-user-alt"></i></a>
                     <li class="side-menu">
                     	<a href="#">
 							<i class="fa fa-shopping-bag"></i>
