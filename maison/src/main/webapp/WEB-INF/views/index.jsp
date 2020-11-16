@@ -7,5 +7,5 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="첫화면"/>
 </jsp:include>
-
+<h1>안녕안녕</h1>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		
