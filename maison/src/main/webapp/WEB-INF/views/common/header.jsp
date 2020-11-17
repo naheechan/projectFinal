@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
+
 <title><c:out value="${param.title }"/></title>
 </head>
 <body>
@@ -49,11 +50,11 @@
  					<li class="dropdown">
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요</a>
 						<ul class="dropdown-menu">
-							<li><a href="shop.html">공지해요</a></li>
+							<li><a href="${path }/notice/noticeList.do">공지해요</a></li>
 							<li><a href="shop-detail.html">질문해요</a></li>
 						</ul>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑해요</a></li>
+					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑시계</a></li>
 				</ul>
 			</div>
             <!-- /.navbar-collapse -->
@@ -62,6 +63,8 @@
             <div class="attr-nav">
                 <ul>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    
+                    <li class="login"><a href="#"><i class="fas fa-user-alt"></i></a>
                     <li class="side-menu">
                     	<a href="#">
 							<i class="fa fa-shopping-bag"></i>

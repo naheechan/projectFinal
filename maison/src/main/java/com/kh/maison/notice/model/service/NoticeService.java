@@ -8,5 +8,5 @@ public interface NoticeService {
 
 	
 	
-	public List<Notice> selectNoticeList();
+	public List<Notice> selectNoticeList(int cPage,int numPerPage);
 }

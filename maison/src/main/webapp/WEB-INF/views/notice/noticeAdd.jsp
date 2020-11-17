@@ -3,86 +3,121 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="함께해요"/>
+	<jsp:param name="title" value="소통해요"/>
 </jsp:include>
 
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="공지해요"/>
 </jsp:include>
 
+<script type="text/javascript" src="${path }/resources/se2/js/HuskyEZCreator.js" charset="utf-8"></script>
+
+
 <!-- Start With -->
-<table class="table" border="1" summary="">
-<caption>글쓰기 폼</caption>
-<colgroup>
-	<col style="width:130px;">
-	<col style="width:auto;">
-</colgroup>
-<tbody>
-<tr>
-	<th scope="row">제목</th>
-    	<td>
-    		<select id="board_category" name="board_category" fw-filter="" fw-label="" fw-msg="">
-				<option value="1">공지</option>
+<form action="/notice/noticeAddEnd.do" method="post" id="noticeFrm">
+	<table class="col-md-12">
+		<tr>
+			<th>제목</th>
+			<td><input type="text" name="noticeTitle" required></td>
+		</tr>
+		<tr>
+			<th>내용</th>
+			<td>
+				<textarea name="smarteditor" id="smarteditor"></textarea>
+			
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="button" id="savebutton" value="글쓰기" />
+			</td>
+		</tr>	
 		
-			</select>  
-		</td>
-</tr>
-<tr class="">
+	
+	
+	</table>
 
-<tr class="displaynone">
-<td colspan="2" class="clear">
-                        
-            <script type="text/javascript" src="//editor.cafe24.com/js/nneditor.js?c=ko"></script>		<style type="text/css">			@import "https://editor.cafe24.com/css/style.css?ver=r3.4.0.20200729.1";			@import "https://editor.cafe24.com/css/styleie8.css?ver=r3.4.0.20200729.1";		</style>		<script type="text/javascript" src="https://editor.cafe24.com/lang/ko.js?version=r3.4.0.20200729.1" charset="UTF-8"></script><script type="text/javascript" src="https://editor.cafe24.com/js/nneditorUtils.dev.js?version=r3.4.0.20200729.1" charset="UTF-8"></script><script type="text/javascript" src="https://editor.cafe24.com/js/nneditorRange.dev.js?version=r3.4.0.20200729.1" charset="UTF-8"></script><script type="text/javascript" src="https://editor.cafe24.com/js/nneditorCore.dev.js?version=r3.4.0.20200729.1" charset="UTF-8"></script>
-            <script type="text/javascript">
-                
-                
 
-                //Editor Height
-                NN.Config.height=400;
-
-                var oNN_content = new NNEditor();
-                oNN_content.build();
-
-                if (typeof $Editor != "object") {
-                    $Editor = {
-                        _obj : {},
-
-                        push : function(obj, id) {
-                            this._obj[id] = obj;
-                        },
-
-                        get : function(id) {
-                            return this._obj[id];
-                        },
-
-                        reset : function(id) {
-                            this._obj[id].getText().value = "";
-                            this._obj[id].getIFDoc().body.innerHTML = this._obj[id].Config.START_HTML;
-                        },
-
-                        contents : function(id, context) {
-                            this._obj[id].getText().value = context;
-                            this._obj[id].getIFDoc().body.innerHTML = this._obj[id].view.parsing(2);
-                        }
-                    };
-                }
-
-                $Editor.push(oNN_content, "content");
-			</script>            
-            <input type="hidden" id="content_hidden" fw-filter="isSimplexEditorFill" fw-label="내용" value="oNN_content">
-        
-                            </td>
-                </tr>
-
-</tbody>
-
-<tbody>
-<tr class="">
-
-</tbody>
-</table>
+</form>
 <!-- End With -->
+<script>
+$(function(){
+    //전역변수선언
+    var editor_object = [];
+     
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: editor_object,
+        elPlaceHolder: "smarteditor",
+        sSkinURI: "/se2/SmartEditor2Skin.html",
+        htParams : {
+            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseToolbar : true,            
+            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseVerticalResizer : true,    
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseModeChanger : true,
+        }
+    });
+     
+    //전송버튼 클릭이벤트
+    $("#savebutton").click(function(){
+        //id가 smarteditor인 textarea에 에디터에서 대입
+        editor_object.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
+         
+        // 이부분에 에디터 validation 검증
+         
+        //폼 submit
+        $("#frm").submit();
+    })
+})
+</script>
+<script type="text/javascript">
+var oEditors = []; 
+nhn.husky.EZCreator.createInIFrame({ 
+	oAppRef : oEditors, 
+	elPlaceHolder : "smarteditor", 
+	sSkinURI : "<%=request.getContextPath() %>/resources/se2/SmartEditor2Skin.html",
+	fCreator : "createSEditor2", 
+	htParams : { bUseToolbar : true, 
+		bUseVerticalResizer : false, 
+		bUseModeChanger : false } 
+	}); 
+	$(function() { 
+		$("#savebutton").click(function() { 
+			oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []); 
+			var selcatd = $("#selcatd > option:selected").val(); 
+			var title = $("#title").val(); 
+			var content = document.getElementById("smartEditor").value;; 
+			if (selcatd == "") { 
+				alert("카테고리를 선택해주세요."); 
+				return; 
+			} 
+			if (title == null || title == "") { 
+				alert("제목을 입력해주세요."); 
+				$("#title").focus(); 
+				return; 
+			} 
+			if(content == "" || content == null || content == '&nbsp;' || content == '<br>' || content == '<br/>' || content == '<p>&nbsp;</p>'){ 
+				alert("본문을 작성해주세요."); 
+				oEditors.getById["smarteditor"].exec("FOCUS"); 
+				return; 
+			} 
+			var result = confirm("발행 하시겠습니까?"); 
+			if(result){ 
+				alert("발행 완료!"); 
+				$("#noticeWriteForm").submit(); 
+			}else{ 
+				return; 
+			} 
+		}); 
+	})
+</script>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		
