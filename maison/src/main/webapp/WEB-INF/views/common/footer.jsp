@@ -181,14 +181,19 @@
     <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 
     <!-- ALL JS FILES -->
-    <script src="<%=request.getContextPath() %>/resources/js/jquery-3.2.1.min.js"></script>
-    <script src="<%=request.getContextPath() %>/resources/js/popper.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
+	<script
+  src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
+  integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+  crossorigin="anonymous"></script>
+	<script src="<%=request.getContextPath() %>/resources/js/popper.min.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/bootstrap.min.js"></script>
     <!-- ALL PLUGINS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/jquery.superslides.min.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/bootstrap-select.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/inewsticker.js"></script>
-    <script src="<%=request.getContextPath() %>/resources/js/bootsnav.js."></script>
+    <script src="<%=request.getContextPath() %>/resources/js/bootsnav.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/images-loded.min.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/isotope.min.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/owl.carousel.min.js"></script>
