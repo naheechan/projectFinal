@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <title><c:out value="${param.title }"/></title>
 </head>
 <body>
