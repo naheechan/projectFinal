@@ -37,7 +37,7 @@
 				<tr>
 					<td>
 						<div class="form-group">
-					   		<input type="text" class="form-control" placeholder="아이디" id="userId" name="userId">
+					   		<input type="text" class="form-control" placeholder="아이디" id="memberId" name="memberId">
 						</div>
 					</td>
 					<td rowspan="2">
@@ -47,7 +47,7 @@
 				<tr>
 					<td>
 						<div class="form-group">
-					   		<input type="text" class="form-control" placeholder="비밀번호" id="userPw" name="userPw">
+					   		<input type="text" class="form-control" placeholder="비밀번호" id="memberPw" name="memberPw">
 						</div>
 					</td>
 				</tr>
@@ -70,7 +70,7 @@
 					<p>|</p>
 					<p><a href="#">비밀번호 찾기</a></p>
 					<p>|</p>
-					<p><a href="${path }/user/enroll">회원가입</a></p>
+					<p><a href="${path }/member/enroll">회원가입</a></p>
 				</td>
 			</tr>
 			<tr>

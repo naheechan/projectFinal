@@ -22,6 +22,9 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
+<!-- jquery 관련파일들 -->
+<script src="${path }/resources/js/jquery-3.2.1.min.js"></script>
+<script src="${path }/resources/js/jquery-ui.js"></script>
 
 <title><c:out value="${param.title }"/></title>
 </head>
@@ -64,7 +67,7 @@
                 <ul>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
                     
-                    <li class="login"><a href="${path }/user/login"><i class="fas fa-user-alt"></i></a>
+                    <li class="login"><a href="${path }/member/login"><i class="fas fa-user-alt"></i></a>
                     <li class="side-menu">
                     	<a href="#">
 							<i class="fa fa-shopping-bag"></i>

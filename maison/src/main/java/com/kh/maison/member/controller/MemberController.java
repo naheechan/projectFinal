@@ -1,30 +1,30 @@
-package com.kh.maison.user.controller;
+package com.kh.maison.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.maison.user.model.service.UserService;
+import com.kh.maison.member.model.service.MemberService;
 
 @Controller
-public class UserController {
+public class MemberController {
 
 	@Autowired
-	private UserService service;
+	private MemberService service;
 	
 	
-	@RequestMapping(value="/user/login")
+	@RequestMapping(value="/member/login")
 	public ModelAndView login(ModelAndView mv) {
 		
-		mv.setViewName("user/login");
+		mv.setViewName("member/login");
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/user/enroll")
+	@RequestMapping(value="/member/enroll")
 	public ModelAndView enroll(ModelAndView mv) {
-		mv.setViewName("user/enroll");
+		mv.setViewName("member/enroll");
 		return mv;
 	}
 	
