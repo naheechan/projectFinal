@@ -9,7 +9,13 @@
 </jsp:include>
 <!-- 다음지도 api -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- datepicker -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
+	function checkSubmit() {
+		alert("아직");
+		return false;
+	}
     function findZipCode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -57,6 +63,43 @@
             }
         }).open();
     }
+    $(function() {
+    	$("#memberId").keyup(function(e) {
+    		let checkId = $(e.target).val();
+    		$("#disableId").css("display","block");
+    		$("#ableId").css("display","block");
+    		
+    		$.ajax({
+    			url:"${path}/member/ajax/checkMemberId",
+    			type:"get",
+    			dataType:"json",
+    			data:{"checkId":checkId},
+    			success:function(data){
+    				console.log(data);
+    			},
+    			error:function(request,status,error) {
+    				console.log(request);
+    				console.log(status);
+    				alert(error);
+    			}
+    		}); 
+    	});
+        $("#datepicker").datepicker({
+        	showOn:"both",
+        	buttonImage:"${path}/resources/images/calendarIcon.jpg",
+        	buttonImageOnly:true,
+        	changeMonth:true,
+        	changeYear:true,
+        	minDate:'-150y',
+        	nextText:'다음 달',
+        	prevText:'이전 달',
+        	yearRange:'c-150:c+0',
+        	dateFormat:'yy-mm-dd',
+        	showMonthAfterYear:true,
+        	dayNamesMin:['월','화','수','목','금','토','일'],
+        	monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+        });
+    });
 </script>
 
 <style>
@@ -78,6 +121,14 @@
 		width: 50vh;
 		display: inline-block;
 	}
+	#datepicker{
+		width: 50vh;
+		display: inline-block;
+	}
+	#submit-container {
+		display: flex;
+		justify-content: center;
+	}
 </style>
 <section>
 	<div class="jumbotron jumbotron-fluid">
@@ -85,23 +136,26 @@
 			<h1>회원가입</h1>
 		</div>		
 	</div>
-	<form action="" method="POST">
+	<form action="${path }/member/enrollEnd" method="POST" onsubmit="return checkSubmit();">
 		<div id="enroll-container" class="container">
 			<div class="form-group">
-			    <label for="userId">아이디</label>
-			    <input type="text" class="form-control" placeholder="영문,숫자 조합 4~10자리" id="userId">
+			    <label for="memberId">아이디</label>
+			    <input type="text" class="form-control" placeholder="영문,숫자 조합 4~10자리" id="memberId" name="memberId">
+			    <p class="text-danger" id="disableId" style="display:none">아이디가 중복됩니다.</p>
+			    <p class="text-success" id="ableId" style="display:none">사용가능한 아이디입니다.</p>
+			    <input type="hidden" id="idCheck" name="idCheck" value="0">
 		 	</div>
 		 	<div class="form-group">
-			    <label for="userName">이름</label>
-			    <input type="text" class="form-control" placeholder="2글자 이상" id="userName">
+			    <label for="memberName">이름</label>
+			    <input type="text" class="form-control" placeholder="2글자 이상" id="memberName" name="memberName">
 		 	</div>
 		 	<div class="form-group">
-			    <label for="userPw">비밀번호</label>
-			    <input type="password" class="form-control" placeholder="영문,숫자,특수기호 조합 6~15자리" id="userPw">
+			    <label for="memberPw">비밀번호</label>
+			    <input type="password" class="form-control" placeholder="영문,숫자,특수기호 조합 6~15자리" id="memberPw" name="memberPw">
 		 	</div>
 		 	<div class="form-group">
-			    <label for="userRePw">비밀번호 확인</label>
-			    <input type="password" class="form-control" placeholder="비밀번호 재입력" id="userRePw">
+			    <label for="memberRePw">비밀번호 확인</label>
+			    <input type="password" class="form-control" placeholder="비밀번호 재입력" id="memberRePw">
 		 	</div>
 		 	
 		 	<!-- 주소부분 -->
@@ -117,7 +171,7 @@
 		 	
 		 	<div class="form-group">
 			    <label for="email">이메일</label>
-			    <input type="email" class="form-control" placeholder="이메일 입력" id="email">
+			    <input type="email" class="form-control" placeholder="이메일 입력" id="email" name="email">
 		 	</div>
 		 	<div class="form-group">
 			    <label>성별</label>
@@ -138,95 +192,20 @@
 			  </label>
 			</div>
 			
-			
-			<!-- 날짜 -->
-			
-						
+			<div class="form-group">
+			    <label for="datepicker">생년월일</label><br>
+			    <input type="text" class="form-control" id="datepicker" name="birth">
+		 	</div>			
 		 	
-		<!-- <table>
-			<tr>
-				<td>
-					<p>아이디</p>
-					<input type="text" id="userId" name="userId" placeholder="영문,숫자 조합 4~10자리">
-					ajax로 아이디 중복 체크
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p>이름</p>
-					<input type="text" id="userName" name="userName" placeholder="2글자 이상">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p>비밀번호</p>
-					<input type="password" id="userPw" name="userPw" placeholder="영문,숫자,특수기호 조합 6~15자리">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p>비밀번호 확인</p>
-					<input type="password" id="userRePw" name="userRePw" placeholder="비밀번호 재입력">
-				</td>
-			</tr>
-			
-			
-			<tr>
-				<td>
-					<p>우편번호</p>
-					<input type="text" id="userName" name="userName" placeholder="">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p>기본주소</p>
-					<input type="text" id="userName" name="userName" placeholder="">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p>상세주소</p>
-					<input type="text" id="userName" name="userName" placeholder="">
-				</td>
-			</tr>
-			
-			
-			<tr>
-				<td>
-					<p>이메일</p>
-					<input type="email" id="email" name="email" placeholder="이메일 입력">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p>성별</p>
-					<label><input type="radio" name="gender" value="M" checked>남</label>	
-					<label><input type="radio" name="gender" value="F">여</label>
-					<label><input type="radio" name="gender" value="N">공개안함</label>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p>생년월일</p>
-					<input type="date" id="birth" name="birth">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<p>전화번호</p>
-					<input type="text" id="phone" name="phone" placeholder="'-'없이 숫자만 입력">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<button type="button" id="cancelBtn">취소하기</button>
-				</td>
-				<td>
-					<input type="submit" id="cancelBtn" value="회원가입">
-				</td>
-			</tr>
-			
-		</table> -->
+		 	<div class="form-group">
+			    <label for="phone">전화번호</label><br>
+			    <input type="text" class="form-control" id="phone" placeholder="'-'없이 숫자만 입력" name="phone">
+		 	</div>	
+		 	
+		 	<div id="submit-container">
+			 	<button type="button" class="btn btn-danger">취소하기</button>
+			 	<button type="submit" class="btn btn-primary">회원가입</button>
+			</div>
 		</div>
 	</form>
 </section>
