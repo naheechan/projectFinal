@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
+
 <title><c:out value="${param.title }"/></title>
 </head>
 <body>

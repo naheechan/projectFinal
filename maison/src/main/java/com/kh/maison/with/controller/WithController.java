@@ -10,5 +10,10 @@ public class WithController {
 	public String selectAllWith() {
 		return "with/withList";
 	}
+	
+	@RequestMapping("/with/withEnroll.do")
+	public String enrollWith() {
+		return "with/withEnroll";
+	}
 
 }
