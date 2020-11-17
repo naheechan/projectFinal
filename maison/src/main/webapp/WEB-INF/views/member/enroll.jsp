@@ -12,6 +12,10 @@
 <!-- datepicker -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
+	function checkSubmit() {
+		alert("아직");
+		return false;
+	}
     function findZipCode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -60,6 +64,26 @@
         }).open();
     }
     $(function() {
+    	$("#memberId").keyup(function(e) {
+    		let checkId = $(e.target).val();
+    		$("#disableId").css("display","block");
+    		$("#ableId").css("display","block");
+    		
+    		$.ajax({
+    			url:"${path}/member/ajax/checkMemberId",
+    			type:"get",
+    			dataType:"json",
+    			data:{"checkId":checkId},
+    			success:function(data){
+    				console.log(data);
+    			},
+    			error:function(request,status,error) {
+    				console.log(request);
+    				console.log(status);
+    				alert(error);
+    			}
+    		}); 
+    	});
         $("#datepicker").datepicker({
         	showOn:"both",
         	buttonImage:"${path}/resources/images/calendarIcon.jpg",
@@ -70,11 +94,11 @@
         	nextText:'다음 달',
         	prevText:'이전 달',
         	yearRange:'c-150:c+0',
-        	dateFormat:'yy년 mm월 dd일',
+        	dateFormat:'yy-mm-dd',
         	showMonthAfterYear:true,
         	dayNamesMin:['월','화','수','목','금','토','일'],
         	monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-        })
+        });
     });
 </script>
 
@@ -112,11 +136,14 @@
 			<h1>회원가입</h1>
 		</div>		
 	</div>
-	<form action="" method="POST">
+	<form action="${path }/member/enrollEnd" method="POST" onsubmit="return checkSubmit();">
 		<div id="enroll-container" class="container">
 			<div class="form-group">
 			    <label for="memberId">아이디</label>
 			    <input type="text" class="form-control" placeholder="영문,숫자 조합 4~10자리" id="memberId" name="memberId">
+			    <p class="text-danger" id="disableId" style="display:none">아이디가 중복됩니다.</p>
+			    <p class="text-success" id="ableId" style="display:none">사용가능한 아이디입니다.</p>
+			    <input type="hidden" id="idCheck" name="idCheck" value="0">
 		 	</div>
 		 	<div class="form-group">
 			    <label for="memberName">이름</label>
