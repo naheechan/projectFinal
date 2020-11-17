@@ -63,7 +63,7 @@
                 <ul>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
                     
-                    <li class="login"><a href="#"><i class="fas fa-user-alt"></i></a>
+                    <li class="login"><a href="${path }/user/login"><i class="fas fa-user-alt"></i></a>
                     <li class="side-menu">
                     	<a href="#">
 							<i class="fa fa-shopping-bag"></i>
