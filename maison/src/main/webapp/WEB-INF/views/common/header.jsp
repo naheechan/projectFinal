@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <title><c:out value="${param.title }"/></title>
 </head>
 <body>
@@ -83,17 +83,17 @@
             <li class="cart-box">
                 <ul class="cart-list">
                     <li>
-                        <a href="#" class="photo"><img src="images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
                         <h6><a href="#">Delica omtantur </a></h6>
                         <p>1x - <span class="price">$80.00</span></p>
                     </li>
                     <li>
-                        <a href="#" class="photo"><img src="images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
                         <h6><a href="#">Omnes ocurreret</a></h6>
                         <p>1x - <span class="price">$60.00</span></p>
                     </li>
                     <li>
-                        <a href="#" class="photo"><img src="images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
                         <h6><a href="#">Agam facilisis</a></h6>
                         <p>1x - <span class="price">$40.00</span></p>
                     </li>

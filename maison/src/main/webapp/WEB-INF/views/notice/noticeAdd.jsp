@@ -16,9 +16,8 @@
 	<jsp:param name="menuTitle" value="공지해요"/>
 </jsp:include>
 
-<script type="text/javascript" src="${path }/resources/se2/js/HuskyEZCreator.js" charset="utf-8"></script>
 
-
+<script src = "${path}/ckeditor/ckeditor.js"></script>
 <!-- Start With -->
 <form action="/notice/noticeAddEnd.do" method="post" id="noticeFrm">
 	<table class="col-md-12">
@@ -29,7 +28,7 @@
 		<tr>
 			<th>내용</th>
 			<td>
-				<textarea name="smarteditor" id="smarteditor"></textarea>
+				<textarea name="noticeContent" id="noticeContent"></textarea>
 			
 			</td>
 		</tr>
@@ -47,7 +46,12 @@
 </form>
 <!-- End With -->
 <script>
-$(function(){
+
+
+CKEDITOR.replace("noticeContent",{
+	filebrowserUploadUrl : "${path }/with/imageUpload.do"
+});
+<%-- $(function(){
     //전역변수선언
     var editor_object = [];
      
@@ -76,8 +80,7 @@ $(function(){
         $("#frm").submit();
     })
 })
-</script>
-<script type="text/javascript">
+
 var oEditors = []; 
 nhn.husky.EZCreator.createInIFrame({ 
 	oAppRef : oEditors, 
@@ -116,7 +119,7 @@ nhn.husky.EZCreator.createInIFrame({
 				return; 
 			} 
 		}); 
-	})
+	}) --%>
 </script>
 
 
