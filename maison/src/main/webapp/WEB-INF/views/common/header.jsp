@@ -22,8 +22,7 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
-<!-- jquery 관련파일들 -->
-<script src="${path }/resources/js/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <script src="${path }/resources/js/jquery-ui.js"></script>
 
 <title><c:out value="${param.title }"/></title>
