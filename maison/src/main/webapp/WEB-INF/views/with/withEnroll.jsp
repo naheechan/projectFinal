@@ -7,7 +7,18 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="함께해요 등록"/>
 </jsp:include>
-<script type="text/javascript" src="<%=request.getContextPath() %>/resources/se2/js/HuskyEZCreator.js" charset="utf-8"></script> 
+<!-- ckeditor쓰는 법 
+	1. <script src = "${path}/ckeditor/ckeditor.js"></script>추가
+	2. id가 홍길동인 textarea 만들기.
+    3. <script>
+			CKEDITOR.replace("홍길동",{
+			filebrowserUploadUrl : "${path }/파일업로드 컨트롤러 매핑값"
+		});
+		</script>
+	4. 샘플용 fileUpload controller는 com.kh.maison.with.controller.WithController에 있습니다.
+	cf) ckeditor관련 파일들은 views 밑에 있어요!!
+-->
+<script src = "${path}/ckeditor/ckeditor.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="함께해요"/>
@@ -16,74 +27,21 @@
 <!-- Start With -->
 <div class="with-list-box">
 	<div class="container">
-		
-			
-				<form action="<%=request.getContextPath() %>/submit" method="post" id="noticeWriteForm">
-					<br>
-					<div class="form-row">
-						<div class="form-group">
-							<select name="category" class="form-control" id="selcatd" style="width:200px;">
-								<option value="">카테고리</option>
-								<option value="share">나눔하기</option>
-								<option value="sell">중고거래</option>
-							</select>
-						</div>
-						&nbsp;&nbsp;&nbsp;
-						<div class="form-group">
-							<input class="form-control" style="width:500px;" type="text" placeholder="제목을 입력해주세요." id="title" name="title">						
-						</div>
-					</div>
-					<br>
-					<br>
-					<textarea name="smartEditor" id="smartEditor"></textarea> 
-					<input type="button" id="savebutton" value="서버전송"/>
-				</form>
+		<div style="width:800px">
+			<textarea id = "description" name = "description" rows = "5" cols = "80"
+			placeholder = "내용을 입력하세요."></textarea>
+			<script>
+				CKEDITOR.replace("description",{
+					filebrowserUploadUrl : "${path }/with/imageUpload.do"
+				});
+			</script>
+		</div>
+
 			
 			
 		
 	</div> 
 </div>
 <!-- End With -->
-<script type="text/javascript">
-var oEditors = []; 
-nhn.husky.EZCreator.createInIFrame({ 
-	oAppRef : oEditors, 
-	elPlaceHolder : "smartEditor", 
-	sSkinURI : "<%=request.getContextPath() %>/resources/se2/SmartEditor2Skin.html",
-	fCreator : "createSEditor2", 
-	htParams : { bUseToolbar : true, 
-		bUseVerticalResizer : false, 
-		bUseModeChanger : false } 
-	}); 
-	$(function() { 
-		$("#savebutton").click(function() { 
-			oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); 
-			var selcatd = $("#selcatd > option:selected").val(); 
-			var title = $("#title").val(); 
-			var content = document.getElementById("smartEditor").value;; 
-			if (selcatd == "") { 
-				alert("카테고리를 선택해주세요."); 
-				return; 
-			} 
-			if (title == null || title == "") { 
-				alert("제목을 입력해주세요."); 
-				$("#title").focus(); 
-				return; 
-			} 
-			if(content == "" || content == null || content == '&nbsp;' || content == '<br>' || content == '<br/>' || content == '<p>&nbsp;</p>'){ 
-				alert("본문을 작성해주세요."); 
-				oEditors.getById["smartEditor"].exec("FOCUS"); 
-				return; 
-			} 
-			var result = confirm("발행 하시겠습니까?"); 
-			if(result){ 
-				alert("발행 완료!"); 
-				$("#noticeWriteForm").submit(); 
-			}else{ 
-				return; 
-			} 
-		}); 
-	})
-</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>	
