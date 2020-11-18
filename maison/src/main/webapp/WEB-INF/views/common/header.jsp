@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <title><c:out value="${param.title }"/></title>
 </head>
 <body>
@@ -53,6 +54,7 @@
 							<li><a href="shop-detail.html">질문해요</a></li>
 						</ul>
 					</li>
+
 					<li class="dropdown">
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">상품관리</a>
 						<ul class="dropdown-menu">
@@ -60,7 +62,7 @@
 							<li><a href="shop-detail.html">상품수정</a></li>
 						</ul>
 					</li>
-					<!-- <li class="nav-item"><a class="nav-link" href="contact-us.html">상품등록</a></li> -->
+					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑시계</a></li>
 				</ul>
 			</div>
             <!-- /.navbar-collapse -->
@@ -69,6 +71,8 @@
             <div class="attr-nav">
                 <ul>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    
+                    <li class="login"><a href="#"><i class="fas fa-user-alt"></i></a>
                     <li class="side-menu">
                     	<a href="#">
 							<i class="fa fa-shopping-bag"></i>
@@ -87,17 +91,29 @@
             <li class="cart-box">
                 <ul class="cart-list">
                     <li>
+
                         <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Delica omtantur </a></h6>
                         <p>1x - <span class="price">$80.00</span></p>
                     </li>
                     <li>
+
                         <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Omnes ocurreret</a></h6>
                         <p>1x - <span class="price">$60.00</span></p>
                     </li>
                     <li>
+
                         <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Agam facilisis</a></h6>
                         <p>1x - <span class="price">$40.00</span></p>
                     </li>
