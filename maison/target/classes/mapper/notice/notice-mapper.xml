@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="notice">
 	<select id="selectNoticeList" resultType="notice">
-		SELECT * FROM NOTICE ORDER BY NOTICENO DESC
+		SELECT * FROM NOTICE WHERE NOTICESTATUS='Y' ORDER BY NOTICENO DESC 
 	</select>
 	<select id="selectCount" resultType="_int">
-		SELECT COUNT(*) FROM NOTICE 
+		SELECT COUNT(*) FROM NOTICE  WHERE NOTICESTATUS='Y'
 		
 	</select>
 	
@@ -14,6 +14,14 @@
 	</insert>
 	
 	<select id="selectNoticeOne" parameterType="_int" resultType="notice">
-		SELECT * FROM NOTICE WEHERE NOTICENO =#{noticeNo}
+		SELECT * FROM NOTICE WHERE NOTICENO=#{noticeNo}
 	</select>
+	<update id="deleteNotice" parameterType="_int">
+		UPDATE NOTICE SET NOTICESTATUS='N' WHERE NOTICENO=#{noticeNo}
+	</update>
+	<update id="updateNotice" parameterType="map">
+		UPDATE NOTICE SET NOTICETITLE=#{noticeTitle},NOTICECONTENt=#{noticeContent} WHERE NOTICENO=#{noticeNo}
+	</update>
+	
+	
 </mapper>

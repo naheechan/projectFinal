@@ -19,6 +19,8 @@
 
 <script src = "${path}/ckeditor/ckeditor.js"></script>
 <!-- Start With -->
+<section>
+<div class="row justify-content-center">
 <form action="${path }/notice/noticeAddEnd.do" method="post" id="noticeFrm">
 	<table class="col-md-12 table">
 		<tr>
@@ -44,6 +46,8 @@
 
 
 </form>
+</div>
+</section>
 <!-- End With -->
 <script>
 

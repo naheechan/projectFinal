@@ -13,32 +13,35 @@
 </jsp:include>
 
 <!-- Start With -->
-	<div id="notice-container">
-		<br>
 		<button class="btn btn-success" onclick="location.href='${path}/notice/noticeAdd.do'">글쓰기</button>
 		<br>
+		<br>
+	<div id="notice-container" class="row justify-content-center">
+		<div class="col-md-9 align-self-center">
 		<table class="table table-hover">
 			<tr>
-				<td>번호</td>
-				<td>제목</td>
-				<td>날짜</td>
-				<td>조회 수</td>
+				<td style="width:10%">번호</td>
+				<td style="width:50%">제목</td>
+				<td style="width:10%">작성자</td>
+				<td style="width:15%">날짜</td>
+				<td style="width:15%">조회 수</td>
 				
 			</tr>
 			<c:forEach var="n" items="${list }">
 				<tr>
 					<td>${n.noticeNo }</td>
 					<td><a href="${path }/notice/noticeOne.do?noticeNo=${n.noticeNo }">${n.noticeTitle }</a></td>
+					<td>관리자</td>
 					<td>${n.noticeDate }</td>
 					<td>${n.noticeCount }</td>
 				</tr>
 			
 			</c:forEach>
 		</table>
-	
+	</div>
+	</div>
 	<div id="page-bar">
 	${pageBar }
-	</div>
 	</div>
 <!-- End With -->
 

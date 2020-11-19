@@ -36,6 +36,18 @@ public class NoticeDaoImpl implements NoticeDao {
 		return session.selectOne("notice.selectNoticeOne",noticeNo);
 	}
 
+	@Override
+	public int deleteNotice(SqlSessionTemplate session, int noticeNo) {
+		// TODO Auto-generated method stub
+		return session.update("notice.deleteNotice",noticeNo);
+	}
+
+	@Override
+	public int updateNotice(SqlSessionTemplate session, Map<String, String> param) {
+		// TODO Auto-generated method stub
+		return session.update("notice.updateNotice",param);
+	}
+
 	
 	
 }
