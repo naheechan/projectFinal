@@ -1,27 +1,43 @@
 package com.kh.maison.with.controller;
 
 import java.io.File;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.maison.common.PageBarFactory;
+import com.kh.maison.with.model.service.WithBoardService;
+import com.kh.maison.with.model.vo.WithBoard;
 
 @Controller
 public class WithController {
 	
+	@Autowired
+	private WithBoardService service;
+	
 	@RequestMapping("/with/withList.do")
-	public String selectAllWith() {
+	public String selectAllWith(Model m,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage
+			) {
+		List<WithBoard> list = service.selectAllWith(cPage,numPerPage);
+		int totalContents = service.selectWithCount();
+		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "withList.do"));
+		m.addAttribute("list",list);
+		m.addAttribute("totalContents",totalContents);		
 		return "with/withList";
 	}
 	
@@ -75,5 +91,17 @@ public class WithController {
 	        // 이제 이걸가지고 data를 저장하고 불러오는걸 하면됩니당
 	        
 	    }
+	
+	@RequestMapping("/with/withEnrollEnd.do")
+	public ModelAndView enrollWithEnd(WithBoard wb, ModelAndView mv) {
+		
+		int result = service.insertWith(wb);
+		
+		mv.addObject("msg","등록실패");
+		mv.addObject("loc","/with/withList.do");
+		mv.setViewName("common/msg");
+	
+		return mv;
+	}
 
 }

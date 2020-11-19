@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="with">
+	
+	<resultMap id="withMap" type="withBoard">
+		<result column="wbship" property="wbShip" typeHandler="strArr"/>
+	</resultMap>
 
+	<insert id="insertWith" parameterType="withBoard">
+		INSERT INTO WITHBOARD VALUES(SEQ_WB_NO.NEXTVAL,
+									#{memberId},
+									#{wbTitle},
+									#{wbType},
+									#{wbPrice},
+									#{wbContent},
+									DEFAULT,
+									DEFAULT,
+									#{wbUse},
+									#{wbShip, typeHandler=strArr},
+									DEFAULT,
+									<choose>
+										<when test='wbPhone!=null'>#{wbPhone},</when>
+										<otherwise>DEFAULT,</otherwise>
+									</choose>
+									SYSDATE
+									)
+	</insert>
+	
+	<select id="selectAllWith" resultMap="withMap">
+		SELECT * FROM WITHBOARD ORDER BY WBNO
+	</select>
+	
+	<select id="selectWithCount" resultType="_int">
+		SELECT COUNT(*) FROM WITHBOARD
+	</select>
 </mapper>

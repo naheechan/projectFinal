@@ -34,78 +34,89 @@
 		padding:2%;
 		background-color:#F9F9FA;
 	}
+	.form-group.required .control-label:after{
+	   color: #d00;
+	   content: "*";
+	   position: absolute;
+	   margin-left: 6px;
+	}
 </style>
 
 <!-- Start With -->
 <div class="with-list-box">
 	<div class="container">
-		<form action="#" method="post">
+		<form action="${path }/with/withEnrollEnd.do" method="post" id="withForm">
+			<!-- 희찬이랑 합치게 되면 여기 value에 ${loginMember.memberId }들어가야함. -->
+			<input type="hidden" value="user01" name="memberId">
 			<div id="data-div">
-				<div class="form-group">
-					<label for="wbTitle" style="font-weight:bold;">상품명</label>
-					<input type="text" id="wbTitle" class="form-control" name="wbTitle">
+				<div class="form-group required">
+					<label for="wbTitle" style="font-weight:bold;" class="control-label">상품명</label>
+					<input type="text" id="wbTitle" class="form-control" name="wbTitle" required>
 				</div>
 				<div class="form-row">
-					<div class="form-group col-md-4">
-						<label for="wbType" style="font-weight:bold;">분류선택</label>
-						<select id="wbType" class="form-control" name="wbType">
+					<div class="form-group required col-md-4">
+						<label for="wbType" style="font-weight:bold;" class="control-label">분류선택</label>
+						<select id="wbType" class="form-control" name="wbType" required>
 							<option selected>선택하기</option>
-							<option>나눔하기</option>
-							<option>중고거래</option>
+							<option value="free">나눔하기</option>
+							<option value="sell">중고거래</option>
 						</select>
 					</div>
-					<div class="form-group col-md-8">
-						<label for="wbPrice" style="font-weight:bold;">판매 가격</label>
-						<input type="text" readonly id="wbPrice" class="form-control" name="wbPrice" placeholder = "\(원)" style="text-align:right;">
+					<div class="form-group required col-md-8">
+						<label for="wbPrice" style="font-weight:bold;" class="control-label">판매 가격</label>
+						<input type="text" readonly id="wbPrice" placeholder="₩(원)" class="form-control" name="wbPrice" style="text-align:right;" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<p style="font-weight:bold;">상품상태</p>			
 					<div class="form-check-inline">
 						<label class="form-check-label">
-							<input type="checkbox" class="form-check-input" name="wbUse" value="1">
+							<input type="checkbox" class="form-check-input" name="wbUse" value="A">
 							미개봉
 						</label>
 					</div>
 					<div class="form-check-inline">
 						<label class="form-check-label">
-							<input type="checkbox" class="form-check-input" name="wbUse" value="2">
+							<input type="checkbox" class="form-check-input" name="wbUse" value="B">
 							거의 새 것
 						</label>
 					</div>
 					<div class="form-check-inline">
 						<label class="form-check-label">
-							<input type="checkbox" class="form-check-input" name="wbUse" value="3">
+							<input type="checkbox" class="form-check-input" name="wbUse" value="C">
 							사용감 있음
 						</label>
 					</div>
 				</div>
-				<div class="form-group">
-					<p style="font-weight:bold;">배송 방법</p>			
+				<div class="form-group required">
+					<label style="font-weight:bold;" class="control-label">배송 방법</label>			
+					<br>
 					<div class="form-check-inline">
 						<label class="form-check-label">
-							<input type="checkbox" class="form-check-input" name="wbShip" value="1">
+							<input type="checkbox" class="form-check-input" name="wbShip" value="off">
 							직거래
 						</label>
 					</div>
 					<div class="form-check-inline">
 						<label class="form-check-label">
-							<input type="checkbox" class="form-check-input" name="wbShip" value="2">
+							<input type="checkbox" class="form-check-input" name="wbShip" value="on">
 							택배 거래 
 						</label>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="" style="font-weight:bold;">판매자 정보</label>
+					
 					<br>
-					<!-- ${loginMember.emial}, ${loginMmeber.phone}-->
+					<!-- ${loginMember.emial}, ${loginMmeber.phone}
+						DB에 따로 들어가는게 아니라 작성자 데이터 가지고 요리해서 띄워주는거.-->
 					<span><c:out value="이메일 들어가는 자리"/></span>&nbsp;&nbsp; | &nbsp; 
 					<span id="wbPhoneNum"><c:out value="전화번호 들어가는 자리"/></span>
 					&nbsp;
 					<br>
 					<div class="form-check-inline">
 						<label class="form-check-label">
-							<input type="checkbox" class="form-check-input" name="wbShip" value="1">
+							<input type="checkbox" class="form-check-input" name="wbPhone" id="wbPhone" value="Y">
 							휴대전화번호 노출 동의
 						</label>
 					</div>
@@ -131,6 +142,13 @@
 						height:'500px',
 						startupFocus : false
 					});
+					$("#withForm").submit(function(e){
+						 var messageLength = CKEDITOR.instances['wbContent'].getData().replace(/<[^>]*>/gi, '').length;
+	                     if( !messageLength ) {
+	                         alert( '내용을 반드시 입력해주세요.' );
+	                         e.preventDefault();
+	                     }
+					})
 				</script>
 			</div>
 			<button type="reset" class="btn btn-light" style="float:right;">다시쓰기</button>
@@ -150,7 +168,6 @@
 		})
 		/* 배송방법은 둘다 선택가능하게 할거라서 script필요 없음. 
 			대신에 배송방법이 직거래면 직거래 어느 지역에서 할지 선택해서 넣을 수 있음.*/
-		
 	});
 	
 	/* 분류선택에서 나눔하기를 누르면 판매가격에 자동으로 0원 readonly로,
@@ -158,16 +175,26 @@
 	$(function(){
 		$("#wbType").change(function(){
 			var selected = $(this).val();
-			if(selected=='나눔하기'){
-				$("#wbPrice").val('0원');
+			if(selected=='free'){
+				$("#wbPrice").val('0');
 				$("#wbPrice").attr('readonly',true);
 			}else{
 				$("#wbPrice").attr('readonly',false);
-				$("#wbPrice").val('원');
+				$("#wbPrice").val('');
+				$("#wbPrice").prop('placeholder','₩(원)');
 			}
 		});
-		
-		
+
+		/* 판매 금액 칸에 input type은 text지만 실제로는 숫자만 들어가게 하는 정규식.
+			숫자가 아닌 값을 입력하면 알림이 뜸.*/
+		$("#wbPrice").blur(e=>{
+			let price = $(e.target).val();
+			let regPrice = /^[0-9]*$/;
+			if(!regPrice.test(price)){
+				alert("판매 가격은 숫자만 입력하실 수 있습니다.");
+				$(e.target).val('');
+			}
+		})
 	});
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>	
