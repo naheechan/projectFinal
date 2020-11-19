@@ -5,8 +5,11 @@
   <insert id="insertMember" parameterType="member">
   	INSERT INTO MEMBER VALUES(#{memberId},#{memberName},#{memberPw}, 
   				#{zipcode},#{address},#{detailAddress},#{email},#{gender},
-  				#{birth},#{phone},default,default,default,default,default)
-  				
+  				#{birth},#{phone},default,default,#{emailStatus},default,default,default)
   </insert>
+  
+  <select id="selectMemberOne" parameterType="string" resultType="member">
+  	SELECT * FROM MEMBER WHERE MEMBERID=#{id}
+  </select>
   
 </mapper>

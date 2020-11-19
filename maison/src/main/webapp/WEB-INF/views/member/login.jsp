@@ -7,6 +7,37 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="로그인"/>
 </jsp:include>
+<script>
+	//아이디랑 비밀번호 적었나 확인
+	function checkSubmit() {
+		if($("#memberId").val().trim().length==0) {
+			alert("아아디를 입력하세요");
+		}else if($("#memberPw").val().trim().length==0) {
+			alert("비밀번호를 입력하세요");
+		}else {
+			return true;
+		}
+		return false;
+	}
+	
+	//쿠키 저장하기
+	function setCookie(cookie_name, value, days) {
+		var exdate = new Date();
+		exdate.setDate(exdate.getDate()+days);
+		
+		var cookie_value = escape(value)+((days==null)?"":"; expires="+exdate.toUTCString());
+		document.cookie = cookie_name+"="+cookie_value;
+	}
+	
+	//아이디 저장 해제
+	$(function() {
+		$("#saveId").click(function(e) {
+			if($(e.target).is(":checked")==false) {
+				setCookie("saveId","","0");
+			}
+		});
+	});
+</script>
 <style>
 	p{display:inline}
 	.btn-primary {
@@ -32,22 +63,22 @@
 		</div>		
 	</div>
 	<div class="container" id="login-container">
-		<form action="" method="">
+		<form action="${path }/member/loginEnd" method="POST" onsubmit="return checkSubmit();">
 			<table class="table.borderless">
 				<tr>
 					<td>
 						<div class="form-group">
-					   		<input type="text" class="form-control" placeholder="아이디" id="memberId" name="memberId">
+					   		<input type="text" tabindex="1" class="form-control" placeholder="아이디" id="memberId" name="memberId" value="${cookie.saveId.value}">
 						</div>
 					</td>
 					<td rowspan="2">
-						<button type="submit" class="btn btn-primary">로그인</button>
+						<button type="submit" tabindex="3" class="btn btn-primary">로그인</button>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
-					   		<input type="text" class="form-control" placeholder="비밀번호" id="memberPw" name="memberPw">
+					   		<input type="password" tabindex="2" class="form-control" placeholder="비밀번호" id="memberPw" name="memberPw">
 						</div>
 					</td>
 				</tr>
@@ -55,7 +86,7 @@
 					<td>
 						<div class="form-group form-check">
 						    <label class="form-check-label">
-						      <input class="form-check-input" type="checkbox" name="saveId">아이디 저장하기
+						      <input class="form-check-input" type="checkbox" name="saveId" id="saveId" value="1" ${cookie.saveId.value eq null || cookie.saveId.value eq ""?"":"checked"}>아이디 저장하기
 						    </label>
 						</div>
 					</td>

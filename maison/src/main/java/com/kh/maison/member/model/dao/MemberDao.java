@@ -6,6 +6,7 @@ import com.kh.maison.member.model.vo.Member;
 
 public interface MemberDao {
 	
-	public int insertMember(SqlSessionTemplate session, Member mem);
+	int insertMember(SqlSessionTemplate session, Member mem);
+	Member selectMemberOne(SqlSessionTemplate session, String id);
 
 }

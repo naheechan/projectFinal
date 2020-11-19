@@ -65,8 +65,13 @@
             <div class="attr-nav">
                 <ul>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    <c:if test="${loginMember eq null}">
+                    	<li class="login"><a href="${path }/member/login"><i class="fas fa-user-alt"></i></a></li>
+                    </c:if>
+                    <c:if test="${loginMember ne null}">
+                    	<li class=""><a href="#"><c:out value="${loginMember.memberName}님"/></a></li>
+                    </c:if>
                     
-                    <li class="login"><a href="${path }/member/login"><i class="fas fa-user-alt"></i></a>
                     <li class="side-menu">
                     	<a href="#">
 							<i class="fa fa-shopping-bag"></i>
@@ -74,6 +79,10 @@
 								<p>장바구니</p>
 						</a>
 					</li>
+					<c:if test="${loginMember ne null}">
+                    	<li class=""><a href="${path}/member/logout"><c:out value="로그아웃"/></a></li>
+                    </c:if>
+					
                 </ul>
             </div>
             <!-- End Atribute Navigation -->

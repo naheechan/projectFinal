@@ -18,7 +18,8 @@ public class Member {
 	private String phone;
 	private int meileage;
 	private String gradeCode;
-	private String emailStatus;
+	private String emailStatus="N";
 	private String memberStatus;
 	private int reportCount;
+	private String authStatus;
 }

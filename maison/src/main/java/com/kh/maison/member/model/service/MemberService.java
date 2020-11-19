@@ -4,6 +4,7 @@ import com.kh.maison.member.model.vo.Member;
 
 public interface MemberService {
 	
-	public int insertMember(Member mem);
+	int insertMember(Member mem);
+	Member selectMemberOne(String id);
 
 }
