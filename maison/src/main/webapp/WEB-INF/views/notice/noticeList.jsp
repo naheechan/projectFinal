@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="함께해요"/>
+	<jsp:param name="title" value="소통해요"/>
 </jsp:include>
 
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
@@ -14,7 +14,9 @@
 
 <!-- Start With -->
 	<div id="notice-container">
-		<button onclick="location.href='${path}/notice/noticeAdd.do'">글쓰기</button>
+		<br>
+		<button class="btn btn-success" onclick="location.href='${path}/notice/noticeAdd.do'">글쓰기</button>
+		<br>
 		<table class="table table-hover">
 			<tr>
 				<td>번호</td>
@@ -23,8 +25,20 @@
 				<td>조회 수</td>
 				
 			</tr>
+			<c:forEach var="n" items="${list }">
+				<tr>
+					<td>${n.noticeNo }</td>
+					<td><a href="${path }/notice/noticeOne.do?noticeNo=${n.noticeNo }">${n.noticeTitle }</a></td>
+					<td>${n.noticeDate }</td>
+					<td>${n.noticeCount }</td>
+				</tr>
+			
+			</c:forEach>
 		</table>
 	
+	<div id="page-bar">
+	${pageBar }
+	</div>
 	</div>
 <!-- End With -->
 

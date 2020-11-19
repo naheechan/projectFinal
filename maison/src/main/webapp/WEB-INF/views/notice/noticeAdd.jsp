@@ -19,8 +19,8 @@
 
 <script src = "${path}/ckeditor/ckeditor.js"></script>
 <!-- Start With -->
-<form action="/notice/noticeAddEnd.do" method="post" id="noticeFrm">
-	<table class="col-md-12">
+<form action="${path }/notice/noticeAddEnd.do" method="post" id="noticeFrm">
+	<table class="col-md-12 table">
 		<tr>
 			<th>제목</th>
 			<td><input type="text" name="noticeTitle" required></td>
@@ -34,7 +34,7 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input type="button" id="savebutton" value="글쓰기" />
+				<input type="submit" class="btn btn-success" id="savebutton" value="글쓰기" />
 			</td>
 		</tr>	
 		
@@ -49,7 +49,7 @@
 
 
 CKEDITOR.replace("noticeContent",{
-	filebrowserUploadUrl : "${path }/with/imageUpload.do"
+	filebrowserUploadUrl : "${path }/notice/imageUpload.do"
 });
 <%-- $(function(){
     //전역변수선언
