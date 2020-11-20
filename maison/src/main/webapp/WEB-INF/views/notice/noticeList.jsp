@@ -21,15 +21,9 @@
 
 %>
 
-<script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
 <!-- Start With -->
-		<c:if test="${loginMember==null }">
-			<button class="btn btn-success" onclick="location.href='${path}/notice/noticeLogin.do'">로그인</button>
-		</c:if>
-		<c:if test="${loginMember eq 'admin' }">
-			<button class="btn" onclick="location.href='${path}/notice/noticeAdd.do'"><i class="fas fa-pencil-alt"></i> 글쓰기</button>
-			<button class="btn btn-success" onclick="location.href='${path}/notice/noticeLogout.do'">로그아웃</button>
-		</c:if>
+<div class="container">
+	
 		<br>
 		<br>
 	<div id="notice-container" class="row justify-content-center">
@@ -56,6 +50,19 @@
 		</table>
 	</div>
 	</div>
+	<div class="row justify-content-end">
+		<c:if test="${loginMember==null }">
+			<button class="btn btn-success" onclick="location.href='${path}/notice/noticeLogin.do'">로그인</button>
+		</c:if>
+		<c:if test="${loginMember eq 'admin' }">
+			<button class="btn" onclick="location.href='${path}/notice/noticeAdd.do'"><i class="fas fa-pencil-alt"></i> 글쓰기</button>
+			<button class="btn btn-success" onclick="location.href='${path}/notice/noticeLogout.do'">로그아웃</button>
+		</c:if>
+	</div>
+	</div>
+	
+	
+	
 	<div id="page-bar">
 	${pageBar }
 	</div>

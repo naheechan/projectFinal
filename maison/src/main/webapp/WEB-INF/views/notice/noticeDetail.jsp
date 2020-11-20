@@ -21,12 +21,12 @@
 		margin:20px;
 	}
 </style>
-<section id="content">
-	
+<section id="content" class="container">
+
 <div class="row justify-content-center">
 
 	<div class="col marl">
-	<a href="${path }/notice/noticeList.do">공지사항 > </a>
+	함께해요> <a href="${path }/notice/noticeList.do">공지해요 > </a>
 		<table class="table">
 			<tr>
 				<th style="width:10%">제목</th>
@@ -51,14 +51,15 @@
 	
 		</table>
 	</div>	
-</div>
 
-<div class="row justify-content-end">
-	<div class="col align-self-end">
-		<button class="btn btn-info" onclick="location.href='${path}/notice/noticeUpdate.do?noticeNo=${n.noticeNo }'">수정하기</button>
-		<button class="btn btn-danger" onclick="location.href='${path}/notice/noticeDelete.do?noticeNo=${n.noticeNo }'">삭제하기</button>
+</div>
+<c:if test="${loginMember eq 'admin' }">
+	<div class="row justify-content-end">
+		<button class="btn btn-info" onclick="location.href='${path}/notice/noticeUpdate.do?noticeNo=${n.noticeNo }'"><i class="far fa-edit"></i>수정하기</button>
+		&nbsp&nbsp
+		<button class="btn btn-danger" onclick="location.href='${path}/notice/noticeDelete.do?noticeNo=${n.noticeNo }'"><i class="far fa-trash-alt"></i>삭제하기</button>
 	</div>
-	</div>
+</c:if>
 </section>
 
 <!-- End With -->
