@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%-- <%@ page import="com.kh.maison.member.vo.Member" %> --%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소통해요"/>
@@ -12,8 +14,22 @@
 	<jsp:param name="menuTitle" value="공지해요"/>
 </jsp:include>
 
+<%
+/* Member logginedMember = (Member)session.getAttribute("logginedMember"); */
+	String loginMember=(String)session.getAttribute("loginMember");
+
+
+%>
+
+<script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
 <!-- Start With -->
-		<button class="btn btn-success" onclick="location.href='${path}/notice/noticeAdd.do'">글쓰기</button>
+		<c:if test="${loginMember==null }">
+			<button class="btn btn-success" onclick="location.href='${path}/notice/noticeLogin.do'">로그인</button>
+		</c:if>
+		<c:if test="${loginMember eq 'admin' }">
+			<button class="btn" onclick="location.href='${path}/notice/noticeAdd.do'"><i class="fas fa-pencil-alt"></i> 글쓰기</button>
+			<button class="btn btn-success" onclick="location.href='${path}/notice/noticeLogout.do'">로그아웃</button>
+		</c:if>
 		<br>
 		<br>
 	<div id="notice-container" class="row justify-content-center">
@@ -43,6 +59,7 @@
 	<div id="page-bar">
 	${pageBar }
 	</div>
+	<br>
 <!-- End With -->
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		

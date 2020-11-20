@@ -3,6 +3,8 @@ package com.kh.maison.notice.model.service;
 import java.util.List;
 import java.util.Map;
 
+import org.mybatis.spring.SqlSessionTemplate;
+
 import com.kh.maison.notice.model.vo.Notice;
 
 public interface NoticeService {
@@ -14,4 +16,5 @@ public interface NoticeService {
 	Notice selectNoticeOne(int noticeNo);
 	int deleteNotice(int noticeNo);
 	int updateNotice(Map<String,String> param);
+	int updateCount(int noticeNo);
 }

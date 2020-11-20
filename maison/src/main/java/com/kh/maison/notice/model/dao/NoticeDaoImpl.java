@@ -48,6 +48,12 @@ public class NoticeDaoImpl implements NoticeDao {
 		return session.update("notice.updateNotice",param);
 	}
 
+	@Override
+	public int updateCount(SqlSessionTemplate session, int noticeNo) {
+		// TODO Auto-generated method stub
+		return session.update("notice.updateCount",noticeNo);
+	}
+
 	
 	
 }

@@ -17,15 +17,19 @@
 	.marginl{
 		margin-left:200px;
 	}
-
+	.marl{
+		margin:20px;
+	}
 </style>
 <section id="content">
 	
 <div class="row justify-content-center">
-	<div class="col">
+
+	<div class="col marl">
+	<a href="${path }/notice/noticeList.do">공지사항 > </a>
 		<table class="table">
 			<tr>
-				<th>제목</th>
+				<th style="width:10%">제목</th>
 				<td>${n.noticeTitle}</td>
 			</tr>
 			<tr>

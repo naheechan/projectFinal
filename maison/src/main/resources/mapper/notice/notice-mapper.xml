@@ -22,6 +22,8 @@
 	<update id="updateNotice" parameterType="map">
 		UPDATE NOTICE SET NOTICETITLE=#{noticeTitle},NOTICECONTENt=#{noticeContent} WHERE NOTICENO=#{noticeNo}
 	</update>
-	
+	<update id="updateCount" parameterType="_int">
+		UPDATE NOTICE SET NOTICECOUNT=NOTICECOUNT+1 WHERE NOTICENO=#{noticeNo}
+	</update>
 	
 </mapper>

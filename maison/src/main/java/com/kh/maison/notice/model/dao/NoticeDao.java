@@ -16,4 +16,8 @@ public interface NoticeDao {
 	Notice selectNoticeOne(SqlSessionTemplate session,int noticeNo);
 	int deleteNotice(SqlSessionTemplate session,int noticeNo);
 	int updateNotice(SqlSessionTemplate session,Map<String,String> param);
+	int updateCount(SqlSessionTemplate session,int noticeNo);
+	
+	
+	
 }

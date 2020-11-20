@@ -43,7 +43,22 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public Notice selectNoticeOne(int noticeNo) {
 		// TODO Auto-generated method stub
-		return dao.selectNoticeOne(session,noticeNo);
+		Notice n=dao.selectNoticeOne(session,noticeNo);
+		/*
+		 * if(!hasRead&&n!=null) { int result=dao.updateCount(session,noticeNo);
+		 * if(result==0) {
+		 * 
+		 * } }
+		 */
+		
+		return n;
+	}
+
+	
+	@Override
+	public int updateCount(int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.updateCount(session, noticeNo);
 	}
 
 	@Override
@@ -57,6 +72,8 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		return dao.updateNotice(session,param);
 	}
+
+	
 	
 	
 }

@@ -8,12 +8,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,19 +49,28 @@ public class NoticeController {
 	
 	@RequestMapping("/notice/noticeAdd.do")
 	public ModelAndView noticeAdd(ModelAndView mv,HttpSession session) {
-		/*
-		 * String id=(String)session.getAttribute("logginedMember");
-		 * if(!id.equals("admin")) { mv.addObject("msg","관리자만 접근가능합니다!");
-		 * mv.addObject("loc","/notice/noticeList.do"); mv.setViewName("/common/msg");
-		 * }else { mv.setViewName("/notice/noticeAdd"); }
-		 */
-		mv.setViewName("/notice/noticeAdd");
+		
+		  String id=(String)session.getAttribute("loginMember");
+		  if(id!=null) {
+			  if(!id.equals("admin")) { 
+				  mv.addObject("msg","관리자만 접근가능합니다!");
+				  mv.addObject("loc","/notice/noticeList.do"); mv.setViewName("/common/msg");
+			  }else { 
+				  mv.setViewName("/notice/noticeAdd"); 
+				  }
+		  }else {
+			  mv.addObject("msg","관리자만 접근가능합니다!");
+			  mv.addObject("loc","/notice/noticeList.do"); mv.setViewName("/common/msg");
+		  }
+		 
+		//mv.setViewName("/notice/noticeAdd");
 		return mv;
 	}
 	
 	@RequestMapping("/notice/imageUpload.do")
 	public void imageUpload(HttpServletRequest request,HttpServletResponse response,@RequestParam MultipartFile upload) 
 		throws Exception{
+			//경로설정
 			String saveDir =request.getServletContext().getRealPath("/resources/upload/notice/");
 			File dir=new File(saveDir);
 			
@@ -68,6 +79,7 @@ public class NoticeController {
 			}
 			
 			if(!upload.isEmpty()) {
+				//파일명 재설정
 				String originalFileName=upload.getOriginalFilename();
 				String ext=originalFileName.substring(originalFileName.lastIndexOf(".")+1);
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy_MM-dd_HHmmssSSS");
@@ -75,6 +87,7 @@ public class NoticeController {
 				
 				String renamedFileName=sdf.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+ext;
 				try {
+					//파일저장
 					upload.transferTo(new File(saveDir+"/"+renamedFileName));
 				}catch(IOException e) {
 					e.printStackTrace();
@@ -109,9 +122,38 @@ public class NoticeController {
 	}
 
 	@RequestMapping("/notice/noticeOne.do")
-	public ModelAndView noticeOne(int noticeNo,ModelAndView mv) {
+	public ModelAndView noticeOne(int noticeNo,ModelAndView mv,
+			@CookieValue(value="noticeView",defaultValue="")String cookie,
+			HttpServletResponse response) {
 		
+		boolean hasRead=false;
 		Notice n=service.selectNoticeOne(noticeNo);
+		//n을 제대로 불러왔을때
+		if(n!=null) {
+			
+			//noticeView 쿠키에 이미 저장되어있는지 확인하기
+			if(cookie.contains("|"+noticeNo+"|")) {
+				//이미 본적 있으므로 true
+				//hasRead=true;
+				
+			}else {
+				//본적없으면 조회수 올리기
+				int result=service.updateCount(noticeNo);
+				//조회수 정상적으로 올렸으면 쿠키추가하기
+				if(result>0) {
+					cookie+="|"+noticeNo+"|";
+					Cookie c=new Cookie("noticeView",cookie);
+					c.setMaxAge(-1);
+					response.addCookie(c);
+					n.setNoticeCount(n.getNoticeCount()+1);
+					
+				}
+			}
+		}
+		//본적없고 n을 제대로 불러왔을때 조회수 하나 올려줌
+//		if(!hasRead&&n!=null) {
+//		}
+		
 		
 		mv.addObject("n",n);
 		
@@ -154,4 +196,17 @@ public class NoticeController {
 		return mv;
 	}
 	
+	@RequestMapping("/notice/noticeLogin.do")
+	public String noticeLogin(HttpSession session) {
+		session.setAttribute("loginMember", "admin");
+		
+		return "redirect:/notice/noticeList.do";
+	}
+	
+	@RequestMapping("/notice/noticeLogout.do")
+	public String logout(HttpSession session) {
+		session.removeAttribute("loginMember");
+		return "redirect:/notice/noticeList.do";
+				
+	}
 }
