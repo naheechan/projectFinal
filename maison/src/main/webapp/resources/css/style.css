@@ -149,6 +149,7 @@
      z-index: 9999;
      width: 32px;
      height: 32px;
+     padding-top:12px;
      text-align: center;
      line-height: 5px;
      background: #F2BB9C;
@@ -158,7 +159,7 @@
      border-radius: 0px;
      text-decoration: none;
      transition: opacity 0.2s ease-out;
-     font-size: 28px;
+     font-size: 20px;
 }
 /*------------------------------------------------------------------ HEADER -------------------------------------------------------------------*/
  .main-top{
@@ -735,7 +736,7 @@
      line-height: 40px;
 }
  .top-search input.form-control{
-     color: #ffffff;
+     color: #000000;
 }
 /*------------------------------------------------------------------ Slider -------------------------------------------------------------------*/
  .cover-slides{

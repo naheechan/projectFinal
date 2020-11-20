@@ -308,7 +308,7 @@ ul.cart-list > li.total > span{
 /* Top Search
 =================================*/
 .top-search{
-    background-color: #010101;
+    background-color: #f8f9fa;
     padding: 10px 0;
     display: none;
 }
@@ -320,7 +320,7 @@ ul.cart-list > li.total > span{
     -webkit-box-shadow: 0px 0px 0px;
     -o-box-shadow: 0px 0px 0px;
     box-shadow: 0px 0px 0px;
-    color: #fff;
+    color: #a79c82;
     height: 40px;
     padding: 0 15px;
 }
@@ -328,7 +328,7 @@ ul.cart-list > li.total > span{
 .top-search .input-group-addon{
     background-color: transparent;
     border: none;
-    color: #fff;
+    color: #a79c82;
     padding-left: 0;
     padding-right: 0;
 }
@@ -1032,17 +1032,18 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
         float: none;
     }
     
-    nav.navbar.bootsnav li.dropdown a.dropdown-toggle:before{
+    nav.navbar.bootsnav li.dropdown a.dropdown-toggle::after{
         font-family: 'FontAwesome';
         content: "\f105";
         float: right;
         font-size: 16px;
         margin-left: 10px;
+        margin-right: 10px;
 		position: absolute;
 		top: 4px;
     }
     
-    nav.navbar.bootsnav li.dropdown.on > a.dropdown-toggle:before{
+    nav.navbar.bootsnav li.dropdown.on > a.dropdown-toggle::after{
         content: "\f107";
     }
     

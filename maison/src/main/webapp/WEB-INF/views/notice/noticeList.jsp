@@ -27,14 +27,14 @@
 		<br>
 		<br>
 	<div id="notice-container" class="row justify-content-center">
-		<div class="col-md-9 align-self-center">
+		<div class="col-10 align-self-center">
 		<table class="table table-hover">
-			<tr>
+			<tr class="table-active">
 				<td style="width:10%">번호</td>
-				<td style="width:50%">제목</td>
+				<td style="width:55%">제목</td>
 				<td style="width:10%">작성자</td>
 				<td style="width:15%">날짜</td>
-				<td style="width:15%">조회 수</td>
+				<td style="width:10%">조회 수</td>
 				
 			</tr>
 			<c:forEach var="n" items="${list }">
@@ -43,7 +43,7 @@
 					<td><a href="${path }/notice/noticeOne.do?noticeNo=${n.noticeNo }">${n.noticeTitle }</a></td>
 					<td>관리자</td>
 					<td>${n.noticeDate }</td>
-					<td>${n.noticeCount }</td>
+					<td class="text-center">${n.noticeCount }</td>
 				</tr>
 			
 			</c:forEach>

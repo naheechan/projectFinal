@@ -20,6 +20,9 @@
 	.marl{
 		margin:20px;
 	}
+	.light{
+		font-weight:lighter;
+	}
 </style>
 <section id="content" class="container">
 
@@ -27,29 +30,35 @@
 
 	<div class="col marl">
 	소통해요> <a href="${path }/notice/noticeList.do">공지해요 > </a>
+	<br>
 		<table class="table">
 			<tr>
-				<th style="width:10%">제목</th>
+				<th style="width:10%" class="table-active">제목</th>
 				<td>${n.noticeTitle}</td>
 			</tr>
 			<tr>
-				<th>날짜</th>
-				<td>${n.noticeDate}</td>
+				<th class="table-active">작성자</th>
+				<td>관리자</td>
 			</tr>
 			<tr>
-				<th>조회수</th>
-				<td>${n.noticeCount}</td>
+				<th colspan="2">
+					&nbsp&nbsp&nbsp&nbsp 작성일 <span class="light">${n.noticeDate }</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 조회수 <span class="light">${n.noticeCount }</span>
+				</th>
 			</tr>
 			<tr>
-				<th>내용</th>
-				<td>
-					${n.noticeContent }
-				
-				</td>
+			<th></th>
 			</tr>
+			
+			
+		</table>
+		
+		<div>
+			${n.noticeContent }
+		
+		</div>				
+			
 		
 	
-		</table>
 	</div>	
 
 </div>

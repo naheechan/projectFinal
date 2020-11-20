@@ -187,9 +187,9 @@ public class NoticeController {
 	public ModelAndView noticaUpdateEnd(@RequestParam Map<String,String> param,ModelAndView mv) {
 		
 		int result=service.updateNotice(param);
-		
-		mv.addObject("msg", result>0?"공지가  수정되었습니다.":"공지 수정에 실패하였습니다.");
-		mv.addObject("loc", "/notice/noticeList.do");
+		int noticeNo=Integer.parseInt(param.get("noticeNo"));
+		mv.addObject("msg", result>0?"공지가 수정되었습니다.":"공지 수정에 실패하였습니다.");
+		mv.addObject("loc", "/notice/noticeOne.do?noticeNo="+noticeNo);
 		
 		mv.setViewName("common/msg");
 		

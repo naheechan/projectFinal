@@ -16,45 +16,69 @@
 	<jsp:param name="menuTitle" value="공지해요"/>
 </jsp:include>
 
+<style>
+   #data-div{
+      border:1px solid lightgray;
+      padding:2%;
+   }
+   #info-div{
+      margin-top:1%;
+      margin-bottom:1%;
+      padding:2%;
+      background-color:#F9F9FA;
+   }
+   .form-group.required .control-label:after{
+      color: #d00;
+      content: "*";
+      position: absolute;
+      margin-left: 6px;
+   }
 
+</style>
 <script src = "${path}/ckeditor/ckeditor.js"></script>
 <!-- Start With -->
 <section>
+<br>
 <div class="row justify-content-center">
-<form action="${path }/notice/noticeAddEnd.do" method="post" id="noticeFrm">
-	<table class="col-md-12 table">
-		<tr>
-			<th>제목</th>
-			<td><input type="text" name="noticeTitle" required></td>
-		</tr>
-		<tr>
-			<th>내용</th>
-			<td>
-				<textarea name="noticeContent" id="noticeContent"></textarea>
-			
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<input type="submit" class="btn btn-success" id="savebutton" value="글쓰기" />
-			</td>
-		</tr>	
-		
-	
-	
-	</table>
+<div class="col-10">
+<form action="${path }/notice/noticeAddEnd.do" method="post" id="noticeForm">
+	<div id="data-div">
+		<div class="form-group required">
+		    <label for="noticeTitle" class="control-label" >제목</label>
+		    <input type="text" class="form-control" id="noticeTitle" name="noticeTitle" 
+		    placeholder="제목을 입력하세요.">
+		</div>
+		<div class="form-group required">
+		    <label for="noticeTitle" class="control-label">내용</label>
+		   <textarea name="noticeContent" id="noticeContent"></textarea>
+		</div>
+		<input type="submit" class="btn btn-success" id="savebutton" value="등록" />
+	</div>
 
 
 </form>
+	</div>
 </div>
+<br>
 </section>
 <!-- End With -->
 <script>
 
 
 CKEDITOR.replace("noticeContent",{
-	filebrowserUploadUrl : "${path }/notice/imageUpload.do"
+	filebrowserUploadUrl : "${path }/notice/imageUpload.do",
+	height:500
 });
+
+
+ $("#noticeForm").submit(function(e){
+    var messageLength = CKEDITOR.instances['noticeContent'].getData().replace(/<[^>]*>/gi, '').length;
+         if( !messageLength ) {
+             alert( '내용을 반드시 입력해주세요.' );
+             e.preventDefault();
+         }
+}) 
+
 <%-- $(function(){
     //전역변수선언
     var editor_object = [];
