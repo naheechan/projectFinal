@@ -11,4 +11,6 @@ public interface WithBoardService {
 	List<WithBoard> selectAllWith(int cPage,int numPerPage);
 
 	int selectWithCount();
+	
+	WithBoard selectOneWith(int no);
 }

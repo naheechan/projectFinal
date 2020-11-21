@@ -38,4 +38,11 @@ public class WithBoardServiceImpl implements WithBoardService {
 		int result = dao.selectWithCount(session);
 		return result;
 	}
+
+	@Override
+	public WithBoard selectOneWith(int no) {
+		// TODO Auto-generated method stub
+		WithBoard wb = dao.selectOneWith(session,no);
+		return wb;
+	}
 }

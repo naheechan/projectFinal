@@ -30,4 +30,10 @@ public class WithBoardDaoImpl implements WithBoardDao {
 		return session.selectOne("with.selectWithCount");
 	}
 
+	@Override
+	public WithBoard selectOneWith(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("with.selectOneWith",no);
+	}
+
 }

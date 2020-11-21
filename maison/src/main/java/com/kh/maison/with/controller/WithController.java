@@ -97,10 +97,17 @@ public class WithController {
 		
 		int result = service.insertWith(wb);
 		
-		mv.addObject("msg","등록실패");
+		mv.addObject("msg",result>0?"등록성공":"등록실패");
 		mv.addObject("loc","/with/withList.do");
 		mv.setViewName("common/msg");
 	
+		return mv;
+	}
+	
+	@RequestMapping("/with/withView.do")
+	public ModelAndView withView(int no, ModelAndView mv) {
+		mv.addObject("withBoard",service.selectOneWith(no));
+		mv.setViewName("with/withView");
 		return mv;
 	}
 

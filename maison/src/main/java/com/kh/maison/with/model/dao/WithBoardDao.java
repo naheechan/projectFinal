@@ -13,4 +13,6 @@ public interface WithBoardDao {
 	List<WithBoard> selectAllWith(SqlSessionTemplate session, int cPage, int numPerPage);
 	
 	int selectWithCount(SqlSessionTemplate session);
+	
+	WithBoard selectOneWith(SqlSessionTemplate session,int no);
 }

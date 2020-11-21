@@ -27,10 +27,14 @@
 	</insert>
 	
 	<select id="selectAllWith" resultMap="withMap">
-		SELECT * FROM WITHBOARD ORDER BY WBNO
+		SELECT * FROM WITHBOARD ORDER BY WBDATE DESC
 	</select>
 	
 	<select id="selectWithCount" resultType="_int">
 		SELECT COUNT(*) FROM WITHBOARD
+	</select>
+	
+	<select id="selectOneWith" resultMap="withMap" parameterType="_int">
+		SELECT * FROM WITHBOARD WHERE WBNO=#{no}
 	</select>
 </mapper>
