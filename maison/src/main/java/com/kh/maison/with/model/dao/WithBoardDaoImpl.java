@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
 
 @Repository
 public class WithBoardDaoImpl implements WithBoardDao {
@@ -34,6 +35,24 @@ public class WithBoardDaoImpl implements WithBoardDao {
 	public WithBoard selectOneWith(SqlSessionTemplate session, int no) {
 		// TODO Auto-generated method stub
 		return session.selectOne("with.selectOneWith",no);
+	}
+
+	@Override
+	public int insertWithReply(SqlSessionTemplate session, WithComment comment) {
+		// TODO Auto-generated method stub
+		return session.insert("with.insertWithReply",comment);
+	}
+
+	@Override
+	public List<WithComment> selectAllWithReply(SqlSessionTemplate session, int bno) {
+		// TODO Auto-generated method stub
+		return session.selectList("with.selectAllWithReply",bno);
+	}
+
+	@Override
+	public int insertWithReplySecond(SqlSessionTemplate session, WithComment comment) {
+		// TODO Auto-generated method stub
+		return session.insert("with.insertWithReplySecond",comment);
 	}
 
 }

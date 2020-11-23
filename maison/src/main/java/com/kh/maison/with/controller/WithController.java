@@ -15,12 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
 
 @Controller
 public class WithController {
@@ -109,6 +111,45 @@ public class WithController {
 		mv.addObject("withBoard",service.selectOneWith(no));
 		mv.setViewName("with/withView");
 		return mv;
+	}
+	
+	@RequestMapping("/with/replyEnroll.do")
+	@ResponseBody
+	public int withReplyEnroll(@RequestParam String memberId,
+											@RequestParam int wbNo,
+											@RequestParam String wcContent){
+		
+		WithComment comment = new WithComment();
+		comment.setWbNo(wbNo);
+		comment.setMemberId(memberId);
+		comment.setWcContent(wcContent);
+		
+		
+		
+		return service.insertWithReply(comment);
+	}
+	
+	@RequestMapping("/with/replyList.do")
+	@ResponseBody
+	public List<WithComment> withReplySelect(@RequestParam int bno){
+		
+		List<WithComment> list = service.selectAllWithReply(bno);
+		return list; 
+	}
+	
+	@RequestMapping("/with/replyEnrollSecond.do")
+	@ResponseBody
+	public int withReplyEnrollSecond(@RequestParam int wcParent,
+									@RequestParam String memberId,
+									@RequestParam int wbNo,
+									@RequestParam String wcContent
+									) {
+		WithComment comment = new WithComment();
+		comment.setWbNo(wbNo);
+		comment.setWcParent(wcParent);
+		comment.setWcContent(wcContent);
+		comment.setMemberId(memberId);
+		return service.insertWithReplySecond(comment);
 	}
 
 }

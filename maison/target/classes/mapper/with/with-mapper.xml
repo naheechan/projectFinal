@@ -27,7 +27,10 @@
 	</insert>
 	
 	<select id="selectAllWith" resultMap="withMap">
-		SELECT * FROM WITHBOARD ORDER BY WBDATE DESC
+		SELECT * FROM WITHBOARD 
+		WHERE WBDEL = 'Y'
+		ORDER BY WBDATE DESC
+			
 	</select>
 	
 	<select id="selectWithCount" resultType="_int">
@@ -37,4 +40,53 @@
 	<select id="selectOneWith" resultMap="withMap" parameterType="_int">
 		SELECT * FROM WITHBOARD WHERE WBNO=#{no}
 	</select>
+	
+	<insert id="insertWithReply" parameterType="withComment">
+		INSERT INTO WITHCOMMENT VALUES(
+										SEQ_WC_NO.NEXTVAL,
+										#{wbNo},
+										#{memberId},
+										0,
+										#{wcContent},
+										1,
+										DEFAULT,
+										SYSDATE,
+										null,
+										null
+										)
+	</insert>
+	
+	<select id="selectAllWithReply" parameterType="_int" resultType="withComment">
+		SELECT WCNO,
+				WCLEVEL,
+				WCPARENT,
+				WCCONTENT,
+				MEMBERID,
+				WCADDDATE,
+				WCUPDATE,
+				WCDELDATE
+		FROM(SELECT *
+			FROM WITHCOMMENT
+			WHERE WBNO=#{bno}
+			AND WCDEL='Y'
+			)
+		START WITH WCPARENT=0
+		CONNECT BY PRIOR WCNO=WCPARENT
+		ORDER SIBLINGS BY MEMBERID				
+	</select>
+	
+	<insert id="insertWithReplySecond" parameterType="withComment">
+		INSERT INTO WITHCOMMENT VALUES(
+										SEQ_WC_NO.NEXTVAL,
+										#{wbNo},
+										#{memberId},
+										#{wcParent},
+										#{wcContent},
+										2,
+										'Y',
+										SYSDATE,
+										NULL,
+										NULL
+										)
+	</insert>
 </mapper>

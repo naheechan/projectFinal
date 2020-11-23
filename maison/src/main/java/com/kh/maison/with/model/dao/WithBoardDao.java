@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
 
 public interface WithBoardDao {
 	
@@ -15,4 +16,10 @@ public interface WithBoardDao {
 	int selectWithCount(SqlSessionTemplate session);
 	
 	WithBoard selectOneWith(SqlSessionTemplate session,int no);
+	
+	int insertWithReply(SqlSessionTemplate session,WithComment comment);
+	
+	List<WithComment> selectAllWithReply(SqlSessionTemplate session, int bno);
+	
+	int insertWithReplySecond(SqlSessionTemplate session,WithComment comment);
 }
