@@ -20,4 +20,10 @@ public interface WithBoardService {
 	List<WithComment> selectAllWithReply(int bno);
 	
 	int insertWithReplySecond(WithComment comment);
+	
+	int deleteWithReply(int no);
+	
+	WithComment selectOneWithReply(int wcNo);
+	
+	int withBoardCount(int no);
 }

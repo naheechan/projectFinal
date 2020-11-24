@@ -63,7 +63,7 @@
 	                <h5><c:out value="${dateTempParse }"/></h5>
         	</div>
         	<div class="col-lg-12" style="text-align:right;">
-        		<h5>댓글 갯수 몇개 </h5>
+        		<h5 class="commentCount">댓글 갯수 몇개 </h5>
         	</div>		
 		</div> 
 		<div class="row data-div2">
@@ -125,7 +125,7 @@
 			</div>
 		</div> 
 		<br>
-		<p style="float:left;"><i class="far fa-comment-dots"></i>&nbsp;댓글
+		<p style="float:left;" class="commentCount"><i class="far fa-comment-dots"></i>&nbsp;댓글
 		2<!-- 여기에 댓글 갯수 jstl로 불러오기 -->
 		</p>
 		<a style="float:right;">신고&nbsp;<i class="fa fa-bullhorn"></i></a>
@@ -219,33 +219,42 @@ function commentList(){
 		type:'get',
 		data:{'bno':bno},
 		success:function(data){
+			var dataLeng= Object.keys(data).length;
+			$('.commentCount').html('<i class="far fa-comment-dots"></i> &nbsp;댓글 '+dataLeng);
 			var a ='';
 			$.each(data,function(key,value){
 				var dateForm = new Date(value.wcAddDate);
 				if(value.wcLevel==1){
-					a+='<div class="media">';
+					a+='<div class="media'+value.wcNo+'">';
 					a+='<div class="media-body">';
 					a+='<input type="hidden" name="reply_wcNo" value="'+value.wcNo+'">'
 					a+='<span style="float:right;">'+getFormatDate(dateForm)+'</span>';
 					a+='<h4 class="media-heading title">'+value.memberId+'</h4>';
 					a+='<p class="komen">';
 					a+=value.wcContent+'<br>';
-					a+='<a style="float:right;" name="reply_reply" href="'+'#'+'">reply</a>';
-					a+='<a name="reply_edit" href="#">edit</a>';
-					a+='&nbsp;&nbsp;<a name="reply_remove" href="#">remove</a>';
+					if(value.wcDel=='Y'){
+						a+='<a style="float:right;" name="reply_reply" href="'+'#'+'">reply</a>';
+					/* edit랑 remove는 ${loginMember.memberId }랑 value.memberId랑 일치할때만 보이게 조건 추가 필요함 */
+					
+						a+='<a name="reply_edit" onclick="commentUpdate('+value.wcNo+',\''+value.wcContent+'\');">edit</a>';
+						a+='&nbsp;&nbsp;<a name="reply_remove" onclick="commentDelete('+value.wcNo+');">remove</a>';
+					}
 					a+='</p></div></div><br>';					
 				}
 				else{
 					a+='<div class="geser">';
-					a+='<div class="media">';
+					a+='<div class="media'+value.wcNo+'">';
 					a+='<div class="media-body">';
 					a+='<input type="hidden" name="reply_wcNo" value="'+value.wcNo+'">'
 					a+='<span style="float:right;">'+getFormatDate(dateForm)+'</span>';
 					a+='<h4 class="media-heading title">ㄴ&nbsp;'+value.memberId+'</h4>';
 					a+='<p class="komen">';
 					a+=value.wcContent+'<br>';
-					a+='<a name="reply_edit" href="#">edit</a>';
-					a+='&nbsp;&nbsp;<a name="reply_remove" href="#">remove</a>';
+					/* edit랑 remove는 ${loginMember.memberId }랑 value.memberId랑 일치할때만 보이게 조건 추가 필요함 */
+					if(value.wcDel=='Y'){
+						a+='<a name="reply_edit" onclick="commentUpdate('+value.wcNo+',\''+value.wcContent+'\');">edit</a>';
+						a+='&nbsp;&nbsp;<a name="reply_remove" onclick="commentDelete('+value.wcNo+');">remove</a>';						
+					}
 					a+='</p></div></div></div><br>';	
 				}
 				
@@ -296,13 +305,64 @@ function commentInsertSecond(insertDataSecond){
 		data:insertDataSecond,
 		success : function(data){
 			if(data==1){
-				console.log('SUCCESS');
-					commentList();
+				commentList();
 				$('div').remove('.reply_div');
 			}
 		}
 	})
 };
+
+//댓글 삭제
+function commentDelete(wcNo){
+	$.ajax({
+		url:'${path }/with/replyRemove.do?no='+wcNo,
+		type:'post',
+		success:function(data){
+			if(data==1) commentList();
+		}
+	})
+}
+
+//댓글 수정 
+//a태그에서 onclick function으로 wcNo, wcContent, memberId, wcLevel4개 보내줌
+function commentUpdate(wcn,wcc){
+
+	var c ='';
+		c+='<div>';
+		c+='<form name="commentUpdateForm">';
+		/* 잊지말자 아이디는 세션값을 저장해둔 애로 불러오는거다*/
+		c+='<input type="hidden" value="'+'user01'+'" name="memberId"/>';
+		c+='<input type="hidden" value="'+wcn+'" name="wcNo"/>';
+		c+='<label for="wcContent" style="font-weight:bold;">'+'user01'+'</label>';
+		c+='<div class="form-row"><div class="form-group col-md-10">';
+		c+='<textarea class="form-control" name="content_'+wcn+'" rows="3" cols="25" style="resize:none;">'+wcc+'</textarea>';
+		c+='</div>';
+		c+='<div class="form-group col-md-2">';
+		c+='<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;"';
+		c+='onclick="commentUpdateCancle();">취소</button>';
+		c+='<button class="btn" type="button" style="width:100%;height:45%;background:#F2BB9C;"';
+		c+='onclick="commentUpdateProc('+wcn+');">수정</button>';
+		c+='</div></div></form></div>';
+		
+		$('.media'+wcn).html(c);
+}
+
+//댓글수정 취소
+function commentUpdateCancle(){
+	commentList();
+}
+//댓글수정 
+function commentUpdateProc(wcNo){
+	var updateContent = $('[name=content_'+wcNo+']').val();
+	$.ajax({
+		url : '${path }/with/replyUpdate.do',
+		type : 'post',
+		data : {'content' : updateContent , 'cno' : wcNo},
+		success : function(data){
+			if(data == 1) commentList();
+		}
+	})
+}
 
 	
 </script>

@@ -108,6 +108,8 @@ public class WithController {
 	
 	@RequestMapping("/with/withView.do")
 	public ModelAndView withView(int no, ModelAndView mv) {
+		int wbCount = 0;
+		service.withBoardCount(no);
 		mv.addObject("withBoard",service.selectOneWith(no));
 		mv.setViewName("with/withView");
 		return mv;
@@ -151,5 +153,20 @@ public class WithController {
 		comment.setMemberId(memberId);
 		return service.insertWithReplySecond(comment);
 	}
-
+	
+	@RequestMapping("/with/replyRemove.do")
+	@ResponseBody
+	public int withReplyDelete(@RequestParam int no) {
+		return service.deleteWithReply(no);		
+	}
+	
+	@RequestMapping("/with/replyOne.do")
+	@ResponseBody
+	public WithComment withReplyOneSelect(@RequestParam int wcNo) {
+		WithComment wc = service.selectOneWithReply(wcNo);
+		return wc;
+	}
+	
+	@RequestMapping("/with/replyUpdate.do")
+	
 }

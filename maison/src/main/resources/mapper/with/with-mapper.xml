@@ -60,15 +60,16 @@
 		SELECT WCNO,
 				WCLEVEL,
 				WCPARENT,
-				WCCONTENT,
+				CASE WHEN WCDEL='N' THEN '*** 작성자에 의해 삭제된 댓글입니다 ***'
+				ELSE WCCONTENT END WCCONTENT,
 				MEMBERID,
 				WCADDDATE,
 				WCUPDATE,
-				WCDELDATE
+				WCDELDATE,
+				WCDEL
 		FROM(SELECT *
 			FROM WITHCOMMENT
-			WHERE WBNO=#{bno}
-			AND WCDEL='Y'
+			WHERE WBNO=#{bno}			
 			)
 		START WITH WCPARENT=0
 		CONNECT BY PRIOR WCNO=WCPARENT
@@ -89,4 +90,21 @@
 										NULL
 										)
 	</insert>
+	
+	<update id="deleteWithReply" parameterType="_int">
+		UPDATE WITHCOMMENT 
+		SET WCDEL='N'
+		WHERE WCNO=#{no}
+	</update>
+	
+	<select id="selectOneWithReply" parameterType="_int" resultType="withComment">
+		SELECT * FROM WITHCOMMENT
+		WHERE WCNO=#{wcNo}
+	</select>
+	
+	<update id="withBoardCount" parameterType="_int">
+		UPDATE WITHBOARD 
+		SET WBCOUNT=WBCOUNT+1
+		WHERE WBNO=#{no}
+	</update>
 </mapper>

@@ -55,4 +55,22 @@ public class WithBoardDaoImpl implements WithBoardDao {
 		return session.insert("with.insertWithReplySecond",comment);
 	}
 
+	@Override
+	public int deleteWithReply(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.update("with.deleteWithReply",no);
+	}
+
+	@Override
+	public WithComment selectOneWithReply(SqlSessionTemplate session, int wcNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("with.selectOneWithReply",wcNo);
+	}
+
+	@Override
+	public int withBoardCount(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.update("with.withBoardCount",no);	
+	}
+
 }

@@ -67,4 +67,25 @@ public class WithBoardServiceImpl implements WithBoardService {
 		int result = dao.insertWithReplySecond(session,comment);
 		return result;
 	}
+
+	@Override
+	public int deleteWithReply(int no) {
+		// TODO Auto-generated method stub
+		int result = dao.deleteWithReply(session,no);
+		return result;
+	}
+
+	@Override
+	public WithComment selectOneWithReply(int wcNo) {
+		// TODO Auto-generated method stub
+		WithComment wc = dao.selectOneWithReply(session,wcNo);
+		return null;
+	}
+
+	@Override
+	public int withBoardCount(int no) {
+		// TODO Auto-generated method stub
+		int result = dao.withBoardCount(session,no);
+		return result;
+	}
 }

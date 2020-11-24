@@ -22,4 +22,10 @@ public interface WithBoardDao {
 	List<WithComment> selectAllWithReply(SqlSessionTemplate session, int bno);
 	
 	int insertWithReplySecond(SqlSessionTemplate session,WithComment comment);
+
+	int deleteWithReply(SqlSessionTemplate session,int no);
+	
+	WithComment selectOneWithReply(SqlSessionTemplate session,int wcNo);
+	
+	int withBoardCount(SqlSessionTemplate session,int no);
 }
