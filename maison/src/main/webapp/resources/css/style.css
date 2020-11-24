@@ -635,6 +635,10 @@
 .side-menu p{
 	display: inline-block;
 }
+.side-menu2 p{
+	display: inline-block;
+	
+}
  .col-menu .title{
      font-size: 20px;
      font-weight: 700;

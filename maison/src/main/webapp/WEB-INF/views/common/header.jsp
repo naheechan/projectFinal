@@ -67,7 +67,7 @@
                     
                     <li class="login"><a href="#"><i class="fas fa-user-alt"></i></a>
                     <li class="side-menu">
-                    	<a href="#">
+                    	<a href="${path }/basket/basket.do">
 							<i class="fa fa-shopping-bag"></i>
 			                	<span class="badge">3</span>
 								<p>장바구니</p>
@@ -79,7 +79,7 @@
         </div>
         
         <!-- Start Side Menu -->
-        <div class="side">
+        <%-- <div class="side">
             <a href="#" class="close-side"><i class="fa fa-times"></i></a>
             <li class="cart-box">
                 <ul class="cart-list">
@@ -104,7 +104,7 @@
                     </li>
                 </ul>
             </li>
-        </div>
+        </div> --%>
         <!-- End Side Menu -->
     </nav>
     <!-- End Navigation -->
