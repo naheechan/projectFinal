@@ -88,4 +88,18 @@ public class WithBoardServiceImpl implements WithBoardService {
 		int result = dao.withBoardCount(session,no);
 		return result;
 	}
+
+	@Override
+	public int updateWithReply(WithComment wc) {
+		// TODO Auto-generated method stub
+		int result = dao.updateWithReply(session,wc);
+		return result;
+	}
+
+	@Override
+	public int withStatusUpdate(WithBoard wb) {
+		// TODO Auto-generated method stub
+		int result = dao.withStatusUpdate(session,wb);
+		return result;
+	}
 }

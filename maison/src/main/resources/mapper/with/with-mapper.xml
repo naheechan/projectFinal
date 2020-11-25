@@ -93,7 +93,8 @@
 	
 	<update id="deleteWithReply" parameterType="_int">
 		UPDATE WITHCOMMENT 
-		SET WCDEL='N'
+		SET WCDEL='N',
+			WCDELDATE = SYSDATE
 		WHERE WCNO=#{no}
 	</update>
 	
@@ -106,5 +107,18 @@
 		UPDATE WITHBOARD 
 		SET WBCOUNT=WBCOUNT+1
 		WHERE WBNO=#{no}
+	</update>
+	
+	<update id="updateWithReply" parameterType="withComment">
+		UPDATE WITHCOMMENT
+		SET WCCONTENT = #{wcContent},
+			WCUPDATE = SYSDATE
+		WHERE WCNO= #{wcNo}
+	</update>
+	
+	<update id="withStatusUpdate" parameterType="withBoard">
+		UPDATE WITHBOARD
+		SET WBSTATUS = #{wbStatus}
+		WHERE WBNO = #{wbNo}
 	</update>
 </mapper>

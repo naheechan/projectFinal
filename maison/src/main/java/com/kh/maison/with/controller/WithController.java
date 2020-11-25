@@ -168,5 +168,22 @@ public class WithController {
 	}
 	
 	@RequestMapping("/with/replyUpdate.do")
+	@ResponseBody
+	public int withReplyUpdate(@RequestParam int cno, @RequestParam String content) {
+		WithComment wc = new WithComment();
+		wc.setWcNo(cno);
+		wc.setWcContent(content);
+		return service.updateWithReply(wc);
+	}
+	
+	@RequestMapping("/with/withStatusUpdate.do")
+	public ModelAndView withStatusUpdate(WithBoard wb, ModelAndView mv) {
+		
+		int result = service.withStatusUpdate(wb);
+		
+		mv.addObject("withBoard",service.selectOneWith(wb.getWbNo()));
+		mv.setViewName("with/withView");
+		return mv;
+	}	
 	
 }

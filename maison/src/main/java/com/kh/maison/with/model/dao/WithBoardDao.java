@@ -28,4 +28,8 @@ public interface WithBoardDao {
 	WithComment selectOneWithReply(SqlSessionTemplate session,int wcNo);
 	
 	int withBoardCount(SqlSessionTemplate session,int no);
+
+	int updateWithReply(SqlSessionTemplate session,WithComment wc);
+	
+	int withStatusUpdate(SqlSessionTemplate session,WithBoard wb);
 }

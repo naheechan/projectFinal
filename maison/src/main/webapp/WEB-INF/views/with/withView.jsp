@@ -52,9 +52,18 @@
 	                	<c:if test="${withBoard.wbType eq 'sell' }">
 	                		[중고]
 	                	</c:if>	
-	                	<c:out value="${withBoard.wbTitle }"/>
+	                	
 	                	<c:if test="${withBoard.wbStatus eq 'N'}">
+	                		<c:out value="${withBoard.wbTitle }"/>
 							<span style="color:#FA7B00;border:1px solid rgba(251,100,0,0.9);padding:1px;">판매중</span>
+						</c:if>
+	                	<c:if test="${withBoard.wbStatus eq 'Y'}">
+	                		<span style="color:rgba(210,210,210,0.9);text-decoration-line:line-through;"><c:out value="${withBoard.wbTitle }"/></span>
+							<span style="color:rgba(210,210,210,0.9);border:1px solid rgba(210,210,210,0.9);padding:1px;">판매완료</span>							
+						</c:if>
+	                	<c:if test="${withBoard.wbStatus eq 'P'}">
+	                		<c:out value="${withBoard.wbTitle }"/>
+							<span style="color:#09CE20;border:1px solid #09CE20;padding:1px;">예약중</span>
 						</c:if>
 	                </h2>
 	                
@@ -75,7 +84,7 @@
 					<tbody>
 						<tr>
 							<td>상품상태</td>
-							<td>
+							<td colspan="2">
 								<c:choose>
 									<c:when test="${withBoard.wbUse eq 'A' }">
 										미개봉
@@ -91,7 +100,7 @@
 						</tr>
 						<tr>
 							<td>배송방법</td>
-							<td>
+							<td colspan="2">
 								
 									<input type="checkbox" id="offShipment" name="wbShip" value="off" <%=shipments.contains("off")?"checked":""%> disabled="disabled">
 									<label for="offShipment">직거래</label>
@@ -114,6 +123,31 @@
 										ganam0820@naver.com | 01012341234
 									</c:when>
 								</c:choose>
+								<!-- c:if로 ${loginMember.memberId }랑 withBoard.memberId가 일치할때만 얘가 뜨게 하기. -->
+							</td>
+							<td>	
+								<form name="wbStatusUpdateForm" action="${path }/with/withStatusUpdate.do">
+									<input type="hidden" value="${withBoard.wbNo }" name="wbNo">
+									<select class="form-control" name="wbStatus" id="wbStatus">
+										<c:choose>
+											<c:when test="${withBoard.wbStatus eq 'N' }">
+												<option selected value="N">판매중</option>
+												<option value="P">예약중</option>
+												<option value="Y">판매완료</option>
+											</c:when>
+											<c:when test="${withBoard.wbStatus eq 'P' }">
+												<option selected value="P">예약중</option>
+												<option value="N">판매중</option>
+												<option value="Y">판매완료</option>												
+											</c:when>
+											<c:when test="${withBoard.wbStatus eq 'Y' }">
+												<option selected value="Y">판매완료</option>
+												<option value="N">판매중</option>												
+												<option value="P">예약중</option>
+											</c:when>											
+										</c:choose>									
+									</select>
+								</form>
 							</td>
 						</tr>
 					</tbody>
@@ -363,6 +397,14 @@ function commentUpdateProc(wcNo){
 		}
 	})
 }
+
+//판매상태 변경 
+$(function(){
+	$('#wbStatus').on('change',function(){
+		$(this).closest('form[name=wbStatusUpdateForm]').submit();
+	})
+})
+
 
 	
 </script>

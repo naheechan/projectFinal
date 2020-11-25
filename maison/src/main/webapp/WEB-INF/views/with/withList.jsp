@@ -27,16 +27,16 @@
             <div class="col-lg-12">
                 <div class="special-menu text-center">
                     <div class="button-group filter-button-group">
-                        <button class="active" data-filter="*">전체</button>
-                        <button data-filter=".free">나눔하기</button>
-                        <button data-filter=".sell">중고거래</button>
+                        <button class="active" id="NoFilter">전체보기</button>
+                        <button id="freeFilter">나눔하기</button>
+                        <button id="sellFilter">중고거래</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
         	<div class="col-lg-12">
-        		<h3>총 ${totalContents }건의 게시글이 있습니다.</h3>
+        		<h3 id="contentsCount">총 <c:out value="${totalContents }"/>건의 게시글이 있습니다.</h3>
         		<div class="table-main table-responsive">
         			<table class="table table-hover" id="tbl-withList">
         				<thead>
@@ -49,7 +49,7 @@
         						<th>조회</th>
         					</tr>
         				</thead>
-        				<tbody>
+        				<tbody id="tbl-withList-tbody">
         					<c:if test="${not empty list }">
         						<c:forEach items="${list }" var="l" varStatus="vs">
         							<tr>
@@ -62,7 +62,26 @@
         										중고
         									</c:if>
         								</td>
-        								<td><c:out value="${l.wbTitle }"/></td>
+        								<td>
+        								<c:choose>
+        									<c:when test="${l.wbStatus eq 'N' }">
+        										<c:out value="${l.wbTitle }"/>&nbsp;
+        										<span style="color:#FA7B00;border:1px solid rgba(251,100,0,0.9);">판매중</span>
+        									</c:when>
+        									<c:when test="${l.wbStatus eq 'P' }">
+        										<c:out value="${l.wbTitle }"/>&nbsp;
+        										<span style="color:#09CE20;border:1px solid #09CE20;">예약중</span>
+        									</c:when>
+        									<c:when test="${l.wbStatus eq 'Y' }">
+        										<span style="color:rgba(210,210,210,0.9);">
+        											<c:out value="${l.wbTitle }"/>
+        										</span>	&nbsp;
+        										<span style="color:rgba(210,210,210,0.9);border:1px solid rgba(210,210,210,0.9);">판매완료</span>
+        									</c:when>
+        								</c:choose>
+        									
+        								</td>
+        								
         								<td><c:out value="${l.memberId }"/></td>
         								<!-- 오늘 날짜를 구하기 -->
         								<c:set var="now" value="<%=new java.util.Date() %>"/>
@@ -108,5 +127,24 @@
 			location.replace("${path }/with/withView.do?no="+no);
 		})
 	})
+	
+	$(document).ready(function(){
+		$('#freeFilter').on("click",function(){
+			$("#tbl-withList-tbody tr").filter(function(){
+				$(this).toggle($(this).text().toLowerCase().indexOf("나눔")>-1);
+			});
+		});
+		$('#sellFilter').on("click",function(){
+			$("#tbl-withList-tbody tr").filter(function(){
+				$(this).toggle($(this).text().toLowerCase().indexOf("중고")>-1);
+			});
+		});
+		$('#NoFilter').on("click",function(){
+			$("#tbl-withList-tbody tr").filter(function(){
+				$(this).toggle($(this).text().toLowerCase().indexOf("")>-1)
+			});
+		});
+	});
+	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		

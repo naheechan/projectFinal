@@ -26,4 +26,8 @@ public interface WithBoardService {
 	WithComment selectOneWithReply(int wcNo);
 	
 	int withBoardCount(int no);
+	
+	int updateWithReply(WithComment wc);
+	
+	int withStatusUpdate(WithBoard wb);
 }
