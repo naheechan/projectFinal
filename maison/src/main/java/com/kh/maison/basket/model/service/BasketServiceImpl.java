@@ -32,5 +32,11 @@ public class BasketServiceImpl implements BasketService {
 		return result;
 	}
 
+	@Override
+	public int updateAmount(Map param) {
+		// TODO Auto-generated method stub
+		return dao.updateAmount(session,param);
+	}
+
 	
 }

@@ -9,4 +9,8 @@
 	<delete id="deleteBasket" parameterType="_int">
 		DELETE FROM BASKET WHERE BASKETNO=#{basketNo}
 	</delete>
+	<update id="updateAmount" parameterType="map">
+		UPDATE BASKET SET AMOUNT=${amount} WHERE BASKETNO=${basketNo}
+		
+	</update>
 </mapper>

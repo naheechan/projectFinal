@@ -11,24 +11,8 @@
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="장바구니"/>
 </jsp:include>
-
-                            <script>
-                            //전체체크/전체해제
-								function allChecked(){
-									var checked=$("#allCheck").prop("checked")
-									console.log(checked);
-									console.log($("input:checkbox[name=basketChecked]").prop("checked"));
-									if(checked==true){
-										$("input:checkbox[name=basketChecked]").prop("checked",true);
-									}if(checked==false){
-										$("input:checkbox[name=basketChecked]").prop("checked",false);
-									}
-								};
-							
-								
-								
-								
-							</script>
+<script src="${path }/resources/js/basket.js"></script>
+                      
 <!-- Start With -->
 <section>
 <div class="cart-box-main">
@@ -37,7 +21,7 @@
                 <div class="col-lg-12">
                     <div class="table-main table-responsive">
                     <form action="#" >
-                        <table class="table">
+                        <table id="basketTable" class="table">
                             <thead>
                                 <tr>
                                 	<th style="width:3%"><input type="checkbox" id="allCheck" onclick="allChecked();"></th>
@@ -49,7 +33,7 @@
                                     <th>삭제</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="basketTbody">
                             <c:forEach var="list" items="${list }">
                                 <tr>
                                 	<td><input type="checkbox" name="basketChecked" value="${list.BASKETNO }" checked></td>
@@ -66,7 +50,11 @@
                                     <td class="price-pr">
                                        ${list.PRICE }원
                                     </td>
-                                    <td class="quantity-box"><input type="number" name="amount" size="4" value="${list.AMOUNT }" min="0" step="1" class="c-input-text qty text"></td>
+                                    <td class="quantity-box">
+                                    	<input type="number" name="amount" size="4" value="${list.AMOUNT }" min="0" step="1" class="c-input-text qty text">
+                                    	<input type="hidden" name="basketNoa" value="${list.BASKETNO }">			
+                                    </td>
+                                    
                                     <td class="total-pr">
                                         <p class="pTotal"> ${list.PRICE*list.AMOUNT }원</p>
                                     </td>
@@ -77,66 +65,9 @@
                                     </td>
                                 </tr>
                                </c:forEach>
-                                <script>
+                         
+                             
                                 
-                                $("input[name=amount]").change(function(){
-                                	var p=$(".pTotal");
-                                	var prtotal=0;
-                                	$(".pTotal").each(function(){
-                                		var val=$(this).prop("innerHTML");
-                                		
-                                		var val2=Number((val.substring(0,val.length-1)).trim());
-                                		prtotal+=val2;
-                                	})
-                                	$(".subTotal").html(prtotal+"원");
-									
-                                	$(".grandTotal").html(prtotal+"원");
-                                
-                                });
-                                
-	                                $(function(){ 
-	                                	var p=$(".pTotal");
-	                                	var prtotal=0;
-	                                	$(".pTotal").each(function(){
-	                                		var val=$(this).prop("innerHTML");
-	                                		
-	                                		var val2=Number((val.substring(0,val.length-1)).trim());
-	                                		prtotal+=val2;
-	                                	})
-	                              	
-	                                	console.log(prtotal);
-	                                	$(".subTotal").html(prtotal+"원");
-										
-	                                	$(".grandTotal").html(prtotal+"원");
-	                                	
-	                                }); 
-                                
-                                </script>
-                                <!-- <tr>
-                                	<td><input type="checkbox" name="basketChecked" value="장바구니번호" checked></td>
-                                    <td class="thumbnail-img">
-                                        <a href="#">
-									<img class="img-fluid" src="images/img-pro-03.jpg" alt="" />
-								</a>
-                                    </td>
-                                    <td class="name-pr">
-                                        <a href="#">
-									Lorem ipsum dolor sit amet
-								</a>
-                                    </td>
-                                    <td class="price-pr">
-                                        <p>$ 30.0</p>
-                                    </td>
-                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
-                                    <td class="total-pr">
-                                        <p>$ 80.0</p>
-                                    </td>
-                                    <td class="remove-pr">
-                                        <a href="#">
-									<i class="fas fa-times"></i>
-								</a>
-                                    </td>
-                                </tr> -->
                             </tbody>
                         </table>
                        
@@ -146,14 +77,7 @@
 
             <div class="row my-5">
                 <div class="col-lg-11 col-sm-11">
-                   <!--  <div class="coupon-box">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" type="text">
-                            <div class="input-group-append">
-                                <button class="btn btn-theme" type="button">Apply Coupon</button>
-                            </div>
-                        </div>
-                    </div> -->
+                  
                 </div>
                 <div class="col-lg-1 col-sm-1">
                     <div class="update-box">
@@ -170,11 +94,11 @@
                         <!-- <h3>Order summary</h3> -->
                         <div class="d-flex">
                             <h4>총 상품금액</h4>
-                            <div class="ml-auto font-weight-bold subTotal"> $ 130 </div>
+                            <div class="ml-auto font-weight-bold subTotal"></div>
                         </div>
                         <div class="d-flex">
                             <h4>총 할인금액</h4>
-                            <div class="ml-auto font-weight-bold discount"> $ 40 </div>
+                            <div class="ml-auto font-weight-bold discount"></div>
                         </div>
                         <hr class="my-1">
                         
@@ -185,7 +109,7 @@
                         <hr>
                         <div class="d-flex gr-total">
                             <h5>결제예정 금액</h5>
-                            <div class="ml-auto h5 grandTotal"> $ 388 </div>
+                            <div class="ml-auto h5 grandTotal"></div>
                         </div>
                         <hr> </div>
                 </div>
@@ -197,7 +121,75 @@
     <!-- End Cart -->
 
 </section>
+<script>
+$(function(){
+	
+	$("input[name=amount]").on('change',function(e){
+		
+		alert("수량변경 !")
+		 //수량변경된 배스킷번호랑 수량을 받아와야함
+		var amount=$(this).val();
+		var basketNo=$(this).next().val();
+		
+		console.log(basketNo+" : "+amount);
+		
+		//그 받아온 값을 넘겨줘서 업데이트 후 다시 배스킷정보를 받아와야함
+		 	$.ajax({
+    		
+    		url: "${path}/basket/upDown.do",
+    		cache: false,
+    		data : {
+	    			basketNo:basketNo,
+	    			amount : amount
+    				},
+    		dataType : "html",
+    		//받아온 배스킷 정보를 다시 테이블에 쏴줌
+    		success : function(data){
+    			var $tableBody=$("#basketTable tbody");
+    			$("#basketTbody").html("");
+    			$("#basketTbody").html(data);
+    			var p=$(".pTotal");
+    			var prtotal=0;
+    			$(".pTotal").each(function(){
+    				var val=$(this).prop("innerHTML");
+    				
+    				var val2=Number((val.substring(0,val.length-1)).trim());
+    				prtotal+=val2;
+    			})
+    			$(".subTotal").html(prtotal+"원");
+    			
+    			$(".grandTotal").html(prtotal+"원");
+    		},
+    		error:function(request,status,error){
+    	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    	       }
 
+    		
+    	});
+		
+	});
+	
+	$("#basketTbody").on('change',function(e){
+		
+			//배스킷 다시 불러온 후 합계 다시 정산하는 것
+			var p=$(".pTotal");
+			var prtotal=0;
+			$(".pTotal").each(function(){
+				var val=$(this).prop("innerHTML");
+				
+				var val2=Number((val.substring(0,val.length-1)).trim());
+				prtotal+=val2;
+			})
+			$(".subTotal").html(prtotal+"원");
+			
+			$(".grandTotal").html(prtotal+"원");
+		
+		});
+	
+})
+
+
+</script>
 <!-- End With -->
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		

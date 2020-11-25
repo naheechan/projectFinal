@@ -21,5 +21,11 @@ public class BasketDaoImpl implements BasketDao {
 		return session.delete("basket.deleteBasket",basketNo);
 	}
 
+	@Override
+	public int updateAmount(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("basket.updateAmount",param);
+	}
+
 	
 }

@@ -9,5 +9,5 @@ public interface BasketDao {
 	
 	List<Map> selectBasketList(SqlSessionTemplate session,String memberId);
 	int deleteBasket(SqlSessionTemplate session,int basketNo);
-	
+	int updateAmount(SqlSessionTemplate session,Map param);
 }
