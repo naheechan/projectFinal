@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="상품등록" />
 </jsp:include>
-
+<script src="${ path }/ckeditor/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="상품등록" />
 </jsp:include>
@@ -21,7 +21,7 @@
 	</div>
 </div>
 <!-- End -->
-    <form class="signup-form" action="/register" method="post">
+    <form class="signup-form" action="${path}/admin/product/enroll.do" method="post" enctype="multipart/form-data">
 
       <!-- form header -->
       <div class="form-header">
@@ -35,18 +35,17 @@
         <div class="horizontal-group">
           <div class="form-group left">
             <label for="category" class="label-title">카테고리 [대]*</label>
-            <select class="form-control" id="largeCate" name="category" onchange="categoryChange()">
-            	<option value="">선택하세요</option>
-            	<option value="주방">주방</option>
-            	<option value="욕실">욕실</option>
-            	<option value="세탁실">세탁실</option>
-            	<option value="현관">현관</option>
-            	<option value="창고">창고</option>
+            <select class="form-control" id="largeCate" name="largeCate" >
+            	<option value="">선택하세요</option>	
+            <c:forEach items="${largeCate }" var="list">
+            	<option value="${list.largeCate}">${list.largeCate}</option>
+            </c:forEach>
+           
             </select>
           </div>
           <div class="form-group right">
             <label for="category" class="label-title">카테고리 [중]*</label>
-            <select class="form-control" id="mediumCate" name="category">
+            <select class="form-control" id="mediumCate" name="mediumCate">
             <option value="">선택하세요</option>
             </select>
           </div>
@@ -55,6 +54,8 @@
         <div class="horizontal-group">
           <div class="form-group left">
           	<span id="cateText">선택한 카테고리:</span>
+          	<span id="cateText1"></span>
+          	<span id="cateText2"></span>
           </div>
           <div class="form-group right">
 			<a id="createbtn" href="#">카테고리등록</a>
@@ -64,58 +65,80 @@
 		<!-- Name -->
         <div class="form-group">
           <label for="productName" class="label-title">상품이름 *</label>
-          <input type="text" id="productName" class="form-input" placeholder="enter product name" required="required">
+          <input type="text" name="productName" id="productName" class="form-input" placeholder="enter product name" required="required">
         </div>
 		
 		<!-- Summary -->
         <div class="form-group">
           <label for="text" class="label-title">상품요약설명 *</label>
-          <input type="text" id="productSummary" class="form-input" placeholder="enter product summary" required="required">
+          <input type="text" name="productSummary" id="productSummary" class="form-input" placeholder="enter product summary" required="required">
+        </div>
+        
+        <!--editor  -->
+        	<div class="form-group">
+        	<label for="productContent" class="label-title">상품상세페이지 *</label>
+        	<textarea id="productContent" name="productContent" rows="10" cols="80" 
+        	placeholder="내용을 입력하세요" required="required"></textarea>
+        	<script>
+        	$(function(){
+        		CKEDITOR.replace("productContent",{
+					filebrowserUploadUrl : "${path}/admin/product/imageUpload.do"});     		
+        		$productContent = CKEDITOR.instances.description.getData();
+        		if(CKEDITOR.instances.description.getData().length<1){
+        			return;
+        		}
+        	})
+        	</script>
         </div>
         
          <!-- Image -->
         <div class="horizontal-group">
           <div class="form-group left" >
             <label for="productImg" class="label-title">상품이미지 *</label>
-            <input type="file" id="productImg" size="80">
+            <input type="file" name="imageFile" id="productImg" size="80">
           </div>
-          <!-- ProductStatus -->
-          <div class="form-group right">
-            <label for="productStatus" class="label-title">판매상태 *</label><br>
-            <input type="radio" id="productStatusY" name="status" value="예" checked>예
-            <input type="radio" id="productStatusN" name="status" value="아니오">아니오
-          </div>
-          <!-- mediumCate -->
-          <div class="form-group right">
-            <input type="hidden" id="mediumCate" class="form-input">
-          </div>
-		</div>
-		
-		
+          
         <!-- Price & StockCount -->
         <div class="horizontal-group">
           <div class="form-group left" >
              <label for="price" class="label-title">상품가격 *</label>
-            <input type="number" id="price" class="form-input" placeholder="원">
+            <input type="number" name="price" id="price" class="form-input" placeholder="원" required="required">
           </div>
           <div class="form-group right">
             <label for="productStock" class="label-title">재고수량 *</label>
-            <input type="range" min="0" max="1000" step="10"  value="0" id="productStock" class="form-input" onChange="change();" style="height:28px;width:78%;padding:0;">
+            <input type="range" min="0" max="1000" step="10"  value="0" name="productStock" id="productStock" class="form-input" 
+            required="required" onChange="change();" style="height:28px;width:78%;padding:0;">
             <br>
             <span id="range-label">0</span>
           </div>
         </div>	
         
-        <!--editor  -->
-        
-        
-	</div>
+        <!-- ProductStatus -->
+        <div class="horizontal-group">
+          <div class="form-group left">
+            <label for="productStatus" class="label-title">판매상태 *</label><br>
+            <input type="radio" id="productStatusY" name="productStatus" value="Y" checked>예
+            <input type="radio" id="productStatusN" name="productStatus" value="N">아니오
+          </div>
+          <!-- DefCycle -->
+          <div class="form-group left">
+          <label for="defCycle" class="label-title">주기일 *</label><br>
+            <input type="number" name="defCycle" id="defCycle" class="form-input" required="required">
+          </div>
+		</div>
+		<!-- mediumCate -->
+        <div class="form-group right">
+          <input type="hidden" name="mediumCate" id="mediumCate" class="form-input" value="">
+        </div>
+        </div>
       <!-- form-footer -->
       <div class="form-footer">
         <span>* required</span>
-        <button type="submit" class="btn">등록</button>
+        <button type="submit" class="btn" onclick="${path}/admin/product/enroll.do?medicate="${mediumCate}>등록</button>
+      </div>
       </div>
     </form>
+      
 
     <!-- Script for range input label -->
     <script>
@@ -130,40 +153,95 @@
     
     <!-- select option fn -->
     <script>
-    function categoryChange() {
-        var kitchen= ["주방세제", "홍대", "영등포", "여의도"];
-        var bath = ["치약", "칫솔", "폼클렌징"];
-        var laundry = ["세제", "섬유유연제", "표백제"];
-        var door = ["에프킬라","방향제"];
-		var storage = ["마스크","기저귀"];
-       
-        var selectItem = $("#largeCate").val();
-        
-        var changeItem;
-          
-        if(selectItem == "주방"){
-          changeItem = kitchen;
-        }
-        else if(selectItem == "욕실"){
-          changeItem = bath;
-        }
-        else if(selectItem == "세탁실"){
-          changeItem =  laundry;
-        }
-        else if(selectItem == "현관"){
-            changeItem = door;
-          }
-          else if(selectItem == "창고"){
-            changeItem =  storage;
-          }
-         
-        $("#mediumCate").empty();
-         
-        for(var count=0; count<changeItem.size(); count++){                
-                        var option = $("<option>"+changeItem[count]+"</option>");
-                        $("#mediumCate").append(option);
-                    }
-    }
+    
+    $(function(){
+    	$("#largeCate").change(function(){
+        var url = "${path}/admin/product/category.do";
+    	var value = $("#largeCate").val();
+    	$.ajax({
+    		url:url,
+    		type:"post",
+    		data: {data: value},
+    		dataType:"json",
+    		success:function(data){
+    			var mc = $("#mediumCate");
+    			//list로받음
+    			console.log(data);
+    			
+    			
+    			if(data.length>0){
+    				mc.empty();
+    				for(var i=0;i<data.length;i++){
+    					 var option = $("<option value = '"+data[i].mcName + "'>"+data[i].mcName +"</option>");
+    					
+    		               mc.append(option); 
+    		               
+    				}
+    			}else{
+    				mc.empty();
+    				mc.append("<option value=' ' >선택</option>");
+    			}
+    			if($("#largeCate").change(function(){
+	    				
+	    				$("#cateText1").empty();
+	    			}));
+    			$("#cateText1").append(value);
+    			
+    			 /* $.each(data,function(i){
+    				 var result="";
+    					result+="<option value="+data[i].largeCate+">"+data[i].mediumCate+"</option>";
+    			}) */
+    		}
+    		 ,error:function(request,error){
+    			console.log("ajax통신 실패");
+    			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    		} 
+    	});
+    
+    	});
+    	
+    	$("#mediumCate").change(function(){
+    		var medival = $("#mediumCate").val();
+    		
+    		console.log(medival);
+   			 var url = "${path}/admin/product/medicategory.do";
+   		    	$.ajax({
+   		    		url:url,
+   		    		type:"post",
+   		    		data: {mcName: medival},
+   		    		dataType:"json",
+   		    		success:function(data){
+   		    			var mc = $("#mediumCate");
+   		    			console.log("ajax 통신 성공"+data);
+   		    			//console.log(JSON.parse(data));
+   		    			console.log("ajax mediumCate hidden"+data.mediumCate);
+   		    			
+   		    			/* $.each(data,function(mcName,medival){
+							return medival;   		    				
+   		    			})
+   		    			 */
+ 		    			$("input[type=hidden]").attr('value',data.mediumCate);
+ 		    			console.log(data.mediumCate);
+ 		    			
+   		    			$("#cateText2").append(">"+medival);
+   		    			if($("#largeCate").change(function(){
+   		    				
+   		    				$("#cateText2").empty();
+   		    			}));
+   		    			if($("#mediumCate").change(function(){
+   		    				
+	   		    			$("#cateText2").empty();
+   		    			}));
+   					},
+   					error:function(){
+   						console.log("ajax통신실패");	
+   						console.log("medival in jsp"+medival);
+   					}
+  				})
+    	});
+    	
+    	
+});
     </script>
     
     
@@ -184,7 +262,7 @@ body {
 
 .signup-form {
   font-family: "Roboto", sans-serif;
-  width:650px;
+  width:750px;
   margin:30px auto;
   background:linear-gradient(to right, #ffffff 0%, #fafafa 50%, #ffffff 99%);
   border-radius: 10px;

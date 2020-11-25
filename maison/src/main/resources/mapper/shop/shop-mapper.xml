@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="shop">
+
+<select id="selectProduct" resultType="product">
+	SELECT * FROM PRODUCT
+	<!-- <if test="largeCate!=null">
+		AND LARGECATE LIKE=#{largeCate}
+	</if> -->
+</select>
+<select id="selectCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT
+</select>
+
+<select id="selectCategory" resultType="category">
+	SELECT DISTINCT LARGECATE FROM MEDIUMCATE
+</select>
+<select id="selectMediCate" resultType="category">
+	SELECT DISTINCT MCNAME FROM MEDIUMCATE
+</select>
+<insert id="insertRequestProduct" parameterType="Request">
+	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,'mem01',#{requestContent},'요청하기',SYSDATE)
+</insert>
+</mapper>
