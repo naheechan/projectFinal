@@ -28,10 +28,10 @@
 		<!-- 이게 10mb임 -->
 		</beans:property>
 	</beans:bean>	
-			<beans:bean id="viewResolver" 
+	<beans:bean id="viewResolver" 
 		class="org.springframework.web.servlet.view.BeanNameViewResolver">
 			<beans:property name="order" value="1"/>
-		</beans:bean>
+	</beans:bean>
 		<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
 		<beans:bean id="jacksonMessageConverter"
 			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>

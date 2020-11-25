@@ -42,7 +42,7 @@
 	}
 </style>
 
-<!-- Start With -->
+<!-- Start With Enroll-->
 <div class="with-list-box">
 	<div class="container">
 		<form action="${path }/with/withEnrollEnd.do" method="post" id="withForm">

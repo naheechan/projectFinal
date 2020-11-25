@@ -117,11 +117,15 @@ public class WithController {
 	
 	@RequestMapping("/with/withRemove.do")
 	public String withRemove(int wbNo) {
-		
 		service.removeWith(wbNo);
-
-		
 		return "redirect:/with/withList.do";
+	}
+	
+	@RequestMapping("/with/withUpdate.do")
+	public ModelAndView updateWith(int wbNo, ModelAndView mv) {
+		mv.addObject("withBoard",service.selectOneWith(wbNo));
+		mv.setViewName("with/withUpdate");
+		return mv;
 	}
 	
 	@RequestMapping("/with/replyEnroll.do")
