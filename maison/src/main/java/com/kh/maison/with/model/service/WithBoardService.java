@@ -30,4 +30,6 @@ public interface WithBoardService {
 	int updateWithReply(WithComment wc);
 	
 	int withStatusUpdate(WithBoard wb);
+	
+	int removeWith(int wbNo);
 }

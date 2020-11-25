@@ -102,4 +102,11 @@ public class WithBoardServiceImpl implements WithBoardService {
 		int result = dao.withStatusUpdate(session,wb);
 		return result;
 	}
+
+	@Override
+	public int removeWith(int wbNo) {
+		// TODO Auto-generated method stub
+		int result = dao.removeWith(session,wbNo);
+		return result;
+	}
 }

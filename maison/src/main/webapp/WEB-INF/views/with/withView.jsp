@@ -211,6 +211,15 @@
 				</div> -->	
 				</div>						
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 ">
+				<button type="button" class="btn" style="background:#F2BB9C;" onclick="location.href='${path }/with/withEnroll.do'">
+					<i class='fas fa-pen'></i>&nbsp;글쓰기
+				</button>&nbsp;
+				<button type="button" class="btn">수정하기</button>&nbsp;
+				<button type="button" class="btn" onclick="location.href='${path }/with/withRemove.do?wbNo=${withBoard.wbNo }'">삭제하기</button>
+			</div>
 		</div>     	
 	</div>
 </div>

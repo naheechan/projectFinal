@@ -85,4 +85,10 @@ public class WithBoardDaoImpl implements WithBoardDao {
 		return session.update("with.withStatusUpdate",wb);
 	}
 
+	@Override
+	public int removeWith(SqlSessionTemplate session, int wbNo) {
+		// TODO Auto-generated method stub
+		return session.update("with.removeWith",wbNo);
+	}
+
 }

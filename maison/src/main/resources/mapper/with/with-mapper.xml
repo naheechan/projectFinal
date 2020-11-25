@@ -29,17 +29,24 @@
 	<select id="selectAllWith" resultMap="withMap">
 		SELECT * FROM WITHBOARD 
 		WHERE WBDEL = 'Y'
-		ORDER BY WBDATE DESC
-			
+		ORDER BY WBDATE DESC	
 	</select>
 	
 	<select id="selectWithCount" resultType="_int">
-		SELECT COUNT(*) FROM WITHBOARD
+		SELECT COUNT(*) 
+			FROM WITHBOARD
+			WHERE WBDEL = 'Y'
 	</select>
 	
 	<select id="selectOneWith" resultMap="withMap" parameterType="_int">
 		SELECT * FROM WITHBOARD WHERE WBNO=#{no}
 	</select>
+	
+	<update id="removeWith" parameterType="_int">
+		UPDATE WITHBOARD
+		SET WBDEL = 'N'
+		WHERE WBNO=#{wbNo}
+	</update>
 	
 	<insert id="insertWithReply" parameterType="withComment">
 		INSERT INTO WITHCOMMENT VALUES(

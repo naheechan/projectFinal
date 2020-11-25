@@ -32,4 +32,6 @@ public interface WithBoardDao {
 	int updateWithReply(SqlSessionTemplate session,WithComment wc);
 	
 	int withStatusUpdate(SqlSessionTemplate session,WithBoard wb);
+	
+	int removeWith(SqlSessionTemplate session,int wbNo);
 }

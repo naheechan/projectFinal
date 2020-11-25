@@ -115,6 +115,15 @@ public class WithController {
 		return mv;
 	}
 	
+	@RequestMapping("/with/withRemove.do")
+	public String withRemove(int wbNo) {
+		
+		service.removeWith(wbNo);
+
+		
+		return "redirect:/with/withList.do";
+	}
+	
 	@RequestMapping("/with/replyEnroll.do")
 	@ResponseBody
 	public int withReplyEnroll(@RequestParam String memberId,
