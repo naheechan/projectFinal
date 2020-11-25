@@ -1,5 +1,7 @@
 package com.kh.maison.member.model.service;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,18 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectMemberOne(String id) {
 		return dao.selectMemberOne(session, id);
 	}
+
+	@Override
+	public int updateAuthKey(Map<String,String> map) {
+		return dao.updateAuthKey(session, map);
+	}
+
+	@Override
+	public int updateAuthStatus(String id) {
+		return dao.updateAuthStatus(session, id);
+	}
+	
+	
 	
 	
 	

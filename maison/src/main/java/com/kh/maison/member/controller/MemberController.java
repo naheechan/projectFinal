@@ -23,10 +23,9 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.common.crypto.AES256Util;
+import com.kh.maison.common.email.MailSendService;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Member;
 
@@ -40,6 +39,8 @@ public class MemberController {
 	private BCryptPasswordEncoder encoder;
 	@Autowired
 	private AES256Util aes;
+	@Autowired
+	private MailSendService mss;
 //	@Autowired
 //	private Logger logger;
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -94,6 +95,7 @@ public class MemberController {
 	}
 	
 	
+	
 	@RequestMapping(value="/member/enroll")
 	public ModelAndView enroll(ModelAndView mv) {
 		mv.setViewName("member/enroll");
@@ -119,7 +121,19 @@ public class MemberController {
 		//성공하면 안내페이지로, 실패하면 회원가입 페이지로
 		if(result>0) {
 			mv.addObject("email",email);
-			mv.setViewName("redirect:/member/enrollAnnoun");
+			String authKey = mss.sendAuthMail(email, mem.getMemberId());
+			Map<String,String> map = new HashMap<>();
+			map.put("id",mem.getMemberId());
+			map.put("key",authKey);
+			//db에 인증키 넣어주기
+			result = service.updateAuthKey(map);
+			if(result>0) {
+				mv.setViewName("redirect:/member/enrollAnnoun");
+			}else {
+				mv.addObject("msg","인증 이메일 발송 실패 - 관리자에게 문의하세요");
+				mv.addObject("loc","/");
+				mv.setViewName("common/msg");
+			}
 		}else {
 			mv.addObject("msg","회원가입 실패");
 			mv.addObject("loc","/member/enroll");
@@ -130,7 +144,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/member/enrollAnnoun")
-	public ModelAndView enrollAnnoun(ModelAndView mv) {
+	public ModelAndView enrollAnnoun(ModelAndView mv, @RequestParam Map map) {
+		
+		
 		
 		return mv;
 	}

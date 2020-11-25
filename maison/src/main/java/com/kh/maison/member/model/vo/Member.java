@@ -22,4 +22,5 @@ public class Member {
 	private String memberStatus;
 	private int reportCount;
 	private String authStatus;
+	private String authKey;
 }

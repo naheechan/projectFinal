@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="로그인"/>
 </jsp:include>
+
 <script>
 	//아이디랑 비밀번호 적었나 확인
 	function checkSubmit() {
@@ -37,6 +38,7 @@
 			}
 		});
 	});
+	
 </script>
 <style>
 	p{display:inline}
@@ -110,9 +112,10 @@
 				</td>
 			</tr>
 			<tr>
-				<div>
-				
-				</div>
+				<td>
+					<!-- 소셜 로그인 -->
+					
+				</td>
 			</tr>
 		</table>
 	</div>	

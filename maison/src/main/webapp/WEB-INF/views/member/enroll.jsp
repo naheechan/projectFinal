@@ -336,7 +336,7 @@
 		 	
 		 	
 		 	<div class="form-group">
-			    <label for="email">이메일 - 회원가입시 메일 인증이 필요하니 꼭 사용중이신 메일을 적어주세요.</label>
+			    <label for="email">이메일 - 회원가입시 메일 인증이 필요하니 꼭 <mark>사용중인 메일</mark>을 적어주세요.</label>
 			    <input type="email" class="form-control" placeholder="이메일 입력" id="email" name="email" required>
 		 	</div>
 		 	<div class="form-group">
