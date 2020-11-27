@@ -44,6 +44,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12" style="text-align:left;">
+					<input type="hidden" id="pInput1" value="${withBoard.wbTitle }">
+					
+					<input type="hidden" id="pInput3" value="${withBoard.wbNo }">
+					
 	            	<h5 style="color:#F2BB9C;">함께해요 > <c:out value="${withBoard.wbNo }"/>번 게시물</h5>	
 	                <h2>
 	                	<c:if test="${withBoard.wbType eq 'free' }">
@@ -55,30 +59,45 @@
 	                	
 	                	<c:if test="${withBoard.wbStatus eq 'N'}">
 	                		<c:out value="${withBoard.wbTitle }"/>
-							<span style="color:#FA7B00;border:1px solid rgba(251,100,0,0.9);padding:1px;">판매중</span>
 						</c:if>
 	                	<c:if test="${withBoard.wbStatus eq 'Y'}">
 	                		<span style="color:rgba(210,210,210,0.9);text-decoration-line:line-through;"><c:out value="${withBoard.wbTitle }"/></span>
-							<span style="color:rgba(210,210,210,0.9);border:1px solid rgba(210,210,210,0.9);padding:1px;">판매완료</span>							
 						</c:if>
 	                	<c:if test="${withBoard.wbStatus eq 'P'}">
 	                		<c:out value="${withBoard.wbTitle }"/>
-							<span style="color:#09CE20;border:1px solid #09CE20;padding:1px;">예약중</span>
 						</c:if>
 	                </h2>
 	                
-	                <h4><c:out value="${withBoard.memberId }"/></h4>
+	                <h4 id="pInput2">
+	                	<c:out value="${withBoard.memberId }"/>
+	                	<span style="background:#D2D2D2;padding:2px;border-radius:2px;">
+	                		구매문의
+	                	</span>
+	                </h4>
 					<c:set var="dateTempParse"><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${withBoard.wbDate }"/></c:set>
 	                <h5><c:out value="${dateTempParse }"/></h5>
         	</div>
         	<div class="col-lg-12" style="text-align:right;">
-        		<h5 class="commentCount">댓글 갯수 몇개 </h5>
+        		<h5 class="commentCount">댓글 갯수 </h5>
         	</div>		
 		</div> 
 		<div class="row data-div2">
 			<div class="col-lg-12" >
+				<h2>
 				<c:set var="priceFormat"><fmt:formatNumber value="${withBoard.wbPrice }"/></c:set>
-				<h2 style="font-weight:bold;"><c:out value="${priceFormat }"/> 원</h2>
+				<span style="font-weight:bold;"><c:out value="${priceFormat }"/> 원</span>
+				&nbsp;
+       			<c:if test="${withBoard.wbStatus eq 'N'}">
+					<span style="color:#FA7B00;border:1px solid rgba(251,100,0,0.9);padding:1px;">판매중</span>
+				</c:if>
+	            <c:if test="${withBoard.wbStatus eq 'Y'}">
+					<span style="color:rgba(210,210,210,0.9);border:1px solid rgba(210,210,210,0.9);padding:1px;">판매완료</span>							
+				</c:if>
+	            <c:if test="${withBoard.wbStatus eq 'P'}">
+					<span style="color:#09CE20;border:1px solid #09CE20;padding:1px;">예약중</span>
+				</c:if>				
+				
+				</h2>
 				<br>
 				<table class="table">
 					<tbody>
@@ -89,7 +108,7 @@
 									<c:when test="${withBoard.wbUse eq 'A' }">
 										미개봉
 									</c:when>
-									<c:when test="${withBoard.wbUse eq 'A' }">
+									<c:when test="${withBoard.wbUse eq 'B' }">
 										거의 새 것
 									</c:when>
 									<c:otherwise>
@@ -162,7 +181,7 @@
 		<p style="float:left;" class="commentCount"><i class="far fa-comment-dots"></i>&nbsp;댓글
 		2<!-- 여기에 댓글 갯수 jstl로 불러오기 -->
 		</p>
-		<a style="float:right;">신고&nbsp;<i class="fa fa-bullhorn"></i></a>
+		<a style="float:right;" id="reportWith">신고&nbsp;<i class="fa fa-bullhorn"></i></a>
 		<br>
 		<hr/>
 		<div class="row">
@@ -214,9 +233,11 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-12 ">
+			<!-- 글쓰기 버튼은 내가 작성자가 아니어도 뜨게 -->
 				<button type="button" class="btn" style="background:#F2BB9C;" onclick="location.href='${path }/with/withEnroll.do'">
 					<i class='fas fa-pen'></i>&nbsp;글쓰기
 				</button>&nbsp;
+			<!-- 수정삭제는 ${withBoard.memberId }랑 ${loginMember.memberId }랑 일치하면 뜨게해줘야 함. -->
 				<button type="button" class="btn" onclick="location.href='${path }/with/withUpdate.do?wbNo=${withBoard.wbNo }'">수정하기</button>&nbsp;
 				<button type="button" class="btn" onclick="location.href='${path }/with/withRemove.do?wbNo=${withBoard.wbNo }'">삭제하기</button>
 			</div>
@@ -413,6 +434,19 @@ $(function(){
 		$(this).closest('form[name=wbStatusUpdateForm]').submit();
 	})
 })
+
+//신고하기 자식창켜기 
+var openWin;
+
+$('#reportWith').click(function(){
+	//window.name = "부모창 이름";
+	window.name = "parentForm";
+	//window.open("open할 window","자식창 이름","팝업창 옵션");
+	openWin = window.open('${path }/with/reportEnroll.do?bno='+bno,'신고하기','width=440,height=320,scrollbars=no,left=200,top=50,resizable=no');
+	//제목(pInput1), 작성자(pInput2), wbNo(pInput3)
+	// 보안상의 이유로 프론트에서 자식창을 열면서 바로 부모창의 값을 자동으로 전달해주는건 불가능
+	// 부모창의 
+});
 
 
 	

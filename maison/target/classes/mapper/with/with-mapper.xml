@@ -128,4 +128,31 @@
 		SET WBSTATUS = #{wbStatus}
 		WHERE WBNO = #{wbNo}
 	</update>
+	
+	<insert id="withReportInsert" parameterType="withReport">
+		INSERT INTO WITHREPORT VALUES(
+										SEQ_WR_NO.NEXTVAL,
+										#{wbNo},
+										#{memberId},
+										#{wrContent},
+										SYSDATE,
+										DEFAULT
+		)
+	</insert>
+	
+	<update id="withUpdate" parameterType="withBoard">
+		UPDATE WITHBOARD
+		SET WBTITLE = #{wbTitle},
+			WBTYPE = #{wbType},
+			WBPRICE = #{wbPrice},
+			WBCONTENT = #{wbContent},
+			WBUSE = #{wbUse},
+			WBSHIP = #{wbShip, typeHandler=strArr},
+			WBPHONE = 
+			<choose>
+				<when test='wbPhone!=null'>#{wbPhone}</when>
+				<otherwise>DEFAULT</otherwise>
+			</choose>
+			WHERE WBNO=#{wbNo}
+	</update>
 </mapper>

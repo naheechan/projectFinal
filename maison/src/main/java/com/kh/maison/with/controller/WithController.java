@@ -23,6 +23,7 @@ import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 @Controller
 public class WithController {
@@ -192,11 +193,45 @@ public class WithController {
 	@RequestMapping("/with/withStatusUpdate.do")
 	public ModelAndView withStatusUpdate(WithBoard wb, ModelAndView mv) {
 		
-		int result = service.withStatusUpdate(wb);
+		service.withStatusUpdate(wb);
 		
 		mv.addObject("withBoard",service.selectOneWith(wb.getWbNo()));
 		mv.setViewName("with/withView");
 		return mv;
-	}	
+	}
+	
+	@RequestMapping("/with/reportEnroll.do")
+	public ModelAndView reportEnroll(@RequestParam int bno,ModelAndView mv) {
+		
+		mv.addObject("withBoard",service.selectOneWith(bno));
+		mv.setViewName("with/withReport");		
+		return mv;
+	}
+	
+	@RequestMapping("/with/reportEnrollEnd.do")
+	@ResponseBody
+	public int reportEnrollEnd(@RequestParam int wbNo,
+								@RequestParam String memberId,
+								@RequestParam String wrContent) {
+		WithReport wr = new WithReport();
+		wr.setWbNo(wbNo);
+		//까먹지 말자! 여기는 글 쓴 사람(신고당하는 사람)이 아니라 신고하는 사람의 memberId가 들어와야 한다.
+		wr.setMemberId(memberId);
+		wr.setWrContent(wrContent);
+		int result = service.insertWithReport(wr);
+	
+		return result;
+	}
+	
+	@RequestMapping("/with/withUpdateEnd.do")
+	public ModelAndView withUpdateEnd(WithBoard wb, ModelAndView mv) {		
+		int result = service.updateWith(wb);
+		
+		mv.addObject("msg",result>0?"등록성공":"등록실패");
+		mv.addObject("loc","/with/withList.do");
+		mv.setViewName("common/msg");
+	
+		return mv;
+	}
 	
 }

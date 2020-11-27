@@ -6,6 +6,7 @@
 		<typeAlias type="com.kh.maison.common.StringArrayTypeHandler" alias="strArr"/>
 		<typeAlias type="com.kh.maison.with.model.vo.WithBoard" alias="withBoard"/>
 		<typeAlias type="com.kh.maison.with.model.vo.WithComment" alias="withComment"/>
+		<typeAlias type="com.kh.maison.with.model.vo.WithReport" alias="withReport"/>
 	</typeAliases>
 
 </configuration>

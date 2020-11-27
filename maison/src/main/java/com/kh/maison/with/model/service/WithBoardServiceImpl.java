@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.with.model.dao.WithBoardDao;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 @Service
 public class WithBoardServiceImpl implements WithBoardService {
@@ -107,6 +108,20 @@ public class WithBoardServiceImpl implements WithBoardService {
 	public int removeWith(int wbNo) {
 		// TODO Auto-generated method stub
 		int result = dao.removeWith(session,wbNo);
+		return result;
+	}
+
+	@Override
+	public int insertWithReport(WithReport wr) {
+		// TODO Auto-generated method stub
+		int result = dao.insertWithReport(session,wr);
+		return result;
+	}
+
+	@Override
+	public int updateWith(WithBoard wb) {
+		// TODO Auto-generated method stub
+		int result = dao.updateWith(session, wb);
 		return result;
 	}
 }

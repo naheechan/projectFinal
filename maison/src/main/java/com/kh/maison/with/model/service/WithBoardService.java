@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 public interface WithBoardService {
 	
@@ -32,4 +33,8 @@ public interface WithBoardService {
 	int withStatusUpdate(WithBoard wb);
 	
 	int removeWith(int wbNo);
+	
+	int insertWithReport(WithReport wr);
+	
+	int updateWith(WithBoard wb);
 }

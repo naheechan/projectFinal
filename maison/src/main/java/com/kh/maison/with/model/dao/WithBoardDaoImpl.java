@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 @Repository
 public class WithBoardDaoImpl implements WithBoardDao {
@@ -89,6 +90,18 @@ public class WithBoardDaoImpl implements WithBoardDao {
 	public int removeWith(SqlSessionTemplate session, int wbNo) {
 		// TODO Auto-generated method stub
 		return session.update("with.removeWith",wbNo);
+	}
+
+	@Override
+	public int insertWithReport(SqlSessionTemplate session, WithReport wr) {
+		// TODO Auto-generated method stub
+		return session.insert("with.withReportInsert",wr);
+	}
+
+	@Override
+	public int updateWith(SqlSessionTemplate session, WithBoard wb) {
+		// TODO Auto-generated method stub
+		return session.update("with.withUpdate",wb);
 	}
 
 }

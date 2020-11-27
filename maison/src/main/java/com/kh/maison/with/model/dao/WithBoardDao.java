@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 public interface WithBoardDao {
 	
@@ -34,4 +35,8 @@ public interface WithBoardDao {
 	int withStatusUpdate(SqlSessionTemplate session,WithBoard wb);
 	
 	int removeWith(SqlSessionTemplate session,int wbNo);
+	
+	int insertWithReport(SqlSessionTemplate session,WithReport wr);
+	
+	int updateWith(SqlSessionTemplate session, WithBoard wb);
 }
