@@ -3,6 +3,7 @@ package com.kh.maison.shop.model.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -42,5 +43,14 @@ public class ShopDaoImpl implements ShopDao {
 	public int insertRequestProduct(SqlSession session, String requestContent) {
 		return session.insert("shop.insertRequestProduct",requestContent);
 	}
+
+
+	@Override
+	public List<Product> selectOneMediCate(SqlSession session, String keyword) {
+		System.err.println("shopDaoImpl keyword :   : "+keyword);
+		return session.selectList("shop.selectOneMediCate",keyword);
+	}
+	
+	
 
 }

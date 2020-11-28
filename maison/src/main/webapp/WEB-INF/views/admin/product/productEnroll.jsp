@@ -95,7 +95,7 @@
         <div class="horizontal-group">
           <div class="form-group left" >
             <label for="productImg" class="label-title">상품이미지 *</label>
-            <input type="file" name="imageFile" id="productImg" size="80">
+            <input type="file" name="imageFile" id="productImg" size="80" accept=".jpg, .jpeg, .png, .bmp">
           </div>
           
         <!-- Price & StockCount -->
@@ -128,13 +128,13 @@
 		</div>
 		<!-- mediumCate -->
         <div class="form-group right">
-          <input type="hidden" name="mediumCate" id="mediumCate" class="form-input" value="">
+          <input type="hidden" name="mediumCate" id="mediHidden" class="form-input" value="">
         </div>
         </div>
       <!-- form-footer -->
       <div class="form-footer">
         <span>* required</span>
-        <button type="submit" class="btn" onclick="${path}/admin/product/enroll.do?medicate="${mediumCate}>등록</button>
+        <button type="submit" class="btn" onclick="${path}/admin/product/enroll.do">등록</button>
       </div>
       </div>
     </form>
@@ -179,7 +179,7 @@
     				}
     			}else{
     				mc.empty();
-    				mc.append("<option value=' ' >선택</option>");
+    				mc.append("<option value=' '>선택</option>");
     			}
     			if($("#largeCate").change(function(){
 	    				
@@ -199,7 +199,7 @@
     	});
     
     	});
-    	
+    	//hidden에 mediumCate값 넣기
     	$("#mediumCate").change(function(){
     		var medival = $("#mediumCate").val();
     		

@@ -34,8 +34,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService service;
-	@Autowired
-	private Logger logger;
+	/*
+	 * @Autowired private Logger logger;
+	 */
 	
 	//로그출력
 	//private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
@@ -144,9 +145,10 @@ public class ProductController {
 		System.out.println("상품이름: "+pd.getProductName());
 		System.out.println("상품요약: "+pd.getProductSummary());
 		System.out.println("상품상세: "+pd.getProductContent());
-		
-		System.out.println("카테고리: "+pd.getMediumCate().indexOf(",")+1);
-		String mediumCate = Integer.toString(pd.getMediumCate().indexOf(",")+1);
+		System.out.println("category number:"+pd.getMediumCate());
+		System.out.println("카테고리: "+pd.getMediumCate().split(",")[1]);
+		String mediumCate = pd.getMediumCate().split(",")[1];
+		System.out.println(mediumCate);
 		pd.setMediumCate(mediumCate);
 		
 		//파일업로드처리 (업로드경로불러오기, 리네임처리후 파일저장하기)

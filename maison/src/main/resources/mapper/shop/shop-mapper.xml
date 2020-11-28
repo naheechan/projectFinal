@@ -16,9 +16,17 @@
 	SELECT DISTINCT LARGECATE FROM MEDIUMCATE
 </select>
 <select id="selectMediCate" resultType="category">
-	SELECT DISTINCT MCNAME FROM MEDIUMCATE
+	SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE
 </select>
 <insert id="insertRequestProduct" parameterType="Request">
 	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,'mem01',#{requestContent},'요청하기',SYSDATE)
 </insert>
+
+<select id="selectOneMediCate" resultType="product" parameterType="String">
+	SELECT PRODUCTNO, PRODUCTNAME,
+	 		   PRODUCTIMG, PRICE
+	FROM   PRODUCT 
+	WHERE PRODUCTNAME LIKE '%' || #{keyword} || '%'
+</select>
+
 </mapper>

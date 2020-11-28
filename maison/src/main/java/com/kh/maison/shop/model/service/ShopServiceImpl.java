@@ -3,6 +3,7 @@ package com.kh.maison.shop.model.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,13 @@ public class ShopServiceImpl implements ShopService {
 		int result = dao.insertRequestProduct(session,requestContent);
 		return result;
 	}
+
+
+	@Override
+	public List<Product> selectOneMediCate(String keyword) {
+		return dao.selectOneMediCate(session,keyword);
+	}
+	
+	
 
 }
