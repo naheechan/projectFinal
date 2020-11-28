@@ -69,7 +69,7 @@
                     <li class="side-menu">
                     	<a href="${path }/basket/basket.do">
 							<i class="fa fa-shopping-bag"></i>
-			                	<span class="badge">3</span>
+			                	<span class="badge">${basketCount }</span>
 								<p>장바구니</p>
 						</a>
 					</li>

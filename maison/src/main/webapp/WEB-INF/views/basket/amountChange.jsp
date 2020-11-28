@@ -30,36 +30,50 @@
 	</tr>
 </c:forEach>
 
-<!-- <script>
+<script>
 $(function(){
-	
-	$("input[name=amount]").bind('keyup mouseup',function(e){
+	$("input[name=amount]").on('change',function(e){
 		
-		//수량변경된 배스킷번호랑 수량을 받아와야함
+		 //수량변경된 배스킷번호랑 수량을 받아와야함
 		var amount=$(this).val();
 		var basketNo=$(this).next().val();
 		
-		console.log(basketNo+" : "+amount);
 		
 		//그 받아온 값을 넘겨줘서 업데이트 후 다시 배스킷정보를 받아와야함
 		 	$.ajax({
-    		
-    		url: "${path}/basket/upDown.do",
-    		data : {
+   		
+   		url: "${path}/basket/upDown.do",
+   		cache: false,
+   		data : {
 	    			basketNo:basketNo,
 	    			amount : amount
-    				},
-    		dataType : "html",
-    		//받아온 배스킷 정보를 다시 테이블에 쏴줌
-    		success : data=>{
-    			var $tableBody=$("#basketTable tbody");
-    			$("#basketTbody").html("");
-    			$("#basketTbody").html(data);
-    		},
-    		error : function(){
-    			
-    		}
-    		
-    	});
-	})
-		</script> -->
+   				},
+   		dataType : "html",
+   		//받아온 배스킷 정보를 다시 테이블에 쏴줌
+   		success : function(data){
+   			var $tableBody=$("#basketTable tbody");
+   			$("#basketTbody").html("");
+   			$("#basketTbody").html(data);
+   			
+   			//가격 합계를 다시 계산해줌
+   			var prtotal=0;
+   			$(".pTotal").each(function(){
+   				var val=$(this).prop("innerHTML");
+   				
+   				var val2=Number((val.substring(0,val.length-1)).trim());
+   				prtotal+=val2;
+   			})
+   			$(".subTotal").html(prtotal+"원");
+   			
+   			$(".grandTotal").html(prtotal+"원");
+   		},
+   		error:function(request,status,error){
+   	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+   	       }
+
+   		
+   	});
+		
+	});
+});
+		</script> 

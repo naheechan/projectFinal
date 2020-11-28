@@ -1,9 +1,11 @@
 package com.kh.maison.basket.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -30,7 +32,13 @@ public class BasketController {
 		
 		//합치면 주석해제~
 		//Member m=(Member)session.getAttribute("loginMember");
+		//if(m!=null){
 		//String memberId=m.getMemberId();
+		//List<Map> list=service.selectBasketList(memberId);
+		//	mv.addObject("list",list);
+		//}else{
+		// mv.addObject("list","");
+		//}
 		String memberId="user1";
 		List<Map> list=service.selectBasketList(memberId);
 		mv.addObject("list",list);
@@ -63,6 +71,43 @@ public class BasketController {
 		List<Map> list=service.selectBasketList(memberId);
 		mv.addObject("list",list);
 		mv.setViewName("/basket/amountChange");
+		
+		return mv;
+	}
+	
+	@RequestMapping("basket/orderBasket")
+	public ModelAndView orderBasket(ModelAndView mv,HttpServletRequest request) {
+		
+		String msg="";
+		String loc="";
+		
+		String[] basketNos=request.getParameterValues("basketNo");
+		
+		//장바구니에 상품이 없을때
+		if(basketNos==null) {
+			msg="장바구니에 담긴 상품이 없습니다 !";
+			loc="/basket/basket.do";
+			mv.addObject("msg",msg);
+			mv.addObject("loc",loc);
+			mv.setViewName("common/msg");
+			return mv;
+			
+		}
+		//장바구니에 상품이 있음
+		
+		//상품 수량이 있음
+		
+		
+		//상품 수량이 부족함
+		
+		
+		//리스트 받아오기
+		List<Basket> list=new ArrayList<Basket>();
+		for(String basketNo : basketNos) {
+			list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
+			
+		}
+		mv.addObject("list", list);
 		
 		return mv;
 	}

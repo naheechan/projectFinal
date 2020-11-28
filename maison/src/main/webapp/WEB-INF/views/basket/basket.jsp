@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-main table-responsive">
-                    <form action="#" >
+                    <form action="${path }/basket/orderBasket" id="basketFrm" method="post">
                         <table id="basketTable" class="table">
                             <thead>
                                 <tr>
@@ -52,7 +52,7 @@
                                     </td>
                                     <td class="quantity-box">
                                     	<input type="number" name="amount" size="4" value="${list.AMOUNT }" min="0" step="1" class="c-input-text qty text">
-                                    	<input type="hidden" name="basketNoa" value="${list.BASKETNO }">			
+                                    	<input type="hidden" name="basketNo" value="${list.BASKETNO }">			
                                     </td>
                                     
                                     <td class="total-pr">
@@ -70,7 +70,7 @@
                                 
                             </tbody>
                         </table>
-                       
+                       </form>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-lg-1 col-sm-1">
                     <div class="update-box">
-                        <input class="btn btn-sm" value="쇼핑 계속하기" type="button">
+                        <input class="btn btn-sm" id="continueBtn" value="쇼핑 계속하기" type="button">
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                         </div>
                         <hr> </div>
                 </div>
-                <div class="col-12 d-flex shopping-box"><a href="#" class="ml-auto btn hvr-hover">전체 상품 주문</a> </div>
+                <div class="col-12 d-flex shopping-box"><input type="button" id="orderbtn" style="color:white" class="ml-auto btn hvr-hover" value="전체 상품 주문"> </div>
             </div>
 
         </div>
@@ -123,10 +123,18 @@
 </section>
 <script>
 $(function(){
+	$("#orderbtn").on('click',function(e){
+		$("#basketFrm").submit();
+	});
+	
+	$("#continueBtn").on('click',function(e){
+		//
+		location.href="${path}/";
+	});
+	
 	
 	$("input[name=amount]").on('change',function(e){
 		
-		alert("수량변경 !")
 		 //수량변경된 배스킷번호랑 수량을 받아와야함
 		var amount=$(this).val();
 		var basketNo=$(this).next().val();
@@ -148,12 +156,14 @@ $(function(){
     			var $tableBody=$("#basketTable tbody");
     			$("#basketTbody").html("");
     			$("#basketTbody").html(data);
-    			var p=$(".pTotal");
+    			
+    			//가격 합계를 다시 계산해줌
     			var prtotal=0;
     			$(".pTotal").each(function(){
     				var val=$(this).prop("innerHTML");
     				
     				var val2=Number((val.substring(0,val.length-1)).trim());
+    				console.log(val2);
     				prtotal+=val2;
     			})
     			$(".subTotal").html(prtotal+"원");

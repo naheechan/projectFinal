@@ -21,6 +21,17 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 장바구니 헤더 표시를 위한 인터셉터 -->
+	<interceptors>
+		<interceptor>
+				<mapping path="/**"/>
+				<beans:bean class="com.kh.maison.common.interceptor.BasketInterceptor"/>
+		</interceptor>	
+	</interceptors>
+	
+	
+	
+	
 	<!-- Resolver for File Upload -->
 	<beans:bean id="multipartResolver"
 	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

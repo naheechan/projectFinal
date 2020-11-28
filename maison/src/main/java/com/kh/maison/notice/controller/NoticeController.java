@@ -54,13 +54,15 @@ public class NoticeController {
 		  if(id!=null) {
 			  if(!id.equals("admin")) { 
 				  mv.addObject("msg","관리자만 접근가능합니다!");
-				  mv.addObject("loc","/notice/noticeList.do"); mv.setViewName("/common/msg");
+				  mv.addObject("loc","/notice/noticeList.do"); 
+				  mv.setViewName("/common/msg");
 			  }else { 
 				  mv.setViewName("/notice/noticeAdd"); 
 				  }
 		  }else {
 			  mv.addObject("msg","관리자만 접근가능합니다!");
-			  mv.addObject("loc","/notice/noticeList.do"); mv.setViewName("/common/msg");
+			  mv.addObject("loc","/notice/noticeList.do"); 
+			  mv.setViewName("/common/msg");
 		  }
 		 
 		//mv.setViewName("/notice/noticeAdd");

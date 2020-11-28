@@ -5,9 +5,14 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.maison.basket.model.vo.Basket;
+
 public interface BasketDao {
 	
 	List<Map> selectBasketList(SqlSessionTemplate session,String memberId);
 	int deleteBasket(SqlSessionTemplate session,int basketNo);
 	int updateAmount(SqlSessionTemplate session,Map param);
+	int selectBasketCount(SqlSessionTemplate session,String memberId);
+	Basket selectBasketOne(SqlSessionTemplate session,int basketNo);
+	
 }

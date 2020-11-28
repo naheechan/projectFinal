@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.maison.basket.model.dao.BasketDao;
+import com.kh.maison.basket.model.dao.BasketDaoImpl;
+import com.kh.maison.basket.model.vo.Basket;
 
 @Service
 public class BasketServiceImpl implements BasketService {
@@ -38,5 +40,20 @@ public class BasketServiceImpl implements BasketService {
 		return dao.updateAmount(session,param);
 	}
 
+	@Override
+	public int selectBasketCount(String memberId) {
+		// TODO Auto-generated method stub
+		int result=dao.selectBasketCount(session, memberId);
+		
+		return result;
+	}
+
+	@Override
+	public Basket selectBasketOne(int basketNo) {
+		// TODO Auto-generated method stub
+		return dao.selectBasketOne(session,basketNo);
+	}
+
+	
 	
 }

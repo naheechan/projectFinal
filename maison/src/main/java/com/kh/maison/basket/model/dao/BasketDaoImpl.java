@@ -6,6 +6,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.maison.basket.model.vo.Basket;
+
 @Repository
 public class BasketDaoImpl implements BasketDao {
 
@@ -27,5 +29,24 @@ public class BasketDaoImpl implements BasketDao {
 		return session.update("basket.updateAmount",param);
 	}
 
+	@Override
+	public int selectBasketCount(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		int result=session.selectOne("basket.selectBasketCount",memberId);
+		
+		return result;
+	}
+
+	@Override
+	public Basket selectBasketOne(SqlSessionTemplate session, int basketNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("basket.selectBasketOne",basketNo);
+	}
+	
+	
+	
+	
+
+	
 	
 }

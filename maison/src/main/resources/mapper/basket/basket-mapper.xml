@@ -11,6 +11,13 @@
 	</delete>
 	<update id="updateAmount" parameterType="map">
 		UPDATE BASKET SET AMOUNT=${amount} WHERE BASKETNO=${basketNo}
-		
 	</update>
+	<select id="selectBasketCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM BASKET WHERE MEMBERID=#{memberId}
+	</select>
+	<select id="selectBasketOne" resultType="basket" parameterType="int">
+		SELECT * 
+		FROM BASKET B JOIN PRODUCT P ON B.PRODUCTNO=P.PRODUCTNO
+		WHERE BASKETNO=#{basketNo}
+	</select>
 </mapper>
