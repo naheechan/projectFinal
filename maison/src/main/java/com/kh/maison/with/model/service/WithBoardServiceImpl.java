@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.maison.with.model.dao.WithBoardDao;
+import com.kh.maison.with.model.vo.WithAsk;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.maison.with.model.vo.WithReport;
@@ -122,6 +123,13 @@ public class WithBoardServiceImpl implements WithBoardService {
 	public int updateWith(WithBoard wb) {
 		// TODO Auto-generated method stub
 		int result = dao.updateWith(session, wb);
+		return result;
+	}
+
+	@Override
+	public int insertWithask(WithAsk wa) {
+		// TODO Auto-generated method stub
+		int result = dao.inserWithAsk(session,wa);
 		return result;
 	}
 }

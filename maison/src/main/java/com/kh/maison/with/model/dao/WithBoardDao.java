@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.maison.with.model.vo.WithAsk;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.maison.with.model.vo.WithReport;
@@ -39,4 +40,6 @@ public interface WithBoardDao {
 	int insertWithReport(SqlSessionTemplate session,WithReport wr);
 	
 	int updateWith(SqlSessionTemplate session, WithBoard wb);
+
+	int inserWithAsk(SqlSessionTemplate session,WithAsk wa);
 }

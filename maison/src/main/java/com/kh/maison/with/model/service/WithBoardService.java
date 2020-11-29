@@ -2,6 +2,7 @@ package com.kh.maison.with.model.service;
 
 import java.util.List;
 
+import com.kh.maison.with.model.vo.WithAsk;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.maison.with.model.vo.WithReport;
@@ -37,4 +38,6 @@ public interface WithBoardService {
 	int insertWithReport(WithReport wr);
 	
 	int updateWith(WithBoard wb);
+	
+	int insertWithask(WithAsk wa);
 }

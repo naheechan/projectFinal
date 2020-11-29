@@ -234,4 +234,11 @@ public class WithController {
 		return mv;
 	}
 	
+	@RequestMapping("/with/withChat.do")
+	public ModelAndView withChatEnroll(@RequestParam int wbNo, ModelAndView mv) {
+		mv.addObject("withBoard",service.selectOneWith(wbNo));
+		mv.setViewName("with/withChat");
+		return mv;
+	}
+	
 }

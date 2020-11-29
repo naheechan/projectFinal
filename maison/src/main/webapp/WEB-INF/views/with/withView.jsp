@@ -70,7 +70,10 @@
 	                
 	                <h4 id="pInput2">
 	                	<c:out value="${withBoard.memberId }"/>
-	                	<span style="background:#D2D2D2;padding:2px;border-radius:2px;">
+	                	&nbsp;
+	                	<!-- 작성자랑 loginMember랑 같은 사람이면 구매문의 안뜨게,
+	                	loginMember session null일때도 안떠야함.  -->
+	                	<span style="background-color:rgba(210,210,210,0.6);padding:2px;border-radius:5px;" id="chatSpan">
 	                		구매문의
 	                	</span>
 	                </h4>
@@ -447,6 +450,12 @@ $('#reportWith').click(function(){
 	// 보안상의 이유로 프론트에서 자식창을 열면서 바로 부모창의 값을 자동으로 전달해주는건 불가능
 	// 부모창의 
 });
+
+$("#chatSpan").click(function(){
+	window.open('${path }/with/withChat.do?wbNo='+bno,'문의하기','width=440,height=700,scrollbars=no,left=200,top=20');
+})
+
+
 
 
 	

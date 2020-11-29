@@ -155,4 +155,14 @@
 			</choose>
 			WHERE WBNO=#{wbNo}
 	</update>
+	
+	<insert id="withAskInsert" parameterType="withAsk">
+		INSERT INTO WITHASK VALUES(
+							SEQ_WA_NO.NEXTVAL,
+							#{wbNo},
+							#{memberId},
+							#{waContent},
+							SYSDATE
+		)			
+	</insert>
 </mapper>
