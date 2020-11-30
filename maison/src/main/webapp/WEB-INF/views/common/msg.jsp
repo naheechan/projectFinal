@@ -7,11 +7,18 @@
 <title>메세지</title>
 </head>
 <body>
+<<<<<<< HEAD
 	
 	<script>
 		alert('${msg}');
 		location.replace("${pageContext.request.contextPath}${loc}");
 	</script>
 	
+=======
+	<script>
+		alert("${msg}");
+		location.replace("${pageContext.request.contextPath}${loc}");
+	</script>
+>>>>>>> branch 'dev' of https://github.com/BrileyKim/finalProject_maison.git
 </body>
 </html>
