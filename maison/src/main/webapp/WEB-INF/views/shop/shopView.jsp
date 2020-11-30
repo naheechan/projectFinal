@@ -130,16 +130,13 @@
                                      </div>
                                 </div>
                                  </c:forEach>
+                                 <br>
+<!-- 관리자일경우에만 상품등록버튼 보이게 -->
                         <div class="filter-price-left">
                             <div class="title-left">
-                                <h3>Price</h3>
+                                <h3>상품등록</h3>
                             </div>
-                            <div class="price-box-slider">
-                                <div id="slider-range"></div>
-                                <p>
-                                    <input type="text" id="amount" readonly style="border:0; color:#fbb714; font-weight:bold;">
-                                    <button class="btn hvr-hover" type="submit">Filter</button>
-                                </p>
+                               <button class="btn hvr-hover" type="button" id="Enrollbtn">상품등록</button>
                             </div>
                         </div>
                     </div>
@@ -153,9 +150,14 @@
     	${pageBar }
     </div>
    </div>
-   
+   <br>
     <script>
     	$(function(){
+    		//상품등록 관리자용
+			$("#Enrollbtn").click(function(){
+				location.href="${ path }/admin/product/productEnroll.do";
+			});
+			
 			
     		//keyword ajax 성공
     		$("button[name=search]").click(function(){

@@ -130,7 +130,7 @@
         <div class="form-group right">
           <input type="hidden" name="mediumCate" id="mediHidden" class="form-input" value="">
         </div>
-        </div>
+        </div></div>
       <!-- form-footer -->
       <div class="form-footer">
         <span>* required</span>
@@ -156,7 +156,7 @@
     		$("#createbtn").click(function(){
     			alert("카테고리를 추가로 등록하시겠습니까?");
     		
-    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=400, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=500, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
     			
     		})
    

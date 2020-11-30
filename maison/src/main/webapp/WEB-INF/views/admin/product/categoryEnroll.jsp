@@ -4,20 +4,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="카테고리등록"/>
-</jsp:include>
-
-<jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
-	<jsp:param name="menuTitle" value="카테고리등록"/>
-</jsp:include>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <style>
 	.form-control{
 		width:90%;
 	}
 	#Catecontainer{
 		padding:10%;
-		margin-bottom:30%;
+		margin-bottom:25%;
 	}
 	#btn{
 		float:right;
@@ -34,11 +28,12 @@
 </div>
 <br><br>
 <!-- End -->
+<h2>카테고리 추가등록</h2><br>
 <div id="Catecontainer">
 <form action="${ path }/admin/product/enrollCate.do">
 <div id="largeCateArea">
 <label for="category" class="label-title">카테고리 [대]*</label>
-            <select class="form-control" id="largeCate" name="largeCate" >
+            <select class="form-control" id="largeCate" name="largeCate">
             	<option value="주방">주방</option>	
             	<option value="욕실">욕실</option>
             	<option value="세탁실">세탁실</option>
@@ -48,8 +43,21 @@
 </div>
 <div id="mediCateArea">
 <label for="category" class="label-title">카테고리 [중]*</label>
-<input type="text" id="mediCate" name="mcName" size="39">
+<br>
+<input type="text" id="mediCate" name="mcName" size="32">
 </div>
-<button type="submit" class="btn" id="btn">등록</button>
+<button type="button" class="btn" id="btn">등록</button>
 </form>
 </div>
+<script>
+
+$(function(){
+	
+	
+	$("#btn").click(function(){
+		alert("click");
+		
+	});
+})	
+
+</script>

@@ -55,13 +55,6 @@
 						</ul>
 					</li>
 
-					<li class="dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">상품관리</a>
-						<ul class="dropdown-menu">
-							<li><a href="${ path }/admin/product/productEnroll.do">상품등록</a></li>
-							<li><a href="shop-detail.html">상품수정</a></li>
-						</ul>
-					</li>
 					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑시계</a></li>
 				</ul>
 			</div>
