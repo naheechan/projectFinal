@@ -4,6 +4,6 @@
 	<typeAliases>
 		<typeAlias type="com.kh.maison.notice.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.maison.basket.model.vo.Basket" alias="basket"/>
+		<typeAlias type="com.kh.maison.member.model.vo.Member" alias="member"/>
 	</typeAliases>
-	
 </configuration>
