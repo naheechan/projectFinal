@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%-- <%@ page import="com.kh.maison.member.vo.Member" %> --%>
+<%@ page import="com.kh.maison.member.model.vo.Member" %> 
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="소통해요"/>
@@ -15,9 +15,7 @@
 </jsp:include>
 
 <%
-/* Member logginedMember = (Member)session.getAttribute("logginedMember"); */
-	String loginMember=(String)session.getAttribute("loginMember");
-
+	Member logginMember = (Member)session.getAttribute("logginedMember");
 
 %>
 
@@ -38,12 +36,29 @@
 				
 			</tr>
 			<c:forEach var="n" items="${list }">
+				
 				<tr>
+				
 					<td>${n.noticeNo }</td>
 					<td><a href="${path }/notice/noticeOne.do?noticeNo=${n.noticeNo }">${n.noticeTitle }</a></td>
 					<td>관리자</td>
-					<td>${n.noticeDate }</td>
-					<td class="text-center">${n.noticeCount }</td>
+						<!-- 오늘 날짜를 구하기 -->
+						<c:set var="now" value="<%=new java.util.Date()%>" />
+						<c:set var="sysCal">
+							<fmt:formatDate value="${now }" pattern="yyyy-MM-dd" />
+						</c:set>
+						<c:set var="dateTempParse">
+							<fmt:formatDate pattern="yyyy-MM-dd" value="${n.noticeDate }" />
+						</c:set>
+						<c:if test="${sysCal eq dateTempParse }">
+							<fmt:formatDate var="sysTime" value="${n.noticeDate }" pattern="HH:mm" />
+							<td><c:out value="${sysTime }" /></td>
+							
+						</c:if>
+						<c:if test="${sysCal ne dateTempParse }">
+							<td><c:out value="${dateTempParse }" /></td>
+						</c:if>
+						<td class="text-center">${n.noticeCount }</td>
 				</tr>
 			
 			</c:forEach>
@@ -51,19 +66,15 @@
 	</div>
 	</div>
 	<div class="row justify-content-end">
-		<c:if test="${loginMember==null }">
-			<button class="btn btn-success" onclick="location.href='${path}/notice/noticeLogin.do'">로그인</button>
-		</c:if>
-		<c:if test="${loginMember eq 'admin' }">
+		<c:if test="${loginMember.memberId eq 'admin' }">
 			<button class="btn" onclick="location.href='${path}/notice/noticeAdd.do'"><i class="fas fa-pencil-alt"></i> 글쓰기</button>
-			<button class="btn btn-success" onclick="location.href='${path}/notice/noticeLogout.do'">로그아웃</button>
 		</c:if>
 	</div>
 	</div>
-	
-	
-	
-	<div id="page-bar">
+
+
+
+<div id="page-bar">
 	${pageBar }
 	</div>
 	<br>

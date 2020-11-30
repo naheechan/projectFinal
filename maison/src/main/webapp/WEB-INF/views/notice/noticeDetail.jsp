@@ -29,7 +29,7 @@
 <div class="row justify-content-center">
 
 	<div class="col marl">
-	소통해요> <a href="${path }/notice/noticeList.do">공지해요 > </a>
+	소통해요> <a href="${path }/notice/noticeList.do">공지해요  </a>
 	<br>
 		<table class="table">
 			<tr>

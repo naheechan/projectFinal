@@ -1,12 +1,9 @@
 package com.kh.maison.basket.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kh.maison.basket.model.service.BasketService;
-import com.kh.maison.basket.model.vo.Basket;
+import com.kh.maison.member.model.vo.Member;
 
 @Controller
 public class BasketController {
@@ -31,19 +28,18 @@ public class BasketController {
 	@RequestMapping("basket/basket.do")
 	public ModelAndView basket(ModelAndView mv,HttpSession session) {
 		
-		//합치면 주석해제~
-		//Member m=(Member)session.getAttribute("loginMember");
-		//if(m!=null){
-		//String memberId=m.getMemberId();
-		//List<Map> list=service.selectBasketList(memberId);
-		//	mv.addObject("list",list);
-		//}else{
-		// mv.addObject("list","");
-		//}
-		String memberId="user1";
+		Member m=(Member)session.getAttribute("loginMember");
+		if(m!=null){
+		String memberId=m.getMemberId();
 		List<Map> list=service.selectBasketList(memberId);
-		mv.addObject("list",list);
-		mv.setViewName("basket/basket");
+			mv.addObject("list",list);
+			mv.setViewName("basket/basket");
+		}else{
+			mv.addObject("msg","로그인 후 이용가능합니다 !");
+			mv.addObject("loc","member/login");
+			mv.setViewName("common/msg");
+			
+		}
 		return mv;
 	}
 	
@@ -57,18 +53,16 @@ public class BasketController {
 	
 	@RequestMapping("basket/upDown.do")
 	@ResponseBody
-	public ModelAndView upDown(@RequestParam Map param,HttpServletResponse response,ModelAndView mv) 
+	public ModelAndView upDown(@RequestParam Map param,HttpServletResponse response,ModelAndView mv,HttpSession session) 
 			throws JsonMappingException,JsonGenerationException,IOException{
 		
 		//수량 변경
 		int result=service.updateAmount(param);
 		
 		//다시불러오기
-		//합치면 주석해제~
-				//Member m=(Member)session.getAttribute("loginMember");
-				//String memberId=m.getMemberId();
+		Member m=(Member)session.getAttribute("loginMember");
+		String memberId=m.getMemberId();
 		
-		String memberId="user1";
 		List<Map> list=service.selectBasketList(memberId);
 		mv.addObject("list",list);
 		mv.setViewName("/basket/amountChange");

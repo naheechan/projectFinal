@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.maison.common.PageBarFactory;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.notice.model.service.NoticeService;
 import com.kh.maison.notice.model.vo.Notice;
 
@@ -38,6 +39,9 @@ public class NoticeController {
 		
 		List<Notice> list=service.selectNoticeList(cPage,numPerPage);
 		int totalData=service.selectCount();
+		SimpleDateFormat sdf=new SimpleDateFormat("HH:mm로 나오라고");
+		System.out.println(sdf.format(list.get(9).getNoticeDate()));
+		System.out.println("지금시간은 "+sdf.format(new Date()));
 		
 		
 		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "noticeList.do"));
@@ -50,13 +54,18 @@ public class NoticeController {
 	@RequestMapping("/notice/noticeAdd.do")
 	public ModelAndView noticeAdd(ModelAndView mv,HttpSession session) {
 		
-		  String id=(String)session.getAttribute("loginMember");
-		  if(id!=null) {
-			  if(!id.equals("admin")) { 
+		  Member login=(Member)session.getAttribute("loginMember");
+		  
+		  if(login!=null) {
+			  //로그인되어있음
+			  
+			  //관리자가 아닐때
+			  if(!(login.getMemberId()).equals("admin")) { 
 				  mv.addObject("msg","관리자만 접근가능합니다!");
 				  mv.addObject("loc","/notice/noticeList.do"); 
 				  mv.setViewName("/common/msg");
 			  }else { 
+				  //관리자가 로그인했을때
 				  mv.setViewName("/notice/noticeAdd"); 
 				  }
 		  }else {
@@ -65,7 +74,6 @@ public class NoticeController {
 			  mv.setViewName("/common/msg");
 		  }
 		 
-		//mv.setViewName("/notice/noticeAdd");
 		return mv;
 	}
 	
@@ -113,6 +121,7 @@ public class NoticeController {
 	@RequestMapping("/notice/noticeAddEnd.do")
 	public ModelAndView noticaAddEnd(@RequestParam Map<String,String> param,ModelAndView mv) {
 		
+		
 		int result=service.insertNotice(param);
 		
 		mv.addObject("msg", result>0?"공지가 등록되었습니다.":"공지 등록에 실패하였습니다.");
@@ -152,9 +161,7 @@ public class NoticeController {
 				}
 			}
 		}
-		//본적없고 n을 제대로 불러왔을때 조회수 하나 올려줌
-//		if(!hasRead&&n!=null) {
-//		}
+
 		
 		
 		mv.addObject("n",n);

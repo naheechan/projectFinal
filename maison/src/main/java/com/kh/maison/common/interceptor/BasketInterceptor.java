@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.kh.maison.basket.model.service.BasketService;
-import com.kh.maison.basket.model.service.BasketServiceImpl;
+import com.kh.maison.member.model.vo.Member;
 
 @Component
 public class BasketInterceptor extends HandlerInterceptorAdapter {
@@ -22,12 +22,11 @@ public class BasketInterceptor extends HandlerInterceptorAdapter {
 			ModelAndView modelAndView) throws Exception {
 		// TODO Auto-generated method stub
 		//멤버 합치고 주석해제
-		//Member login=(Member)request.getSession().getAttribute("loginMember");
+		Member login=(Member)request.getSession().getAttribute("loginMember");
 		
-		String login="user1";
 		
-		if(login.equals("user1")) {
-			int basketCount=service.selectBasketCount(login);
+		if(login!=null) {
+			int basketCount=service.selectBasketCount(login.getMemberId());
 			
 			request.setAttribute("basketCount", basketCount);
 		}else {

@@ -34,6 +34,7 @@
                                 </tr>
                             </thead>
                             <tbody id="basketTbody">
+                            <c:if test="${list ne null }">
                             <c:forEach var="list" items="${list }">
                                 <tr>
                                 	<td><input type="checkbox" name="basketChecked" value="${list.BASKETNO }" checked></td>
@@ -66,7 +67,14 @@
                                 </tr>
                                </c:forEach>
                          
-                             
+                             </c:if>
+                             <c:if test="${empty list }">
+                             	<tr>
+                             	<td colspan="7" style="text-align : center">
+                             		장바구니가 비어 있습니다.
+                             	</td>
+                             	</tr>
+                             </c:if>
                                 
                             </tbody>
                         </table>
@@ -123,6 +131,10 @@
 </section>
 <script>
 $(function(){
+	
+	console.log(${list});
+	
+	
 	$("#orderbtn").on('click',function(e){
 		$("#basketFrm").submit();
 	});

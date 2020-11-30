@@ -2,7 +2,6 @@ package com.kh.maison;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Member;
-
-import com.kh.maison.basket.model.service.BasketService;
-import com.kh.maison.basket.model.service.BasketServiceImpl;
 
 /**
  * Handles requests for the application home page.
