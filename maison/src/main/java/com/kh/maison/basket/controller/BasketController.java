@@ -2,6 +2,7 @@ package com.kh.maison.basket.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,41 +76,42 @@ public class BasketController {
 		return mv;
 	}
 	
-	@RequestMapping("basket/orderBasket")
-	public ModelAndView orderBasket(ModelAndView mv,HttpServletRequest request) {
-		
-		String msg="";
-		String loc="";
-		
-		String[] basketNos=request.getParameterValues("basketNo");
-		
-		//장바구니에 상품이 없을때
-		if(basketNos==null) {
-			msg="장바구니에 담긴 상품이 없습니다 !";
-			loc="/basket/basket.do";
-			mv.addObject("msg",msg);
-			mv.addObject("loc",loc);
-			mv.setViewName("common/msg");
-			return mv;
-			
-		}
-		//장바구니에 상품이 있음
-		
-		//상품 수량이 있음
-		
-		
-		//상품 수량이 부족함
-		
-		
-		//리스트 받아오기
-		List<Basket> list=new ArrayList<Basket>();
-		for(String basketNo : basketNos) {
-			list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
-			
-		}
-		mv.addObject("list", list);
-		
-		return mv;
-	}
+	/*
+	 * @RequestMapping("basket/orderBasket") public ModelAndView
+	 * orderBasket(ModelAndView mv,HttpServletRequest request) {
+	 * 
+	 * String msg=""; String loc="";
+	 * 
+	 * String[] basketNos=request.getParameterValues("basketNo");
+	 * 
+	 * //장바구니에 상품이 없을때 if(basketNos==null) { msg="장바구니에 담긴 상품이 없습니다 !";
+	 * loc="/basket/basket.do"; mv.addObject("msg",msg); mv.addObject("loc",loc);
+	 * mv.setViewName("common/msg"); return mv;
+	 * 
+	 * }else {
+	 * 
+	 * //장바구니에 상품이 있음
+	 * 
+	 * //상품 수량이 있음 for(String basketNo : basketNos) { List<Basket> list=new
+	 * ArrayList<Basket>(); Map<String,Basket> mapf=new HashMap<String,Basket>();
+	 * 
+	 * mapf.put(basketNo, service.selectBasketOne(Integer.parseInt(basketNo)));
+	 * //list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
+	 * 
+	 * for(int i=0; i<mapf.size();i++) {
+	 * 
+	 * } //상품 수량이 부족함 }
+	 * 
+	 * 
+	 * 
+	 * //리스트 받아오기 for(String basketNo : basketNos) { List<Basket> list=new
+	 * ArrayList<Basket>();
+	 * list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
+	 * mv.addObject("list", list);
+	 * 
+	 * } }
+	 * 
+	 * return mv; }
+	 */
 	
 }
