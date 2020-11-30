@@ -22,7 +22,8 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>  
+  
 <title><c:out value="${param.title }"/></title>
 </head>
 <body>
@@ -45,7 +46,7 @@
 				<ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
 					<!-- 눌려졌을때를 표현하고 싶으면 li class에 active를 추가하세요. -->
 					<li class="nav-item"><a class="nav-link" href="index.html">메종은?</a></li>
-					<li class="nav-item"><a class="nav-link" href="about.html">쇼핑해요</a></li>
+					<li class="nav-item"><a class="nav-link" href="${path }/shop/shopList.do">쇼핑해요</a></li>
 					<li class="nav-item"><a class="nav-link" href="${path }/with/withList.do">함께해요</a></li>
  					<li class="dropdown">
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요</a>
@@ -62,6 +63,7 @@
             <!-- Start Atribute Navigation -->
             <div class="attr-nav">
                 <ul>
+                	<li><a href="${path }/wishList.do"><i class="far fa-heart"></i></a></li>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
                     
                     <li class="login"><a href="#"><i class="fas fa-user-alt"></i></a>
