@@ -2,9 +2,13 @@ package com.kh.maison.member.model.vo;
 
 import java.sql.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 	private String memberId;
 	private String memberName;
@@ -18,7 +22,9 @@ public class Member {
 	private String phone;
 	private int meileage;
 	private String gradeCode;
-	private String emailStatus;
+	private String emailStatus="N";
 	private String memberStatus;
 	private int reportCount;
+	private String authStatus;
+	private String authKey;
 }

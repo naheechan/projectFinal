@@ -3,10 +3,28 @@
 <mapper namespace="member">
   
   <insert id="insertMember" parameterType="member">
-  	INSERT INTO MEMBER VALUES(#{memberId},#{memberName},#{memberPw}, 
-  				#{zipcode},#{address},#{detailAddress},#{email},#{gender},
-  				#{birth},#{phone},default,default,default,default,default)
-  				
+  	<if test="memberPw!=null">
+	  	INSERT INTO MEMBER VALUES(#{memberId},#{memberName},#{memberPw}, 
+	  				#{zipcode},#{address},#{detailAddress},#{email},#{gender},
+	  				#{birth},#{phone},default,default,#{emailStatus},default,default,default,null)
+	</if>
+	<if test="memberPw==null">
+	  	INSERT INTO MEMBER VALUES(#{memberId},#{memberName},null, 
+	  				#{zipcode},#{address},#{detailAddress},#{email},#{gender},
+	  				#{birth},#{phone},default,default,#{emailStatus},default,default,default,null)
+	</if>
   </insert>
+  
+  <select id="selectMemberOne" parameterType="string" resultType="member">
+  	SELECT * FROM MEMBER WHERE MEMBERID=#{id}
+  </select>
+  
+  <update id="updateAuthKey" parameterType="map">
+  	UPDATE MEMBER SET AUTHKEY=#{key} WHERE MEMBERID=#{id}
+  </update>
+  
+  <update id="updateAuthStatus" parameterType="string">
+  	UPDATE MEMBER SET AUTHSTATUS='Y' WHERE MEMBERID=#{id}
+  </update>
   
 </mapper>
