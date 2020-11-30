@@ -39,6 +39,12 @@ public class ProductDaoImpl implements ProductDao {
 		return session.insert("product.insertEnroll",pd);
 	}
 
+	@Override
+	public int enrollCate(SqlSession session, Category c) {
+		System.out.println(c);
+		return session.insert("product.enrollCate",c);
+	}
+
 	
 	
 	

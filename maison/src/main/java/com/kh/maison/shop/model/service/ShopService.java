@@ -1,10 +1,10 @@
 package com.kh.maison.shop.model.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
+import com.kh.maison.shop.model.vo.CateProduct;
 
 public interface ShopService {
 
@@ -16,4 +16,6 @@ public interface ShopService {
 	int insertRequestProduct(String requestContent);
 	
 	List<Product> selectOneMediCate(String keyword);
+	
+	List<CateProduct> searchCate(String category);
 }

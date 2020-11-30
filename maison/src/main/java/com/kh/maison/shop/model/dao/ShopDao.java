@@ -1,12 +1,12 @@
 package com.kh.maison.shop.model.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
+import com.kh.maison.shop.model.vo.CateProduct;
 
 public interface ShopDao {
 
@@ -18,4 +18,6 @@ public interface ShopDao {
 	int insertRequestProduct(SqlSession session, String requestProduct);
 	
 	List<Product> selectOneMediCate(SqlSession session, String keyword);
+	List<CateProduct> searchCate(SqlSession session, String category);
+	
 }

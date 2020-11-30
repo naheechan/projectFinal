@@ -89,12 +89,12 @@
                             </div>
                         </div>
                     </div>
+                <!-- 요청해요 -->
+		<div id="request-container" style="margin:0 10% 0 7%;"></div>
                 </div>
                 </c:if><!-- product가 null이 아니면 -->
                 
 
-                <!-- 요청해요 -->
-		<div id="request-container" style="margin:0 10% 0 7%;"></div>
                 <!-- 카테고리 -->
 				<div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
                     <div class="product-categori">
@@ -121,9 +121,9 @@
                                     <div class="list-group">
                                     <c:forEach var="mc" items="${ medicate }" varStatus="j">
                                     
-                                      
+                                      <!-- 중분류카테고리 검색조건으로 seq넘기기 -->
                                     <c:if test="${ i.current.largeCate  eq j.current.largeCate }">
-                                        <a href="#" class="list-group-item list-group-item-action<c:if test='${i.index eq 0}'>active</c:if> ">${ mc.mcName }</a>
+                                        <a href="" id="cateSearch" class="list-group-item list-group-item-action<c:if test='${i.index eq 0}'>active</c:if> ">${ mc.mcName }</a>
                                      </c:if>
                                      </c:forEach>
                                     </div>
@@ -176,6 +176,7 @@
 						
 						if(obj >0){
 						$.each(data,function(i){
+							/* divResult.empty(); */
 			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
 							+"	<div class='products-single fix' onclick= selectOneProduct("+data[i].productNo +")>"
 							+"	<div class='box-img-hover'>																"
@@ -206,8 +207,10 @@
 							+"	</div>																							"
 							+"	</div>																							";
 			       			 divResult.append(html);
+			       			 requestContainer.empty();
 						 });
 						}else{
+							requestContainer.empty();
 					html = " <form action='${path}/shop/product/requestP.do' method='post'>																					"
 							+"<div>																																											"
 							+"<h2><strong>💌 요청해요</strong></h2><br><br>																											"
@@ -227,6 +230,7 @@
 							+"</c:if>																																										"
 	                		+"</form>																																										";
 	                		requestContainer.append(html);
+	                		
 						}
 						/* }); */
 					},
@@ -234,10 +238,63 @@
 						console.log("ajax통신실패");
 					}
 				})
+    	});
+		
+    		
+    		//카테고리 서치
+    		$("#cateSearch").click(function(){
+				$.ajax({
+					url:"${path}/shop/cateSearch.do",
+					type:"post",
+					data:{category:productName},
+					dataType:"json",
+					success:function(data){
+						var html = '';
+						var divResult = $("#divResult");
+						var requestContainer = $("#request-container");
+						divResult.empty();
+						console.log("ajax통신성공"+data);
+						
+						$.each(data,function(i){
+							/* divResult.empty(); */
+			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
+							+"	<div class='products-single fix' onclick= searchCate("+data[i].productName+")>"
+							+"	<div class='box-img-hover'>																"
+							+"	<div class='type-lb'>																		"
+							+"	<p class='sale'>NEW</p>																"
+							+"	</div>																							"
+							+"	<img src='${ path }/resources/upload/product/"+data[i].productImg+"'  "
+							+"	class='img-fluid' alt='Image'>															"
+							+"	<div class='mask-icon'>																	"
+							+"	<ul>																								"
+							+"	<li><a href='#' data-toggle='tooltip' data-placement='right'					"
+							+"	title='View'><i class='fas fa-eye'></i></a></li>								"
+							+"	<li><a href='#' data-toggle='tooltip' data-placement='right'					"
+							+"	title='Compare'><i class='fas fa-sync-alt'></i></a></li>					"
+							+"	<li><a href='#' data-toggle='tooltip' data-placement='right'					"
+							+"	title='Add to Wishlist'><i class='far fa-heart'></i></a></li>				"
+							+"	</ul>																							"
+							+"	<a class='cart' href='#'>Add to Cart</a>											"
+							+"	</div>																							"
+							+"	</div>																							"
+							+"	<div class='why-text'>																		"
+							+"	<h4>																								"
+							+"	<a href='${ path }/shop/shop-detail.html'>"+data[i].productName+"</a>	"
+							+"	</h4>																							"
+							+"	<br>																								"
+							+"	<h5>"+data[i].price+"원</h5>															"
+							+"	</div>																							"
+							+"	</div>																							"
+							+"	</div>																							";
+			       			 divResult.append(html);
+			       			 requestContainer.empty();
+						 });
+					},error:function(){
+						console.log("ajax통신실패");
+					}
+				})
+				});//cateSearch
 				
-			});
-    		
-    		
     		$("#reqBtn").click(function(){
     
     		/* if(${loginMember==null}){
@@ -245,15 +302,18 @@
     			} */
     			
     			
-    		});
     		
-    		
-    	});
+    		});//reqBtn
+    	});//onload
+				
     </script>
     <script>
     	function selectOneProduct(productNo){							
-    		location.href="url?productNo= "+productNo	//Get방식
-    				
+    		location.href="url?productNo= "+productNo;	//Get방식
+    	}
+    	
+    	function searchCate(productName){
+    		location.href="category?name="+productName;
     	}
     	
     </script>

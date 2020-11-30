@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.shop.model.dao.ShopDao;
+import com.kh.maison.shop.model.vo.CateProduct;
 import com.kh.maison.shop.model.vo.Request;
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -54,6 +55,12 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public List<Product> selectOneMediCate(String keyword) {
 		return dao.selectOneMediCate(session,keyword);
+	}
+
+
+	@Override
+	public List<CateProduct> searchCate(String category) {
+		return dao.searchCate(session,category);
 	}
 	
 	

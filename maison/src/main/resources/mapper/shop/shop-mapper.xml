@@ -29,4 +29,9 @@
 	WHERE PRODUCTNAME LIKE '%' || #{keyword} || '%'
 </select>
 
+<select id="searchCate" resultType="cateProduct" parameterType="String">
+	SELECT M.*, P.PRODUCTNAME, P.PRODUCTIMG, P.MEDIUMCATE AS MEDICATE, P.PRICE 
+	FROM MEDIUMCATE M, PRODUCT P 
+	WHERE M.MEDIUMCATE=P.MEDIUMCATE 
+</select>
 </mapper>

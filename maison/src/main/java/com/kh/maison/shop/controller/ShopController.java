@@ -1,10 +1,7 @@
 package com.kh.maison.shop.controller;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.shop.model.service.ShopService;
+import com.kh.maison.shop.model.vo.CateProduct;
 
 @Controller
 @RequestMapping("/shop")
@@ -67,6 +63,18 @@ public class ShopController {
 		return mv;
 	}
 	
+	
+	@RequestMapping("/cateSearch.do")
+	public ModelAndView searchCate(@RequestParam(value="category", required=true)String category,ModelAndView mv) {
+		
+		List<CateProduct> list = service.searchCate(category);
+		System.out.println("shop controller category"+category);
+		System.out.println("shop controller 리스트"+list);
+		mv.addObject("cateSearchList",list);
+		mv.setViewName("shop/shopView");
+		return mv;
+	}
+	
 	@ResponseBody
 	@RequestMapping("/search.do")
 	public String searchName(@RequestParam(value="keyword", required=true)String keyword,
@@ -84,5 +92,6 @@ public class ShopController {
 		return str;
 	}
 	
-
+	
 }
+

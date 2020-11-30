@@ -20,4 +20,5 @@ public interface ProductDao {
 	
 	int insertEnroll(SqlSession session, Product pd);
 	
+	int enrollCate(SqlSession session, Category c);
 }

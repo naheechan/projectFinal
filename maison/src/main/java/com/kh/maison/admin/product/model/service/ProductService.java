@@ -18,5 +18,6 @@ public interface ProductService {
 	
 	int insertEnroll(Product pd);
 	
+	int enrollCate(Category c);
 	
 }

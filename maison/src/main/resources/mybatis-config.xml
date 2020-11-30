@@ -10,6 +10,7 @@
 		<typeAlias type="com.kh.maison.common.StringArrayTypeHandler" alias="strArr"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.Request" alias="Request"/>
 		<typeAlias type="com.kh.maison.admin.product.model.vo.Category" alias="category"/>
+		<typeAlias type="com.kh.maison.shop.model.vo.CateProduct" alias="cateProduct"/>
 	</typeAliases>
 
 

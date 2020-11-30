@@ -1,5 +1,6 @@
 package com.kh.maison.admin.product.controller;
 
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -181,4 +182,32 @@ public class ProductController {
 		return mv;
 		
 	}
+	
+	@RequestMapping("/moveEnrollCate.do")
+	public String moveEnrollCate(Model m) {
+		
+		return "admin/product/categoryEnroll";
+	}
+	
+	@RequestMapping("/enrollCate.do")
+	public String enrollCate(Category c, Model md) {
+		
+		int result = service.enrollCate(c);
+		
+		String msg="";
+	
+		
+		if(result>0) {
+			msg="카테고리등록성공";
+		
+		}else {
+			msg="카테고리등록실패";
+			
+		}
+		md.addAttribute("msg",msg);
+	
+		
+		return "common/msg";
+	}
+	
 }

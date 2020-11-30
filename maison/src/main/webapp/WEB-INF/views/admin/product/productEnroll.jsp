@@ -43,13 +43,12 @@
            
             </select>
           </div>
-          <div class="form-group right">
+          <div class="form-group right" id="category1">
             <label for="category" class="label-title">카테고리 [중]*</label>
             <select class="form-control" id="mediumCate" name="mediumCate">
             <option value="">선택하세요</option>
             </select>
           </div>
-        </div>
         <!-- Ajax -->
         <div class="horizontal-group">
           <div class="form-group left">
@@ -58,7 +57,7 @@
           	<span id="cateText2"></span>
           </div>
           <div class="form-group right">
-			<a id="createbtn" href="#">카테고리등록</a>
+			<a id="createbtn">카테고리등록</a>
           </div>
         </div>
         
@@ -95,7 +94,8 @@
         <div class="horizontal-group">
           <div class="form-group left" >
             <label for="productImg" class="label-title">상품이미지 *</label>
-            <input type="file" name="imageFile" id="productImg" size="80" accept=".jpg, .jpeg, .png, .bmp">
+            <input type="file" name="imageFile" id="productImg" size="80" accept=".jpg, .jpeg, .png, .bmp" data-width="300" data-height="300">
+          </div>
           </div>
           
         <!-- Price & StockCount -->
@@ -125,7 +125,7 @@
           <label for="defCycle" class="label-title">주기일 *</label><br>
             <input type="number" name="defCycle" id="defCycle" class="form-input" required="required">
           </div>
-		</div>
+
 		<!-- mediumCate -->
         <div class="form-group right">
           <input type="hidden" name="mediumCate" id="mediHidden" class="form-input" value="">
@@ -150,7 +150,17 @@
       }
     </script>
     
-    
+    <!-- category등록 -->
+    <script>
+   
+    		$("#createbtn").click(function(){
+    			alert("카테고리를 추가로 등록하시겠습니까?");
+    		
+    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=400, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+    			
+    		})
+   
+    </script>
     <!-- select option fn -->
     <script>
     
@@ -244,6 +254,42 @@
 });
     </script>
     
+    <!-- 파일업로드사이즈제한  -->
+    <script>
+    	$(document).on('change','input[type=file]',function(){
+    		var $width = $(this).attr('data-width');
+    		var $height = $(this).attr('data-height');
+    		var $target = $(this);
+    		
+    		if(window.FileReader){
+    			var reader = new FileReader();
+    			reader.onload = function(e){
+    				$('body').append('<img src="" id="temp_img" style="display:none;"/>');
+    				$img = $('#temp_img').attr('src',e.target.result);
+    				if($img.width() != $width || $img.height() != $height){          
+    					alert('파일사이즈는 ('+$width+'x'+$height+')입니다.');
+    					$target.val('');
+    					$('#temp_img').remove();
+    					return;
+    				}
+    			};
+    			reader.readAsDataURL($(this)[0].files[0]);//파일을 img태그에 보여줄 수 있도록 base64로 url생성
+    		}else{
+    			$(this)[0].select();
+    			var src = document.selection.createRange().text;
+    			$('body').append('<img src="" id="temp_img" style="display:none;"/>');
+    			$img = $('#temp_img').attr('src',src);
+    			$('#temp_img').remove();
+    			if($img.width() != $width || $img.height()!=$height){
+    				alert('지정된 크기와 맞지 않습니다.('+$width+'x'+$height+')');
+    				$(this).val('');
+    				return;
+    			}
+    		}
+    		$('#temp_img').remove();
+    	})
+    
+    </script>
     
 <style>
 

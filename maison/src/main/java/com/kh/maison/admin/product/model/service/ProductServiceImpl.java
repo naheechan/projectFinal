@@ -44,6 +44,10 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	
+	@Override
+	public int enrollCate(Category c) {
+		return dao.enrollCate(session,c);
+	}
 	
 	
 	

@@ -41,5 +41,8 @@
 		)
 	</insert>
 	
+	<insert id="enrollCate" parameterType="map">
+		INSERT INTO MEDIUMCATE VALUES(SEQ_MEDIUMCATE.NEXTVAL,#{mcName},#{largeCate})
+	</insert>
 	
 </mapper>
