@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="qnaBoard">
+	<resultMap type="com.kh.maison.qnaBoard.model.vo.QnaBoardVo" id="qnaBoardMap"></resultMap>
+	<resultMap type="com.kh.maison.qnaBoard.model.vo.QnaCommentVo" id="qnaCommentMap"></resultMap>
+
+	<insert id="insertQnaBoard" parameterType="com.kh.maison.qnaBoard.model.vo.QnaBoardVo">
+		INSERT INTO QNABOARD VALUES(SEQQB.NEXTVAL,#{memberId},#{qnaTitle},#{qnaContent},sysdate,#{qnaSecret},#{qnaPw},default)
+	</insert>
+	
+	<select id="selectList" resultMap="qnaBoardMap">
+		SELECT *FROM QNABOARD ORDER BY QNANO DESC
+	</select>
+	
+	<select id="selectQna" parameterType="_int" resultType="com.kh.maison.qnaBoard.model.vo.QnaBoardVo">
+		SELECT*FROM QNABOARD WHERE QNANO=#{no}
+	</select>
+	
+		<select id="selectCount" resultType="_int">
+		select count(*) from QNABOARD
+	</select>
+	
+	<insert id="insertComment" parameterType="com.kh.maison.qnaBoard.model.vo.QnaCommentVo">
+		INSERT INTO QnaComment values(SEQQC.NEXTVAL,#{qnaNo},#{qcContent},sysdate)
+	</insert>
+	
+	<select id="commentList" resultMap="qnaCommentMap">
+		SELECT *FROM QNACOMMENT WHERE QNANO=#{bno}
+	</select> 
+	
+	<update id="updateStatus" parameterType="com.kh.maison.qnaBoard.model.vo.QnaBoardVo">
+		UPDATE qnaboard SET QNASTATUS = '답변완료' WHERE QNANO=#{bno}
+	</update>
+	
+</mapper>

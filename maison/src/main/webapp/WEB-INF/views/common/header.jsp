@@ -51,7 +51,7 @@
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요</a>
 						<ul class="dropdown-menu">
 							<li><a href="shop.html">공지해요</a></li>
-							<li><a href="shop-detail.html">질문해요</a></li>
+							<li><a href="${path }/qnaboard/qnaboardList.do">질문해요</a></li>
 						</ul>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑시계</a></li>
