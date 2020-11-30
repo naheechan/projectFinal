@@ -114,7 +114,7 @@
 			<tr>
 				<td>
 					<!-- 소셜 로그인 -->
-					
+					<a href="${path}/member/naver/login"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"></a>
 				</td>
 			</tr>
 		</table>

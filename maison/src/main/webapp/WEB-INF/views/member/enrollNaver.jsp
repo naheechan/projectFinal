@@ -14,11 +14,7 @@
 <script>
 	//submit할때 유효성검사
 	function checkSubmit() {
-		if($("#idCheck").val()=="0") alert("아이디를 정확히 입력해주세요");
-		else if($("#nameCheck").val()=="0") alert("이름을 정확히 입력해주세요");
-		else if($("#pwCheck").val()=="0") alert("비밀번호를 정확히 입력해주세요");
-		else if($("#rePwCheck").val()=="0") alert("비밀번호 확인을 해주세요");
-		else if($("#brithCheck").val()=="0") alert("생년월일을 정확히 입력해주세요");
+		if($("#brithCheck").val()=="0") alert("생년월일을 정확히 입력해주세요");
 		else if($("#phoneCheck").val()=="0") alert("전화번호를 정확히 입력해주세요");
 		else return true;
 		
@@ -74,128 +70,23 @@
         }).open();
     }
 	
-	//아이디 유효성검사 함수
-	function regId(str) {
-		let reg1 = /^[a-zA-Z0-9]+$/;
-		let reg2 = /[a-zA-Z]/g;
-		let reg3 = /[0-9]/g;
-		return (reg1.test(str) && reg2.test(str) && reg3.test(str));
-	}
-	//비밀번호 유효성검사 함수
-	function regPw(str) {
-		let reg1 = /^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]+$/;
-		let reg2 = /[a-zA-Z]/g;
-		let reg3 = /[0-9]/g;
-		let reg4 = /[~!@#$%^&*()_+|<>?:{}]/g;
-		return (reg1.test(str) && reg2.test(str) && reg3.test(str) && reg4.test(str));
-	}
-	
     $(function() {
     	
-    	//아이디 유효성+중복체크
-    	$("#memberId").keyup(function(e) {
-    		$("#idCheck").val("0");
-    		let checkId = $(e.target).val().trim();
-    		if(checkId.length<4 || checkId.length>10) {
-    			$("#checkId-container").children().css("display","none");
-    			$("#notEnoughId").css("display","block");
-    		}else {
-    			if(regId(checkId)) {
-    				$.ajax({
-    	    			url:"${path}/member/ajax/checkMemberId",
-    	    			type:"post",
-    	    			data:{"checkId":checkId},
-    	    			success:function(data){
-    	    				if(data.result==1) {
-    	    					//아이디 사용가능
-    	    					$("#checkId-container").children().css("display","none");
-    	    					$("#ableId").css("display","block");
-    	    					//hidden input에 플래그값 넣어줌
-    	    					$("#idCheck").val("1");
-    	    				}else if(data.result==0){
-    	    					//아이디 중복
-    	    					$("#checkId-container").children().css("display","none");
-    	    					$("#disableId").css("display","block");
-    	    				}
-    	    			},
-    	    			error:function(error) {
-    	    				alert(error);
-    	    			}
-    	    		}); 
-    			}else {
-    				$("#checkId-container").children().css("display","none");
-    				$("#notRegId").css("display","block");
-    			}
-    		}
-    		
-    	});
-    	
-    	//이름 유효성체크
-    	$("#memberName").keyup(function(e) {
-    		$("#nameCheck").val("0");
-    		if($(e.target).val().trim().length<2) {
-    			//이름 길이 짧음
-    			$("#checkName-container").children().css("display","none");
-    			$("#notEnoughName").css("display","block");
-    		}else {
-    			//이름 길이 충분
-    			$("#checkName-container").children().css("display","none");
-    			$("#nameCheck").val("1");
-    		}
-    	});
-    	
-    	//비밀번호 유효성체크
-    	$("#memberPw").keyup(function(e) {
-    		$("#pwCheck").val("0");
-    		let checkPw = $(e.target).val().trim();
-    		if(checkPw.length<6 || checkPw.length>15) {
-    			//길이 짧음
-    			$("#checkPw-container").children().css("display","none");
-    			$("#notEnoughPw").css("display","block");
-    		}else {
-    			if(regPw(checkPw)) {
-    				//정규식 만족함
-        			$("#checkPw-container").children().css("display","none");
-        			$("#ablePw").css("display","block");
-        			$("#pwCheck").val("1");
-    			}else {
-    				//정규식 만족안됨
-        			$("#checkPw-container").children().css("display","none");
-        			$("#notRegPw").css("display","block");
-    			}
-    		}
-    	});
-    	
-    	//비밀번호 재입력 체크
-    	$("#memberRePw").keyup(function(e) {
-    		$("#rePwCheck").val("0");
-    		let checkRePw = $(e.target).val().trim();
-    		let checkPw = $("#memberPw").val().trim();
-    		if(checkPw.length!=0 && checkRePw==checkPw) {
-    			$("#checkRePw-container").children().css("display","none");
-    			$("#ableRePw").css("display","block");
-    			$("#rePwCheck").val("1");
-    		}else {
-    			$("#checkRePw-container").children().css("display","none");
-    			$("#notEnoughRePw").css("display","block");
-    		}
-    	});
-    	
-    	//생년월일 유효성체크
-    	$("#datepicker").change(function(e) {
-    		$("#brithCheck").val("0");
-    		let checkBirth = $(e.target).val().trim();
-    		let regBirth = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
-    		if(regBirth.test(checkBirth)) {
-    			$("#checkBrith-container").children().css("display","none");
-    			$("#brithCheck").val("1");
-    		}else {
-    			$("#checkBrith-container").children().css("display","none");
-    			$("#notRegBrith").css("display","block");
-    		}
-    	});
-    	
-    	//전화번호 유효성체크
+	  	//생년월일 유효성체크
+		$("#datepicker").change(function(e) {
+			$("#brithCheck").val("0");
+			let checkBirth = $(e.target).val().trim();
+			let regBirth = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+			if(regBirth.test(checkBirth)) {
+				$("#checkBrith-container").children().css("display","none");
+				$("#brithCheck").val("1");
+			}else {
+				$("#checkBrith-container").children().css("display","none");
+				$("#notRegBrith").css("display","block");
+			}
+		});
+	  	
+		//전화번호 유효성체크
     	$("#phone").keyup(function(e) {
     		$("#phoneCheck").val("0");
     		let checkPhone = $(e.target).val().trim();
@@ -208,7 +99,7 @@
     			$("#notRegPhone").css("display","block");
     		}
     	});
-    	
+		
     	//데이트피커 설정
         $("#datepicker").datepicker({
         	showOn:"both",
@@ -225,9 +116,9 @@
         	dayNamesMin:['월','화','수','목','금','토','일'],
         	monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
         });
+	  	
     });
 </script>
-
 <style>
 	.jumbotron .container{
 		text-align: center;
@@ -276,56 +167,25 @@
 	 .checked {
 	 	width: 20px;
 	 }
+
 </style>
 <section>
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container">
-			<h1>회원가입</h1>
+			<h1>간단 회원가입</h1>
+			<h2>네이버로 최초 로그인시 간단한 정보입력을 통해서 회원가입을 완료하실수있습니다.</h2>
 		</div>		
 	</div>
 	
 	<form action="${path }/member/enrollEnd" method="POST" onsubmit="return checkSubmit();">
 		<div id="enroll-container" class="container">
-			<div class="form-group">
-			    <label for="memberId">아이디</label>
-			    <input type="text" class="form-control" placeholder="영문,숫자 조합 4~10자리" id="memberId" name="memberId" required>
-			    <div id="checkId-container">
-				    <p class="text-danger" id="notEnoughId" style="display:none">아이디를 4~10글자로 입력해주세요.</p>
-				    <p class="text-danger" id="notRegId" style="display:none">영어+숫자 조합만 가능합니다.</p>
-				    <p class="text-danger" id="disableId" style="display:none">사용할 수 없는 아이디 입니다.</p>
-				    <p class="text-success" id="ableId" style="display:none">사용가능한 아이디입니다.</p>
-			    </div>
-			    <input type="hidden" id="idCheck" name="idCheck" value="0">
-		 	</div>
-		 	<div class="form-group">
-			    <label for="memberName">이름</label>
-			    <input type="text" class="form-control" placeholder="2글자 이상" id="memberName" name="memberName" required>
-			    <div id="checkName-container">
-				    <p class="text-danger" id="notEnoughName" style="display:none">이름을 2글자 이상으로 입력해주세요.</p>
-			    </div>
-			    <input type="hidden" id="nameCheck" name="nameCheck" value="0">
-		 	</div>
-		 	<div class="form-group">
-			    <label for="memberPw">비밀번호</label>
-			    <input type="password" class="form-control" placeholder="영문,숫자,특수기호 조합 6~15자리" id="memberPw" name="memberPw" required>
-			    <div id="checkPw-container">
-				    <p class="text-danger" id="notEnoughPw" style="display:none">비밀번호를 6~15글자로 입력해주세요.</p>
-				    <p class="text-danger" id="notRegPw" style="display:none">영어+숫자+특수기호 조합만 가능합니다.</p>
-				    <p class="text-success" id="ablePw" style="display:none">사용가능한 비밀번호입니다.</p>
-			    </div>
-			    <input type="hidden" id="pwCheck" name="pwCheck" value="0">
-		 	</div>
-		 	<div class="form-group">
-			    <label for="memberRePw">비밀번호 확인</label>
-			    <input type="password" class="form-control" placeholder="비밀번호 재입력" id="memberRePw" required>
-			    <div id="checkRePw-container">
-				    <p class="text-danger" id="notEnoughRePw" style="display:none">비밀번호가 일치하지 않습니다.</p>
-				    <p class="text-success" id="ableRePw" style="display:none">비밀번호가 일치합니다.</p>
-			    </div>
-			    <input type="hidden" id="rePwCheck" name="rePwCheck" value="0">
-		 	</div>
-		 	
-		 	<!-- 주소부분 -->
+		
+			<input type="hidden" id="memberId" name="memberId" value="${memNaver.memberId }">
+			<input type="hidden" id="memberName" name="memberName" value="${memNaver.memberName}">
+			<input type="hidden" id="email" name="email" value="${memNaver.email}">
+			<input type="hidden" id="gender" name="gender" value="${memNaver.gender}">
+	
+			<!-- 주소부분 -->
 		 	<div class="form-group" id="address-container">
 			    <label>주소</label><br>
 			 	<input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="우편번호" required>
@@ -335,38 +195,14 @@
 				<input type="text" class="form-control" id="extraAddress" name="extraAddress" placeholder="참고항목">			 	
 		 	</div>
 		 	
-		 	
 		 	<div class="form-group">
-			    <label for="email">이메일 - 회원가입시 메일 인증이 필요하니 꼭 <mark>사용중인 메일</mark>을 적어주세요.</label>
-			    <input type="email" class="form-control" placeholder="이메일 입력" id="email" name="email" required>
-		 	</div>
-		 	<div class="form-group">
-			    <label>성별</label>
-		 	</div>
-		 	<div class="form-check-inline">
-			  <label class="form-check-label">
-			    <input type="radio" class="form-check-input" name="gender" value="M">남
-			  </label>
-			</div>
-			<div class="form-check-inline">
-			  <label class="form-check-label">
-			    <input type="radio" class="form-check-input" name="gender" value="F">여
-			  </label>
-			</div>
-			<div class="form-check-inline disabled">
-			  <label class="form-check-label">
-			    <input type="radio" class="form-check-input" name="gender" value="U" checked>공개안함
-			  </label>
-			</div>
-			
-			<div class="form-group">
 			    <label for="datepicker">생년월일</label><br>
 			    <input type="text" class="form-control" id="datepicker" name="birth" required>
 			    <div id="checkBrith-container">
 				    <p class="text-danger" id="notRegBrith" style="display:none">달력에서 생년월일을 선택해주세요</p>
 			    </div>
 			    <input type="hidden" id="brithCheck" name="brithCheck" value="0">
-		 	</div>			
+		 	</div>	
 		 	
 		 	<div class="form-group">
 			    <label for="phone">전화번호</label><br>
@@ -394,12 +230,17 @@
 				  </label>
 				</div>
 		 	</div>
-		 	
-		 	<div id="submit-container">
+			
+			
+			<div id="submit-container">
 			 	<button type="button" class="btn btn-danger" onclick="location.href='${path}/'">취소하기</button>
 			 	<button type="submit" class="btn btn-primary">회원가입</button>
 			</div>
 		</div>
 	</form>
+	
+	
+
 </section>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		

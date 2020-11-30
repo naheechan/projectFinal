@@ -3,9 +3,16 @@
 <mapper namespace="member">
   
   <insert id="insertMember" parameterType="member">
-  	INSERT INTO MEMBER VALUES(#{memberId},#{memberName},#{memberPw}, 
-  				#{zipcode},#{address},#{detailAddress},#{email},#{gender},
-  				#{birth},#{phone},default,default,#{emailStatus},default,default,default,null)
+  	<if test="memberPw!=null">
+	  	INSERT INTO MEMBER VALUES(#{memberId},#{memberName},#{memberPw}, 
+	  				#{zipcode},#{address},#{detailAddress},#{email},#{gender},
+	  				#{birth},#{phone},default,default,#{emailStatus},default,default,default,null)
+	</if>
+	<if test="memberPw==null">
+	  	INSERT INTO MEMBER VALUES(#{memberId},#{memberName},null, 
+	  				#{zipcode},#{address},#{detailAddress},#{email},#{gender},
+	  				#{birth},#{phone},default,default,#{emailStatus},default,default,default,null)
+	</if>
   </insert>
   
   <select id="selectMemberOne" parameterType="string" resultType="member">
