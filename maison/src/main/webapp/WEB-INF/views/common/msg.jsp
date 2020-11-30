@@ -4,12 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>시스템메세지</title>
+
+<title>메세지</title>
 </head>
 <body>
 	<script>
-		alert('${msg}');
-		location.replace("${pageContext.request.contextPath}${loc}${login==false?'?login=false':''}");
+		alert("${msg}");
+		location.replace("${pageContext.request.contextPath}${loc}");
+
 	</script>
 </body>
 </html>
