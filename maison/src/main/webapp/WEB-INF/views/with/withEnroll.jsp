@@ -3,6 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="com.kh.maison.common.crypto.AES256Util,com.kh.maison.member.model.vo.Member" %>
+<!-- loginMember의 값들은 암호화가 된채로 넘어온다. 그러므로 aes와 session값을 가지고 decrypt처리해준다. -->
+<%
+	AES256Util aes = new AES256Util();
+	Member m = (Member)session.getAttribute("loginMember");
+	String dEmail = aes.decrypt(m.getEmail());
+	String dPhone = aes.decrypt(m.getPhone());
+%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="함께해요 등록"/>
@@ -46,8 +54,7 @@
 <div class="with-list-box">
 	<div class="container">
 		<form action="${path }/with/withEnrollEnd.do" method="post" id="withForm">
-			<!-- 희찬이랑 합치게 되면 여기 value에 ${loginMember.memberId }들어가야함. -->
-			<input type="hidden" value="user01" name="memberId">
+			<input type="hidden" value="${loginMember.memberId }" name="memberId">
 			<div id="data-div">
 				<div class="form-group required">
 					<label for="wbTitle" style="font-weight:bold;" class="control-label">상품명</label>
@@ -105,13 +112,10 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="" style="font-weight:bold;">판매자 정보</label>
-					
+					<label for="" style="font-weight:bold;">판매자 정보</label>			
 					<br>
-					<!-- ${loginMember.emial}, ${loginMmeber.phone}
-						DB에 따로 들어가는게 아니라 작성자 데이터 가지고 요리해서 띄워주는거.-->
-					<span><c:out value="이메일 들어가는 자리"/></span>&nbsp;&nbsp; | &nbsp; 
-					<span id="wbPhoneNum"><c:out value="전화번호 들어가는 자리"/></span>
+					<span><%=dEmail%></span>&nbsp;&nbsp; | &nbsp; 
+					<span id="wbPhoneNum"><%=dPhone %></span>
 					&nbsp;
 					<br>
 					<div class="form-check-inline">
@@ -168,6 +172,8 @@
 		})
 		/* 배송방법은 둘다 선택가능하게 할거라서 script필요 없음. 
 			대신에 배송방법이 직거래면 직거래 어느 지역에서 할지 선택해서 넣을 수 있음.*/
+			
+		//전화번호, 이메일 양방향 암호화 해제.
 	});
 	
 	/* 분류선택에서 나눔하기를 누르면 판매가격에 자동으로 0원 readonly로,

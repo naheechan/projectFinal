@@ -82,7 +82,11 @@
         									
         								</td>
         								
-        								<td><c:out value="${l.memberId }"/></td>
+        								<td>
+        									<c:set var="beforeMemberId" value="${l.memberId }"/>
+											<c:set var="afterMemberId" value="${fn:substring(beforeMemberId,0,3) }"/>
+        									<c:out value="${afterMemberId }"/>***
+        								</td>
         								<!-- 오늘 날짜를 구하기 -->
         								<c:set var="now" value="<%=new java.util.Date() %>"/>
         								<c:set var="sysCal"><fmt:formatDate value="${now }" pattern="yyyy-MM-dd"/></c:set>
@@ -101,7 +105,9 @@
         				</tbody>
         			</table>	
         		</div>
-        		<button class="btn" type="button" onclick="location.href='${path }/with/withEnroll.do'" style="float:right;background:#FCF7E1;">등록하기</button>   
+        		<c:if test="${not empty loginMember  }">
+	        		<button class="btn" type="button" onclick="location.href='${path }/with/withEnroll.do'" style="float:right;background:#FCF7E1;">등록하기</button>   
+          		</c:if>
         	</div>
 				     	
         </div>

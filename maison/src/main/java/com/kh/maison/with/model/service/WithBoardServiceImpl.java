@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.with.model.dao.WithBoardDao;
 import com.kh.maison.with.model.vo.WithAsk;
 import com.kh.maison.with.model.vo.WithBoard;
@@ -131,5 +132,12 @@ public class WithBoardServiceImpl implements WithBoardService {
 		// TODO Auto-generated method stub
 		int result = dao.inserWithAsk(session,wa);
 		return result;
+	}
+
+	@Override
+	public Member selectEmailAndPhone(int ono) {
+		// TODO Auto-generated method stub
+		
+		return null;
 	}
 }

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.maison.common.PageBarFactory;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
@@ -109,9 +110,15 @@ public class WithController {
 	
 	@RequestMapping("/with/withView.do")
 	public ModelAndView withView(int no, ModelAndView mv) {
+		//조회수 하나 올려주기
 		int wbCount = 0;
 		service.withBoardCount(no);
-		mv.addObject("withBoard",service.selectOneWith(no));
+		
+		WithBoard wb = service.selectOneWith(no);
+		//판매자의 데이터를 불러오기
+		Member seller = service.selectEmailAndPhone(no);
+		
+		mv.addObject("withBoard",wb);
 		mv.setViewName("with/withView");
 		return mv;
 	}
