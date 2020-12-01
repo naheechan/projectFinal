@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.maison.shop.vo.Product;
+import com.kh.maison.shop.vo.WishList;
 
 public interface ProductService {
 	
@@ -11,10 +12,10 @@ public interface ProductService {
 	
 	Product selectProduct(int no);
 	
-	int insertWishList(int no);
+	int insertWishList(WishList w);
 	
-	List<Map> selectWishList();
+	List<Map> selectWishList(String id);
 	
-	int deleteWishList(int no);
+	int deleteWishList(WishList w);
 
 }

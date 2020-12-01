@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.maison.shop.dao.ProductDao;
 import com.kh.maison.shop.vo.Product;
+import com.kh.maison.shop.vo.WishList;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -32,22 +33,22 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int insertWishList(int no) {
+	public int insertWishList(WishList w) {
 		// TODO Auto-generated method stub
 		
-		return dao.insertWishList(session,no);
+		return dao.insertWishList(session,w);
 	}
 
 	@Override
-	public List<Map> selectWishList() {
+	public List<Map> selectWishList(String id) {
 		// TODO Auto-generated method stub
-		return dao.selectWishList(session);
+		return dao.selectWishList(session, id);
 	}
 
 	@Override
-	public int deleteWishList(int no) {
+	public int deleteWishList(WishList w) {
 		// TODO Auto-generated method stub
-		return dao.deleteWishList(session,no);
+		return dao.deleteWishList(session,w);
 	}
 	
 	

@@ -4,6 +4,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.kh.maison.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.maison.shop.vo.WishList" alias="wishList"/>
 	</typeAliases>
 
 </configuration>

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.maison.shop.vo.Product;
+import com.kh.maison.shop.vo.WishList;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -24,22 +25,22 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int insertWishList(SqlSession session, int no) {
+	public int insertWishList(SqlSession session, WishList w) {
 		// TODO Auto-generated method stub
 		
-		return session.insert("wishList.insertWishList",no);
+		return session.insert("wishList.insertWishList",w);
 	}
 
 	@Override
-	public List<Map> selectWishList(SqlSession session) {
+	public List<Map> selectWishList(SqlSession session, String id) {
 		// TODO Auto-generated method stub
-		return session.selectList("wishList.selectWishList");
+		return session.selectList("wishList.selectWishList",id);
 	}
 
 	@Override
-	public int deleteWishList(SqlSession session, int no) {
+	public int deleteWishList(SqlSession session, WishList w) {
 		// TODO Auto-generated method stub
-		return session.delete("wishList.deleteWishList",no);
+		return session.delete("wishList.deleteWishList",w);
 	}
 	
 	

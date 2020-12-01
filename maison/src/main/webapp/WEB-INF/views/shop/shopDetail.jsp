@@ -107,8 +107,22 @@
 
 						<div class="add-to-btn">
 							<div class="add-comp">
-								<a class="btn hvr-hover" href="${path }/shop/wishList.do?no=${product.productNo}"><i class="fas fa-heart"></i> Add to wishlist</a>
-								
+								<c:if test="${loginMember.memberId!=null }">
+									<div class="container">
+									  
+									  <form action="${path }/shop/wishList.do" method="post" target="frm">
+									    <div class="form-group">
+									      <input type="hidden" class="form-control" value="${product.productNo }" name="no">
+									      <input type="hidden" class="form-control" value="${loginMember.memberId }" name="id">
+									    </div>
+									    <iframe name="frm" style="width: 1px; height: 1px;border: 0;"></iframe>
+									    <button type="submit" class="btn hvr-hover">Add to WishList</button>
+									  </form>
+									  
+									</div>
+									
+										<%-- <a class="btn hvr-hover" href="${path }/shop/wishList.do?no=${product.productNo}"><i class="fas fa-heart"></i> Add to wishlist</a> --%>
+								</c:if>				
 							</div>
 							
 						</div>
