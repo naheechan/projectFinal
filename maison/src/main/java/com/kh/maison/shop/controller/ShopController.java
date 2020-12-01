@@ -18,6 +18,7 @@ import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.shop.model.service.ShopService;
 import com.kh.maison.shop.model.vo.CateProduct;
+import com.kh.maison.shop.model.vo.Request;
 
 @Controller
 @RequestMapping("/shop")
@@ -52,11 +53,14 @@ public class ShopController {
 	
 	
 	@RequestMapping("/product/requestP.do")
-	public ModelAndView insertRequestProduct(String requestContent, ModelAndView mv) {
+	public ModelAndView insertRequestProduct(@RequestParam(value="id", required=false) String memberId, @RequestParam String requestContent, ModelAndView mv) {
 		
+		Request rq = new Request();
+		rq.setMemberId(memberId);
+		rq.setRequestContent(requestContent);
+		int result = service.insertRequestProduct(rq);
+		System.out.println(rq);
 		
-		int result = service.insertRequestProduct(requestContent);
-		System.out.println(requestContent);
 		mv.addObject("msg",result>0?"요청성공":"요청실패");
 		mv.addObject("loc","/shop/shopView.do");
 		mv.setViewName("common/msg");

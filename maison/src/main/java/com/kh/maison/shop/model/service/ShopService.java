@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.shop.model.vo.CateProduct;
+import com.kh.maison.shop.model.vo.Request;
 
 public interface ShopService {
 
@@ -13,7 +14,7 @@ public interface ShopService {
 	
 	List<Category> selectCategory();
 	List<Category> selectMediCate();
-	int insertRequestProduct(String requestContent);
+	int insertRequestProduct(Request rq);
 	
 	List<Product> selectOneMediCate(String keyword);
 	

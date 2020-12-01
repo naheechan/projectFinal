@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.shop.model.vo.CateProduct;
+import com.kh.maison.shop.model.vo.Request;
 
 public interface ShopDao {
 
@@ -15,7 +16,7 @@ public interface ShopDao {
 	
 	List<Category> selectCategory(SqlSession session);
 	List<Category> selectMediCate(SqlSession session);
-	int insertRequestProduct(SqlSession session, String requestProduct);
+	int insertRequestProduct(SqlSession session, Request rq);
 	
 	List<Product> selectOneMediCate(SqlSession session, String keyword);
 	List<CateProduct> searchCate(SqlSession session, String category);

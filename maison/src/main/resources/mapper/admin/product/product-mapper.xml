@@ -21,9 +21,6 @@
 		<!-- SELECT * FROM MEDIUMCATE -->
 	</select>
 
-	<insert id="imageUpload" parameterType="product">
-		INSERT INTO PRODUCT VALUES(SEQ_PRODUCTNO.NEXTVAL,NULL,NULL,#{PRODUCTCONTENT},NULL,NULL,0,0,#{mediumCate},SYSDATE,0)
-	</insert>
 	
 	<insert id="insertEnroll" parameterType="product">
 		INSERT INTO PRODUCT

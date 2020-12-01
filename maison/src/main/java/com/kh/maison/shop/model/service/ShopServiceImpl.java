@@ -46,8 +46,8 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public int insertRequestProduct(String requestContent) {
-		int result = dao.insertRequestProduct(session,requestContent);
+	public int insertRequestProduct(Request rq) {
+		int result = dao.insertRequestProduct(session,rq);
 		return result;
 	}
 

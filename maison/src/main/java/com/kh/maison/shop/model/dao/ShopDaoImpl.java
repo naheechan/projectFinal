@@ -41,8 +41,8 @@ public class ShopDaoImpl implements ShopDao {
 
 
 	@Override
-	public int insertRequestProduct(SqlSession session, String requestContent) {
-		return session.insert("shop.insertRequestProduct",requestContent);
+	public int insertRequestProduct(SqlSession session, Request rq) {
+		return session.insert("shop.insertRequestProduct",rq);
 	}
 
 

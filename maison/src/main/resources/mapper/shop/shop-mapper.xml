@@ -19,7 +19,7 @@
 	SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE
 </select>
 <insert id="insertRequestProduct" parameterType="Request">
-	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,'mem01',#{requestContent},'요청하기',SYSDATE)
+	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,#{memberId},#{requestContent},'요청하기',SYSDATE)
 </insert>
 
 <select id="selectOneMediCate" resultType="product" parameterType="String">

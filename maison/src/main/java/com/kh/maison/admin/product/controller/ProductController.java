@@ -189,25 +189,18 @@ public class ProductController {
 		return "admin/product/categoryEnroll";
 	}
 	
+	@ResponseBody
 	@RequestMapping("/enrollCate.do")
-	public String enrollCate(Category c, Model md) {
+	public int enrollCate(@RequestParam String largeCate,@RequestParam String mcName, Model md) {
+		
+		Category c = new Category();
+		c.setLargeCate(largeCate);
+		c.setMcName(mcName);
 		
 		int result = service.enrollCate(c);
 		
-		String msg="";
-	
 		
-		if(result>0) {
-			msg="카테고리등록성공";
-		
-		}else {
-			msg="카테고리등록실패";
-			
-		}
-		md.addAttribute("msg",msg);
-	
-		
-		return "common/msg";
+		return result;
 	}
 	
 }

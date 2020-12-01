@@ -78,7 +78,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="why-text">
-                                                    <h4><a href="${ path }/shop/shop-detail.html">${list.productName}</a></h4><br>
+                                                    <h4><a href="${ path }/shop/shopView.do?no=${list.productNo}">${list.productName}</a></h4><br>
                                                     <h5><c:out value="${list.price}">${list.price}</c:out>원</h5>
                                                 </div>
                                             </div>
@@ -132,12 +132,14 @@
                                  </c:forEach>
                                  <br>
 <!-- 관리자일경우에만 상품등록버튼 보이게 -->
+				<c:if test="${loginMember.memberId eq 'admin'}">
                         <div class="filter-price-left">
                             <div class="title-left">
                                 <h3>상품등록</h3>
                             </div>
                                <button class="btn hvr-hover" type="button" id="Enrollbtn">상품등록</button>
                             </div>
+                    </c:if>
                         </div>
                     </div>
                 </div>
@@ -224,13 +226,19 @@
 							+"</div>																																										"
 							+"<br>																																											"
 							+"<textarea rows='10' cols='80' name='requestContent' id='requestP' placeholder='이런 상품 구해주세요 ' required></textarea>			"
-							+"<c:if test='${ loginMember != null}'>																																"
-							+"<button type='submit' id='loginReqBtn' class='btn' onclick='location.replace('${path}/shop/product/requestP.do')'>요청</button>"
+							+"<c:if test='${ loginMember.memberId != null}'>																																"
+							+"<button type='submit' id='loginReqBtn' class='btn' onclick='${path}/shop/product/requestP.do?id='+${loginMember.memberId}'>요청</button>"
 							+"</c:if> 																																										"
-							+"<c:if test='${ loginMember == null }'>																															"
-							+"<button type='submit' id='reqBtn' class='btn'>요청</button>																								"
+							+"<c:if test='${ loginMember eq null }'>																															"
+							+"<button type='button' id='reqBtn' class='btn'>요청</button>																								"
 							+"</c:if>																																										"
-	                		+"</form>																																										";
+	                		+"</form>																																										"
+	                		+"<script>"
+	                		+"$('#reqBtn').click(function(){"
+	            			+"console.log('여기오니');"
+	            			+"alert('로그인 후 이용해 주세요.');"
+	            			+"});//reqBtn"
+	            			+"<script>";
 	                		requestContainer.append(html);
 	                		
 						}
@@ -297,17 +305,8 @@
 				})
 				});//cateSearch
 				
-    		$("#reqBtn").click(function(){
-    
-    		/* if(${loginMember==null}){
-    				alert("로그인 후 이용해주세요");
-    			} */
-    			
-    			
-    		
-    		});//reqBtn
     	});//onload
-				
+	
     </script>
     <script>
     	function selectOneProduct(productNo){							
