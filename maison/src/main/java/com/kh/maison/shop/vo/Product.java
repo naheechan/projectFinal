@@ -15,7 +15,7 @@ public class Product {
 	private String productName;
 	private String productSummary;
 	private String productContent;
-	private String productimg;
+	private String productImg;
 	private String productStatus;
 	private int productStock;
 	private int price;
