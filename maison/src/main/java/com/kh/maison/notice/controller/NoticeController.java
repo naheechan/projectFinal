@@ -39,10 +39,6 @@ public class NoticeController {
 		
 		List<Notice> list=service.selectNoticeList(cPage,numPerPage);
 		int totalData=service.selectCount();
-		SimpleDateFormat sdf=new SimpleDateFormat("HH:mm로 나오라고");
-		System.out.println(sdf.format(list.get(9).getNoticeDate()));
-		System.out.println("지금시간은 "+sdf.format(new Date()));
-		
 		
 		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "noticeList.do"));
 		mv.addObject("totalData",totalData);

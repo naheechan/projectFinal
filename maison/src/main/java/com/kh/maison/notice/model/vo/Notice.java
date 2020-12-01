@@ -1,10 +1,10 @@
 package com.kh.maison.notice.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 
-
+@Data
 public class Notice {
 
 	private int noticeNo;
