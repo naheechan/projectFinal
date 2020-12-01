@@ -19,9 +19,9 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public Product selectProduct(SqlSession session, int no) {
+	public Product selectProductOne(SqlSession session, int no) {
 		// TODO Auto-generated method stub
-		return session.selectOne("shop.selectProduct",no);
+		return session.selectOne("shop.selectProductOne",no);
 	}
 
 	@Override

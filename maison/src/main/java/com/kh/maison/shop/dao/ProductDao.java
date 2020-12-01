@@ -12,7 +12,7 @@ public interface ProductDao {
 
 	List<Map> selectProductList(SqlSession session);
 	
-	Product selectProduct(SqlSession session, int no);
+	Product selectProductOne(SqlSession session, int no);
 	
 	int insertWishList(SqlSession session,WishList w);
 	

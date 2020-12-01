@@ -10,7 +10,7 @@ public interface ProductService {
 	
 	List<Map> selectProductList();
 	
-	Product selectProduct(int no);
+	Product selectProductOne(int no);
 	
 	int insertWishList(WishList w);
 	

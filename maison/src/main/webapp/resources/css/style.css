@@ -662,7 +662,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: #000000;
+	background: #FCF7E1;
 	border-radius: 100%;
 	-webkit-transform: scale(0);
 	transform: scale(0);
@@ -940,7 +940,7 @@
      text-transform: uppercase;
 }
  .type-lb .new{
-     background: #000000;
+     background: #202B3F;
      color: #ffffff;
      padding: 2px 10px;
      font-weight: 700;
@@ -1756,7 +1756,7 @@
      position: relative;
 }
  .search-product input[type="text"] {
-     background: #333333;
+     background: #F2BB9C;
      border: 0;
      box-shadow: none;
      border-radius: 0;
@@ -1777,7 +1777,7 @@
      opacity: 1;
 }
  .search-product button {
-     background: #000000;
+     background: #F2BB9C;
      color: #ffffff;
      font-size: 18px;
      position: absolute;
@@ -1790,7 +1790,7 @@
      height: 100%;
 }
  .search-product button:hover{
-     background: #F2BB9C;
+     background: #202b3f;
 }
  .filter-sidebar-left{
      margin-bottom: 20px;
@@ -1868,7 +1868,7 @@
      border-radius: 0;
 }
  #slider-range {
-     background: #000000;
+     background: #202B3F;
      border: medium none;
      border-radius: 50px;
      float: left;
@@ -1936,19 +1936,22 @@
      padding-left: 15px;
 }
  .toolbar-sorter-right .btn-light{
-     background: #000000;
-     color: #ffffff;
+     background: #ffffff;
+     color: #F2BB9C;
 }
  .toolbar-sorter-right .btn-light:hover{
      background: #F2BB9C;
+     color:#ffffff;
      border-radius: 0px;
      border: none;
 }
  .toolbar-sorter-right .show > .btn-light.dropdown-toggle{
      background-color: #F2BB9C;
+     color:#ffffff;
 }
  .toolbar-sorter-right .bootstrap-select .dropdown-toggle:focus{
-     background: #F2BB9C;
+     background: #ffffff;
+     color:#F2BB9C;
 }
  .toolbar-sorter-right .dropup .dropdown-toggle::after{
      position: absolute;
@@ -1981,9 +1984,9 @@
      color: #ffffff;
 }
  .product-item-filter li .nav-link:hover {
-     background: #000000;
+     background: #ffffff;
      border: none;
-     color: #ffffff;
+     color: #F2BB9C;
 }
  .product-categori{
      margin-bottom: 30px;

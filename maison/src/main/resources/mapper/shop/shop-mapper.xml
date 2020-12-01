@@ -1,12 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="shop">
-  <select id="shopList" resultType="map">
+
+  <!-- <select id="shopList" resultType="map">
   	SELECT * FROM PRODUCT
-  </select>
+  </select> -->
   
-  <select id="selectProduct" resultType="com.kh.maison.shop.vo.Product" parameterType="_int">
+  <select id="selectProductOne" resultType="com.kh.maison.shop.vo.Product" parameterType="_int">
   	SELECT * FROM PRODUCT WHERE PRODUCTNO=#{no}
   </select>
   
+
+
+<select id="selectProductList" resultType="product">
+	SELECT * FROM PRODUCT
+	<!-- <if test="largeCate!=null">
+		AND LARGECATE LIKE=#{largeCate}
+	</if> -->
+</select>
+<select id="selectCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT
+</select>
+
+<select id="selectCategory" resultType="category">
+	SELECT DISTINCT LARGECATE FROM MEDIUMCATE
+</select>
+<select id="selectMediCate" resultType="category">
+	SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE
+</select>
+<insert id="insertRequestProduct" parameterType="Request">
+	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,#{memberId},#{requestContent},'요청하기',SYSDATE)
+</insert>
+
+<select id="selectOneMediCate" resultType="product" parameterType="String">
+	SELECT PRODUCTNO, PRODUCTNAME,
+	 		   PRODUCTIMG, PRICE
+	FROM   PRODUCT 
+	WHERE PRODUCTNAME LIKE '%' || #{keyword} || '%'
+</select>
+
+<select id="searchCate" resultType="cateProduct" parameterType="String">
+	SELECT M.*, P.PRODUCTNAME, P.PRODUCTIMG, P.MEDIUMCATE AS MEDICATE, P.PRICE 
+	FROM MEDIUMCATE M, PRODUCT P 
+	WHERE M.MEDIUMCATE=P.MEDIUMCATE 
+</select>
+
 </mapper>

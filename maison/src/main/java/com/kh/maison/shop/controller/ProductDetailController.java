@@ -26,7 +26,7 @@ public class ProductDetailController {
 	@RequestMapping("/shop/shopDetail.do")
 	public ModelAndView selectProductOne(ModelAndView mv, int no) {
 		
-		mv.addObject("product",service.selectProduct(no));
+		mv.addObject("product",service.selectProductOne(no));
 		mv.setViewName("shop/shopDetail");
 		
 		return mv;

@@ -49,7 +49,9 @@
 				<ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
 					<!-- 눌려졌을때를 표현하고 싶으면 li class에 active를 추가하세요. -->
 					<li class="nav-item"><a class="nav-link" href="index.html">메종은?</a></li>
-					<li class="nav-item"><a class="nav-link" href="${path }/shop/shopList.do">쇼핑해요</a></li>
+
+					<li class="nav-item"><a class="nav-link" href="${ path }/shop/shopView.do">쇼핑해요</a></li>
+
 					<li class="nav-item"><a class="nav-link" href="${path }/with/withList.do">함께해요</a></li>
  					<li class="dropdown">
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요</a>
@@ -58,6 +60,7 @@
 							<li><a href="shop-detail.html">질문해요</a></li>
 						</ul>
 					</li>
+
 					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑시계</a></li>
 				</ul>
 			</div>
@@ -100,17 +103,29 @@
             <li class="cart-box">
                 <ul class="cart-list">
                     <li>
+
+                        <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+
                         <a href="#" class="photo"><img src="${path }/resources/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Delica omtantur </a></h6>
                         <p>1x - <span class="price">$80.00</span></p>
                     </li>
                     <li>
+
+                        <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+
                         <a href="#" class="photo"><img src="${path }/resources/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Omnes ocurreret</a></h6>
                         <p>1x - <span class="price">$60.00</span></p>
                     </li>
                     <li>
+
+                        <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+
                         <a href="#" class="photo"><img src="${path }/resources/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Agam facilisis</a></h6>
                         <p>1x - <span class="price">$40.00</span></p>
                     </li>

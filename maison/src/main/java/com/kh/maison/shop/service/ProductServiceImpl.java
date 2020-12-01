@@ -27,9 +27,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product selectProduct(int no) {
+	public Product selectProductOne(int no) {
 		// TODO Auto-generated method stub
-		return dao.selectProduct(session,no);
+		return dao.selectProductOne(session,no);
 	}
 
 	@Override
