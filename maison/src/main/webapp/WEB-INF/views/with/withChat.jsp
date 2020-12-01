@@ -58,7 +58,8 @@
 		<!-- ${withBoard.memberId }랑 ${loginMember.memberId}랑 같은 사람일때는
 		float:left div 다른 사람일때는 float:right띄우기 
 		nickname에 value를 ${loginMember.memberId }로 데이터 넣기 -->
-		<input type="hidden" id="nickname" value="user02"/>
+		<input type="hidden" id="nickname" value="${loginMember.memberId }"/>
+		<input type="hidden" id="writer" value="${withBoard.memberId }"/>
 		<input type="hidden" id="wbNo" value="${withBoard.wbNo }"/>		
 		<h2 style="margin-bottom:3px;padding-top:5px;"><c:out value="${withBoard.memberId }"/></h2>
 		<h5 style="margin:5px;padding-bottom:10px;padding-top:5px;"><c:out value="${withBoard.wbTitle }"/></h5>
@@ -70,8 +71,7 @@
 		
 		</div>
 	
-		<textarea rows="3" id="message" class="form-control">안녕하세요 [<c:out value="${withBoard.wbTitle }"/>]상품 문의드립니다.
-		</textarea>
+		<textarea rows="3" id="message" class="form-control"><c:if test="${withBoard.memberId ne loginMember.memberId }">안녕하세요 [<c:out value="${withBoard.wbTitle }"/>]상품 문의드립니다.</c:if></textarea>
 		<button class="btn" id="send">보내기</button>	
 	</div>
 	<script type="text/javascript">
@@ -145,9 +145,25 @@
 		}
 		
 		function onMessage(evt){
+			writer = document.getElementById("writer").value;
+			nickname = document.getElementById("nickname").value;
 			data = evt.data;
+			var nicknameChk = "";
+			if(!data.includes(':')){
+				console.log(data.indexOf('님'));
+				console.log(data.substring(0,data.indexOf('님')));
+				nicknameChk = data.substring(0,data.indexOf('님'));
+			}else{
+				console.log(data.indexOf(':'));
+				console.log(data.substring(0,data.indexOf(':')));	
+				nicknameChk = data.substring(0,data.indexOf(':')-1);
+			}
 			chatarea = document.getElementById("chatarea");
-			chatarea.innerHTML = "<div style='background:#FCF7E1;float:right;margin:2%;padding:2%;border-radius:5px;'>"+data+"</div>"+ "<br/><br/><br/><br/>"+chatarea.innerHTML;
+			if(writer == nicknameChk){
+				chatarea.innerHTML += "<div style='background:#F2BB9C;float:left;margin:2%;padding:2%;border-radius:5px;'>"+data+"</div>"+ "<br/><br/><br/><br/>";				
+			}else{
+				chatarea.innerHTML += "<div style='background:#FCF7E1;float:right;margin:2%;padding:2%;border-radius:5px;'>"+data+"</div>"+ "<br/><br/><br/><br/>";	
+			}
 		}
 		
 		function onClose(){

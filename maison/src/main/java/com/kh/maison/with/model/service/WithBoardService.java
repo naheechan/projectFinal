@@ -42,5 +42,5 @@ public interface WithBoardService {
 	
 	int insertWithask(WithAsk wa);
 	
-	Member selectEmailAndPhone(int ono);
+	Member selectEmailAndPhone(int no);
 }

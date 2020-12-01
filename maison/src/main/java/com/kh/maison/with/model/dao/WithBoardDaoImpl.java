@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.with.model.vo.WithAsk;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
@@ -109,6 +110,12 @@ public class WithBoardDaoImpl implements WithBoardDao {
 	public int inserWithAsk(SqlSessionTemplate session, WithAsk wa) {
 		// TODO Auto-generated method stub
 		return session.insert("with.withAskInsert",wa);
+	}
+
+	@Override
+	public Member selectEmailAndPhone(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("with.withEmailAndPhone",no);
 	}
 
 }

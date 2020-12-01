@@ -165,4 +165,11 @@
 							SYSDATE
 		)			
 	</insert>
+	
+	<select id="withEmailAndPhone" parameterType="_int" resultType="member">
+		SELECT M.EMAIL, M.PHONE 
+			FROM MEMBER M, WITHBOARD W 
+			WHERE M.MEMBERID = W.MEMBERID
+				AND W.WBNO = #{no}
+	</select>
 </mapper>

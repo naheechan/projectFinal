@@ -135,9 +135,9 @@ public class WithBoardServiceImpl implements WithBoardService {
 	}
 
 	@Override
-	public Member selectEmailAndPhone(int ono) {
+	public Member selectEmailAndPhone(int no) {
 		// TODO Auto-generated method stub
-		
-		return null;
+		Member m = dao.selectEmailAndPhone(session,no);
+		return m;
 	}
 }

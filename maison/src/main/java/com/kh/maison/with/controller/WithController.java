@@ -117,7 +117,7 @@ public class WithController {
 		WithBoard wb = service.selectOneWith(no);
 		//판매자의 데이터를 불러오기
 		Member seller = service.selectEmailAndPhone(no);
-		
+		mv.addObject("seller",seller);
 		mv.addObject("withBoard",wb);
 		mv.setViewName("with/withView");
 		return mv;
@@ -201,7 +201,8 @@ public class WithController {
 	public ModelAndView withStatusUpdate(WithBoard wb, ModelAndView mv) {
 		
 		service.withStatusUpdate(wb);
-		
+		//판매자의 데이터를 불러오기
+		mv.addObject("seller",service.selectEmailAndPhone(wb.getWbNo()));
 		mv.addObject("withBoard",service.selectOneWith(wb.getWbNo()));
 		mv.setViewName("with/withView");
 		return mv;

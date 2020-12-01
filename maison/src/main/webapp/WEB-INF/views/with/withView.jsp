@@ -11,6 +11,14 @@
 		shipments = Arrays.asList(shipment);
 	}
 %>
+<%@ page import="com.kh.maison.common.crypto.AES256Util,com.kh.maison.member.model.vo.Member" %>
+<!-- loginMember의 값들은 암호화가 된채로 넘어온다. 그러므로 aes와 session값을 가지고 decrypt처리해준다. -->
+<%
+	AES256Util aes = new AES256Util();
+	Member m = (Member)request.getAttribute("seller");
+	String dEmail = aes.decrypt(m.getEmail());
+	String dPhone = aes.decrypt(m.getPhone());
+%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="함께해요 상세화면"/>
@@ -73,9 +81,11 @@
 	                	&nbsp;
 	                	<!-- 작성자랑 loginMember랑 같은 사람이면 구매문의 안뜨게,
 	                	loginMember session null일때도 안떠야함.  -->
-	                	<span style="background-color:rgba(210,210,210,0.6);padding:2px;border-radius:5px;" id="chatSpan">
-	                		구매문의
-	                	</span>
+	                	<c:if test="${not empty loginMember }">
+			                	<span style="background-color:rgba(210,210,210,0.6);padding:2px;border-radius:5px;" id="chatSpan">
+			                		구매문의
+			                	</span>          		
+	                	</c:if>
 	                </h4>
 					<c:set var="dateTempParse"><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${withBoard.wbDate }"/></c:set>
 	                <h5><c:out value="${dateTempParse }"/></h5>
@@ -138,38 +148,53 @@
 							<td>
 								<c:choose>
 									<c:when test="${withBoard.wbPhone eq 'N' }">
-									<%-- memberId에서 조인해서 이메일 똭 --%>
-										ganam0820@naver.com
+									
+										<%=dEmail %>
 									</c:when>
 									<c:when test="${withBoard.wbPhone eq 'Y' }">
-										ganam0820@naver.com | 01012341234
+										<%=dEmail %>&nbsp; | &nbsp;<%=dPhone %>
 									</c:when>
 								</c:choose>
-								<!-- c:if로 ${loginMember.memberId }랑 withBoard.memberId가 일치할때만 얘가 뜨게 하기. -->
+								
 							</td>
 							<td>	
-								<form name="wbStatusUpdateForm" action="${path }/with/withStatusUpdate.do">
-									<input type="hidden" value="${withBoard.wbNo }" name="wbNo">
-									<select class="form-control" name="wbStatus" id="wbStatus">
-										<c:choose>
-											<c:when test="${withBoard.wbStatus eq 'N' }">
-												<option selected value="N">판매중</option>
-												<option value="P">예약중</option>
-												<option value="Y">판매완료</option>
-											</c:when>
-											<c:when test="${withBoard.wbStatus eq 'P' }">
-												<option selected value="P">예약중</option>
-												<option value="N">판매중</option>
-												<option value="Y">판매완료</option>												
-											</c:when>
-											<c:when test="${withBoard.wbStatus eq 'Y' }">
-												<option selected value="Y">판매완료</option>
-												<option value="N">판매중</option>												
-												<option value="P">예약중</option>
-											</c:when>											
-										</c:choose>									
-									</select>
-								</form>
+								<c:if test="${loginMember.memberId eq withBoard.memberId }">
+									<form name="wbStatusUpdateForm" action="${path }/with/withStatusUpdate.do">
+										<input type="hidden" value="${withBoard.wbNo }" name="wbNo">
+										<select class="form-control" name="wbStatus" id="wbStatus">
+											<c:choose>
+												<c:when test="${withBoard.wbStatus eq 'N' }">
+													<option selected value="N">판매중</option>
+													<option value="P">예약중</option>
+													<option value="Y">판매완료</option>
+												</c:when>
+												<c:when test="${withBoard.wbStatus eq 'P' }">
+													<option selected value="P">예약중</option>
+													<option value="N">판매중</option>
+													<option value="Y">판매완료</option>												
+												</c:when>
+												<c:when test="${withBoard.wbStatus eq 'Y' }">
+													<option selected value="Y">판매완료</option>
+													<option value="N">판매중</option>												
+													<option value="P">예약중</option>
+												</c:when>											
+											</c:choose>									
+										</select>
+									</form>
+								</c:if>
+								<c:if test="${loginMember.memberId ne withBoard.memberId }">
+									<c:choose>
+										<c:when test="${withBoard.wbStatus eq 'N' }">
+											판매중
+										</c:when>
+										<c:when test="${withBoard.wbStatus eq 'P' }">
+											예약중
+										</c:when>
+										<c:when test="${withBoard.wbStatus eq 'Y' }">
+											판매완료
+										</c:when>
+									</c:choose>
+								</c:if>
 							</td>
 						</tr>
 					</tbody>
@@ -191,23 +216,25 @@
 			<div class="col-lg-12 ">
 				<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
 					<form name="commentInsertForm">
-						<!-- value에 ${loginMember.memberId }넣기 
-						${loginMember != null}조건 넣기 null이면 댓글을 쓰시려면 로그인하세요. 이런식으로 조건-->
-						<input type="hidden" value="user01" name="memberId">
 						<input type="hidden" value="${withBoard.wbNo }" name="wbNo" class="board_id"/>
-						<label for="wcContent" style="font-weight:bold;">user01</label>
-									
-						<div class="form-row">
-							<div class="form-group col-md-10">
-								<textarea class="form-control" name="wcContent" id="reply_content" rows="3" cols="25" style="resize:none;">
-									<%-- <c:out value="${loginMember.memberId }"/> --%>
-								</textarea>
+						<c:if test="${not empty loginMember  }">
+							<!-- value에 ${loginMember.memberId }넣기 
+							${loginMember != null}조건 넣기 null이면 댓글을 쓰시려면 로그인하세요. 이런식으로 조건-->
+							<input type="hidden" value="${loginMember.memberId }" name="memberId" id="bringMemberId">
+							<label for="wcContent" style="font-weight:bold;">${loginMember.memberId }</label>
+										
+							<div class="form-row">
+								<div class="form-group col-md-10">
+									<textarea class="form-control" name="wcContent" id="reply_content" rows="3" cols="25" style="resize:none;">
+										<%-- <c:out value="${loginMember.memberId }"/> --%>
+									</textarea>
+								</div>
+								<div class="form-group col-md-2">
+									<button class="btn" name="commentInsertBtn" id="reply_save" type="button" style="width:100%;height:100%;">등록</button>
+								</div>
 							</div>
-							<div class="form-group col-md-2">
-								<button class="btn" name="commentInsertBtn" id="reply_save" type="button" style="width:100%;height:100%;">등록</button>
-							</div>
-						</div>
-					</form>
+						</c:if>
+					</form>	
 				</div>
 				<div class="commentList">
 <!-- 				 <div class="media">
@@ -241,8 +268,10 @@
 					<i class='fas fa-pen'></i>&nbsp;글쓰기
 				</button>&nbsp;
 			<!-- 수정삭제는 ${withBoard.memberId }랑 ${loginMember.memberId }랑 일치하면 뜨게해줘야 함. -->
-				<button type="button" class="btn" onclick="location.href='${path }/with/withUpdate.do?wbNo=${withBoard.wbNo }'">수정하기</button>&nbsp;
-				<button type="button" class="btn" onclick="location.href='${path }/with/withRemove.do?wbNo=${withBoard.wbNo }'">삭제하기</button>
+				<c:if test="${withBoard.memberId eq loginMember.memberId }">
+					<button type="button" class="btn" onclick="location.href='${path }/with/withUpdate.do?wbNo=${withBoard.wbNo }'">수정하기</button>&nbsp;
+					<button type="button" class="btn" onclick="location.href='${path }/with/withRemove.do?wbNo=${withBoard.wbNo }'">삭제하기</button>
+				</c:if>
 			</div>
 		</div>     	
 	</div>
@@ -250,6 +279,9 @@
 <script>
 //게시글 번호
 var bno = $(".board_id").val();
+//세션 데이터
+var mId = $("#bringMemberId").val();
+
 //댓글 등록 버튼 클릭시
 $('[name=commentInsertBtn]').click(function(){
 	var insertData = $('[name=commentInsertForm]').serialize();
@@ -300,11 +332,14 @@ function commentList(){
 					a+='<p class="komen">';
 					a+=value.wcContent+'<br>';
 					if(value.wcDel=='Y'){
-						a+='<a style="float:right;" name="reply_reply" href="'+'#'+'">reply</a>';
+						if(mId!=null){
+							a+='<a style="float:right;" name="reply_reply" href="'+'#'+'">reply</a>';							
+						}
 					/* edit랑 remove는 ${loginMember.memberId }랑 value.memberId랑 일치할때만 보이게 조건 추가 필요함 */
-					
-						a+='<a name="reply_edit" onclick="commentUpdate('+value.wcNo+',\''+value.wcContent+'\');">edit</a>';
-						a+='&nbsp;&nbsp;<a name="reply_remove" onclick="commentDelete('+value.wcNo+');">remove</a>';
+						if(mId==value.memberId){
+							a+='<a name="reply_edit" onclick="commentUpdate('+value.wcNo+',\''+value.wcContent+'\');">edit</a>';
+							a+='&nbsp;&nbsp;<a name="reply_remove" onclick="commentDelete('+value.wcNo+');">remove</a>';							
+						}
 					}
 					a+='</p></div></div><br>';					
 				}
@@ -319,8 +354,10 @@ function commentList(){
 					a+=value.wcContent+'<br>';
 					/* edit랑 remove는 ${loginMember.memberId }랑 value.memberId랑 일치할때만 보이게 조건 추가 필요함 */
 					if(value.wcDel=='Y'){
-						a+='<a name="reply_edit" onclick="commentUpdate('+value.wcNo+',\''+value.wcContent+'\');">edit</a>';
-						a+='&nbsp;&nbsp;<a name="reply_remove" onclick="commentDelete('+value.wcNo+');">remove</a>';						
+						if(mId!=null && mId==value.memberId){
+							a+='<a name="reply_edit" onclick="commentUpdate('+value.wcNo+',\''+value.wcContent+'\');">edit</a>';
+							a+='&nbsp;&nbsp;<a name="reply_remove" onclick="commentDelete('+value.wcNo+');">remove</a>';							
+						}
 					}
 					a+='</p></div></div></div><br>';	
 				}
@@ -346,7 +383,7 @@ $(document).on("click","a[name='reply_reply']",function(){
 	b+='<div style="margin-left:55px;">'
 	b+='<form name="commentInsertFormSecond">';
 	b+='<input type="hidden" value="'+sib+'" name="wcParent"/>';
-	b+='<input type="hidden" value="'+'user01'+'" name="memberId"/>';
+	b+='<input type="hidden" value="'+mId+'" name="memberId"/>';
 	b+='<input type="hidden" value="'+bno+'" name="wbNo"/>';
 	b+='<label for="wcContent" style="font-weight:bold;">'+'ㄴ&nbsp;'+'user01'+'</label>';
 	b+='<div class="form-row"><div class="form-group col-md-9">';
@@ -398,7 +435,7 @@ function commentUpdate(wcn,wcc){
 		c+='<div>';
 		c+='<form name="commentUpdateForm">';
 		/* 잊지말자 아이디는 세션값을 저장해둔 애로 불러오는거다*/
-		c+='<input type="hidden" value="'+'user01'+'" name="memberId"/>';
+		c+='<input type="hidden" value="'+mId+'" name="memberId"/>';
 		c+='<input type="hidden" value="'+wcn+'" name="wcNo"/>';
 		c+='<label for="wcContent" style="font-weight:bold;">'+'user01'+'</label>';
 		c+='<div class="form-row"><div class="form-group col-md-10">';
