@@ -74,7 +74,7 @@ public class BasketController {
 
 		List<Map> list = service.selectBasketList(memberId);
 		mv.addObject("list", list);
-		mv.setViewName("/basket/amountChange");
+		mv.setViewName("basket/amountChange");
 
 		return mv;
 	}
