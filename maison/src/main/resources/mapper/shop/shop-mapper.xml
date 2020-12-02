@@ -2,7 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="shop">
 
-<select id="selectProduct" resultType="product">
+  <!-- <select id="shopList" resultType="map">
+  	SELECT * FROM PRODUCT
+  </select> -->
+  
+  <select id="selectProductOne" resultType="com.kh.maison.shop.vo.Product" parameterType="_int">
+  	SELECT * FROM PRODUCT WHERE PRODUCTNO=#{no}
+  </select>
+  
+
+
+<select id="selectProductList" resultType="product">
 	SELECT * FROM PRODUCT
 	<!-- <if test="largeCate!=null">
 		AND LARGECATE LIKE=#{largeCate}
@@ -34,4 +44,5 @@
 	FROM MEDIUMCATE M, PRODUCT P 
 	WHERE M.MEDIUMCATE=P.MEDIUMCATE 
 </select>
+
 </mapper>

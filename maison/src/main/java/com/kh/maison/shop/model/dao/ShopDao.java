@@ -11,7 +11,7 @@ import com.kh.maison.shop.model.vo.Request;
 
 public interface ShopDao {
 
-	List<Product> selectProduct(SqlSession session,int cPage, int numPerPage);
+	List<Product> selectProductList(SqlSession session,int cPage, int numPerPage);
 	int selectCount(SqlSession session);
 	
 	List<Category> selectCategory(SqlSession session);

@@ -9,7 +9,7 @@ import com.kh.maison.shop.model.vo.Request;
 
 public interface ShopService {
 
-	List<Product> selectProduct(int cPage, int numPerPage);
+	List<Product> selectProductList(int cPage, int numPerPage);
 	int selectCount();
 	
 	List<Category> selectCategory();

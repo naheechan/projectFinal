@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -21,6 +23,17 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 장바구니 헤더 표시를 위한 인터셉터 -->
+	<interceptors>
+		<interceptor>
+				<mapping path="/**"/>
+				<beans:bean class="com.kh.maison.common.interceptor.BasketInterceptor"/>
+		</interceptor>	
+	</interceptors>
+	
+	
+	
+	
 	<!-- Resolver for File Upload -->
 	<beans:bean id="multipartResolver"
 	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -28,10 +41,10 @@
 		<!-- 이게 10mb임 -->
 		</beans:property>
 	</beans:bean>	
-			<beans:bean id="viewResolver" 
+	<beans:bean id="viewResolver" 
 		class="org.springframework.web.servlet.view.BeanNameViewResolver">
 			<beans:property name="order" value="1"/>
-		</beans:bean>
+	</beans:bean>
 		<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
 		<beans:bean id="jacksonMessageConverter"
 			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
@@ -69,6 +82,10 @@
 	
 	<context:component-scan base-package="com.kh.maison" />
 	
+	<websocket:handlers>
+		<websocket:mapping handler="chatHandler" path="/chat-ws"/>
+	</websocket:handlers>
 	
-	
+	<beans:bean id="chatHandler" class="com.kh.maison.with.chat.controller.ChatHandler"/>
 </beans:beans>
+

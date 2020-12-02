@@ -24,8 +24,8 @@ public class ShopServiceImpl implements ShopService {
 	
 	
 	@Override
-	public List<Product> selectProduct(int cPage, int numPerPage) {
-		return dao.selectProduct(session,cPage,numPerPage);
+	public List<Product> selectProductList(int cPage, int numPerPage) {
+		return dao.selectProductList(session,cPage,numPerPage);
 	}
 
 	

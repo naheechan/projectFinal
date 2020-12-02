@@ -78,7 +78,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="why-text">
-                                                    <h4><a href="${ path }/shop/shopView.do?no=${list.productNo}">${list.productName}</a></h4><br>
+                                                    <h4><a href="${ path }/shop/shopDetail.do?no=${list.productNo}">${list.productName}</a></h4><br>
                                                     <h5><c:out value="${list.price}">${list.price}</c:out>원</h5>
                                                 </div>
                                             </div>

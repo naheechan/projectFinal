@@ -149,6 +149,7 @@
      z-index: 9999;
      width: 32px;
      height: 32px;
+     padding-top:12px;
      text-align: center;
      line-height: 5px;
      background: #F2BB9C;
@@ -158,7 +159,7 @@
      border-radius: 0px;
      text-decoration: none;
      transition: opacity 0.2s ease-out;
-     font-size: 28px;
+     font-size: 20px;
 }
 /*------------------------------------------------------------------ HEADER -------------------------------------------------------------------*/
  .main-top{
@@ -634,6 +635,10 @@
 .side-menu p{
 	display: inline-block;
 }
+.side-menu2 p{
+	display: inline-block;
+	
+}
  .col-menu .title{
      font-size: 20px;
      font-weight: 700;
@@ -735,7 +740,7 @@
      line-height: 40px;
 }
  .top-search input.form-control{
-     color: #ffffff;
+     color: #000000;
 }
 /*------------------------------------------------------------------ Slider -------------------------------------------------------------------*/
  .cover-slides{
@@ -908,7 +913,8 @@
      font-size: 18px;
 }
  .filter-button-group button.active{
-     background: #000000;
+     /* background: #000000; */
+     background:#FCF7E1;
 }
  .filter-button-group button{
 }

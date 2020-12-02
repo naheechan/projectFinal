@@ -264,17 +264,23 @@
     		if(window.FileReader){
     			var reader = new FileReader();
     			reader.onload = function(e){
-    				$('body').append('<img src="" id="temp_img" style="display:none;"/>');
-    				$img = $('#temp_img').attr('src',e.target.result);
-    				if($img.width() != $width || $img.height() != $height){          
-    					alert('파일사이즈는 ('+$width+'x'+$height+')입니다.');
-    					$target.val('');
-    					$('#temp_img').remove();
-    					return;
+    				$img = $('<img>').attr({'src':e.target.result,"id":'temp_img'}).css({"height":"300px","width":"300px","display":"none"});
+    				$('body').append($img);
+    				let img=new Image();
+    				img.onload=function(e){
+        				if(e.target.width != $width && e.target.height != $height){          
+        					alert('파일사이즈는 ('+$width+'x'+$height+')입니다.');
+        					$target.val('');
+        					$('#temp_img').remove();
+        					return;
+        				}
     				}
-    			};
+    				img.src=e.target.result;
+    				    				
+    			}
     			reader.readAsDataURL($(this)[0].files[0]);//파일을 img태그에 보여줄 수 있도록 base64로 url생성
-    		}else{
+    		}
+    		/* else{
     			$(this)[0].select();
     			var src = document.selection.createRange().text;
     			$('body').append('<img src="" id="temp_img" style="display:none;"/>');
@@ -286,7 +292,7 @@
     				return;
     			}
     		}
-    		$('#temp_img').remove();
+    		$('#temp_img').remove(); */
     	})
     
     </script>

@@ -17,8 +17,8 @@ import com.kh.maison.shop.model.vo.Request;
 public class ShopDaoImpl implements ShopDao {
 
 	@Override
-	public List<Product> selectProduct(SqlSession session,int cPage, int numPerPage) {
-		return session.selectList("shop.selectProduct",null,
+	public List<Product> selectProductList(SqlSession session,int cPage, int numPerPage) {
+		return session.selectList("shop.selectProductList",null,
 				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
