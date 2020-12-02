@@ -85,9 +85,9 @@ public class BasketController {
 	  
 			String msg = "";
 			String loc = "";
-
 			String[] basketNos = request.getParameterValues("basketNo");
-
+			
+			
 			// 장바구니에 상품이 없을때
 			if (basketNos == null) {
 				msg = "장바구니에 담긴 상품이 없습니다 !";

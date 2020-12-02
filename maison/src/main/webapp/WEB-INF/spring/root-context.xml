@@ -15,8 +15,8 @@
 		<!-- DB에 대한 연결정보의 값을 각 필드에 대입해줌 -->
 		<!-- property나오면   setter-->
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="maiison"/>
+		<property name="url" value="jdbc:oracle:thin:@rclass.iptime.org:1521:xe"/>
+		<property name="username" value="maison"/>
 		<property name="password" value="maison"/>
 	</bean>
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">

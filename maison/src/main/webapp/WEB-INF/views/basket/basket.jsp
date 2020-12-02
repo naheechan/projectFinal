@@ -40,7 +40,7 @@
                                 	<td><input type="checkbox" name="basketChecked" value="${list.BASKETNO }" checked></td>
                                     <td class="thumbnail-img">
                                         <a href="#">
-									<img class="" src='${list.PRODUCTIMG }' height="100px" alt="" />
+									<img class="" src='${path }/resources/images/upload/product/${list.PRODUCTIMG }' height="100px" alt="상품 이미지" />
 										</a>
                                     </td>
                                     <td class="name-pr">
@@ -132,7 +132,6 @@
 <script>
 $(function(){
 	
-	console.log(${list});
 	
 	
 	$("#orderbtn").on('click',function(e){

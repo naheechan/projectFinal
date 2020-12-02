@@ -10,7 +10,7 @@
 	</select>
 	
 	<insert id="insertNotice" parameterType="map" >
-		INSERT INTO NOTICE VALUES(NOTICESEQ.NEXTVAL,#{noticeTitle},#{noticeContent},default,default,default)
+		INSERT INTO NOTICE VALUES(SEQ_NOTICE.NEXTVAL,#{noticeTitle},#{noticeContent},default,default,default)
 	</insert>
 	
 	<select id="selectNoticeOne" parameterType="_int" resultType="notice">
