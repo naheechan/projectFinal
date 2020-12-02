@@ -7,19 +7,18 @@
       http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-<beans:bean id="bcryptPassword" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 
-</beans:bean>
-
-   <annotation-driven />
-   
-   <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-      <beans:property name="prefix" value="/WEB-INF/views/" />
-      <beans:property name="suffix" value=".jsp" />
-   </beans:bean>
-   
-   <context:component-scan base-package="com.kh.masion" />
+	<annotation-driven />
+	
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="com.kh.masion" />
+		<beans:bean id="bcryptPassword" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		</beans:bean>
+	
 
 </beans:beans>
-
 

@@ -59,5 +59,6 @@ public class PageBarFactory {
 		
 		
 		return pageBar;
+
 	}
 }

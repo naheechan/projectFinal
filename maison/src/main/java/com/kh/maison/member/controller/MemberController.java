@@ -302,6 +302,7 @@ public class MemberController {
 			//프로필 정보 확인
 			JSONObject jsonData = (JSONObject)((JSONObject)parser.parse(responseBody)).get("response");
 			String id = jsonData.get("id").toString();
+
 			//String age = jsonData.get("age").toString();
 			String gender = jsonData.get("gender").toString();
 			String email = jsonData.get("email").toString();
