@@ -215,6 +215,7 @@
 						 });
 						}else{
 							requestContainer.empty();
+							if(${loginMember.memberId != 'admin'}){
 					html = " <form action='${path}/shop/product/requestP.do' method='post'>																					"
 							+"<div>																																											"
 							+"<h2><strong>💌 요청해요</strong></h2><br><br>																											"
@@ -240,6 +241,10 @@
 	            			+"});//reqBtn"
 	            			+"<script>";
 	                		requestContainer.append(html);
+							}else{
+								html="<h4>조회하신 상품이 없습니다.</h4>";
+								requestContainer.append(html);
+							}
 	                		
 						}
 						/* }); */

@@ -42,6 +42,7 @@ public class ShopDaoImpl implements ShopDao {
 
 	@Override
 	public int insertRequestProduct(SqlSession session, Request rq) {
+		System.out.println("요청해요 "+rq);
 		return session.insert("shop.insertRequestProduct",rq);
 	}
 
