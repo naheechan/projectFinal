@@ -159,10 +159,10 @@
 				nicknameChk = data.substring(0,data.indexOf(':')-1);
 			}
 			chatarea = document.getElementById("chatarea");
-			if(writer == nicknameChk){
-				chatarea.innerHTML += "<div style='background:#F2BB9C;float:left;margin:2%;padding:2%;border-radius:5px;'>"+data+"</div>"+ "<br/><br/><br/><br/>";				
-			}else{
+			if(nickname == nicknameChk){
 				chatarea.innerHTML += "<div style='background:#FCF7E1;float:right;margin:2%;padding:2%;border-radius:5px;'>"+data+"</div>"+ "<br/><br/><br/><br/>";	
+			}else{
+				chatarea.innerHTML += "<div style='background:#F2BB9C;float:left;margin:2%;padding:2%;border-radius:5px;'>"+data+"</div>"+ "<br/><br/><br/><br/>";				
 			}
 		}
 		
