@@ -45,7 +45,7 @@ public class BasketController {
 			mv.setViewName("basket/basket");
 		} else {
 			mv.addObject("msg", "로그인 후 이용가능합니다 !");
-			mv.addObject("loc", "member/login");
+			mv.addObject("loc", "/member/login");
 			mv.setViewName("common/msg");
 
 		}
