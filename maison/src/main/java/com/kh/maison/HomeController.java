@@ -2,6 +2,7 @@ package com.kh.maison;
 
 import java.util.Map;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ public class HomeController {
 	@Autowired
 	MemberService service;
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -31,6 +31,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model, @RequestParam Map<String,String> map) {
 		
+
 		if(map.get("authId")!=null && map.get("authKey")!=null) {
 			//사용자 이메일 인증
 			Member mem = service.selectMemberOne(map.get("authId"));

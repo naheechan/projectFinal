@@ -35,7 +35,7 @@
 		                                    </td>
 		                                    <td class="thumbnail-img">
 		                                        <a href="#">
-													<img class="img-fluid" src="images/img-pro-02.jpg" alt="" />
+													<img class="img-fluid" src="${path }/resources/upload/product/${w.PRODUCTIMG }" alt="" />
 												</a>
 		                                    </td>
 	

@@ -1,3 +1,4 @@
+
 /* only small desktops */
 /* tablets */
 /* only small tablets */
@@ -14,7 +15,7 @@
          width: 100%;
     }
      .navbar-light .navbar-toggler{
-         border-color: #b0b435;
+         border-color: #f2bb9c;
          color: #010101;
          border-radius: 0px;
          margin-right: 7px;
@@ -79,7 +80,7 @@
          width: 80%;
     }
      .navbar-light .navbar-toggler{
-         border-color: #b0b435;
+         border-color: #f2bb9c;
          color: #010101;
          border-radius: 0px;
          margin-right: 7px;
@@ -139,7 +140,7 @@
          font-size: 16px;
     }
      nav.navbar.bootsnav ul.nav li.dropdown ul.dropdown-menu > li > a:hover{
-         color: #b0b435;
+         color: #f2bb9c;
     }
      .hover-team{
          margin-bottom: 30px;
@@ -206,7 +207,7 @@
 }
  @media only screen and (min-width: 280px) and (max-width: 599px) {
      .navbar-light .navbar-toggler{
-         border-color: #b0b435;
+         border-color: #f2bb9c;
          color: #010101;
          border-radius: 0px;
          margin-right: 7px;
@@ -264,7 +265,7 @@
          font-size: 16px;
     }
      nav.navbar.bootsnav ul.nav li.dropdown ul.dropdown-menu > li > a:hover{
-         color: #b0b435;
+         color: #f2bb9c;
     }
      .hover-team{
          margin-bottom: 30px;
@@ -326,6 +327,9 @@
 		margin-bottom: 30px;
 	}
 	.side-menu p{
+		display: none;
+	}
+	.side-menu2 p{
 		display: none;
 	}
 }

@@ -1,27 +1,47 @@
 package com.kh.maison.with.controller;
 
 import java.io.File;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.maison.common.PageBarFactory;
+import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.with.model.service.WithBoardService;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 @Controller
 public class WithController {
 	
+	@Autowired
+	private WithBoardService service;
+	
 	@RequestMapping("/with/withList.do")
-	public String selectAllWith() {
+	public String selectAllWith(Model m,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage
+			) {
+		List<WithBoard> list = service.selectAllWith(cPage,numPerPage);
+		int totalContents = service.selectWithCount();
+		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "withList.do"));
+		m.addAttribute("list",list);
+		m.addAttribute("totalContents",totalContents);		
 		return "with/withList";
 	}
 	
@@ -75,5 +95,158 @@ public class WithController {
 	        // 이제 이걸가지고 data를 저장하고 불러오는걸 하면됩니당
 	        
 	    }
-
+	
+	@RequestMapping("/with/withEnrollEnd.do")
+	public ModelAndView enrollWithEnd(WithBoard wb, ModelAndView mv) {
+		
+		int result = service.insertWith(wb);
+		
+		mv.addObject("msg",result>0?"등록성공":"등록실패");
+		mv.addObject("loc","/with/withList.do");
+		mv.setViewName("common/msg");
+	
+		return mv;
+	}
+	
+	@RequestMapping("/with/withView.do")
+	public ModelAndView withView(int no, ModelAndView mv) {
+		//조회수 하나 올려주기
+		int wbCount = 0;
+		service.withBoardCount(no);
+		
+		WithBoard wb = service.selectOneWith(no);
+		//판매자의 데이터를 불러오기
+		Member seller = service.selectEmailAndPhone(no);
+		mv.addObject("seller",seller);
+		mv.addObject("withBoard",wb);
+		mv.setViewName("with/withView");
+		return mv;
+	}
+	
+	@RequestMapping("/with/withRemove.do")
+	public String withRemove(int wbNo) {
+		service.removeWith(wbNo);
+		return "redirect:/with/withList.do";
+	}
+	
+	@RequestMapping("/with/withUpdate.do")
+	public ModelAndView updateWith(int wbNo, ModelAndView mv) {
+		mv.addObject("withBoard",service.selectOneWith(wbNo));
+		mv.setViewName("with/withUpdate");
+		return mv;
+	}
+	
+	@RequestMapping("/with/replyEnroll.do")
+	@ResponseBody
+	public int withReplyEnroll(@RequestParam String memberId,
+											@RequestParam int wbNo,
+											@RequestParam String wcContent){
+		
+		WithComment comment = new WithComment();
+		comment.setWbNo(wbNo);
+		comment.setMemberId(memberId);
+		comment.setWcContent(wcContent);
+		
+		
+		
+		return service.insertWithReply(comment);
+	}
+	
+	@RequestMapping("/with/replyList.do")
+	@ResponseBody
+	public List<WithComment> withReplySelect(@RequestParam int bno){
+		
+		List<WithComment> list = service.selectAllWithReply(bno);
+		return list; 
+	}
+	
+	@RequestMapping("/with/replyEnrollSecond.do")
+	@ResponseBody
+	public int withReplyEnrollSecond(@RequestParam int wcParent,
+									@RequestParam String memberId,
+									@RequestParam int wbNo,
+									@RequestParam String wcContent
+									) {
+		WithComment comment = new WithComment();
+		comment.setWbNo(wbNo);
+		comment.setWcParent(wcParent);
+		comment.setWcContent(wcContent);
+		comment.setMemberId(memberId);
+		return service.insertWithReplySecond(comment);
+	}
+	
+	@RequestMapping("/with/replyRemove.do")
+	@ResponseBody
+	public int withReplyDelete(@RequestParam int no) {
+		return service.deleteWithReply(no);		
+	}
+	
+	@RequestMapping("/with/replyOne.do")
+	@ResponseBody
+	public WithComment withReplyOneSelect(@RequestParam int wcNo) {
+		WithComment wc = service.selectOneWithReply(wcNo);
+		return wc;
+	}
+	
+	@RequestMapping("/with/replyUpdate.do")
+	@ResponseBody
+	public int withReplyUpdate(@RequestParam int cno, @RequestParam String content) {
+		WithComment wc = new WithComment();
+		wc.setWcNo(cno);
+		wc.setWcContent(content);
+		return service.updateWithReply(wc);
+	}
+	
+	@RequestMapping("/with/withStatusUpdate.do")
+	public ModelAndView withStatusUpdate(WithBoard wb, ModelAndView mv) {
+		
+		service.withStatusUpdate(wb);
+		//판매자의 데이터를 불러오기
+		mv.addObject("seller",service.selectEmailAndPhone(wb.getWbNo()));
+		mv.addObject("withBoard",service.selectOneWith(wb.getWbNo()));
+		mv.setViewName("with/withView");
+		return mv;
+	}
+	
+	@RequestMapping("/with/reportEnroll.do")
+	public ModelAndView reportEnroll(@RequestParam int bno,ModelAndView mv) {
+		
+		mv.addObject("withBoard",service.selectOneWith(bno));
+		mv.setViewName("with/withReport");		
+		return mv;
+	}
+	
+	@RequestMapping("/with/reportEnrollEnd.do")
+	@ResponseBody
+	public int reportEnrollEnd(@RequestParam int wbNo,
+								@RequestParam String memberId,
+								@RequestParam String wrContent) {
+		WithReport wr = new WithReport();
+		wr.setWbNo(wbNo);
+		//까먹지 말자! 여기는 글 쓴 사람(신고당하는 사람)이 아니라 신고하는 사람의 memberId가 들어와야 한다.
+		wr.setMemberId(memberId);
+		wr.setWrContent(wrContent);
+		int result = service.insertWithReport(wr);
+	
+		return result;
+	}
+	
+	@RequestMapping("/with/withUpdateEnd.do")
+	public ModelAndView withUpdateEnd(WithBoard wb, ModelAndView mv) {		
+		int result = service.updateWith(wb);
+		
+		mv.addObject("msg",result>0?"등록성공":"등록실패");
+		mv.addObject("loc","/with/withList.do");
+		mv.setViewName("common/msg");
+	
+		return mv;
+	}
+	
+	@RequestMapping("/with/withChat.do")
+	public ModelAndView withChatEnroll(@RequestParam int wbNo, ModelAndView mv) {
+		mv.addObject("withBoard",service.selectOneWith(wbNo));
+		mv.setViewName("with/withChat");
+		return mv;
+	}
+	
 }

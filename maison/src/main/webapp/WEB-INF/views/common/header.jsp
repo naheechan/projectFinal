@@ -24,8 +24,8 @@
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
+<script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
 <script src="${path }/resources/js/jquery-ui.js"></script>
-
 
 <title><c:out value="${param.title }"/></title>
 </head>
@@ -40,7 +40,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-                <a class="navbar-brand" href="index.html"><img src="${path }/resources/images/logo2.png" class="logo" alt="" style="width:94px;"></a>
+                <a class="navbar-brand" href="${path }/"><img src="${path }/resources/images/logo2.png" class="logo" alt="" style="width:94px;"></a>
             </div>
             <!-- End Header Navigation -->
 
@@ -54,10 +54,10 @@
 
 					<li class="nav-item"><a class="nav-link" href="${path }/with/withList.do">함께해요</a></li>
  					<li class="dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요</a>
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요 <i class="fas fa-angle-down"></i> </a>
 						<ul class="dropdown-menu">
-							<li><a href="shop.html">공지해요</a></li>
-							<li><a href="shop-detail.html">질문해요</a></li>
+							<li><a href="${path }/notice/noticeList.do">공지해요</a></li>
+							<li><a href="${path }/qnaboard/qnaboardList.do">질문해요</a></li>
 						</ul>
 					</li>
 
@@ -82,9 +82,9 @@
                     </c:if>
                     
                     <li class="side-menu">
-                    	<a href="#">
+                    	<a href="${path }/basket/basket.do">
 							<i class="fa fa-shopping-bag"></i>
-			                	<span class="badge">3</span>
+			                	<span class="badge">${basketCount }</span>
 								<p>장바구니</p>
 						</a>
 					</li>
@@ -98,7 +98,7 @@
         </div>
         
         <!-- Start Side Menu -->
-        <div class="side">
+        <%-- <div class="side">
             <a href="#" class="close-side"><i class="fa fa-times"></i></a>
             <li class="cart-box">
                 <ul class="cart-list">
@@ -135,7 +135,7 @@
                     </li>
                 </ul>
             </li>
-        </div>
+        </div> --%>
         <!-- End Side Menu -->
     </nav>
     <!-- End Navigation -->
