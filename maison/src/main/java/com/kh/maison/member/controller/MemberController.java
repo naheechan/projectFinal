@@ -302,11 +302,15 @@ public class MemberController {
 			//프로필 정보 확인
 			JSONObject jsonData = (JSONObject)((JSONObject)parser.parse(responseBody)).get("response");
 			String id = jsonData.get("id").toString();
+
 			//String age = jsonData.get("age").toString();
+
 			String gender = jsonData.get("gender").toString();
 			String email = jsonData.get("email").toString();
 			String name = jsonData.get("name").toString();
+
 			//String birthday = jsonData.get("birthday").toString();
+
 
 			//회원이 DB에 있는지 확인
 			Member mem = service.selectMemberOne(id);

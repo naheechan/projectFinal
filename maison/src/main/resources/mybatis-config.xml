@@ -2,8 +2,19 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 
+	<settings>
+        <setting name="jdbcTypeForNull" value="NULL" />
+    </settings>
+	<!-- typealias -->
 	<typeAliases>
+		<typeAlias type="com.kh.maison.admin.product.model.vo.Product" alias="product"/>
+		<!-- <typeAlias type="com.kh.maison.common.StringArrayTypeHandler" alias="strArr"/> -->
+		<typeAlias type="com.kh.maison.shop.model.vo.Request" alias="Request"/>
+		<typeAlias type="com.kh.maison.admin.product.model.vo.Category" alias="category"/>
+		<typeAlias type="com.kh.maison.shop.model.vo.CateProduct" alias="cateProduct"/>
 		<typeAlias type="com.kh.maison.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.maison.shop.vo.WishList" alias="wishList"/>
 	</typeAliases>
+
 
 </configuration>
