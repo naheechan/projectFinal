@@ -42,7 +42,7 @@ input:focus { outline: none; }
 			
 			
 			if(($("#password").val())==(${qnaPw})){
-				opener.parent.location.replace("${path}/qnaBoard/qnaBoardView.do?no=${qnaNo}");
+				opener.parent.location.assign("${path}/qnaBoard/qnaBoardView.do?no=${qnaNo}");
 				self.close();
 			}else if(!($("#password").val())){
 				$("#checkMsg").val("값을 입력해주세요");

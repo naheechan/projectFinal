@@ -68,7 +68,7 @@
 			            				</a>
 			            			</td>
 			            		</c:if>
-			            		<td><c:out value="${q.memberId }"/><a id="ch">야호</a></td>
+			            		<td><c:out value="${q.memberId }"/></td>
 			            		<td><c:out value="${q.qnaDate }"/></td>
 			           
 			            	</tr>
@@ -79,11 +79,13 @@
 				            			 
 			        </table> 
 				</div>
-			</div>	
+			</div>
+			<c:if test="${loginMember.memberId != null}">
 				<div style="margin-left:900px;">
 					<button class="btn">내글보기</button>&nbsp;
 			        <button type="button" value="글쓰기" id="btn-add" class="btn" onclick="location.href='${path}/qnaboard/qnaboardEnroll.do'" style="background:#FCF7E1;float:right">글쓰기</button>
 				</div>
+			</c:if>	
 		</div>
 					 
 				 	

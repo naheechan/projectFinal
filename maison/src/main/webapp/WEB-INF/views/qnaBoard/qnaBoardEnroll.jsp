@@ -24,7 +24,7 @@
 				       <input type="text" class="form-control" required id="qnaTitle" name="qnaTitle" style="width:500px;">
 				      </div>
 		     		</div>
-					<input type="hidden"  name="memberId" id="memberId" value="jang">
+					<input type="hidden"  name="memberId" id="memberId" value="${loginMember.memberId}">
 					
 					<div style="width:1000px">
 						<textarea id = "qnaContent" name = "qnaContent" rows = "40" cols = "100"

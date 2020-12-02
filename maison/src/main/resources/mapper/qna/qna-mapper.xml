@@ -5,7 +5,7 @@
 	<resultMap type="com.kh.maison.qnaBoard.model.vo.QnaCommentVo" id="qnaCommentMap"></resultMap>
 
 	<insert id="insertQnaBoard" parameterType="com.kh.maison.qnaBoard.model.vo.QnaBoardVo">
-		INSERT INTO QNABOARD VALUES(SEQQB.NEXTVAL,#{memberId},#{qnaTitle},#{qnaContent},sysdate,#{qnaSecret},#{qnaPw},default)
+		INSERT INTO QNABOARD VALUES(SEQ_QBNO.NEXTVAL,#{memberId},#{qnaTitle},#{qnaContent},sysdate,#{qnaSecret},#{qnaPw},default)
 	</insert>
 	
 	<select id="selectList" resultMap="qnaBoardMap">
@@ -21,7 +21,7 @@
 	</select>
 	
 	<insert id="insertComment" parameterType="com.kh.maison.qnaBoard.model.vo.QnaCommentVo">
-		INSERT INTO QnaComment values(SEQQC.NEXTVAL,#{qnaNo},#{qcContent},sysdate)
+		INSERT INTO QnaComment values(SEQ_QCNO.NEXTVAL,#{qnaNo},#{qcContent},sysdate)
 	</insert>
 	
 	<select id="commentList" resultMap="qnaCommentMap">
