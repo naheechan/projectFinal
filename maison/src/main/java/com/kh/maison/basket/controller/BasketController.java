@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kh.maison.basket.model.service.BasketService;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.shop.service.ProductService;
+import com.kh.maison.shop.vo.Product;
 
 @Controller
 public class BasketController {
@@ -29,8 +31,8 @@ public class BasketController {
 	@Autowired
 	private BasketService service;
 
-//	@Autowired
-//	private ProductService pservice;
+	@Autowired
+	private ProductService pservice;
 	
 	@RequestMapping("basket/basket.do")
 	public ModelAndView basket(ModelAndView mv, HttpSession session) {
@@ -78,56 +80,70 @@ public class BasketController {
 	}
 
 	
-//	  @RequestMapping("basket/orderBasket") 
-//	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request) {
-//	  
-//			String msg = "";
-//			String loc = "";
-//
-//			String[] basketNos = request.getParameterValues("basketNo");
-//
-//			// 장바구니에 상품이 없을때
-//			if (basketNos == null) {
-//				msg = "장바구니에 담긴 상품이 없습니다 !";
-//				loc = "/basket/basket.do";
-//				mv.addObject("msg", msg);
-//				mv.addObject("loc", loc);
-//				mv.setViewName("common/msg");
-//				return mv;
-//
-//			} else {
-//
-//				// 장바구니에 상품이 있음
-//				List<Basket> list = new ArrayList<Basket>();
-//				Map<String, Basket> mapf = new HashMap<String, Basket>();
-//
-//				// 상품 수량이 있음
-//				// 1.일단 장바구니를 다 받아옴
-//				for (String basketNo : basketNos) {
-//					
-//					mapf.put(basketNo, service.selectBasketOne(Integer.parseInt(basketNo)));
-//					// list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
-//					
-//					// 2. basketNos에 담긴 장바구니의 상품을 product테이블에서 불러와서 stock과 amount를 비교
-//					Basket b=service.selectBasketOne(Integer.parseInt(basketNo));
-//					
-////					Product p=pservice.selectProductOne(b.getProductNo);
-//				}
-//				for (int i = 0; i < mapf.size(); i++) {
-//					
-//				} // 상품 수량이 부족함
-//
-//				// 리스트 받아오기
-//				for (String basketNo : basketNos) {
-//					List<Basket> list = new ArrayList<Basket>();
-//					list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
-//					mv.addObject("list", list);
-//
-//				}
-//			}
-//
-//			return mv;
-//		}
+	  @RequestMapping("basket/orderBasket") 
+	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request) {
+	  
+			String msg = "";
+			String loc = "";
+
+			String[] basketNos = request.getParameterValues("basketNo");
+
+			// 장바구니에 상품이 없을때
+			if (basketNos == null) {
+				msg = "장바구니에 담긴 상품이 없습니다 !";
+				loc = "/basket/basket.do";
+				mv.addObject("msg", msg);
+				mv.addObject("loc", loc);
+				mv.setViewName("common/msg");
+				return mv;
+
+			} else {
+
+				// 장바구니에 상품이 있음
+				List<Basket> list = new ArrayList<Basket>();
+				Map<String, Basket> mapf = new HashMap<String, Basket>();
+				boolean soldout=false;
+
+				// 상품 수량이 있음
+				// 1.일단 장바구니를 다 받아옴
+				for (String basketNo : basketNos) {
+					
+					//mapf.put(basketNo, service.selectBasketOne(Integer.parseInt(basketNo)));
+					// list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
+					
+					// 2. basketNos에 담긴 장바구니의 상품을 product테이블에서 불러와서 stock과 amount를 비교
+					Basket b=service.selectBasketOne(Integer.parseInt(basketNo));
+					Product p=pservice.selectProductOne(b.getProductno());
+					
+					//상품 수량이 부족함
+					if(b.getAmount()>p.getProductStock()) {
+						soldout=true;
+						
+					}else {
+						//상품 수량이 있으면 list에 추가
+						list.add(b);
+					}
+				}
+				
+				mv.addObject("list",list);
+				
+				if(soldout) {
+					msg = "수량이 부족한 상품은 결제화면에서 제외됩니다 !";
+					loc = "/basket/payment";
+					mv.addObject("msg", msg);
+					mv.addObject("loc", loc);
+					mv.setViewName("common/msg");
+					
+				}else {
+					mv.addObject("loc","/basket/payment");
+					mv.setViewName("common/msg");
+				}
+				
+				
+			}
+
+			return mv;
+		}
 	 
 
 }
