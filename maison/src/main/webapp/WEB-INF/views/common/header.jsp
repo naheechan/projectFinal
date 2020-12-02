@@ -22,6 +22,11 @@
 <link rel="stylesheet" href="${path }/resources/css/responsive.css">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
+<script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
+<script src="${path }/resources/js/jquery-ui.js"></script>
+
 <title><c:out value="${param.title }"/></title>
 </head>
 <body>
@@ -35,7 +40,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-                <a class="navbar-brand" href="index.html"><img src="${path }/resources/images/logo2.png" class="logo" alt="" style="width:94px;"></a>
+                <a class="navbar-brand" href="${path }/"><img src="${path }/resources/images/logo2.png" class="logo" alt="" style="width:94px;"></a>
             </div>
             <!-- End Header Navigation -->
 
@@ -44,16 +49,19 @@
 				<ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
 					<!-- 눌려졌을때를 표현하고 싶으면 li class에 active를 추가하세요. -->
 					<li class="nav-item"><a class="nav-link" href="index.html">메종은?</a></li>
-					<li class="nav-item"><a class="nav-link" href="about.html">쇼핑해요</a></li>
+
+					<li class="nav-item"><a class="nav-link" href="${ path }/shop/shopView.do">쇼핑해요</a></li>
+
 					<li class="nav-item"><a class="nav-link" href="${path }/with/withList.do">함께해요</a></li>
  					<li class="dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요</a>
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요 <i class="fas fa-angle-down"></i> </a>
 						<ul class="dropdown-menu">
-							<li><a href="shop.html">공지해요</a></li>
+							<li><a href="${path }/notice/noticeList.do">공지해요</a></li>
 							<li><a href="shop-detail.html">질문해요</a></li>
 						</ul>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑해요</a></li>
+
+					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑시계</a></li>
 				</ul>
 			</div>
             <!-- /.navbar-collapse -->
@@ -61,36 +69,63 @@
             <!-- Start Atribute Navigation -->
             <div class="attr-nav">
                 <ul>
+                	<c:if test="${loginMember ne null}">
+                		<li><a href="${path }/wishList.do?id=${loginMember.memberId}"><i class="far fa-heart"></i></a></li>
+                	</c:if>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    
+                    <c:if test="${loginMember eq null}">
+                    	<li class="login"><a href="${path }/member/login"><i class="fas fa-user-alt"></i></a></li>
+                    </c:if>
+                    <c:if test="${loginMember ne null}">
+                    	<li class=""><a href="#"><c:out value="${loginMember.memberName}님"/></a></li>
+                    </c:if>
+                    
                     <li class="side-menu">
-                    	<a href="#">
+                    	<a href="${path }/basket/basket.do">
 							<i class="fa fa-shopping-bag"></i>
-			                	<span class="badge">3</span>
+			                	<span class="badge">${basketCount }</span>
 								<p>장바구니</p>
 						</a>
 					</li>
+					<c:if test="${loginMember ne null}">
+                    	<li class=""><a href="${path}/member/logout"><c:out value="로그아웃"/></a></li>
+                    </c:if>
+					
                 </ul>
             </div>
             <!-- End Atribute Navigation -->
         </div>
         
         <!-- Start Side Menu -->
-        <div class="side">
+        <%-- <div class="side">
             <a href="#" class="close-side"><i class="fa fa-times"></i></a>
             <li class="cart-box">
                 <ul class="cart-list">
                     <li>
-                        <a href="#" class="photo"><img src="images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Delica omtantur </a></h6>
                         <p>1x - <span class="price">$80.00</span></p>
                     </li>
                     <li>
-                        <a href="#" class="photo"><img src="images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Omnes ocurreret</a></h6>
                         <p>1x - <span class="price">$60.00</span></p>
                     </li>
                     <li>
-                        <a href="#" class="photo"><img src="images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${ path }/resources/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+
+                        <a href="#" class="photo"><img src="${path }/resources/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+
                         <h6><a href="#">Agam facilisis</a></h6>
                         <p>1x - <span class="price">$40.00</span></p>
                     </li>
@@ -100,7 +135,7 @@
                     </li>
                 </ul>
             </li>
-        </div>
+        </div> --%>
         <!-- End Side Menu -->
     </nav>
     <!-- End Navigation -->
