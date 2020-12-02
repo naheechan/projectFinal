@@ -57,7 +57,7 @@
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">소통해요 <i class="fas fa-angle-down"></i> </a>
 						<ul class="dropdown-menu">
 							<li><a href="${path }/notice/noticeList.do">공지해요</a></li>
-							<li><a href="shop-detail.html">질문해요</a></li>
+							<li><a href="${path }/qnaboard/qnaboardList.do">질문해요</a></li>
 						</ul>
 					</li>
 

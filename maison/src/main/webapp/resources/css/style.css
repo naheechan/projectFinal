@@ -913,7 +913,8 @@
      font-size: 18px;
 }
  .filter-button-group button.active{
-     background: #000000;
+     /* background: #000000; */
+     background:#FCF7E1;
 }
  .filter-button-group button{
 }
