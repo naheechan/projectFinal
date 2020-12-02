@@ -53,12 +53,12 @@
 		                                       <%--  <button onclick="deleteWishList(${w.PRODUCTNO });">
 													<i class="fas fa-times"></i>
 												</button> --%>
-												<form action="${path }/deleteWishList.do" method="post" target="frm" id="deleteFrm">
+												<form action="${path }/deleteWishList.do" id="deleteFrm">
 													<input type="hidden" value="${w.PRODUCTNO }" name="no">
 													<input type="hidden" value="${loginMember.memberId }" name="id">
 													
  												</form>
- 												<iframe name="frm" style="width: 1px; height: 1px;border: 0;"></iframe>
+ 												
  												<button id="deleteBtn" onclick="deleteWishList();">
 													<i class="fas fa-times"></i>
 												</button>

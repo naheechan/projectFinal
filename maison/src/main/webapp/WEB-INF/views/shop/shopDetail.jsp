@@ -79,7 +79,8 @@
             <div class="row">
                 <div class="col-xl-5 col-lg-5 col-md-6">
                 	<!-- 상품 상세 이미지 넣기 -->
-                   <img class="d-block w-100" src="${path }/resources/images/big-img-01.jpg" alt="First slide">
+                	
+                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide">
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
                     <div class="single-product-details">
@@ -92,7 +93,7 @@
 							<li>
 								<div class="form-group quantity-box">
 									<label class="control-label">수량</label>
-									<input class="form-control" value="3" min="0" max="20" type="number">
+									<input class="form-control" value="1" min="0" max="20" type="number">
 								</div>
 							</li>
 						</ul>
@@ -161,7 +162,7 @@
 				
 				<div class="card-body">
 					<!-- ck에디터 이미지 띄우기 -->
-					<img src="https://cdn.pixabay.com/photo/2020/02/08/10/35/soap-4829708_960_720.jpg">
+					<img src="${path }/resources/upload/product/${product.productImg }" style="width: 600px;height: 600px;">
 					<p>${product.productContent }</p>
 				</div>
 		 	</div>
