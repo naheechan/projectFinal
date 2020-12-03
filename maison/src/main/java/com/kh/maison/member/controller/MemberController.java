@@ -417,6 +417,12 @@ public class MemberController {
 		return mv;
 	}
 	
+	//마이페이지 화면전환용
+	@RequestMapping("/member/mypage.do")
+	public String mypage() {
+		return "member/mypage";
+	}
+	
 	
 	
 	

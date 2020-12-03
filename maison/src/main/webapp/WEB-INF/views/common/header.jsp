@@ -78,7 +78,7 @@
                     	<li class="login"><a href="${path }/member/login"><i class="fas fa-user-alt"></i></a></li>
                     </c:if>
                     <c:if test="${loginMember ne null}">
-                    	<li class=""><a href="#"><c:out value="${loginMember.memberName}님"/></a></li>
+                    	<li class=""><a href="${path }/member/mypage.do"><c:out value="${loginMember.memberName}님"/></a></li>
                     </c:if>
                     
                     <li class="side-menu">
