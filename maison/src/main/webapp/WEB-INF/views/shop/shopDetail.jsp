@@ -83,6 +83,7 @@
                    <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide">
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
+                <form action="${path }/" id="buyFrm">
                     <div class="single-product-details">
                         <h2>${product.productName }</h2>
                         <h5><fmt:formatNumber type="currency" value="${product.price }"/></h5>
@@ -128,6 +129,7 @@
 							
 						</div>
                     </div>
+                    </form>
                 </div>
             </div>
             

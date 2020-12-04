@@ -34,10 +34,10 @@ public class BasketController {
 	@Autowired
 	private ProductService pservice;
 	
-	@RequestMapping("basket/basket.do")
+	@RequestMapping("/basket/basket.do")
 	public ModelAndView basket(ModelAndView mv, HttpSession session) {
-
-		Member m = (Member) session.getAttribute("loginMember");
+		
+		Member m = (Member)session.getAttribute("loginMember");
 		if (m != null) {
 			String memberId = m.getMemberId();
 			List<Map> list = service.selectBasketList(memberId);
