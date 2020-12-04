@@ -423,6 +423,12 @@ public class MemberController {
 		return "member/mypage";
 	}
 	
+	//회원정보수정 화면전환용 
+	@RequestMapping("/member/update.do")
+	public ModelAndView memberUpdate(ModelAndView mv) {
+		mv.setViewName("member/update");
+		return mv;
+	}
 	
 	
 	

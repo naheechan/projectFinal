@@ -10,10 +10,17 @@
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="마이페이지"/>
 </jsp:include>
-
+<style>
+	.big{
+		font-size:30px;
+		color:#F2BB9C;
+		padding-top:5px;
+		padding-bottom:5px;
+	}
+</style>
 <!-- Start Mypage -->
 <section>
-	<!--  <div class="container">-->
+	<div class="container">
 		<div class="row">
 			<!-- SideMenu div -->
 			<div class="col-lg-3 col-md-5">
@@ -27,12 +34,12 @@
 					<div class="row">
 						<div class="col-lg-5">
 							<br>
-						 <h3><strong>${loginMember.memberName }</strong>님의</h3>
-						 <h3>회원등급은 
-						 	<span style="color:#F2BB9C;" id="uppergradeCode"> 
+						 <h4><strong>${loginMember.memberName }</strong>님의</h4>
+						 <h5>회원등급은 
+						 	<span style="color:#F2BB9C;font-size:1.3em;" id="uppergradeCode"> 
 						 	</span>&nbsp;등급 입니다.
 						 	<input type="hidden" id="lowergradeCode" value="${loginMember.gradeCode }"/>
-						 </h3>
+						 </h5>
 						 <script>
 						 	$(document).ready(function(){
 						 		var lower = $("#lowergradeCode").val();
@@ -43,7 +50,7 @@
 						 		
 						 	});
 						 </script>
-						 <h3>적립금 : <c:out value="${loginMember.meileage }"/> 원</h3>
+						 <h5>적립금 : <c:out value="${loginMember.meileage }"/> 원</h5>
 						</div>
 						<div class="col-lg-7">
 							<div class="table-main table-responseive">
@@ -51,23 +58,23 @@
 									<tbody>
 										<tr style="text-align:center;">
 											<td>
-												<i class="fas fa-paper-plane" style="font-size:50px;color:#F2BB9C;"></i>
+												<i class="fas fa-paper-plane big"></i>
 											</td>
 											<td>
-												<i class="fas fa-heart" style="font-size:50px;color:#F2BB9C;"></i>
+												<i class="fas fa-heart big"></i>
 											</td>
 											<td>
-												<i class="fas fa-question" style="font-size:50px;color:#F2BB9C;"></i>
+												<i class="fas fa-question big"></i>
 											</td>
 											<td>
-												<i class="fas fa-shipping-fast" style="font-size:50px;color:#F2BB9C;"></i>
+												<i class="fas fa-shipping-fast big"></i>
 											</td>
 										</tr>
 										<tr style="text-align:center;">
-											<td>입고신청</td>
-											<td>위시리스트</td>
-											<td>질문 / 답변</td>
-											<td>주문 / 배송</td>
+											<td>입고신청&nbsp;<span class="badge">5</span></td>
+											<td>위시리스트&nbsp;<span class="badge">1</span></td>
+											<td>질문 / 답변&nbsp;<span class="badge">3</span></td>
+											<td>주문 / 배송&nbsp;<span class="badge">2</span></td>
 										</tr>
 									</tbody>
 								</table>
@@ -76,9 +83,61 @@
 					</div>
 					 <hr style="background-color:rgba(242,187,156,0.5);"/>			
 				</div>
+				<br/>
+				<div id="shipment-div" class="table-main table-responsive">
+				<h2>최근 주문 정보</h2>
+					<table class="table table-hover" style="text-align:center;">
+						<thead>
+							<th colspan="2">상품정보</th>
+							<th>주문일자</th>
+							<th>주문번호</th>
+							<th>주문금액(수량)</th>
+							<th colspan="2">주문상태</th>
+						</thead>
+						<tbody>
+							<!-- forEach로 데이터 쏘기 
+								Order만들어지면 여기에 띄우기
+								orderNo자릿수 채크해서 8자리에서 자릿수 뺀만큼 앞에 0붙이고 
+									orderDate fmt로 앞에 잘라서 2020120400000001 이런식으로 만들기
+								 -->
+							<tr>
+								<td>
+									<img src="${path }/resources/upload/product/product.jpg" style="width:60px;"/>
+								</td>
+								<td>
+									옵티프리	
+								</td>
+								<td>
+									2020.12.04
+									
+								</td>
+								<td>
+									<a href="#">2020120400000001</a>
+								</td>
+								<td>
+									<p>2,000원</p>
+									<p>1개</p>
+								</td>
+								<td>
+									결제완료
+								</td>
+								<td>
+								<!-- status에 따라서 보이는 버튼이 달라야함. 
+									결제완료일 경우에는 취소와 리뷰작성 모두 가능해야하고, 배송완료일때는 리뷰쓰기만 가능 -->
+									<div class="form-group col-md-12">
+										<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;">취소요청</button>
+										<br>
+										<button class="btn" type="button" style="width:100%;height:45%;background:#F2BB9C;">리뷰쓰기</button>
+									</div>
+								</td>
+							</tr>
+						
+						</tbody>
+					</table>	
+				</div>
 			</div>
 		</div>
-	<!-- </div> -->
+	 </div> 
 </section>
 <!-- End Mypage -->
 
