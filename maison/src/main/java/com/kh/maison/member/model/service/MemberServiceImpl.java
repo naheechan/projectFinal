@@ -1,5 +1,7 @@
 package com.kh.maison.member.model.service;
 
+import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,6 +37,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateAuthStatus(String id) {
 		return dao.updateAuthStatus(session, id);
+	}
+
+	@Override
+	public List<Member> findId(Member mem) {
+
+		return dao.findId(session,mem);
 	}
 	
 	

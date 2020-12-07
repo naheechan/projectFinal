@@ -1,5 +1,7 @@
 package com.kh.maison.member.model.dao;
 
+import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -29,9 +31,13 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateAuthStatus(SqlSessionTemplate session, String id) {
 		return session.update("member.updateAuthStatus", id);
 	}
-	
-	
-	
+
+	@Override
+	public List<Member> findId(SqlSessionTemplate session, Member mem) {
+		
+		return session.selectList("member.findId",mem);
 	
 
+
+	}
 }

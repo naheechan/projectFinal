@@ -13,7 +13,9 @@ import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -136,7 +138,7 @@ public class MemberController {
 		mem.setPhone(aes.encrypt(mem.getPhone()));
 		
 		int result = service.insertMember(mem);
-		
+
 		//성공하면 안내페이지로, 실패하면 회원가입 페이지로
 		if(result>0) {
 			mv.addObject("email",email);
@@ -417,6 +419,59 @@ public class MemberController {
 		return mv;
 	}
 	
+	
+	
+	@RequestMapping("/member/findId")
+	public ModelAndView findId(ModelAndView mv) {
+		
+		
+		mv.setViewName("member/findId");
+		return mv;
+	}
+	
+	@RequestMapping("/member/findPw")
+	public ModelAndView findPw(ModelAndView mv) {
+		
+		mv.setViewName("member/findPw");
+		return mv;
+	}
+	
+	@RequestMapping("/member/findIdSMTP")
+	public ModelAndView findIdSMTP(ModelAndView mv,Date birth,String name,Member mem) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		
+		mem.setBirth(birth);
+		mem.setMemberName(name);
+		String memberId="";
+		String email="";
+		
+		List<Member> result=service.findId(mem);
+		
+		if(!result.isEmpty()) {
+			memberId=result.get(0).getMemberId().toString();
+			email=aes.decrypt((result.get(0).getEmail().toString()));
+		}
+		System.out.println(email);
+		
+		if(result.isEmpty()) {
+
+			mv.addObject("msg", "사용자가 존재하지 않습니다");
+			mv.addObject("loc", "/member/findId");
+			mv.setViewName("common/msg");
+			
+		}else {
+			int suc=mss.sendFindIdMail(email, memberId);
+			if(suc==0) {
+				System.out.println("이메일 발송 실패:관리자에게 문의하세요");
+			}
+			else {
+				mv.addObject("msg", "등록하신 이메일로 아이디가 전송되었습니다.");
+				mv.addObject("loc", "/member/findId");
+				mv.setViewName("common/msg");
+			}
+		}
+				
+		return mv;
+	}
 	
 	
 	

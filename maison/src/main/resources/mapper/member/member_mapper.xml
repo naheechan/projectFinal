@@ -27,4 +27,8 @@
   	UPDATE MEMBER SET AUTHSTATUS='Y' WHERE MEMBERID=#{id}
   </update>
   
+  <select id="findId" resultType="member" parameterType="member">
+  	SELECT MEMBERID,EMAIL FROM MEMBER WHERE MEMBERNAME=#{memberName} AND BIRTH=#{birth}
+  </select>
+  
 </mapper>
