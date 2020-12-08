@@ -44,4 +44,9 @@
   			</if>		
   		WHERE MEMBERID = #{memberId}
   </update>
+  
+  <update id="updateMemberPw" parameterType="map">
+  	UPDATE MEMBER SET MEMBERPW = #{pw}
+  				WHERE MEMBERID = #{id}
+  </update>
 </mapper>

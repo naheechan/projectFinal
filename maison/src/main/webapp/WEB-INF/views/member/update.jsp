@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>   
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="마이페이지"/>
+	<jsp:param name="title" value="회원정보 변경"/>
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="마이페이지 / 회원정보 변경"/>
@@ -60,7 +60,7 @@
 											</div>
 											<br>
 												<button class="btn" type="button" style="background:#FCF7E1;" onclick="location.href='${path }/member/mypage.do'">취소</button>
-												<button class="btn" type="submit" style="background:#F2BB9C;" onclick="location.href='${path}/member/updateCheck.do'">인증하기</button>			
+												<button class="btn" type="submit" style="background:#F2BB9C;">인증하기</button>			
 										<br>
 										<br>										
 							</c:if>

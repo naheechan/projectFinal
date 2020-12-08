@@ -82,10 +82,13 @@
 				                        	</a>    			
 		                    			</c:otherwise>
 		                    		</c:choose>
-		                        	<a href="#" class="list-group-item list-group-item-action">
-		                        		<h4>비밀번호 변경 </h4>
-		                        		<small class="text-muted"></small>
-		                        	</a>	
+		                    		<!-- Naver말고 일반으로 로그인했을때만 비밀번호 변경이 떠야함. -->
+		                    		<c:if test="${loginMember.memberPw ne null }">
+			                        	<a href="${path }/member/updatePw.do" class="list-group-item list-group-item-action">
+			                        		<h4>비밀번호 변경 </h4>
+			                        		<small class="text-muted"></small>
+			                        	</a>	
+		                        	</c:if>
 		                        	<a href="#" class="list-group-item list-group-item-action">
 		                        		<h4>배송지/환불계좌 관리 </h4>
 		                        		<small class="text-muted"></small>

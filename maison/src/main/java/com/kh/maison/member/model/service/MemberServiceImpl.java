@@ -43,6 +43,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.updateMember(session,mem);
 	}
+
+	@Override
+	public int updateMemberPw(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.updateMemberPw(session,map);
+	}
 	
 	
 	

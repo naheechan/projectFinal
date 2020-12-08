@@ -12,5 +12,6 @@ public interface MemberService {
 	int updateAuthStatus(String id);
 	
 	int  updateMember(Member mem);
+	int updateMemberPw(Map<String,String> map);
 
 }

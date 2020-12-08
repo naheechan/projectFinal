@@ -17,7 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -38,15 +40,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.kh.maison.common.captcha.CaptchaUtil;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.common.email.MailSendService;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Member;
 
+import nl.captcha.Captcha;
+
+
 @Controller
 @SessionAttributes({"loginMember", "state", "res", "memNaver"})
 public class MemberController {
 
+	
 	@Autowired
 	private MemberService service;
 	//단방향 암호화
@@ -60,6 +67,7 @@ public class MemberController {
 //	@Autowired
 //	private Logger logger;
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
 	
 	
 	@RequestMapping(value="/member/login")
@@ -448,6 +456,7 @@ public class MemberController {
 			mv.setViewName("common/msg");
 		return mv;
 	}
+	
 	@RequestMapping("/member/updateEnd.do")
 	public ModelAndView memberUpdateEnd(ModelAndView mv) {
 		mv.setViewName("member/updateEnd");
@@ -534,10 +543,95 @@ public class MemberController {
 		return mv;
 	}
 	
+	@RequestMapping("/member/updatePw.do")
+	public ModelAndView updateMemberPw(ModelAndView mv) {
+		mv.setViewName("member/updatePw");
+		return mv;
+	}
+
+	@RequestMapping("/member/updatePwCheck.do")
+	public ModelAndView memberUpdatePwCheck(ModelAndView mv, Member m) {
+		//그냥 m은 비밀번호 입력 화면에서 불러온 아이디랑 비밀번호 
+		// mem은 m에서 가져온 아이디를 where절에 넣어서 불러온 member 데이터
+
+		Member mem = service.selectMemberOne(m.getMemberId());
+
+		if(mem!=null && encoder.matches(m.getMemberPw(), mem.getMemberPw())) {
+			mv.addObject("msg", "비밀번호가 인증되었습니다.비밀번호 변경 화면으로 전환합니다.");
+			mv.addObject("loc", "/member/updatePwEnd.do");
+
+		}else {
+			mv.addObject("msg", "비밀번호 인증 실패!비밀번호를 다시 입력해주세요.");
+			mv.addObject("loc", "/member/updatePw.do");
+		}
+			mv.setViewName("common/msg");
+		return mv;
+	}
 	
+	@RequestMapping("/member/updatePwEnd.do")
+	public ModelAndView updatePwEnd(ModelAndView mv) {
+		mv.setViewName("member/updatePwEnd");
+		return mv;
+	}
+
+	// simpleCaptcha관련
+	// captcha 이미지 가져오는 메서드
+	@RequestMapping("/captchaImg.do")
+	@ResponseBody
+	public void captchaImg(HttpServletRequest req, HttpServletResponse res) throws Exception{ 
+		new CaptchaUtil().getImgCaptCha(req, res); 
+	}
 	
+	// 전달받은 문자열로 음성 가져오는 메서드 
+	@RequestMapping("/captchaAudio.do") 
+	@ResponseBody 
+	public void captchaAudio(HttpServletRequest req, HttpServletResponse res) throws Exception{ 
+		Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME); 
+		String getAnswer = captcha.getAnswer(); 
+		new CaptchaUtil().getAudioCaptCha(req, res, getAnswer); }
+
+
+	@RequestMapping("/member/captchaCheck.do")
+	@ResponseBody
+	public int captchaCheck(@RequestParam String target, HttpServletRequest req) {
+		int result = 0;
+		Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME);
+		if(target!=null && !"".equals(target)) {
+			if(captcha.isCorrect(target)) {
+				req.getSession().removeAttribute(Captcha.NAME);
+				result = 1;
+			}else {
+				result = 0;
+			}
+		}
+		return result;
+	}
 	
-	
+	@RequestMapping("/member/updatePwEndEnd.do")
+	public ModelAndView updatePwEndEnd(ModelAndView mv, Member m, SessionStatus status) {
+		
+		//m은 updatePwEndEnd에서 가져온 member데이터고
+		//mem은 m에서 가져온 데이터를 encode해준 애 넣은거. 
+		Map<String,String> map = new HashMap<>();
+		
+		map.put("id",m.getMemberId());
+		map.put("pw", encoder.encode(m.getMemberPw().toLowerCase()));
+		
+		int result = service.updateMemberPw(map);
+		if(result>0) {
+			if(!status.isComplete()) {
+				status.setComplete();
+			}
+			mv.addObject("msg","비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
+			mv.addObject("loc","/");
+			
+		}else {
+			mv.addObject("msg","비밀번호 변경 실패 - 관리자에게 문의하세요.");
+			mv.addObject("loc","/member/mypage.do");	
+		}
+		mv.setViewName("common/msg");
+		return mv;
+	}
 	
 	
 	
