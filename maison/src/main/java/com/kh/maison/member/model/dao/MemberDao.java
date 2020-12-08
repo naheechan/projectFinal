@@ -12,5 +12,7 @@ public interface MemberDao {
 	Member selectMemberOne(SqlSessionTemplate session, String id);
 	int updateAuthKey(SqlSessionTemplate session, Map<String,String> map);
 	int updateAuthStatus(SqlSessionTemplate session, String id);
+	
+	int updateMember(SqlSessionTemplate session, Member mem);
 
 }

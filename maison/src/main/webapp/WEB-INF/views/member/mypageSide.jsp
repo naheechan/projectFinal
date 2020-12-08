@@ -67,10 +67,21 @@
 							</a>
 		                    <div class="collapse" id="sub-men4" data-parent="#list-group-men">
 		                    	<div class="list-group">
-		                        	<a href="${path }/member/update.do" class="list-group-item list-group-item-action">
-		                        		<h4>회원정보 변경 </h4>
-		                        		<small class="text-muted"></small>
-		                        	</a>
+		                    	<!-- memberPw가 null인지 아닌지 즉, 소셜로그인을 했는지 아니면 일반 로그인을 했느지. -->
+		                    		<c:choose>
+		                    			<c:when test="${empty loginMember.memberPw }">
+				                        	<a href="${path }/member/updateNaver.do" class="list-group-item list-group-item-action">
+				                        		<h4>회원정보 변경 </h4>
+				                        		<small class="text-muted"></small>
+				                        	</a>		                    			
+		                    			</c:when>
+		                    			<c:otherwise>
+				                        	<a href="${path }/member/update.do" class="list-group-item list-group-item-action">
+				                        		<h4>회원정보 변경 </h4>
+				                        		<small class="text-muted"></small>
+				                        	</a>    			
+		                    			</c:otherwise>
+		                    		</c:choose>
 		                        	<a href="#" class="list-group-item list-group-item-action">
 		                        		<h4>비밀번호 변경 </h4>
 		                        		<small class="text-muted"></small>

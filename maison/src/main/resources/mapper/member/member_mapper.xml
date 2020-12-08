@@ -27,4 +27,21 @@
   	UPDATE MEMBER SET AUTHSTATUS='Y' WHERE MEMBERID=#{id}
   </update>
   
+  <update id="updateMember" parameterType="member">
+  		UPDATE MEMBER SET
+	  		MEMBERNAME = #{memberName},
+	  		ZIPCODE = #{zipcode},
+	  		ADDRESS = #{address},
+	  		DETAILADDRESS = #{detailAddress},
+	  		EMAIL = #{email},
+	  		GENDER = #{gender},
+	  		BIRTH = #{birth},
+	  		PHONE = #{phone},
+	  		EMAILSTATUS = #{emailStatus}
+	    	<if test="authStatus.equals('N')">
+	    	,AUTHSTATUS = 'N'
+	    	,AUTHKEY = null
+  			</if>		
+  		WHERE MEMBERID = #{memberId}
+  </update>
 </mapper>
