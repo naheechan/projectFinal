@@ -106,6 +106,7 @@
 										width="150px" /></td>
 									<td>
 										<p class="title">${p.productName }</p>
+										<input type="hidden" name="productNo" value="${p.productNo }">
 									</td>
 								</tr>
 								<tr>
@@ -121,27 +122,27 @@
 		    <label for="reviewScroe" class="control-label" >별점</label>
 		    <br>
 			<label>
-			<input type="checkbox" name="rating" id="rating1" value="1"  class="rate_radio" title="1점">
+			<input type="checkbox" name="reviewScore" id="rating1" value="1"  class="rate_radio" title="1점">
 			<label for="rating1">
 				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
 			</label>
 			
-			<input type="checkbox" name="rating" id="rating2" value="2" class="rate_radio" title="2점">
+			<input type="checkbox" name="reviewScore" id="rating2" value="2" class="rate_radio" title="2점">
 			<label for="rating2">
 				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
 			</label>
 			
-			<input type="checkbox" name="rating" id="rating3" value="3" class="rate_radio" title="3점">
+			<input type="checkbox" name="reviewScore" id="rating3" value="3" class="rate_radio" title="3점">
 			<label for="rating3">
 				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
 			</label>
 			
-			<input type="checkbox" name="rating" id="rating4" value="4" class="rate_radio" title="4점">
+			<input type="checkbox" name="reviewScore" id="rating4" value="4" class="rate_radio" title="4점">
 			<label for="rating4">
 				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
 			</label>
 			
-			<input type="checkbox" name="rating" id="rating5" value="5" class="rate_radio" title="5점">
+			<input type="checkbox" name="reviewScore" id="rating5" checked value="5" class="rate_radio" title="5점">
 			<label for="rating5">
 				<span class="starOn"><i class="fas  fa-2x fa-star"></i></span>
 			</label>
@@ -166,9 +167,10 @@
 <script>
 	$(function(){
 		$(":checkbox").css("display","none"); 
-		
+	
 		$(":checkbox").click(function(){
 			var score= $(this).val();
+			console.log(score);
 			switch(score){
 			
 			case '1': 
@@ -236,10 +238,6 @@
 	});
 
 </script>
-<script
-  src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
-  integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
-  crossorigin="anonymous"></script>
 	<script src="<%=request.getContextPath() %>/resources/js/popper.min.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/bootstrap.min.js"></script>
     <!-- ALL PLUGINS -->

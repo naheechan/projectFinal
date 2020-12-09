@@ -150,7 +150,6 @@ $(function(){
 		var amount=$(this).val();
 		var basketNo=$(this).next().val();
 		
-		console.log(basketNo+" : "+amount);
 		
 		//그 받아온 값을 넘겨줘서 업데이트 후 다시 배스킷정보를 받아와야함
 		 	$.ajax({
@@ -184,7 +183,7 @@ $(function(){
     		error:function(request,status,error){
     	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
     	       }
-
+				
     		
     	});
 		

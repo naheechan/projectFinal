@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="review">
+	<insert id="insertReview" parameterType="review">
+		INSERT INTO REVIEW VALUES(
+			SEQ_REVIEWNO.NEXTVAL,#{reviewContent},DEFAULT,TO_NUMBER(#{reviewScore}),#{memberId},1,#{productNo}
+		)
+	</insert>
+	<select id="selectReviewList" parameterType="_int" resultType="review">
+		SELECT * FROM REVIEW WHERE PRODUCTNO=#{productNo} ORDER BY REVIEWDATE DESC
+	</select>
+	<insert id="insertReviewReply" parameterType="map">
+		INSERT INTO REVIEWREPLY VALUES(
+			SEQ_RRNO.NEXTVAL,#{rrContent},default,#{reviewNo}
+		)
+		
+	</insert>
+	<select id="selectReviewReplyList" parameterType="_int" resultType="reviewReply">
+		SELECT * FROM REVIEWREPLY WHERE REVIEWNO=#{reviewNo}
+	</select>
+</mapper>

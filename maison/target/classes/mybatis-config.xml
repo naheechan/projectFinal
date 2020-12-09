@@ -19,6 +19,8 @@
 		<typeAlias type="com.kh.maison.shop.model.vo.CateProduct" alias="cateProduct"/>
 		<typeAlias type="com.kh.maison.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.maison.shop.vo.WishList" alias="wishList"/>
+		<typeAlias type="com.kh.maison.review.model.vo.Review" alias="review"/>
+		<typeAlias type="com.kh.maison.review.model.vo.ReviewReply" alias="reviewReply"/>
 	</typeAliases>
 
 </configuration>

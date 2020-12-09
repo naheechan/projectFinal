@@ -8,6 +8,7 @@
 	<jsp:param name="title" value="첫화면"/>
 </jsp:include>
 <a href="${path }/shop/insertReview.do?productNo=3">리뷰쓰러가기</a>
+<a href="${path }/shop/selectReviewList.do?productNo=3">리뷰보러가기</a>
 <script>
 	if(${auth ne null || !empty auth}) {
 		alert("${auth}");
