@@ -80,11 +80,12 @@ public class BasketController {
 	}
 
 	
-	  @RequestMapping("basket/orderBasket") 
+	  @RequestMapping("basket/orderBasket.do") 
 	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request) {
 	  
 			String msg = "";
 			String loc = "";
+			boolean soldout=false;
 			String[] basketNos = request.getParameterValues("basketNo");
 			
 			
@@ -102,7 +103,7 @@ public class BasketController {
 				// 장바구니에 상품이 있음
 				List<Basket> list = new ArrayList<Basket>();
 				Map<String, Basket> mapf = new HashMap<String, Basket>();
-				boolean soldout=false;
+				soldout=false;
 
 				// 상품 수량이 있음
 				// 1.일단 장바구니를 다 받아옴
@@ -135,8 +136,10 @@ public class BasketController {
 					mv.setViewName("common/msg");
 					
 				}else {
-					mv.addObject("loc","/basket/payment");
-					mv.setViewName("common/msg");
+//					msg="결제 페이지로 이동합니다.";
+//					mv.addObject("msg",msg);
+//					mv.addObject("loc","/basket/payment");
+					mv.setViewName("basket/payment");
 				}
 				
 				
@@ -144,6 +147,15 @@ public class BasketController {
 
 			return mv;
 		}
+	  
+//	  @RequestMapping("/basket/buy.do")
+//	  public ModelAndView productBuy(ModelAndView mv ) {
+//		  
+//		  mv.addObject("msg","결제페이지로 이동합니다.");
+//		  mv.addObject("loc","/basket/payment");
+//		  mv.setViewName("basket/payment");
+//		  return mv;
+//	  }
 	 
 	
 	

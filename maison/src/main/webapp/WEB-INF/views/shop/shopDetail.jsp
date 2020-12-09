@@ -77,13 +77,14 @@
     <div class="shop-detail-box-main">
         <div class="container">
             <div class="row">
+            <form action="${path }/basket/buy.do" id="buyFrm">
                 <div class="col-xl-5 col-lg-5 col-md-6">
                 	<!-- 상품 상세 이미지 넣기 -->
                 	
-                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide">
+                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide" style="width:470px;height:550px;">
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
-                <form action="${path }/" id="buyFrm">
+                
                     <div class="single-product-details">
                         <h2>${product.productName }</h2>
                         <h5><fmt:formatNumber type="currency" value="${product.price }"/></h5>
@@ -94,18 +95,31 @@
 							<li>
 								<div class="form-group quantity-box">
 									<label class="control-label">수량</label>
-									<input class="form-control" value="1" min="0" max="20" type="number">
+									<input class="form-control" value="1" min="0" max="20" type="number" name="amount">
 								</div>
 							</li>
 						</ul>
 
 						<div class="price-box-bar">
 							<div class="cart-and-bay-btn">
-								<a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a>
+								<!-- <a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a> -->
+								
+									<input type="hidden" name="pNo" value="${product.productNo }">
+									<input type="hidden" name="pPrice" value="${product.price }">
+									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	
+								
 								<a class="btn hvr-hover" data-fancybox-close="" href="#">장바구니</a>
 							</div>
-							
+							</form>
 						</div>
+						<script>
+							$(function(){
+								$("#buyBtn").click(function(){
+									$("#buyFrm").submit();
+								})
+							})
+						</script>
+						
 
 						<div class="add-to-btn">
 							<div class="add-comp">
@@ -129,7 +143,7 @@
 							
 						</div>
                     </div>
-                    </form>
+                    
                 </div>
             </div>
             

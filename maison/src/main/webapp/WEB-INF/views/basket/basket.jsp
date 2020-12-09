@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-main table-responsive">
-                    <form action="${path }/basket/orderBasket" id="basketFrm" method="post">
+                    <form action="${path }/basket/orderBasket.do" id="basketFrm" method="post">
                         <table id="basketTable" class="table">
                             <thead>
                                 <tr>

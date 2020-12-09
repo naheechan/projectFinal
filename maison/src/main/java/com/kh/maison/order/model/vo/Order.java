@@ -2,6 +2,9 @@ package com.kh.maison.order.model.vo;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class Order {
 	
 	private int orderNo;
@@ -21,5 +24,7 @@ public class Order {
 	private String orderStatus;
 	private Date cancelDate;
 	
+	//member vo
+	private int mileage;
 
 }
