@@ -11,7 +11,7 @@
               GROUP BY PRODUCTNO
               ORDER BY COUNT(*) DESC
               )
-         WHERE ROWNUM &lt;=2
+         WHERE ROWNUM &lt;=4
         ) W
 	WHERE P.PRODUCTNO = W.PRODUCTNO	
 	</select>

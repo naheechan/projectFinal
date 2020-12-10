@@ -13,7 +13,7 @@
 	}
 </script>
 <style>
-	.latest-blog, .products-box{
+	.latest-blog, .products-box , #products-div{
 		clear:both;
 	}
 </style>
@@ -106,23 +106,24 @@
     			<div class="col-lg-12">
                     <div class="special-menu text-center">
                         <div class="button-group filter-button-group">
-                            <button class="active" data-filter="*">전체보기</button>
-                            <button data-filter=".top-wish">위시리스트</button>
-                            <button data-filter=".best-seller">베스트셀러</button>
+                            <button id="NoFilter">전체보기</button>
+                            <button id="WishFilter">위시리스트</button>
+                            <button id="BestFilter">베스트셀러</button>
                         </div>
                     </div>
     			</div>
     		</div>
     		<!-- 여기서부터 상품 실제 데이터 띄우기 시작. -->
-    		<div class="row special-list" id="products-div">
+    		<div class="row" id="products-div">
     		
     		</div>
     	</div>
     </div>
     <!-- End Products -->
-    
-    <!-- Start 함께해요 -->
-    <div class="latest-blog">
+    <br>
+    <!-- Start 함께해요 
+    	이미지 추출하는걸 못해서 고민됨 ㅠㅠ-->
+<!--     <div class="latest-blog">
     	<div class="container">
     		<div class="row">
     			<div class="col-lg-12">
@@ -132,11 +133,17 @@
                     </div>   				
     			</div>
     		</div>
+    		함께해요 데이터들이 꽂히는 곳
+    		<div class="row" id="withs-div">
+    			
+    		</div>
     	</div>
-    </div>
+    </div> -->
     <!-- End 함께해요 -->
 <script>
 // 화면 켜지면, #products-div에 ajax로 가져온 데이터 꽂아주기. 
+// 지금은 wishList() 4개를 ajax로 불러와서 꽂아주는데 , bestSeller랑 Mix만들어서
+// 기본값은 function mixWishBest()로 해서 꽂을거임. (wish2개 , Best seller 2개)
 $(document).ready(function(){
 	wishList();
 })
@@ -148,17 +155,14 @@ function wishList(){
 			var dataLeng = Object.keys(data).length;
 			var d = '';
 			$.each(data,function(key,value){
-				console.log(value.productName);
-				console.log(value.productImg);
 				d+='<div class="col-lg-3 col-md-6 special-grid top-wish">';
 				d+='<div class="products-single fix">';
 				d+='<div class="box-img-hover">';
 				d+='<div class="type-lb"><p class="sale">Sale</p></div>';
-				d+='<img src="${path}/resources/upload/product/'+value.productImg+'" class="img-fluid" alt="Image">';
-				
+				d+='<img src="${path}/resources/upload/product/'+value.productImg+'" class="img-fluid" alt="Image">';			
 				d+='</div>';
 				d+='<div class="why-text">';
-				d+='<h4>'+value.productName+'</h4>';
+				d+='<a href="#"><h4>'+value.productName+'</h4></a>';
 				d+='<h5> '+value.price+'</h5>';
 				d+='</div></div></div>';
 			})

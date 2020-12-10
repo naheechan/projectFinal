@@ -48,7 +48,7 @@
 			<div class="collapse navbar-collapse" id="navbar-menu">
 				<ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
 					<!-- 눌려졌을때를 표현하고 싶으면 li class에 active를 추가하세요. -->
-					<li class="nav-item"><a class="nav-link" href="index.html">메종은?</a></li>
+					<li class="nav-item"><a class="nav-link" href="${path }/firstpage/about.do">메종은?</a></li>
 
 					<li class="nav-item"><a class="nav-link" href="${ path }/shop/shopView.do">쇼핑해요</a></li>
 
