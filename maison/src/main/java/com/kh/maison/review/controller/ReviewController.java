@@ -86,10 +86,13 @@ public class ReviewController {
 	}
 	
 	@RequestMapping("/shop/insertReviewReply.do")
-	ModelAndView insertReviewReply(ModelAndView mv,@RequestParam Map param) {
+	@ResponseBody
+	List<ReviewReply> insertReviewReply(ModelAndView mv,@RequestParam Map<String,String> param) 
+			throws JsonMappingException, JsonGenerationException, IOException{
 		int result=service.insertReviewReply(param);
-		
-		return mv;
+		int reviewNo=Integer.parseInt(param.get("reviewNo"));
+		List<ReviewReply> rlist=service.selectReviewReplyList(reviewNo);
+		return rlist;
 	}
 	
 	@RequestMapping("/shop/selectReviewReply.do")

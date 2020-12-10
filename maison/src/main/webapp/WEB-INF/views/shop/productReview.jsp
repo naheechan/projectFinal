@@ -29,7 +29,7 @@
 <div>
 <div class="row">
 	<div class="col">
-	<h2>${score }</h2>
+	<h2> &nbsp;&nbsp;${score }</h2>
 </div>
 </div>
 <div class="row">
@@ -49,7 +49,7 @@
 <div class="container">
 <c:forEach var="r" items="${list }">
 	<div class="row">
-		<div class="col">
+		<div class="col-9">
 			<div class='star-rating'>
 				<c:if test="${r.reviewScore eq 5 }">
 					<span style ="width:100%"></span>
@@ -82,16 +82,30 @@
 		
 		</div>
 		<div class="row">
-			<div class="col">
+			<div class="col offset-md-9">
 				<div class="justify-content-end">
-					<span name="commentBtn" class="justify-content-end"><i class="far fa-comment-dots"></i></span>
-					<input type="text" name="reviewNo" value="${r.reviewNo }">
+					<span name="commentBtn" class="justify-content-end" style="margin-top:5px;"><i class="far fa-comment-dots"></i></span>
+					<input type="hidden" name="reviewNo" value="${r.reviewNo }">
 				</div>
 			</div>
 		</div>
 		
-		<div class="comment" >
-			여기들어가ㅑㅇ하는데
+		<div class="comment" id="open_${r.reviewNo }" >
+			여기들어가야하는데
+		</div>
+		<div class="comment-input">
+			<div class="row" style="margin-top:20px;">
+				<c:if test="${loginMember.memberId eq 'admin' }">
+				<div class="col-1" >
+				<p>답글 달기</p>
+				</div>
+				<div class="col-7">
+				<input type="hidden" name="reviewNo" value="${r.reviewNo }" >
+				<textarea  style="width:100%; resize:none;" cols="50"  wrap="hard"></textarea>
+				<button class="btn insert-reply" >등록하기</button>
+				</div>
+				</c:if>
+			</div>
 		</div>
 		
 		
@@ -102,41 +116,94 @@
 </div>
 
 <script>
-$(function(){
-	$(".comment").hide();
+function adjustHeight() {
+	  var reply = $('textarea');
+	  reply[0].style.height = 'auto';
+	  var replyHeight = reply.prop('scrollHeight');
+	  reply.css('height', replyHeight);
+	};
 	
-	//댓글 모양 누르면 보이기
+	$("textarea").on('keyup', function() {
+	  adjustHeight();
+	});
+
+	
+	$(function(){
+	$(".comment").hide();
+	$(".comment-input").hide();
+	//댓글 모양 누르면 답변들 보이기
 	$("span[name=commentBtn]").click(function(){
 		$(this).parent().parent().parent().next().toggle();
+		$(this).parent().parent().parent().next().next().toggle();
 		
 		var reviewNo=$(this).next().val();
-		console.log(reviewNo);
 		$.ajax({
 			url: "${path}/shop/selectReviewReply.do",
 			data: {reviewNo : reviewNo},
 			dataType: "json",
 			success : function(data){
-				console.log("ajax통신 성공")
 				var str='';
 				$.each(data,function(i,v){
 					console.log(v.rrContent);
-					str+="<div class='row'>";
-					str+="<div class='col' style='font-weight:bolder;'> 관리자  </div>";
+					str+="<div class='row' style='margin-top:20px;'>";
+					str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
 					str+="</div>";
 					str+="<div class='row'>";
-					str+="<div class='col-6' style='background-color:#EAEAEA;'>";
+					str+="<div class='col-8' style='background-color:#EAEAEA;'>";
+					str+="<p style='margin:10px;'>";
 					str+=v.rrContent;
+					str+="</p>";
 					str+="</div>";
 					str+="</div>";
+					str+="<div>"
 				});
-				$(this).parent().parent().parent().next(".comment").append(str);
-				//$(".comment").append(str);
+				$("#open_"+reviewNo).html(str);
 			},
 			error : function(){
 				console.log("ajax통신실패")
 			}
 		});
 	});
+	
+	//답변 달기
+	$(".insert-reply").click(function(){
+
+		var text=$(this).prev().val();
+		rrContent=text.replace(/(?:\r\n|\r|\n)/g,'<br/>');
+		var reviewNo=$(this).prev().prev().val();
+		
+		$.ajax({
+			url : "${path}/shop/insertReviewReply.do",
+			data : {
+				rrContent : rrContent,
+				reviewNo : reviewNo
+			},
+			dataType:"json",
+			success: function(data){
+				var str='';
+				$.each(data,function(i,v){
+					console.log(v.rrContent);
+					str+="<div class='row' style='margin-top:20px;'>";
+					str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
+					str+="</div>";
+					str+="<div class='row'>";
+					str+="<div class='col-8' style='background-color:#EAEAEA;'>";
+					str+="<p style='margin:10px;'>";
+					str+=v.rrContent;
+					str+="</p>";
+					str+="</div>";
+					str+="</div>";
+					str+="<div>"
+				});
+				$("#open_"+reviewNo).html(str);
+			},
+			error: function(){
+				console.log("ajax 통신 실패");
+			}
+		});
+		
+	});
+	
 	
 	$(".reply").click(function(){
 		var rrContent=$(this).prev().prev().find("textarea").val();
