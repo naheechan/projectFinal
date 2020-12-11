@@ -87,7 +87,7 @@ public class ReviewController {
 	
 	@RequestMapping("/shop/insertReviewReply.do")
 	@ResponseBody
-	List<ReviewReply> insertReviewReply(ModelAndView mv,@RequestParam Map<String,String> param) 
+	List<ReviewReply> insertReviewReply(@RequestParam Map<String,String> param) 
 			throws JsonMappingException, JsonGenerationException, IOException{
 		int result=service.insertReviewReply(param);
 		int reviewNo=Integer.parseInt(param.get("reviewNo"));
@@ -97,10 +97,24 @@ public class ReviewController {
 	
 	@RequestMapping("/shop/selectReviewReply.do")
 	@ResponseBody
-	List<ReviewReply> selectReviewReply(ModelAndView mv,int reviewNo) throws JsonMappingException, JsonGenerationException, IOException{
+	List<ReviewReply> selectReviewReply(int reviewNo) 
+			throws JsonMappingException, JsonGenerationException, IOException{
 		List<ReviewReply> rlist=service.selectReviewReplyList(reviewNo);
-		ObjectMapper obm=new ObjectMapper();
-		String str=obm.writeValueAsString(rlist);
+		//ObjectMapper obm=new ObjectMapper();
+		//String str=obm.writeValueAsString(rlist);
 		return rlist;
 	}
+
+	@RequestMapping("/shop/deleteReply.do")
+	@ResponseBody
+	List<ReviewReply> deleteReply(int rrNo,int reviewNo) 
+			throws JsonMappingException, JsonGenerationException, IOException{
+		int result= service.deleteReviewReply(rrNo);
+		List<ReviewReply> rlist=service.selectReviewReplyList(reviewNo);
+		
+		return rlist;
+	}
+
+
+
 }

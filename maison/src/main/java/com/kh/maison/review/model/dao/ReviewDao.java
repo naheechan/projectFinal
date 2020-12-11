@@ -14,4 +14,6 @@ public interface ReviewDao {
 	List<Review> selectReviewList(SqlSessionTemplate session,int productNo);
 	int insertReviewReply(SqlSessionTemplate session,Map param);
 	List<ReviewReply> selectReviewReplyList(SqlSessionTemplate session,int reviewNo);
+	int deleteReviewReply(SqlSessionTemplate session,int rrNo);
+	
 }

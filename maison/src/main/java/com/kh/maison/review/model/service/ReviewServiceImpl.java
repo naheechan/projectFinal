@@ -43,5 +43,11 @@ public class ReviewServiceImpl implements ReviewService {
 		return dao.selectReviewReplyList(session,reviewNo);
 	}
 
+	@Override
+	public int deleteReviewReply(int rrNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteReviewReply(session,rrNo);
+	}
+
 	
 }

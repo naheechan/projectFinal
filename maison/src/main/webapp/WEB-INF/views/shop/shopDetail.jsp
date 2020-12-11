@@ -307,7 +307,7 @@ $(function(){
 					djdjdjdjjdjdjjd
 				</div>
 				</div> */
-				vat str='';
+				var str='';
 				$.each(data,function(i,v){
 					str+="<div class='row'>";
 					str+="<div class='col' style='font-weight:bolder;'> 관리자  </div>";

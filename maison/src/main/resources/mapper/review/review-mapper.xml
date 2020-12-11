@@ -18,4 +18,7 @@
 	<select id="selectReviewReplyList" parameterType="_int" resultType="reviewReply">
 		SELECT * FROM REVIEWREPLY WHERE REVIEWNO=#{reviewNo}
 	</select>
+	<delete id="deleteReviewReply" parameterType="_int">
+		DELETE FROM REVIEWREPLY WHERE RRNO=#{rrNo}
+	</delete>
 </mapper>

@@ -42,7 +42,7 @@
 <div class="row">
 	<div class="col">
 	
-	<p> 총 ${count }개의 리뷰가 있습니다.</p>
+	<p> 총 ${count }개의 리뷰가 있습니다. </p>
 	</div>
 </div>
 <hr>
@@ -91,7 +91,7 @@
 		</div>
 		
 		<div class="comment" id="open_${r.reviewNo }" >
-			여기들어가야하는데
+
 		</div>
 		<div class="comment-input">
 			<div class="row" style="margin-top:20px;">
@@ -116,6 +116,55 @@
 </div>
 
 <script>
+
+//삭제하기
+function deletereply(rrNo,reviewNo){
+	$.ajax({
+		url: "${path}/shop/deleteReply.do",
+		data : {
+			rrNo : rrNo,
+			reviewNo : reviewNo
+		},
+		dataType: "json",
+		success: function(data){
+			var str='';
+			$.each(data,function(i,v){
+				str+="<div class='row' style='margin-top:20px;'>";
+				str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
+				str+="</div>";
+				str+="<div class='row'>";
+				str+="<div class='col-8' style='background-color:#EAEAEA;'>";
+				str+="<p style='margin:10px;'>";
+				str+=v.rrContent;
+				str+="</p>";
+				str+="</div>";
+				str+="<button class='offset-md-7 btn btn-sm update-reply' >"
+				str+="수정";
+				str+="</button>";
+				str+="&nbsp;&nbsp;";
+				str+="<button class='btn btn-sm delete-reply' onclick='deletereply("+v.rrNo+","+v.reviewNo+")' >"
+				str+="삭제";
+				str+="</button>";
+				str+="<input type='hidden' value='"+v.rrNo+"'>";
+				str+="</div>";
+			});
+			$("#open_"+reviewNo).html(str);
+		},
+		error: function(){
+			console("ajax 통신 실패");
+		}
+	});
+
+
+
+};
+
+//수정하기
+
+
+
+
+
 function adjustHeight() {
 	  var reply = $('textarea');
 	  reply[0].style.height = 'auto';
@@ -144,7 +193,6 @@ function adjustHeight() {
 			success : function(data){
 				var str='';
 				$.each(data,function(i,v){
-					console.log(v.rrContent);
 					str+="<div class='row' style='margin-top:20px;'>";
 					str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
 					str+="</div>";
@@ -154,16 +202,46 @@ function adjustHeight() {
 					str+=v.rrContent;
 					str+="</p>";
 					str+="</div>";
+					str+="<button class='offset-md-7 btn btn-sm update-reply' onclick='updatereply("+v.rrNo+","+v.reviewNo+")'>"
+					str+="수정";
+					str+="</button>";
+					str+="&nbsp;&nbsp;";
+					str+="<button class='btn btn-sm delete-reply' onclick='deletereply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
+					str+="삭제";
+					str+="</button>";
+					str+="<input type='hidden' value='"+v.rrNo+"'>";
 					str+="</div>";
-					str+="<div>"
 				});
 				$("#open_"+reviewNo).html(str);
+				
 			},
 			error : function(){
 				console.log("ajax통신실패")
 			}
 		});
 	});
+	
+	//수정하기
+	
+	
+	
+	
+	
+	
+	//삭제하기
+	$(".delete-reply").click(function(){
+		var rrNo=$(this).next().val();
+		console.log("클릭");
+		console.log(rrNo);
+		$.ajax({
+			url: "${path}/shop/deleteReply.do",
+			data : {}
+		});
+	});
+	
+	
+	
+	
 	
 	//답변 달기
 	$(".insert-reply").click(function(){
@@ -182,7 +260,6 @@ function adjustHeight() {
 			success: function(data){
 				var str='';
 				$.each(data,function(i,v){
-					console.log(v.rrContent);
 					str+="<div class='row' style='margin-top:20px;'>";
 					str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
 					str+="</div>";
@@ -192,10 +269,18 @@ function adjustHeight() {
 					str+=v.rrContent;
 					str+="</p>";
 					str+="</div>";
+					str+="<button class='offset-md-7 btn btn-sm update-reply' >"
+						str+="수정";
+						str+="</button>";
+					str+="&nbsp;&nbsp;";
+					str+="<span class='delete-reply' style='cursor:pointer'>"
+					str+="삭제";
+					str+="</span>";
+					str+="<input type='hidden' value='"+v.rrNo+"'>";
 					str+="</div>";
-					str+="<div>"
 				});
 				$("#open_"+reviewNo).html(str);
+				$("textarea").val('');
 			},
 			error: function(){
 				console.log("ajax 통신 실패");
