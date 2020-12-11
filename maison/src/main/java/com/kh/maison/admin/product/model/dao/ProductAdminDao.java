@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
+import com.kh.maison.admin.product.model.vo.ProductCate;
 
 public interface ProductAdminDao {
 
@@ -21,4 +21,8 @@ public interface ProductAdminDao {
 	int insertEnroll(SqlSession session, Product pd);
 	
 	int enrollCate(SqlSession session, Category c);
+	
+	List<ProductCate> productView(SqlSession session);
+	
+	int updateEnroll(SqlSession session, Product pd);
 }

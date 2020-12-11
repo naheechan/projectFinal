@@ -1,6 +1,5 @@
 package com.kh.maison.shop.model.vo;
 
-import java.sql.Date;
 
 import lombok.Data;
 
@@ -8,10 +7,8 @@ import lombok.Data;
 public class CateProduct {
 
 	private int mediumCate;
-	private String mcName;
-	private String largeCate;
+	private String productImg;
 	private int productNo;
 	private String productName;
-	private int mediCate;
-	private Date procuctDate;
+	private int price;
 }

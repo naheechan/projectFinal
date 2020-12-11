@@ -123,7 +123,7 @@
                                     
                                       <!-- 중분류카테고리 검색조건으로 seq넘기기 -->
                                     <c:if test="${ i.current.largeCate  eq j.current.largeCate }">
-                                        <a href="" id="cateSearch" class="list-group-item list-group-item-action<c:if test='${i.index eq 0}'>active</c:if> ">${ mc.mcName }</a>
+                                        <a href=""  id="${j.index}" name="cateSearch" class="list-group-item list-group-item-action<c:if test='${i.index eq 0}'>active</c:if>" value="${ j.current.mediumCate }">${ mc.mcName }</a>
                                      </c:if>
                                      </c:forEach>
                                     </div>
@@ -137,7 +137,7 @@
                             <div class="title-left">
                                 <h3>상품등록</h3>
                             </div>
-                               <button class="btn hvr-hover" type="button" id="Enrollbtn">상품등록</button>
+                               <a class="btn hvr-hover" data-fancybox-close=""  id="Enrollbtn" href="${ path }/admin/product/productEnroll.do">상품등록</a>
                             </div>
                     </c:if>
                         </div>
@@ -155,24 +155,19 @@
    <br>
     <script>
     	$(function(){
-    		//상품등록 관리자용
-			$("#Enrollbtn").click(function(){
-				location.href="${ path }/admin/product/productEnroll.do";
-			});
-			
-			
+			var html = '';
+			var divResult = $("#divResult");
+			var requestContainer = $("#request-container");
     		//keyword ajax 성공
     		$("button[name=search]").click(function(){
 					var keyword = $("#autocomplete").val();
+			
 				$.ajax({
 					url:"${path}/shop/search.do",
 					data:{keyword:keyword},
 // 					type:"get",
 					dataType:"json",
 					success:function(data){
-						var html = '';
-						var divResult = $("#divResult");
-						var requestContainer = $("#request-container");
 						var obj = Object.keys(data).length;
 						divResult.empty();
 						console.log("ajax통신성공"+data);
@@ -203,7 +198,7 @@
 							+"	</div>																							"
 							+"	<div class='why-text'>																		"
 							+"	<h4>																								"
-							+"	<a href='${ path }/shop/shop-detail.html'>"+data[i].productName+"</a>	"
+							+"	<a href='${ path }/shop/shopDetail.do?no="+data[i].productNo+"'>"+data[i].productName+"</a>	"
 							+"	</h4>																							"
 							+"	<br>																								"
 							+"	<h5>"+data[i].price+"원</h5>															"
@@ -215,7 +210,7 @@
 						 });
 						}else{
 							requestContainer.empty();
-							if(${loginMember.memberId != 'admin'}){
+							if(${loginMember.memberId == null} || ${loginMember.memberId != 'admin'}){
 					html = " <form action='${path}/shop/product/requestP.do' method='post'>																					"
 							+"<div>																																											"
 							+"<h2><strong>💌 요청해요</strong></h2><br><br>																											"
@@ -227,8 +222,9 @@
 							+"</div>																																										"
 							+"<br>																																											"
 							+"<textarea rows='10' cols='80' name='requestContent' id='requestP' placeholder='이런 상품 구해주세요 ' required></textarea>			"
-							+"<c:if test='${ loginMember.memberId != null}'>																																"
-							+"<button type='submit' id='loginReqBtn' class='btn' onclick='${path}/shop/product/requestP.do?id='+${loginMember.memberId}'>요청</button>"
+							+"<input type='hidden' name='memberId' value='${loginMember.memberId}'>																					"
+							+"<c:if test='${ loginMember.memberId != null}'>																												"
+							+"<button type='submit' id='loginReqBtn' class='btn' onclick='${path}/shop/product/requestP.do'>요청</button>"
 							+"</c:if> 																																										"
 							+"<c:if test='${ loginMember eq null }'>																															"
 							+"<button type='button' id='reqBtn' class='btn'>요청</button>																								"
@@ -254,26 +250,28 @@
 					}
 				})
     	});
-		
-    		
+
+    	
     		//카테고리 서치
-    		$("#cateSearch").click(function(){
+    		$("[name=cateSearch]").click(function(){
+    			var id=$(this).attr('id');
+    			alert(typeof(id));
 				$.ajax({
 					url:"${path}/shop/cateSearch.do",
 					type:"post",
-					data:{category:productName},
+					data:{category:id},
 					dataType:"json",
 					success:function(data){
-						var html = '';
-						var divResult = $("#divResult");
-						var requestContainer = $("#request-container");
+						
+						var obj = Object.keys(data).length;
 						divResult.empty();
 						console.log("ajax통신성공"+data);
-						
+						console.log(data[i].mediumCate);
+						if(obj>0){
 						$.each(data,function(i){
 							/* divResult.empty(); */
 			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
-							+"	<div class='products-single fix' onclick= searchCate("+data[i].productName+")>"
+							+"	<div class='products-single fix' onclick='searchCate("+data[i].mediumCate+")'>"
 							+"	<div class='box-img-hover'>																"
 							+"	<div class='type-lb'>																		"
 							+"	<p class='sale'>NEW</p>																"
@@ -294,7 +292,7 @@
 							+"	</div>																							"
 							+"	<div class='why-text'>																		"
 							+"	<h4>																								"
-							+"	<a href='${ path }/shop/shop-detail.html'>"+data[i].productName+"</a>	"
+							+"	<a href='${ path }/shop/shopDetail.do?no="+data[i].productNo+"'>"+data[i].productName+"</a>	"
 							+"	</h4>																							"
 							+"	<br>																								"
 							+"	<h5>"+data[i].price+"원</h5>															"
@@ -304,6 +302,9 @@
 			       			 divResult.append(html);
 			       			 requestContainer.empty();
 						 });
+						}else{
+							divResult.append("<span>해당 카테고리 제품은 없습니다.");
+						}
 					},error:function(){
 						console.log("ajax통신실패");
 					}
@@ -318,12 +319,22 @@
     		location.href="url?productNo= "+productNo;	//Get방식
     	}
     	
-    	function searchCate(productName){
-    		location.href="category?name="+productName;
+    	function searchCate(mediumCate){
+    		location.href="url?category="+mediumCate;
     	}
     	
     </script>
     <!-- End Shop Page -->
+    <style>
+    #Enrollbtn{
+    	color:#ffffff;
+    	border-radius: 5px;
+    }
+    #Enrollbtn:hover{
+    	color:#000000;
+    	border:0px;
+    }
+    </style>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		
 <!-- PLUGINS -->
 <script src="<%=request.getContextPath() %>/resources/js/jquery-ui.js"></script>

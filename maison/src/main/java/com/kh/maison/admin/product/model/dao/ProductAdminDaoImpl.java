@@ -5,10 +5,10 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
+import com.kh.maison.admin.product.model.vo.ProductCate;
 
 @Repository
 public class ProductAdminDaoImpl implements ProductAdminDao {
@@ -45,6 +45,15 @@ public class ProductAdminDaoImpl implements ProductAdminDao {
 		return session.insert("product.enrollCate",c);
 	}
 
+	@Override
+	public List<ProductCate> productView(SqlSession session) {
+		return session.selectList("product.productView");
+	}
+
+	@Override
+	public int updateEnroll(SqlSession session, Product pd) {
+		return session.update("product.updateEnroll",pd);
+	}
 	
 	
 	

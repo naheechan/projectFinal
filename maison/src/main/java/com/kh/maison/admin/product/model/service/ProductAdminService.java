@@ -3,10 +3,9 @@ package com.kh.maison.admin.product.model.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
+import com.kh.maison.admin.product.model.vo.ProductCate;
 
 public interface ProductAdminService {
 	
@@ -20,4 +19,7 @@ public interface ProductAdminService {
 	
 	int enrollCate(Category c);
 	
+	List<ProductCate> productView();
+	
+	int updateEnroll(Product pd);
 }

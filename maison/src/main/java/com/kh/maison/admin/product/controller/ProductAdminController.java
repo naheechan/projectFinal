@@ -1,6 +1,5 @@
 package com.kh.maison.admin.product.controller;
 
-import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +11,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.product.model.service.ProductAdminService;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
+import com.kh.maison.admin.product.model.vo.ProductCate;
 
 @Controller
 @RequestMapping("/admin/product")
@@ -201,6 +200,62 @@ public class ProductAdminController {
 		
 		
 		return result;
+	}
+	
+	//상품등록수정내용불러오기 productAdminController
+	@RequestMapping("/productView.do")
+	public ModelAndView productView(ModelAndView mv) {
+		List<ProductCate> list = service.productView();
+		System.out.println("productView:"+list);
+		mv.addObject("list",list);
+		mv.setViewName("admin/product/productView");
+		return mv;
+	}
+	
+	@RequestMapping("/update.do")
+	public String productUpdate(Model m) {
+		List<Category> largeCate = service.selectCategory(null);
+		
+		m.addAttribute("largeCate",largeCate);
+		return "admin/product/productUpdate";
+	}
+	
+	@RequestMapping("/updateEnroll.do")
+	public ModelAndView updateEnroll(Product pd, ModelAndView mv,MultipartFile imageFile,HttpServletRequest request)
+			throws IllegalAccessException,IOException{
+
+				String mediumCate = pd.getMediumCate().split(",")[1];
+				System.out.println(mediumCate);
+				pd.setMediumCate(mediumCate);
+				
+				//파일업로드처리 (업로드경로불러오기, 리네임처리후 파일저장하기)
+//				MultipartFile productImg=pd.getProductImg();
+				System.out.println("컨트롤러 "+imageFile);
+				String saveDir = request.getServletContext().getRealPath("/resources/upload/product");
+				File dir = new File(saveDir);
+				if(!dir.exists()) {
+					dir.mkdirs();
+				}
+				if(!imageFile.isEmpty()) {
+					//중복방지위해 리네임처리
+					String originalFileName = imageFile.getOriginalFilename();
+					String ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+					SimpleDateFormat sdf= new SimpleDateFormat("yyyy_MM_dd_HHmmssSSS");
+					int rndNum = (int)(Math.random()*1000);
+					String renamedFileName=sdf.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+ext;
+					try {
+						//renamedFileName으로 파일 저장
+						imageFile.transferTo(new File(saveDir+"/"+renamedFileName));
+					}catch(IOException e) {
+						e.printStackTrace();
+					}
+					pd.setProductImg(renamedFileName);
+				}
+				int result = service.updateEnroll(pd);
+				mv.addObject("msg",result>0?"수정성공":"수정실패");
+				mv.addObject("loc","/shop/shopView.do");
+				mv.setViewName("/common/msg");
+				return mv;
 	}
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.maison.shop.dao.ProductDao;
+import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.vo.Product;
 import com.kh.maison.shop.vo.WishList;
 
@@ -50,8 +51,7 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return dao.deleteWishList(session,w);
 	}
-	
-	
+
 	
 	
 

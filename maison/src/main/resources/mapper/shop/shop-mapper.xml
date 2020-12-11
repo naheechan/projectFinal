@@ -26,7 +26,7 @@
 	SELECT DISTINCT LARGECATE FROM MEDIUMCATE
 </select>
 <select id="selectMediCate" resultType="category">
-	SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE
+	SELECT DISTINCT MEDIUMCATE ,MCNAME, LARGECATE FROM MEDIUMCATE
 </select>
 <insert id="insertRequestProduct" parameterType="Request">
 	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,#{memberId},#{requestContent},'요청하기',SYSDATE)
@@ -40,9 +40,61 @@
 </select>
 
 <select id="searchCate" resultType="cateProduct" parameterType="String">
-	SELECT M.*, P.PRODUCTNAME, P.PRODUCTIMG, P.MEDIUMCATE AS MEDICATE, P.PRICE 
-	FROM MEDIUMCATE M, PRODUCT P 
-	WHERE M.MEDIUMCATE=P.MEDIUMCATE 
+	SELECT MEDIUMCATE,PRODUCTIMG, PRODUCTNO,PRODUCTNAME,PRICE
+	FROM PRODUCT
+	WHERE MEDIUMCATE=TO_NUMBER(#{category})
 </select>
 
+<select id="selectInquiryList" resultType="pdInquiry">
+	<!-- SELECT PINO, PICATE, PITITLE, PICONTENT, MEMBERID, PRODUCTNO, -->
+	<!-- TO_CHAR(PIDATE,'YYYY-MM-DD HH24:MI')AS PIDATE, PIREADCOUNT FROM PDINQUIRY -->
+	<!-- PIDATE, PIREADCOUNT FROM PDINQUIRY -->
+	SELECT * FROM PDINQUIRY 
+</select>
+
+<select id="selectCountInquiry" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY
+</select>
+
+<select id="selectPdOne" resultType="product" parameterType="_int">
+	SELECT * FROM PRODUCT WHERE PRODUCTNO=#{no}
+</select>
+
+<insert id="writeInquiry" parameterType="pdInquiry">
+	INSERT INTO PDINQUIRY VALUES(SEQ_PINO.NEXTVAL,#{piCate},#{piTitle},#{piContent},#{memberId},
+	#{productNo},'N',SYSDATE,'Y',DEFAULT)
+</insert>
+
+<insert id="insertReply" parameterType="reply">
+	INSERT INTO INQUIRYREPLY VALUES(SEQ_PIRNO.NEXTVAL,#{pirContent},SYSDATE,#{piNo})
+</insert>
+
+<select id="selectInquiryOne" resultType="pdInquiry" parameterType="_int">
+	SELECT * FROM PDINQUIRY WHERE PINO=${piNo}
+</select>
+
+<update id="updateInquiry" parameterType="map">
+	<if test="pirContent!=null">
+		UPDATE PDINQUIRY SET PICONTENT=#{piContent},PISTATUS='Y',PICATE=#{piCate}
+	</if>
+	<if test="pirContent==null">
+		UPDATE PDINQUIRY SET PICONTENT=#{piContent},PISTATUS='N',PICATE=#{piCate}
+	</if>
+</update>
+
+<select id="selectReplyOne" parameterType="_int" resultType="reply">
+	SELECT * FROM INQUIRYREPLY WHERE PINO=#{piNo}
+</select>
+
+<!--관리자 답변여부  -->
+<update id="updateStatus" parameterType="_int">
+	UPDATE PDINQUIRY SET PISTATUS='Y' WHERE PINO=#{no}
+</update>
+
+<select id="selectAddReply" resultType="adminReply" parameterType="_int">
+	SELECT P.PINO, P.PICATE, P.PISTATUS, 
+	I.PIRNO, I.PIRCONTENT, I.PIRDATE, I.PINO AS REPINO 
+	FROM PDINQUIRY P, INQUIRYREPLY I 
+	WHERE P.PINO=#{piNo}
+</select>
 </mapper>

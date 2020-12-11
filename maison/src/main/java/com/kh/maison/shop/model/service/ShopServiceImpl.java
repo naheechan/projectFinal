@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.shop.model.dao.ShopDao;
+import com.kh.maison.shop.model.vo.AdminReply;
 import com.kh.maison.shop.model.vo.CateProduct;
+import com.kh.maison.shop.model.vo.InquiryReply;
+import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -61,6 +64,66 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public List<CateProduct> searchCate(String category) {
 		return dao.searchCate(session,category);
+	}
+
+
+	@Override
+	public List<PdInquiry> selectInquiryList(int cPage, int numPerPage) {
+		return dao.selectInquiryList(session,cPage, numPerPage);
+	}
+
+
+	@Override
+	public int selectCountInquiry() {
+		return dao.selectCountInquiry(session);
+	}
+
+
+	@Override
+	public Product selectPdOne(int no) {
+		return dao.selectPdOne(session,no);
+	}
+
+
+	@Override
+	public int writeInquiry(PdInquiry pi) {
+		return dao.writeInquiry(session,pi);
+	}
+
+
+	@Override
+	public int insertReply(InquiryReply ir) {
+		return dao.insertReply(session,ir);
+	}
+
+
+	@Override
+	public PdInquiry selectInquiryOne(int piNo) {
+		return dao.selectInquiryOne(session,piNo);
+	}
+
+
+	@Override
+	public int updateInquiry(Map<String,Object> m) {
+		return dao.updateInquiry(session,m);
+	}
+
+
+	@Override
+	public List<InquiryReply> selectReplyOne(int piNo) {
+		return dao.selectReplyOne(session,piNo);
+	}
+
+
+	@Override
+	public int updateStatus(int no) {
+		return dao.updateStatus(session,no);
+	}
+
+
+	@Override
+	public List<AdminReply> selectAddReply(int no) {
+		return dao.selectAddReply(session,no);
 	}
 	
 	

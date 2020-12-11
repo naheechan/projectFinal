@@ -42,4 +42,21 @@
 		INSERT INTO MEDIUMCATE VALUES(SEQ_MEDIUMCATE.NEXTVAL,#{mcName},#{largeCate})
 	</insert>
 	
+	<select id="productView" resultType="com.kh.maison.admin.product.model.vo.ProductCate">
+		SELECT p.*, m.* FROM PRODUCT P, MEDIUMCATE M
+	</select>
+	
+	<update id="updateEnroll" parameterType="product">
+		UPDATE PRODUCT SET 
+		PRODUCTNAME=#{productName},
+		PRODUCTSUMMARY=#{productSummary},
+		PRODUCTCONTENT=#{productContent},
+		PRODUCTIMG=#{productImg},
+		PRODUCTSTATUS=#{productStatus},
+		PRODUCTSTOCK=#{productStock},
+		PRICE=#{price},
+		MEDIUMCATE=#{mediumCate},
+		DEFCYCLE=#{defCycle}
+		WHERE PRODUCTNO=#{productNo}
+	</update>	
 </mapper>

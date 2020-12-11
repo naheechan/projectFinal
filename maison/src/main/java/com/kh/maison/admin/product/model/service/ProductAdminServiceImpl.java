@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.admin.product.model.dao.ProductAdminDao;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
+import com.kh.maison.admin.product.model.vo.ProductCate;
 
 @Service
 public class ProductAdminServiceImpl implements ProductAdminService {
@@ -47,6 +48,16 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 	@Override
 	public int enrollCate(Category c) {
 		return dao.enrollCate(session,c);
+	}
+	
+	@Override
+	public List<ProductCate> productView() {
+		return dao.productView(session);
+	}
+	
+	@Override
+	public int updateEnroll(Product pd) {
+		return dao.updateEnroll(session,pd);
 	}
 	
 	

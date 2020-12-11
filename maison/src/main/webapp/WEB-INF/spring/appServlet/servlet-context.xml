@@ -31,7 +31,13 @@
 		</interceptor>	
 	</interceptors>
 	
-	
+	<!-- 문의하기 들어갈때 로그인한 회원만  -->
+	<interceptors>
+      <interceptor>
+         <mapping path="/shop/user/*" />
+         <beans:bean class="com.kh.maison.common.InquiryInterceptor" />
+      </interceptor>
+         </interceptors>
 	
 	
 	<!-- Resolver for File Upload -->
