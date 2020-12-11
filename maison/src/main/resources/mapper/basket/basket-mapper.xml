@@ -20,4 +20,16 @@
 		FROM BASKET B JOIN PRODUCT P ON B.PRODUCTNO=P.PRODUCTNO
 		WHERE BASKETNO=#{basketNo}
 	</select>
+	<insert id="insertBasket" parameterType="map">
+		INSERT INTO BASKET VALUES(SEQ_BASKET.NEXTVAL,#{productNo},#{amount},#{memberId})
+	</insert>
+	<select id="checkBasket" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM BASKET WHERE MEMBERID=#{memberId} AND PRODUCTNO=#{productNo}
+	</select>
+	<update id="updateBasket" parameterType="map">
+		<selectKey resultType="_int" keyProperty="basketNo" order="BEFORE">
+			SELECT BASKETNO FROM BASKET WHERE MEMBERID=#{memberId} AND PRODUCTNO=#{productNo}
+		</selectKey>
+		UPDATE BASKET SET AMOUNT=AMOUNT+#{amount} WHERE BASKETNO=#{basketNo}
+	</update>
 </mapper>

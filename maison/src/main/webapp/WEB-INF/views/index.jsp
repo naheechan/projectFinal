@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="첫화면"/>
 </jsp:include>
+<a href="${path }/shop/insertReview.do?productNo=3">리뷰쓰러가기</a>
 <script>
 	if(${auth ne null || !empty auth}) {
 		alert("${auth}");
