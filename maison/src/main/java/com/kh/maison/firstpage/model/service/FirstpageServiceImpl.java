@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.maison.firstpage.model.dao.FirstpageDao;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.vo.Product;
 
 @Service
@@ -23,6 +24,13 @@ public class FirstpageServiceImpl implements FirstpageService {
 		// TODO Auto-generated method stub
 		List<Product> list = dao.selectBestWish(session);
 		return list;
+	}
+
+	@Override
+	public Member selectAdmin() {
+		// TODO Auto-generated method stub
+		Member m = dao.selectAdmin(session);
+		return m;
 	}
 
 }

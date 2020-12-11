@@ -15,4 +15,9 @@
         ) W
 	WHERE P.PRODUCTNO = W.PRODUCTNO	
 	</select>
+	
+	<select id="selectAdmin" resultType = "member">
+		SELECT * FROM MEMBER 
+		WHERE MEMBERID = 'admin'
+	</select>
 </mapper>

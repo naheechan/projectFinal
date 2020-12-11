@@ -78,7 +78,12 @@
                     	<li class="login"><a href="${path }/member/login"><i class="fas fa-user-alt"></i></a></li>
                     </c:if>
                     <c:if test="${loginMember ne null}">
-                    	<li class=""><a href="${path }/member/mypage.do"><c:out value="${loginMember.memberName}님"/></a></li>
+                    	<c:if test="${loginMember.memberId eq 'admin' }">
+	                    	<li class=""><a href="${path }/admin/dashBoard.do"><c:out value="${loginMember.memberName}"/></a></li>           	
+                    	</c:if>
+                    	<c:if test="${loginMember.memberId ne 'admin' }">
+	                    	<li class=""><a href="${path }/member/mypage.do"><c:out value="${loginMember.memberName}님"/></a></li>       	
+                    	</c:if>
                     </c:if>
                     
                     <li class="side-menu">
