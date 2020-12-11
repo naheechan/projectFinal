@@ -17,7 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -38,15 +40,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.kh.maison.common.captcha.CaptchaUtil;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.common.email.MailSendService;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Member;
 
+import nl.captcha.Captcha;
+
+
 @Controller
 @SessionAttributes({"loginMember", "state", "res", "memNaver"})
 public class MemberController {
 
+	
 	@Autowired
 	private MemberService service;
 	//단방향 암호화
@@ -60,6 +67,7 @@ public class MemberController {
 //	@Autowired
 //	private Logger logger;
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
 	
 	
 	@RequestMapping(value="/member/login")
@@ -417,13 +425,213 @@ public class MemberController {
 		return mv;
 	}
 	
+	//마이페이지 화면전환용
+	@RequestMapping("/member/mypage.do")
+	public String mypage() {
+		return "member/mypage";
+	}
+	
+	//회원정보수정 화면전환용 (memberPw가 null이 아닌 경우)
+	@RequestMapping("/member/update.do")
+	public ModelAndView memberUpdate(ModelAndView mv) {
+		mv.setViewName("member/update");
+		return mv;
+	}
+	
+	@RequestMapping("/member/updateCheck.do")
+	public ModelAndView memberUpdateCheck(ModelAndView mv, Member m) {
+		//그냥 m은 비밀번호 입력 화면에서 불러온 아이디랑 비밀번호 
+		// mem은 m에서 가져온 아이디를 where절에 넣어서 불러온 member 데이터
+
+		Member mem = service.selectMemberOne(m.getMemberId());
+
+		if(mem!=null && encoder.matches(m.getMemberPw(), mem.getMemberPw())) {
+			mv.addObject("msg", "비밀번호가 인증되었습니다.");
+			mv.addObject("loc", "/member/updateEnd.do");
+
+		}else {
+			mv.addObject("msg", "비밀번호 인증 실패! 비밀번호를 다시 입력해주세요.");
+			mv.addObject("loc", "/member/update.do");
+		}
+			mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/member/updateEnd.do")
+	public ModelAndView memberUpdateEnd(ModelAndView mv) {
+		mv.setViewName("member/updateEnd");
+		return mv;
+	}
 	
 	
 	
+	//회원정보 변경 눌렀을때 memberPw가 null인 경우 바로 이동 
+	@RequestMapping("/member/updateNaver.do")
+	public ModelAndView memberUpdateNaver(ModelAndView mv) {
+		mv.setViewName("member/updateNaver");
+		return mv;
+	}
 	
+	@RequestMapping("/member/updateEndEnd.do")
+	public ModelAndView memberUpdateEndEnd(ModelAndView mv, Member mem, SessionStatus status) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
+		
+		System.out.println(mem);
+		
+		String email = mem.getEmail();
+		//이메일을 바꾸지 않았어. 
+		if(email.equals(aes.decrypt(service.selectMemberOne(mem.getMemberId()).getEmail()))) {
+			mem.setAuthStatus("Y");
+		}else {
+			mem.setAuthStatus("N");
+		}
+		
+		if(mem.getMemberPw()!=null) {
+			//비밀번호 단방향 암호화(비밀번호를 모두 소문자로 바꿔서 암호화시킴)
+			//비밀번호가 null이던 아니던 상관없이 같은 메소드를 적용할 수 있어야 해서 null조건
+			mem.setMemberPw(encoder.encode(mem.getMemberPw().toLowerCase()));
+		}
+		//양방향 암호화
+		mem.setZipcode(aes.encrypt(mem.getZipcode()));
+		mem.setAddress(aes.encrypt(mem.getAddress()));
+		mem.setDetailAddress(aes.encrypt(mem.getDetailAddress()));
+		mem.setEmail(aes.encrypt(mem.getEmail()));
+		mem.setPhone(aes.encrypt(mem.getPhone()));
+		
+		int result = service.updateMember(mem);
+		
+		//조건 1. 이메일을 변경하지 않았으면서 나머지가 update성공했을때
+		//조건2. 이메일을 변경했고, update성공햇으나 아직 인증되지 않았을때. 
+		//조건 3. update실패했을때. 
+		
+		
+		if(result>0) {
+			// 이메일을 변경했고, 이메일 인증을 발송해야하는 경우.
+			if(mem.getAuthStatus().equals("N")) {
+				mv.addObject("email",email);
+				String authKey = mss.sendAuthMail(email, mem.getMemberId());
+				Map<String,String> map = new HashMap<>();
+				map.put("id",mem.getMemberId());
+				map.put("key",authKey);
+				//db에 인증키 넣어주기
+				result = service.updateAuthKey(map);
+				if(result>0) {
+					mv.setViewName("redirect:/member/enrollAnnoun");
+					if(!status.isComplete()) {
+						status.setComplete();
+					}
+				}else {
+					mv.addObject("msg","인증 이메일 발송 실패 - 관리자에게 문의하세요");
+					mv.addObject("loc","/");
+					mv.setViewName("common/msg");
+				}		
+				// 회원정보 변경 자체는 성공해서, 다른 정보들을 바꿨는데 이메일은 안바꿨어. 
+			}else {
+				if(!status.isComplete()) {
+					status.setComplete();
+				}
+				mv.addObject("msg","회원정보가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
+				mv.addObject("loc","/");
+				mv.setViewName("common/msg");
+			}
+		// 회원정보 update자체가 실패했을때. 
+		}else {
+			mv.addObject("msg","회원정보 변경 실패 - 관리자에게 문의하세요.");
+			mv.addObject("loc","/member/mypage.do");
+			mv.setViewName("common/msg");
+		}
+		
+		return mv;
+	}
 	
+	@RequestMapping("/member/updatePw.do")
+	public ModelAndView updateMemberPw(ModelAndView mv) {
+		mv.setViewName("member/updatePw");
+		return mv;
+	}
+
+	@RequestMapping("/member/updatePwCheck.do")
+	public ModelAndView memberUpdatePwCheck(ModelAndView mv, Member m) {
+		//그냥 m은 비밀번호 입력 화면에서 불러온 아이디랑 비밀번호 
+		// mem은 m에서 가져온 아이디를 where절에 넣어서 불러온 member 데이터
+
+		Member mem = service.selectMemberOne(m.getMemberId());
+
+		if(mem!=null && encoder.matches(m.getMemberPw(), mem.getMemberPw())) {
+			mv.addObject("msg", "비밀번호가 인증되었습니다.비밀번호 변경 화면으로 전환합니다.");
+			mv.addObject("loc", "/member/updatePwEnd.do");
+
+		}else {
+			mv.addObject("msg", "비밀번호 인증 실패!비밀번호를 다시 입력해주세요.");
+			mv.addObject("loc", "/member/updatePw.do");
+		}
+			mv.setViewName("common/msg");
+		return mv;
+	}
 	
+	@RequestMapping("/member/updatePwEnd.do")
+	public ModelAndView updatePwEnd(ModelAndView mv) {
+		mv.setViewName("member/updatePwEnd");
+		return mv;
+	}
+
+	// simpleCaptcha관련
+	// captcha 이미지 가져오는 메서드
+	@RequestMapping("/captchaImg.do")
+	@ResponseBody
+	public void captchaImg(HttpServletRequest req, HttpServletResponse res) throws Exception{ 
+		new CaptchaUtil().getImgCaptCha(req, res); 
+	}
 	
+	// 전달받은 문자열로 음성 가져오는 메서드 
+	@RequestMapping("/captchaAudio.do") 
+	@ResponseBody 
+	public void captchaAudio(HttpServletRequest req, HttpServletResponse res) throws Exception{ 
+		Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME); 
+		String getAnswer = captcha.getAnswer(); 
+		new CaptchaUtil().getAudioCaptCha(req, res, getAnswer); }
+
+
+	@RequestMapping("/member/captchaCheck.do")
+	@ResponseBody
+	public int captchaCheck(@RequestParam String target, HttpServletRequest req) {
+		int result = 0;
+		Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME);
+		if(target!=null && !"".equals(target)) {
+			if(captcha.isCorrect(target)) {
+				req.getSession().removeAttribute(Captcha.NAME);
+				result = 1;
+			}else {
+				result = 0;
+			}
+		}
+		return result;
+	}
+	
+	@RequestMapping("/member/updatePwEndEnd.do")
+	public ModelAndView updatePwEndEnd(ModelAndView mv, Member m, SessionStatus status) {
+		
+		//m은 updatePwEndEnd에서 가져온 member데이터고
+		//mem은 m에서 가져온 데이터를 encode해준 애 넣은거. 
+		Map<String,String> map = new HashMap<>();
+		
+		map.put("id",m.getMemberId());
+		map.put("pw", encoder.encode(m.getMemberPw().toLowerCase()));
+		
+		int result = service.updateMemberPw(map);
+		if(result>0) {
+			if(!status.isComplete()) {
+				status.setComplete();
+			}
+			mv.addObject("msg","비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
+			mv.addObject("loc","/");
+			
+		}else {
+			mv.addObject("msg","비밀번호 변경 실패 - 관리자에게 문의하세요.");
+			mv.addObject("loc","/member/mypage.do");	
+		}
+		mv.setViewName("common/msg");
+		return mv;
+	}
 	
 	
 	

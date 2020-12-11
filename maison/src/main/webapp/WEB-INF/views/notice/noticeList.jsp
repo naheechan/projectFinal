@@ -26,43 +26,47 @@
 		<br>
 	<div id="notice-container" class="row justify-content-center">
 		<div class="col-10 align-self-center">
-		<table class="table table-hover">
-			<tr class="table-active">
-				<td style="width:10%">번호</td>
-				<td style="width:55%">제목</td>
-				<td style="width:10%">작성자</td>
-				<td style="width:15%">날짜</td>
-				<td style="width:10%">조회 수</td>
-				
-			</tr>
-			<c:forEach var="n" items="${list }">
-				
-				<tr>
-				
-					<td>${n.noticeNo }</td>
-					<td><a href="${path }/notice/noticeOne.do?noticeNo=${n.noticeNo }">${n.noticeTitle }</a></td>
-					<td>관리자</td>
-						<!-- 오늘 날짜를 구하기 -->
-						<c:set var="now" value="<%=new java.util.Date()%>" />
-						<c:set var="sysCal">
-							<fmt:formatDate value="${now }" pattern="yyyy-MM-dd" />
-						</c:set>
-						<c:set var="dateTempParse">
-							<fmt:formatDate pattern="yyyy-MM-dd" value="${n.noticeDate }" />
-						</c:set>
-						<c:if test="${sysCal eq dateTempParse }">
-							<fmt:formatDate var="sysTime" value="${n.noticeDate }" pattern="HH:mm" />
-							<td><c:out value="${sysTime }" /></td>
-							
-						</c:if>
-						<c:if test="${sysCal ne dateTempParse }">
-							<td><c:out value="${dateTempParse }" /></td>
-						</c:if>
-						<td class="text-center">${n.noticeCount }</td>
-				</tr>
-			
-			</c:forEach>
-		</table>
+		<div class="table-main table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th style="width:10%">번호</th>
+						<th style="width:55%">제목</th>
+						<th style="width:10%">작성자</th>
+						<th style="width:15%">날짜</th>
+						<th style="width:10%">조회 수</th>
+						
+					</tr>
+				</thead>
+				<c:forEach var="n" items="${list }">
+					<tbody>
+						<tr>
+						
+							<td>${n.noticeNo }</td>
+							<td><a href="${path }/notice/noticeOne.do?noticeNo=${n.noticeNo }">${n.noticeTitle }</a></td>
+							<td>관리자</td>
+								<!-- 오늘 날짜를 구하기 -->
+								<c:set var="now" value="<%=new java.util.Date()%>" />
+								<c:set var="sysCal">
+									<fmt:formatDate value="${now }" pattern="yyyy-MM-dd" />
+								</c:set>
+								<c:set var="dateTempParse">
+									<fmt:formatDate pattern="yyyy-MM-dd" value="${n.noticeDate }" />
+								</c:set>
+								<c:if test="${sysCal eq dateTempParse }">
+									<fmt:formatDate var="sysTime" value="${n.noticeDate }" pattern="HH:mm" />
+									<td><c:out value="${sysTime }" /></td>
+									
+								</c:if>
+								<c:if test="${sysCal ne dateTempParse }">
+									<td><c:out value="${dateTempParse }" /></td>
+								</c:if>
+								<td class="text-center">${n.noticeCount }</td>
+						</tr>
+					</tbody>
+				</c:forEach>
+			</table>
+		</div>
 	</div>
 	</div>
 	<div class="row justify-content-end">
