@@ -117,6 +117,32 @@
 
 <script>
 
+//답변 div 생성하기
+function makereplydiv(rrContent,rrNo,reviewNo){
+	str+="<div class='row' style='margin-top:20px;'>";
+	str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
+	str+="</div>";
+	str+="<div class='row'>";
+	str+="<div class='col-8' style='background-color:#EAEAEA;'>";
+	str+="<p style='margin:10px;'>";
+	str+=rrContent;
+	str+="</p>";
+	str+="</div>";
+	str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
+	str+="<button class='offset-md-7 btn btn-sm update-reply' >"
+	str+="수정";
+	str+="</button>";
+	str+="&nbsp;&nbsp;";
+	str+="<button class='btn btn-sm delete-reply' onclick='deletereply("+rrNo+","+reviewNo+")' >"
+	str+="삭제";
+	str+="</button>";
+	str+="<input type='hidden' value='"+rrNo+"'>";
+	str+="</c:if>";
+	str+="</div>";
+};
+
+
+
 //삭제하기
 function deletereply(rrNo,reviewNo){
 	$.ajax({
@@ -180,6 +206,7 @@ function adjustHeight() {
 	$(function(){
 	$(".comment").hide();
 	$(".comment-input").hide();
+	
 	//댓글 모양 누르면 답변들 보이기
 	$("span[name=commentBtn]").click(function(){
 		$(this).parent().parent().parent().next().toggle();
@@ -202,6 +229,7 @@ function adjustHeight() {
 					str+=v.rrContent;
 					str+="</p>";
 					str+="</div>";
+					str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
 					str+="<button class='offset-md-7 btn btn-sm update-reply' onclick='updatereply("+v.rrNo+","+v.reviewNo+")'>"
 					str+="수정";
 					str+="</button>";
@@ -210,6 +238,7 @@ function adjustHeight() {
 					str+="삭제";
 					str+="</button>";
 					str+="<input type='hidden' value='"+v.rrNo+"'>";
+					str+="</c:if>"
 					str+="</div>";
 				});
 				$("#open_"+reviewNo).html(str);

@@ -86,15 +86,30 @@
 		padding-left:20px;
 	}
 
-}
+	#pop{
+		width:500px;
+		height:600px;
+		position:absolute;
+		top:10px;
+		left:100px;
+		text-align:center;
+		border :2px solid #f2bb9c; 
+		z-index: 100;
+	}
 
 </style>
 <script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
+
+<div id="pop">
+
+
+
 <div class="container">
 <div class="row">
-<div class="col-8">
+<div class="col">
 <form action="${path }/shop/insertReviewEnd.do" method="get" id="reviewForm">
 	<div id="data-div review-container">
 						<div class="form-group">
@@ -156,10 +171,12 @@
 		   <textarea class="form-control" name="reviewContent" rows="5" id="reviewContent" required></textarea>
 		</div>
 		<input type="submit" class="btn btn-success" id="savebutton" value="등록" />
+		<input type="button" class="btn" value="닫기">
 	</div>
 
 
 </form>
+</div>
 </div>
 </div>
 </div>
