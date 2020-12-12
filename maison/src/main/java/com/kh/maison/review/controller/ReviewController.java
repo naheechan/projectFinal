@@ -32,6 +32,7 @@ public class ReviewController {
 	ProductService pservice;
 	
 	@RequestMapping("/shop/insertReview.do")
+	@ResponseBody
 	public ModelAndView insertReview(ModelAndView mv,int productNo) {
 		
 		Product p=pservice.selectProductOne(productNo);
@@ -40,8 +41,13 @@ public class ReviewController {
 		
 		mv.addObject("p",p);
 		//mv.addObject("od",od);
-		mv.setViewName("/shop/productReviewAdd");
+		mv.setViewName("/shop/reviewPop");
 		return mv ;
+	}
+	@RequestMapping("/shop/review.do")
+	public String review() {
+		
+	return "shop/productReviewAdd";	
 	}
 	
 	@RequestMapping("/shop/insertReviewEnd.do")

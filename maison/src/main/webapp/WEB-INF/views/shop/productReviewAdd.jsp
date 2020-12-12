@@ -22,7 +22,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
 <script src="${path }/resources/js/jquery-ui.js"></script>
-<style>
+<!-- <style>
 	#data-div {
 		border: 1px solid lightgray;
 		padding: 2%;
@@ -97,94 +97,80 @@
 		z-index: 100;
 	}
 
-</style>
+</style> -->
 <script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+<!-- 원래는 오더디테일이어야함 -->
+<input type="hidden" name="orderDetailNo" value="3">
+<button class="btn addreview">리뷰쓰기</button>
+<script>
+$(function(){
+	$(".addreview").click(function(){
+	var productNo=$(this).prev().val();
+	$("#pop").show();
+	$.ajax({
+		url : "${path }/shop/insertReview.do",
+		data:{
+			productNo : productNo
+		},
+		dataType : "html",
+		success : function(data){
+			$("#pop").html("");
+			$("#pop").html(data);
+		}
+				
+	})
+		
+	});
+	
+	
+})
+
+</script>
+
+
 
 <div id="pop">
 
 
 
-<div class="container">
-<div class="row">
-<div class="col">
-<form action="${path }/shop/insertReviewEnd.do" method="get" id="reviewForm">
-	<div id="data-div review-container">
-						<div class="form-group">
-							<label class="control-label">구매 후기 쓰기</label> <br>
-							<table>
-								<tr>
-									<td rowspan="2"><img
-										src="${path }/resources/upload/product/${p.productImg}"
-										width="150px" /></td>
-									<td>
-										<p class="title">${p.productName }</p>
-										<input type="hidden" name="productNo" value="${p.productNo }">
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<p>${p.productSummary }</p>
-									</td>
-								</tr>
-							</table>
-							<p class="clear-both"></p>
-						</div>
-						<hr>
-		<div class="form-group required">
-		    <label for="reviewScroe" class="control-label" >별점</label>
-		    <br>
-			<label>
-			<input type="checkbox" name="reviewScore" id="rating1" value="1"  class="rate_radio" title="1점">
-			<label for="rating1">
-				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
-			</label>
-			
-			<input type="checkbox" name="reviewScore" id="rating2" value="2" class="rate_radio" title="2점">
-			<label for="rating2">
-				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
-			</label>
-			
-			<input type="checkbox" name="reviewScore" id="rating3" value="3" class="rate_radio" title="3점">
-			<label for="rating3">
-				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
-			</label>
-			
-			<input type="checkbox" name="reviewScore" id="rating4" value="4" class="rate_radio" title="4점">
-			<label for="rating4">
-				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
-			</label>
-			
-			<input type="checkbox" name="reviewScore" id="rating5" checked value="5" class="rate_radio" title="5점">
-			<label for="rating5">
-				<span class="starOn"><i class="fas  fa-2x fa-star"></i></span>
-			</label>
-			
-			</label>
-		</div>
-		<hr>
-		<div class="form-group required">
-		    <label for="reviewContent" class="control-label">내용</label>
-		    <br>
-		   <textarea class="form-control" name="reviewContent" rows="5" id="reviewContent" required></textarea>
-		</div>
-		<input type="submit" class="btn btn-success" id="savebutton" value="등록" />
-		<input type="button" class="btn" value="닫기">
-	</div>
 
-
-</form>
-</div>
-</div>
-</div>
 </div>
 </body>
 <script>
 	$(function(){
+		
+		$(".addreview").click(function(){
+			var productNo=$(this).prev().val();
+			$("#pop").show();
+			$.ajax({
+				url : "${path }/shop/insertReview.do",
+				data:{
+					productNo : productNo
+				},
+				dataType : "html",
+				success : function(data){
+					$("#pop").html("");
+					$("#pop").html(data);
+				}
+						
+			})
+				
+			});
+		
+		
+		
+		//닫기누르면 없애기
+		$(".closebtn").click(function(){
+			$("#pop").hide();
+		});
+		
+		
+		
 		$(":checkbox").css("display","none"); 
-	
+		
 		$(":checkbox").click(function(){
 			var score= $(this).val();
 			console.log(score);
