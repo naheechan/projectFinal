@@ -5,11 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="상품등록" />
+	<jsp:param name="title" value="상품등록내역" />
 </jsp:include>
 <script src="${ path }/ckeditor/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
-	<jsp:param name="menuTitle" value="상품등록" />
+	<jsp:param name="menuTitle" value="상품등록내역" />
 </jsp:include>
 
 <!-- Start -->
@@ -30,8 +30,8 @@
 
       <!-- form body -->
       <div class="form-body">
-<%--        <c:forEach items="${list}" var="list" begin="1" end="1">
- --%>
+        <c:forEach items="${list}" var="list">
+
         <!-- Category -->
         <div class="horizontal-group">
           <div class="form-group left">
@@ -128,7 +128,8 @@
 
 		<!-- mediumCate -->
         <div class="form-group right">
-          <input type="hidden" name="mediumCate" id="mediHidden" class="form-input" value="">
+          <input type="hidden" name="mediumCate" id="mediHidden" class="form-input" value="${list.mediumCate}">
+          <input type="hidden" name="productNo" id="productNo" class="form-input" value="${list.productNo}">
         </div>
         </div></div>
       <!-- form-footer -->
@@ -136,13 +137,18 @@
         <span>* required</span>
         <button type="button" class="btn" id="viewSubmit">수정</button>
       </div>
-    <%-- </c:forEach> --%>
+    </c:forEach>
       </div>
     </form>
       
 
     <!-- Script for range input label -->
     <script>
+    $(function(){
+    	$("#createbtn").click(function(){
+    		alert("상품 등록 or 상품 수정 페이지에서 이용가능합니다.");
+    	})
+    })
       var rangeLabel = document.getElementById("range-label");
       var productStock = document.getElementById("productStock");
 
@@ -154,9 +160,10 @@
     <script>
    
    		$("#viewSubmit").click(function(){
-   			
+   			var no = $("#productNo").val();
+   			console.log("상품번호:"+no);
     		if(confirm("수정하시겠습니까?")){
-    			location.href="${path}/admin/product/update.do";
+    			location.href="${path}/admin/product/update.do?no="+no;
     		}
    		});
 	   		
@@ -308,7 +315,12 @@ input[type="file"] {
   color:white;
 }
 
-
+#createbtn{
+	float:right;
+	color:#1BBA93;
+	font-weight:bold;
+	
+}
 
 </style>
 

@@ -19,7 +19,7 @@ public interface ProductAdminService {
 	
 	int enrollCate(Category c);
 	
-	List<ProductCate> productView();
+	List<ProductCate> productView(int no);
 	
 	int updateEnroll(Product pd);
 }

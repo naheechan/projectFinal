@@ -156,7 +156,7 @@
     		$("#createbtn").click(function(){
     			alert("카테고리를 추가로 등록하시겠습니까?");
     		
-    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=500, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=600, height=350, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
     			
     		})
    
@@ -192,10 +192,12 @@
     				mc.append("<option value=' '>선택</option>");
     			}
     			if($("#largeCate").change(function(){
-	    				
 	    				$("#cateText1").empty();
+	    				$("#cateText2").empty();
 	    			}));
     			$("#cateText1").append(value);
+    			var name = $("#mediumCate").val();
+    			$("#cateText2").append(">"+name);
     			
     			 /* $.each(data,function(i){
     				 var result="";
@@ -212,7 +214,7 @@
     	//hidden에 mediumCate값 넣기
     	$("#mediumCate").change(function(){
     		var medival = $("#mediumCate").val();
-    		
+    		$("#cateText2").empty();
     		console.log(medival);
    			 var url = "${path}/admin/product/medicategory.do";
    		    	$.ajax({
@@ -234,14 +236,14 @@
  		    			console.log(data.mediumCate);
  		    			
    		    			$("#cateText2").append(">"+medival);
-   		    			if($("#largeCate").change(function(){
+   		    			$("#largeCate").change(function(){
    		    				
    		    				$("#cateText2").empty();
-   		    			}));
-   		    			if($("#mediumCate").change(function(){
+   		    			});
+   		    			$("#mediumCate").change(function(){
    		    				
 	   		    			$("#cateText2").empty();
-   		    			}));
+   		    			});
    					},
    					error:function(){
    						console.log("ajax통신실패");	
@@ -441,6 +443,16 @@ input[type="file"] {
   color:white;
 }
 
+#createbtn{
+	float:right;
+	color:#F2BB9C;
+	font-weight:bold;
+	
+}
+#createbtn:hover{
+	color:#1BBA93;
+	font-weight:bold;
+}
 
 
 </style>

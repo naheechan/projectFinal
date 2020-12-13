@@ -21,8 +21,9 @@
 	</div>
 </div>
 <!-- End -->
-    <form class="signup-form" action="${path}/admin/product/updateEnroll.do" method="post" enctype="multipart/form-data">
-
+<c:forEach var="list" items="${list }">
+    <form class="signup-form" action="${path}/admin/product/updateEnroll.do?no=${list.productNo}" method="post" enctype="multipart/form-data">
+</c:forEach>
       <!-- form header -->
       <div class="form-header">
         <h1>상품등록</h1>
@@ -134,7 +135,7 @@
       <!-- form-footer -->
       <div class="form-footer">
         <span>* required</span>
-        <button type="submit" class="btn" onclick="${path}/admin/product/updateEnroll.do">수정</button>
+        <button type="submit" class="btn">수정</button>
       </div>
       </div>
     </form>
@@ -192,15 +193,12 @@
     				mc.append("<option value=' '>선택</option>");
     			}
     			if($("#largeCate").change(function(){
-	    				
-	    				$("#cateText1").empty();
+    					$("#cateText1").empty();
+	    				$("#cateText2").empty();
 	    			}));
     			$("#cateText1").append(value);
-    			
-    			 /* $.each(data,function(i){
-    				 var result="";
-    					result+="<option value="+data[i].largeCate+">"+data[i].mediumCate+"</option>";
-    			}) */
+    			var name = $("#mediumCate").val();
+    			$("#cateText2").append(">"+name);
     		}
     		 ,error:function(request,error){
     			console.log("ajax통신 실패");
@@ -212,7 +210,7 @@
     	//hidden에 mediumCate값 넣기
     	$("#mediumCate").change(function(){
     		var medival = $("#mediumCate").val();
-    		
+    		$("#cateText2").empty();
     		console.log(medival);
    			 var url = "${path}/admin/product/medicategory.do";
    		    	$.ajax({
@@ -223,14 +221,9 @@
    		    		success:function(data){
    		    			var mc = $("#mediumCate");
    		    			console.log("ajax 통신 성공"+data);
-   		    			//console.log(JSON.parse(data));
    		    			console.log("ajax mediumCate hidden"+data.mediumCate);
-   		    			
-   		    			/* $.each(data,function(mcName,medival){
-							return medival;   		    				
-   		    			})
-   		    			 */
- 		    			$("input[type=hidden]").attr('value',data.mediumCate);
+
+   		    			$("input[type=hidden]").attr('value',data.mediumCate);
  		    			console.log(data.mediumCate);
  		    			
    		    			$("#cateText2").append(">"+medival);
@@ -428,7 +421,16 @@ input[type="file"] {
   color:white;
 }
 
-
+#createbtn{
+	float:right;
+	color:#F2BB9C;
+	font-weight:bold;
+	
+}
+#createbtn:hover{
+	color:#1BBA93;
+	font-weight:bold;
+}
 
 </style>
 

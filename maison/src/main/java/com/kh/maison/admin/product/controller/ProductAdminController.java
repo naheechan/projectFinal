@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.product.model.service.ProductAdminService;
@@ -187,7 +188,22 @@ public class ProductAdminController {
 		
 		return "admin/product/categoryEnroll";
 	}
+	//카테고리 등록 medicate가지고오기
+	@ResponseBody
+	@RequestMapping("/selectMedicate.do")
+	public String  selectMedicate(ModelAndView mv,@RequestParam(value="large")String largeCate) throws Exception {
+		 List<Category> c=null;
+		   ObjectMapper mapper = new ObjectMapper();
+		   try {
+			   c = service.selectMediumCategory(largeCate);
+			   System.out.println("카테고리등록 리스트"+c);
+		   }catch(Exception e) {
+			   e.printStackTrace();
+		   }
+		   return mapper.writeValueAsString(c);
+	}
 	
+	//카테고리등록
 	@ResponseBody
 	@RequestMapping("/enrollCate.do")
 	public int enrollCate(@RequestParam String largeCate,@RequestParam String mcName, Model md) {
@@ -204,8 +220,8 @@ public class ProductAdminController {
 	
 	//상품등록수정내용불러오기 productAdminController
 	@RequestMapping("/productView.do")
-	public ModelAndView productView(ModelAndView mv) {
-		List<ProductCate> list = service.productView();
+	public ModelAndView productView(ModelAndView mv,@RequestParam(value="no") int no) {
+		List<ProductCate> list = service.productView(no);
 		System.out.println("productView:"+list);
 		mv.addObject("list",list);
 		mv.setViewName("admin/product/productView");
@@ -213,17 +229,19 @@ public class ProductAdminController {
 	}
 	
 	@RequestMapping("/update.do")
-	public String productUpdate(Model m) {
+	public String productUpdate(Model m, @RequestParam(value="no") int no) {
 		List<Category> largeCate = service.selectCategory(null);
+		List<ProductCate> list = service.productView(no);
 		
 		m.addAttribute("largeCate",largeCate);
+		m.addAttribute("list",list);
 		return "admin/product/productUpdate";
 	}
 	
 	@RequestMapping("/updateEnroll.do")
-	public ModelAndView updateEnroll(Product pd, ModelAndView mv,MultipartFile imageFile,HttpServletRequest request)
+	public ModelAndView updateEnroll(Product pd, @RequestParam(value="no") int no,ModelAndView mv,MultipartFile imageFile,HttpServletRequest request)
 			throws IllegalAccessException,IOException{
-
+				pd.setProductNo(no);
 				String mediumCate = pd.getMediumCate().split(",")[1];
 				System.out.println(mediumCate);
 				pd.setMediumCate(mediumCate);

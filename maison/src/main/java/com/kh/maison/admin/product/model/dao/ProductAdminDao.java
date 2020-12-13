@@ -22,7 +22,7 @@ public interface ProductAdminDao {
 	
 	int enrollCate(SqlSession session, Category c);
 	
-	List<ProductCate> productView(SqlSession session);
+	List<ProductCate> productView(SqlSession session,int no);
 	
 	int updateEnroll(SqlSession session, Product pd);
 }

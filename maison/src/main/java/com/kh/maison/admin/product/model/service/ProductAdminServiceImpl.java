@@ -51,8 +51,8 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 	}
 	
 	@Override
-	public List<ProductCate> productView() {
-		return dao.productView(session);
+	public List<ProductCate> productView(int no) {
+		return dao.productView(session,no);
 	}
 	
 	@Override

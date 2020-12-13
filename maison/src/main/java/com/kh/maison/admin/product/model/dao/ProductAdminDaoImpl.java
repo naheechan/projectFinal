@@ -46,8 +46,8 @@ public class ProductAdminDaoImpl implements ProductAdminDao {
 	}
 
 	@Override
-	public List<ProductCate> productView(SqlSession session) {
-		return session.selectList("product.productView");
+	public List<ProductCate> productView(SqlSession session,int no) {
+		return session.selectList("product.productView",no);
 	}
 
 	@Override

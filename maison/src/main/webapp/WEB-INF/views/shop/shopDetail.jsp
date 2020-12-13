@@ -182,7 +182,7 @@ select::-ms-expand { /* for IE 11 */
 								<a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a>
 								<a class="btn hvr-hover" data-fancybox-close="" href="#">장바구니</a>
 								<c:if test="${loginMember.memberId!=null && loginMember.memberId=='admin' }">
-								<a class="btn hvr-hover" data-fancybox-close="" href="${path}/admin/product/productView.do">상품수정하기</a>
+								<a class="btn hvr-hover" data-fancybox-close="" href="${path}/admin/product/productView.do?no=${product.productNo }">상품수정하기</a>
 								</c:if>
 							</div>
 							
@@ -390,7 +390,7 @@ select::-ms-expand { /* for IE 11 */
 									</tr>
 									</thead>
 									<tbody>
-									<input type="hidden" name="sessionMemberId" class="form-control" value="${loginMember.memberId }" id="sessionMemberId">
+									<input type="hidden" name="sessionMemberId" class="form-control"  id="sessionMemberId" value="${loginMember.memberId }">
 									</tbody>
 								</table>
 							<div class="pageBar"></div>
@@ -418,7 +418,10 @@ $(function(){
 		var pNo = $("#SessionProductNo").val();
 		//session 아이디
 		var mId =$("#sessionMemberId").val();
-
+		var nullId=$("#pdInquiryList").children().next().next().find("input").val();
+		if(nullId==""){
+			$("#pdInquiryList tbody").append("<tr><td colspan='6'><span>로그인 후 이용가능합니다.</span></td></tr>");
+		}
 //관리자답글 click ok
 		$(document).on("click",'[name=reply_reply]',function(){
 			if(confirm("관리자 답글을 작성하시겠습니까?")){
@@ -550,7 +553,6 @@ function inquiryList(){
 				console.log("ajax통신성공");
 				var str ='';
 				var dataLeng = Object.keys(data).length;
-				
 				$.each(data,function(i){
 					//상품번호에 맞는 문의내역만 보여주기
 					if(data!=null){/* [dataLeng-i] */
