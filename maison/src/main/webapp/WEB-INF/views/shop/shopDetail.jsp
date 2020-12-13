@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 	[id^='content']{
-		margin:70px 0 100px 0;
+		margin:80px 0 100px 0;
 		text-indent:70px;
 	}
 	#reply{
@@ -42,6 +42,56 @@
 	#reply_reply{
 		color:#F2BB9C;
 	}
+	.answer{
+		color:#F2BB9C;
+	}
+	#admin_repModi{
+		color:#F2BB9C;
+		text-align:center;
+	}
+	#after_adminModi{
+		color:#F2BB9C;
+		text-align:center;
+	}
+	#after_userModi{
+		color:#F2BB9C;
+		text-align:center;
+		padding-right:0px;
+	}
+	#after_cancel{
+		color:#F2BB9C;
+		text-align:center;
+		padding-left:0px;
+	}
+	select {
+	float:left;
+	  width: 200px;
+	  padding: .8em .5em;
+	  font-family: inherit;
+	  background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%;  
+	  background-color:white;
+	  -webkit-appearance: none;
+     -moz-appearance: none;
+      appearance: none;
+	  border: 1px solid #999;
+	  border-radius: 0px;
+	}
+
+select::-ms-expand { /* for IE 11 */
+    display: none;
+}
+.replaceDel td{
+	text-align:center;
+}
+#admin_repDel{
+	color:#F2BB9C;
+	text-align:center;
+	padding-left:0px;
+}
+#user_Ydel{
+	color:#F2BB9C;
+	text-align:center;
+}
 </style>
  <script>
       $(document).ready(function(){
@@ -395,21 +445,80 @@ $(function(){
 				}
 		})
 		inquiryList();
-		
-//user수정 ->piNo null임
-		$(document).on("click",'[name=reply_modi]',function(){
+
+//admin 답글 수정버튼누르면 화면전환 ok
+$(document).on("click",'[name=admin_repModi]',function(e){
+	var no = $(this).prev().val();//pirNo
+		if(confirm("답글을 수정하시겠습니까?")){
+			$(this).prev().prev().replaceWith("<form name='afterAdminReply'><textarea id='rmContent' name='rmContent' rows='6' cols='120' style='resize:none;' required></textarea><input type='hidden' id='pirNo' name='pirNo' value='"+no+"'></form>");
+			$(this).replaceWith("<a name='after_adminModi' id='after_adminModi' style='float:right;'>답글 수정</a>");
+		}
+});
+
+//admin답글 수정 ok
+$(document).on("click",'[name=after_adminModi]',function(e){
+	var no = $(this).prev().val();
+	if(confirm("답글을 수정하시겠습니까?")){
+		var updateFrm = $("form[name='afterAdminReply']").serializeArray();
+		if($("#rmContent").val()==""){
+			alert("수정할 답글을 입력해주세요");
+		}else{
+			modiAdminReply(updateFrm);
+			alert("답글수정성공");
+			location.reload();
+		}
+	}
+	
+});
+
+//user수정화면전환 ok
+		$(document).on("click",'[name=reply_modi]',function(e){
+			var no = $(this).prev().prev().val();
 			if(confirm("문의를 수정하시겠습니까?")){
-				location.href='${path}/shop/user/modiInQuiry.do?no='+piNo;
+				$(this).prev().prev().prev().replaceWith("<form name='userModiInquiry'><select name='piCate'><option value='상품문의'>상품문의</option><option value='배송문의'>배송문의</option></select><br><textarea id='umContent' name='umContent' rows='6' cols='120' style='resize:none;' required></textarea><input type='hidden' id='piNo' name='piNo' value='"+no+"'></form>");
+				$(this).replaceWith("<a name='after_cancel' id='after_cancel' style='float:right;'>취소</a><a name='after_userModi' id='after_userModi' style='float:right;'>수정</a>");
+				$("#after_userModi").prev().prev().detach();
+				$("#after_cancel").click(function(e){
+					if(confirm("문의수정을 취소하시겠습니까?")){
+						location.reload();
+					}
+				})
 			}
 		});
 		
-//user삭제 ->piNo null임
-		$(document).on("click",'[name=reply_del]',function(){
+//user수정업데이트 ok
+$(document).on("click",'[name=after_userModi]',function(e){
+	var no = $(this).prev().val();
+	if(confirm("답글을 수정하시겠습니까?")){
+		var updateFrm = $("form[name='userModiInquiry']").serializeArray();
+		if($("#umContent").val()==""){
+			alert("수정할 문의 내용을 입력해주세요");
+		}else{
+			modiUserReply(updateFrm);
+			alert("문의글 수정 성공");
+			location.reload();
+		}
+	}
+});
+
+//user문의글 삭제
+		$(document).on("click",'[name=reply_del]',function(e){
+			var no = $(this).prev().val();
 			if(confirm("문의를 삭제하시겠습니까?")){
-				location.href='${path}/shop/user/modiInQuiry.do?no='+piNo;
+				delUserInquiry(no);
+				alert("문의 삭제 성공");
+				location.reload();
 			}
 		})
-		
+//user status=='Y'일때 문의글 삭제
+		$(document).on("click",'[name=user_Ydel]',function(e){
+			var no = $(this).prev().val();
+			if(confirm("문의를 삭제하시겠습니까?")){
+ 				delUserInquiry(no);
+				alert("문의 삭제 성공");
+				location.reload();
+			}
+		})
 
 //답글등록//답글내용insert  ok
 function replyInsert(insertReply){
@@ -421,7 +530,6 @@ function replyInsert(insertReply){
 			dataType:"json",
 			success:function(data){
 				console.log("댓글ajax통신성공");
-				replyList();//댓글띄우기
 			},
 			error:function(){
 				console.log("댓글ajax통신실패");
@@ -440,24 +548,45 @@ function inquiryList(){
 			success:function(data){
 				
 				console.log("ajax통신성공");
-				var str ='<tr>';
+				var str ='';
+				var dataLeng = Object.keys(data).length;
+				
 				$.each(data,function(i){
 					//상품번호에 맞는 문의내역만 보여주기
-					if(data!=null){
+					if(data!=null){/* [dataLeng-i] */
 						if(data[i].productNo==pNo){
-							str += '<td>'+data[i].piNo+'</td><td>'+data[i].piCate+'</td><td id="title">'+data[i].piTitle+'</td><td>'+data[i].memberId+'</td><td>'+data[i].piDate+'</td><td id="conf">'+data[i].piStatus+'</td>';
-							str +='</tr>';
-							str+="";//답글row추가
-							str +="<tr class='content' id='content"+[i]+"'><td colspan='6'><div id='contentDiv'>"+data[i].piContent+"</div>";
-							str+="<input type='hidden' name='piNum' id='piNum' value="+data[i].piNo+">";
-							if(data[i].piDel=='Y'){//문의가 존재하고(n이 없는거)
-								if(mId == data[i].memberId){//세션값과 아이디값이 같으면 
-									str+='<a name="reply_del" id="reply_del" style="float:right;" onclick="replyDel('+data[i].piNo+',\''+data[i].piContent+'\');">삭제</a>';
-									str+='<a name="reply_modi" id="reply_modi" style="float:right;" onclick="replyUpdate('+data[i].piNo+');">수정</a>';
+							if(data[i].piDel=='Y'){
+								str += '<tr class="odd"><td>'+[dataLeng-i]+'</td><td>'+data[i].piCate+'</td><td id="title">'+data[i].piTitle+'</td><td>'+data[i].memberId+'</td><td>'+data[i].piDate+'</td><td id="conf">'+data[i].piStatus+'</td>';
+								str +='</tr>';
+								str +="<tr class='content' id='content"+[i]+"'><td colspan='6'><div id='contentDiv'>"+data[i].piContent+"</div>";
+								str+="<input type='hidden' name='piNum' id='piNum' value="+data[i].piNo+">";
+								if(data[i].piStatus=='Y' && data[i].memberId==mId){
+									str+="<a name='user_Ydel' id='user_Ydel' style='float:right;'>문의 삭제</a>";
 								}
-							if(mId!=null && mId == 'admin'){
+							}else{
+								str+="<tr class='replaceDel' style='color:lightgrey;'><td style='text-align:left;'>"+data[i].piNo+"</td><td colspan='2'>삭제된 문의글 입니다.</td><td style='text-align:left'>"+data[i].memberId+"</td><td colspan='2'></td></tr>";
+							}
+							//답글row추가
+							if(data[i].piStatus=='Y'){
+								if(data[i].pirContent!=null&&data[i].piDel!='N'){//댓글이 null이 아니고 삭제여부가 n일때
+									str+="<tr class='answer'>";
+									str+='<td></td><td>'+data[i].piCate+'</td><td>&nbsp;&nbsp;&nbsp;re:답변드립니다:)</td><td>관리자</td><td>'+data[i].pirDate+'</td><td>답변완료</td>';
+									str+="</tr>";
+									str+="<tr class='answer_content'><td colspan='6'><div id='contentPirDiv'>"+data[i].pirContent+"</div>";
+									str+="<input type='hidden' name='pirNo' id='pirNo' value="+data[i].pirNo+">";
+									if(mId!=null && mId == 'admin'){
+										str+="<a name='admin_repModi' id='admin_repModi' style='float:right;'>답글 수정</a>";
+									}
+								} 
+							}
+							if(data[i].piDel=='Y' && data[i].piStatus=='N'){//문의가 존재하고(n이 없는거)
+								if(mId == data[i].memberId){//세션값과 아이디값이 같으면 
+									str+='<a name="reply_del" id="reply_del" style="float:right;">삭제</a>';
+									str+='<a name="reply_modi" id="reply_modi" style="float:right;">수정</a>';
+								}
+							if(mId!=null && mId == 'admin'){//관리자일 때
 								if(data[i].piStatus=='N'){//답글이 안달려있으면
-									str+="<a name='reply_reply' id='reply_reply' style='float:right' onclick='selectOneInquiry("+data[i].piNo+")'>답글</a>";
+									str+="<a name='reply_reply' id='reply_reply' style='float:right'>답글</a>";
 									//댓글달기하단에
 									str+="<div id='replyContainer' name='replyContainer' style='display:none;'>";
 									str+="<form action='${path }/shop/admin/inquiryReply.do' method='post' name='adminFrm' id='adminFrm"+data[i].piNo+"'>";
@@ -471,10 +600,8 @@ function inquiryList(){
 									}
 								}
 							};
-							str+="<br><br>";
+							str+="<br>";
 							str+="</td></tr>";
-							/* 아마 여기에다가 넣어야되지않을까 댓글row??*/
-									addReply();
 						}
 					}else{
 						str +="<td colspan='6'>해당 상품의 문의내역을 올려주세요.</td></tr>";
@@ -482,21 +609,23 @@ function inquiryList(){
 				})
 					$("#pdInquiryList").append(str);
 				
-	
 				//문의 내용 toggle
 				$(".content").hide();
+				$(".answer_content").hide();
 				$("#pdInquiryList tr").on('click',function(){
-					$("#pdInquiryList tr:odd").addClass("odd");
 					$("#pdInquiryList tr:first-child").show();//열머리글 보여주기
+					/* $("#pdInquiryList tr:odd").addClass("odd"); */
 					/* $("#pdInquiryList tbody tr:not(.odd)").hide(); */
 					
 					$("#pdInquiryList tr.odd").click(function(){
-						var dataLeng = Object.keys(data).length;
 						console.log(dataLeng);
 						$(this).next("tr").toggle();
 						$("#replyAdmin").empty();
-
 						/* $("[name=replyAdmin]").append("<input type='hidden' name='piNo' id='piNo' value="+$(this).text()[0]+">"); */
+					})
+					
+					$("#pdInquiryList tr.answer").click(function(){
+						$(this).next("tr").toggle();
 					})
 				})
 			},
@@ -506,7 +635,7 @@ function inquiryList(){
 		})
 };
 
-//답변여부 업데이트 ok
+//답변여부 업데이트 ok 
 function updateStatus(no){
 	console.log("업데이트"+no);
 	$.ajax({
@@ -524,43 +653,55 @@ function updateStatus(no){
 		}
 	})
 };
-//admin답글row추가
-function addReply(no){
-	var no = $("[name='adminFrm']").children().siblings("input[name='piNo']").val();
-	console.log("row추가"+no);
+
+//관리자 답글 수정 ajax
+function modiAdminReply(updateFrm){
 	$.ajax({
-		url:"${path}/shop/addReply.do",
-		data:{"no":no},
+		url:"${path}/shop/admin/modiReply.do",
+		data:updateFrm,
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			console.log("ADDajax통신성공");
-			var str="";
-			$.each(data,function(i){
-				if(data!=null){//답글 달려있으면
-					
-					//row추가하기 
-					str+="<tr>";
-					str+='<td>'+data[i].pirNo+'</td><td>'+data[i].piCate+'</td><td>답변드립니다:)</td><td>관리자</td><td>'+data[i].piDate+'</td><td>'+data[i].piStatus+'</td>';
-					str+="</tr>";
-				}
-			})
+			console.log("답글수정ajax통신성공");
 		},
 		error:function(){
-			console.log("ADDajax통신실패");
+			console.log("답글수정ajax통신실패");
 		}
 	})
 }
 
+//user 문의글 수정
+function modiUserReply(updateFrm){
+	$.ajax({
+		url:"${path}/shop/user/modiInQuiry.do",
+		data:updateFrm,
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			console.log("문의글 수정 ajax통신성공");
+		},
+		error:function(){
+			console.log("문의글 수정 ajax통신실패");
+		}
+	})
+}
+//user 문의글 삭제
+function delUserInquiry(no){
+	$.ajax({
+		url:"${path}/shop/user/deleteInQuiry.do",
+		data:{"no":no},
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			console.log("문의삭제 ajax 통신 성공");
+		},
+		error:function(){
+			console.log("문의삭제 ajax 통신 실패");
+		}
+	})
+}
 	});
 
-</script>
-<script>
-	function selectOneInquiry(piNo){
-		/* location.href="url?piNo="+piNo; */
-		/* location.href="${path}/shop/admin/inquiryReply.do?piNo="+piNo; */
-	}
-	
 </script>
 
             <div class="row my-5" id="product-relative">

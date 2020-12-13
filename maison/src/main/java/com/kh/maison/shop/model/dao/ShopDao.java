@@ -7,11 +7,11 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
-import com.kh.maison.shop.model.vo.AdminReply;
 import com.kh.maison.shop.model.vo.CateProduct;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.shop.model.vo.TotalInquiry;
 
 public interface ShopDao {
 
@@ -25,7 +25,7 @@ public interface ShopDao {
 	List<Product> selectOneMediCate(SqlSession session, String keyword);
 	List<CateProduct> searchCate(SqlSession session, String category);
 	
-	List<PdInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage);
+	List<TotalInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage);
 	int selectCountInquiry(SqlSession session);
 	
 	Product selectPdOne(SqlSession session, int no);
@@ -42,5 +42,9 @@ public interface ShopDao {
 	
 	int updateStatus(SqlSession session, int no);
 	
-	List<AdminReply> selectAddReply(SqlSession session, int no);
+	List<TotalInquiry> selectAddReply(SqlSession session, int no);
+	
+	int modiReply(SqlSession session, Map<String,Object> param);
+	
+	int deleteInquiry(SqlSession session, int no);
 }

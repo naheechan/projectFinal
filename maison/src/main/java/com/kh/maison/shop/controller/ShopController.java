@@ -21,11 +21,11 @@ import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.shop.model.service.ShopService;
-import com.kh.maison.shop.model.vo.AdminReply;
 import com.kh.maison.shop.model.vo.CateProduct;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.shop.model.vo.TotalInquiry;
 
 @Controller
 @RequestMapping("/shop")
@@ -121,7 +121,7 @@ public class ShopController {
 	throws Exception{
 		
 
-		List<PdInquiry> list = null;
+		List<TotalInquiry> list = null;	
 		ObjectMapper mapper = new ObjectMapper();
 		String str = null;
 		int totalData=0;
@@ -138,7 +138,7 @@ public class ShopController {
 		return str;
 	}
 	
-	
+//문의하기이동	
 	@RequestMapping("/user/writeInQuiry.do")
 	public String moveWriteInquiry(int no, Model m) {
 		Date from = new Date(no);
@@ -150,7 +150,7 @@ public class ShopController {
 		return "shop/inquiryWrite";
 	}
 	
-	
+//문의하기등록	
 	@RequestMapping("/user/inquiryEnd.do")
 	public ModelAndView writeInquiry(ModelAndView mv,
 			@RequestParam(value="productNo") int no,
@@ -179,52 +179,9 @@ public class ShopController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
-//문의 수정
-	@RequestMapping("/user/modiInQuiry.do")
-	public String movemodiInquiry(int piNo, Model m) {
-		Date from = new Date(piNo);
-		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		String to = fm.format(from);
-		PdInquiry pd = service.selectInquiryOne(piNo);
-		List<InquiryReply> ir = service.selectReplyOne(piNo);//문의번호와 같은 pir찾기->hidden으로 넣어주기
-		
-		System.out.println(pd);
-		System.out.println(ir);
-		m.addAttribute("reply",ir);
-		m.addAttribute("pdiOne",pd);
-		return "shop/modiInquiry";
-	}
+
 	
-	
-	@RequestMapping("/user/updateInquiryEnd.do")
-	public ModelAndView updateInquiry(ModelAndView mv,
-			@RequestParam(value="productNo") int no,
-			@RequestParam(value="piTitle") String piTitle,
-			@RequestParam(value="piContent") String piContent,
-			@RequestParam(value="piCate") String piCate,
-			@RequestParam String pirContent) {
-		Map<String,Object> m = new HashMap();
-		m.put("no",no);
-		m.put("piTitle",piTitle);
-		m.put("piContent",piContent);
-		m.put("piCate",piCate);
-		m.put("pirContent",pirContent);
-		
-		int result = service.updateInquiry(m);
-		
-		if(result>0) {
-			mv.addObject("msg","문의수정이 완료되었습니다.");
-			mv.addObject("loc","/shop/shopDetail.do?no="+no);
-		}else {
-			mv.addObject("msg","문의수정에 실패했습니다.");
-			mv.addObject("loc","/shop/shopDetail.do?no="+no);
-		}
-		mv.setViewName("common/msg");
-		return mv;
-	}
-	
-	
-	
+	//답글등록
 	@ResponseBody
 	@RequestMapping("/admin/inquiryReply.do")
 	public String insertReply(ModelAndView mv, 
@@ -252,6 +209,7 @@ public class ShopController {
 		return str;
 	}
 	
+	//답변여부상태업데이트
 	@ResponseBody
 	@RequestMapping("/updateStatus.do")
 	public String updateStatus(@RequestParam int no) {
@@ -268,24 +226,69 @@ public class ShopController {
 		return str;
 	}
 	
+	//관리자 답글 수정
 	@ResponseBody
-	@RequestMapping("/addReply.do")
-	public String addReply(Model m,@RequestParam int no) {
-
-		List<AdminReply> list = null;
-		ObjectMapper mapper = new ObjectMapper();
+	@RequestMapping("/admin/modiReply.do")
+	public String modiReply(@RequestParam int pirNo, @RequestParam String rmContent) {
+		Map<String,Object> param= new HashMap<String,Object>();
+		param.put("pirNo", pirNo);
+		param.put("pirContent",rmContent);
+		System.out.println("param관리자댓글수정"+param);
+		int result = 0;
 		String str = null;
-		int totalData=0;
+		ObjectMapper mapper = new ObjectMapper();
 		try {
-				list = service.selectAddReply(no);
-				str=mapper.writeValueAsString(list);
-				System.out.println("list in 답글컨트롤러"+list);
-				totalData = service.selectCountInquiry();
+			result = service.modiReply(param);
+			str=mapper.writeValueAsString(result);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		m.addAttribute("replylist",list);
 		return str;
-		
 	}
+
+	//user 문의글 수정
+	@ResponseBody
+	@RequestMapping("/user/modiInQuiry.do")
+	public String updateInquiry(ModelAndView mv,
+			@RequestParam(value="piNo") int piNo,
+			@RequestParam(value="umContent") String piContent,
+			@RequestParam(value="piCate") String piCate) {
+		Map<String,Object> m = new HashMap<String,Object>();
+		m.put("piNo",piNo);
+		m.put("piContent",piContent);
+		m.put("piCate",piCate);
+		int result = 0;
+		String str = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			result = service.updateInquiry(m);
+			str=mapper.writeValueAsString(result);
+			if(result>0) {
+				mv.addObject("msg","문의수정이 완료되었습니다.");
+			}else {
+				mv.addObject("msg","문의수정에 실패했습니다.");
+			}
+			mv.setViewName("common/msg");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/user/deleteInQuiry.do")
+	public String deleteInquiry(@RequestParam(value="no") int no) {
+		int result = 0;
+		String str = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			result = service.deleteInquiry(no);
+			str=mapper.writeValueAsString(result);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	
 }

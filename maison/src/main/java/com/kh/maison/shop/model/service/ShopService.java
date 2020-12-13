@@ -5,11 +5,11 @@ import java.util.Map;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
-import com.kh.maison.shop.model.vo.AdminReply;
 import com.kh.maison.shop.model.vo.CateProduct;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.shop.model.vo.TotalInquiry;
 
 public interface ShopService {
 
@@ -24,7 +24,7 @@ public interface ShopService {
 	
 	List<CateProduct> searchCate(String category);
 	
-	List<PdInquiry> selectInquiryList(int cPage, int numPerPage);
+	List<TotalInquiry> selectInquiryList(int cPage, int numPerPage);
 	int selectCountInquiry();
 
 	Product selectPdOne(int no);
@@ -41,5 +41,9 @@ public interface ShopService {
 	
 	int updateStatus(int no);
 	
-	List<AdminReply> selectAddReply(int no);
+	List<TotalInquiry> selectAddReply(int no);
+	
+	int modiReply(Map<String,Object> param);
+	
+	int deleteInquiry(int no);
 }

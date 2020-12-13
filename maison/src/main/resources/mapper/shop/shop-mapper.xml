@@ -45,11 +45,13 @@
 	WHERE MEDIUMCATE=TO_NUMBER(#{category})
 </select>
 
-<select id="selectInquiryList" resultType="pdInquiry">
+<select id="selectInquiryList" resultType="totalInquiry">
 	<!-- SELECT PINO, PICATE, PITITLE, PICONTENT, MEMBERID, PRODUCTNO, -->
 	<!-- TO_CHAR(PIDATE,'YYYY-MM-DD HH24:MI')AS PIDATE, PIREADCOUNT FROM PDINQUIRY -->
 	<!-- PIDATE, PIREADCOUNT FROM PDINQUIRY -->
-	SELECT * FROM PDINQUIRY 
+		<!-- SELECT P.*, I.PIRNO,I.PIRCONTENT,I.PIRDATE,I.PINO AS IPINO FROM PDINQUIRY P, INQUIRYREPLY I WHERE P.PIDEL='Y'
+		ORDER BY P.PIDATE DESC -->
+		SELECT P.*,I.* FROM PDINQUIRY P LEFT JOIN INQUIRYREPLY I ON P.PINO=I.PINO ORDER BY PIDATE DESC
 </select>
 
 <select id="selectCountInquiry" resultType="_int">
@@ -73,13 +75,9 @@
 	SELECT * FROM PDINQUIRY WHERE PINO=${piNo}
 </select>
 
+<!-- user문의글 수정 -->
 <update id="updateInquiry" parameterType="map">
-	<if test="pirContent!=null">
-		UPDATE PDINQUIRY SET PICONTENT=#{piContent},PISTATUS='Y',PICATE=#{piCate}
-	</if>
-	<if test="pirContent==null">
-		UPDATE PDINQUIRY SET PICONTENT=#{piContent},PISTATUS='N',PICATE=#{piCate}
-	</if>
+	UPDATE PDINQUIRY SET PICONTENT=#{piContent}, PICATE=#{piCate} WHERE PINO=#{piNo}
 </update>
 
 <select id="selectReplyOne" parameterType="_int" resultType="reply">
@@ -91,10 +89,12 @@
 	UPDATE PDINQUIRY SET PISTATUS='Y' WHERE PINO=#{no}
 </update>
 
-<select id="selectAddReply" resultType="adminReply" parameterType="_int">
-	SELECT P.PINO, P.PICATE, P.PISTATUS, 
-	I.PIRNO, I.PIRCONTENT, I.PIRDATE, I.PINO AS REPINO 
-	FROM PDINQUIRY P, INQUIRYREPLY I 
-	WHERE P.PINO=#{piNo}
-</select>
+<update id="modiReply" parameterType="map">
+	UPDATE INQUIRYREPLY SET PIRCONTENT=#{pirContent} WHERE PIRNO=#{pirNo}
+</update>
+
+<update id="deleteInquiry" parameterType="_int">
+	UPDATE PDINQUIRY SET PIDEL='N' WHERE PINO=#{no}
+</update>
+
 </mapper>

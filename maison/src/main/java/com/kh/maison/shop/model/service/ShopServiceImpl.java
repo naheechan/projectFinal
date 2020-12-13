@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.shop.model.dao.ShopDao;
-import com.kh.maison.shop.model.vo.AdminReply;
 import com.kh.maison.shop.model.vo.CateProduct;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.shop.model.vo.TotalInquiry;
 @Service
 public class ShopServiceImpl implements ShopService {
 
@@ -68,7 +68,7 @@ public class ShopServiceImpl implements ShopService {
 
 
 	@Override
-	public List<PdInquiry> selectInquiryList(int cPage, int numPerPage) {
+	public List<TotalInquiry> selectInquiryList(int cPage, int numPerPage) {
 		return dao.selectInquiryList(session,cPage, numPerPage);
 	}
 
@@ -122,8 +122,20 @@ public class ShopServiceImpl implements ShopService {
 
 
 	@Override
-	public List<AdminReply> selectAddReply(int no) {
+	public List<TotalInquiry> selectAddReply(int no) {
 		return dao.selectAddReply(session,no);
+	}
+
+
+	@Override
+	public int modiReply(Map<String,Object> param) {
+		return dao.modiReply(session,param);
+	}
+
+
+	@Override
+	public int deleteInquiry(int no) {
+		return dao.deleteInquiry(session,no);
 	}
 	
 	

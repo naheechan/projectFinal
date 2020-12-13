@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
-import com.kh.maison.shop.model.vo.AdminReply;
 import com.kh.maison.shop.model.vo.CateProduct;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.shop.model.vo.TotalInquiry;
 @Repository
 public class ShopDaoImpl implements ShopDao {
 
@@ -65,7 +65,7 @@ public class ShopDaoImpl implements ShopDao {
 
 
 	@Override
-	public List<PdInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage) {
+	public List<TotalInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage) {
 		return session.selectList("shop.selectInquiryList",null,
 				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
@@ -121,8 +121,20 @@ public class ShopDaoImpl implements ShopDao {
 
 
 	@Override
-	public List<AdminReply> selectAddReply(SqlSession session, int no) {
+	public List<TotalInquiry> selectAddReply(SqlSession session, int no) {
 		return session.selectList("shop.selectAddReply",no);
+	}
+
+
+	@Override
+	public int modiReply(SqlSession session, Map<String,Object> param) {
+		return session.update("shop.modiReply",param);
+	}
+
+
+	@Override
+	public int deleteInquiry(SqlSession session, int no) {
+		return session.update("shop.deleteInquiry",no);
 	}
 	
 	
