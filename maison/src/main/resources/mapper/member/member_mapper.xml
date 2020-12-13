@@ -31,4 +31,12 @@
   	SELECT MEMBERID,EMAIL FROM MEMBER WHERE MEMBERNAME=#{memberName} AND BIRTH=#{birth}
   </select>
   
+    <select id="findPw" resultType="member" parameterType="member">
+  	SELECT EMAIL FROM MEMBER WHERE MEMBERNAME=#{memberName} AND BIRTH=#{birth} AND MEMBERID=#{memberId}
+  </select>
+  
+  <update id="updatePw" parameterType="member" >
+  	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
+  </update>
+  
 </mapper>

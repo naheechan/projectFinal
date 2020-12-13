@@ -44,6 +44,18 @@ public class MemberServiceImpl implements MemberService {
 
 		return dao.findId(session,mem);
 	}
+
+	@Override
+	public List<Member> findPw(Member mem) {
+		
+		return dao.findPw(session,mem);
+	}
+
+	@Override
+	public int updatePw(Member mem) {
+		
+		return dao.updatePw(session,mem);
+	}
 	
 	
 	

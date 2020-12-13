@@ -15,5 +15,8 @@ public interface MemberDao {
 	int updateAuthKey(SqlSessionTemplate session, Map<String,String> map);
 	int updateAuthStatus(SqlSessionTemplate session, String id);
 	List<Member> findId(SqlSessionTemplate session,Member mem);
+	List<Member> findPw(SqlSessionTemplate session,Member mem);
+	
+	int updatePw(SqlSessionTemplate session,Member mem);
 
 }

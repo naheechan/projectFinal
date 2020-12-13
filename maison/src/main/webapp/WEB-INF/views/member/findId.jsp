@@ -11,6 +11,13 @@
 	.jumbotron .container{
 		text-align:center;
 	}
+	div#findIdContainer{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		margin-top:60px;
+		margin-bottom:30px;
+	}
 </style>
 <section>
 	<div class="jumbotron jumbotron-fluid">
@@ -19,23 +26,27 @@
 		</div>		
 	</div>
 	
-	<div>
-		아이디 찾기에 필요한 정보를 입력하세요
+	<div id="findIdContainer">
+		<div>
+			<p style="font-size:30px">아이디 찾기에 필요한 정보를 입력하세요</p>
+		</div>
+			<form action="${path}/member/findIdSMTP">
+			
+				이름  <input type="text" name="name" class="form-control" style="width:400px;">
+				<div class="form-group" style="margin-bottom:40px">
+					    <label for="datepicker">생년월일</label><br>
+					    <input type="text" class="form-control" id="datepicker" name="birth" required  style="width:150px;">
+					    <div id="checkBrith-container">
+						    <p class="text-danger" id="notRegBrith" style="display:none">달력에서 생년월일을 선택해주세요</p>
+					    </div>
+					    <input type="hidden" id="brithCheck" name="brithCheck" value="0">
+				</div>
+				
+				<input type="submit" class="btn" value="확인" style="margin-bottom:40px;float:right;margin-left:10px">				
+				<input type="button" value="비밀번호 찾기" class="btn" onClick="location.href='${path}/member/findPw'" style="float:right">
+			</form>
 	</div>
-		<form action="${path}/member/findIdSMTP">
-		
-			<span>이름 : <input type="text" name="name"></span><br>
-			<div class="form-group">
-				    <label for="datepicker">생년월일</label><br>
-				    <input type="text" class="form-control" id="datepicker" name="birth" required  style="width:100px;">
-				    <div id="checkBrith-container">
-					    <p class="text-danger" id="notRegBrith" style="display:none">달력에서 생년월일을 선택해주세요</p>
-				    </div>
-				    <input type="hidden" id="brithCheck" name="brithCheck" value="0">
-			</div>
-			<input type="submit">				
-		</form>
-
+</section>
 <script>
 	$(function() {
 		$("#datepicker").change(function(e) {

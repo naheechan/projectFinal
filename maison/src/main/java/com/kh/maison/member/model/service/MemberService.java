@@ -13,5 +13,8 @@ public interface MemberService {
 	int updateAuthKey(Map<String,String> map);
 	int updateAuthStatus(String id);
 	List<Member> findId(Member mem);
+	List<Member> findPw(Member mem);
+	
+	int updatePw(Member mem);
 
 }

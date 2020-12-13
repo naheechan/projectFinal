@@ -88,5 +88,27 @@ public class MailSendService {
 		return suc;
 	}
 	
+	public int sendFindPwMail(String email,String pwCheck) {
+		int suc=0;
+		try {
+			MailUtils sendMail = new MailUtils(mailSender);
+			sendMail.setSubject("MAISON 비밀번호 재설정");
+			sendMail.setText(new StringBuffer().append("<h1>MAISON 아이디 찾기</h1>")
+					.append("<p>환영합니다 고객님</p>")
+					.append("<p>인증번호는 "+pwCheck+"</p>")
+					.toString());
+					sendMail.setForm("maisonRclass@gmail.com", "MAISON");
+					sendMail.setTo(email);
+					sendMail.send();
+					suc=2;
+		}catch(MessagingException e) {
+			e.printStackTrace();
+		}catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return suc;
+	}
+	
 	
 }

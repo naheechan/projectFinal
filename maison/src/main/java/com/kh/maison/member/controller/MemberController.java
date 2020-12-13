@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
@@ -31,6 +33,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -44,6 +47,10 @@ import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.common.email.MailSendService;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.member.recaptcha.VerifyRecaptcha;
+
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 @Controller
 @SessionAttributes({"loginMember", "state", "res", "memNaver"})
@@ -473,11 +480,78 @@ public class MemberController {
 		return mv;
 	}
 	
+	@ResponseBody
+	@RequestMapping("/member/findPwSMTP")
+	public int findPwSMTP(Date birth,String name,Member mem,String memberId,String pwCheck) throws NoSuchAlgorithmException, GeneralSecurityException, UnsupportedEncodingException {
+
+		int suc=0;
+		System.out.println(birth+"gggggggggggggg"+name+"ggggggggg"+memberId);
+		mem.setMemberId(memberId);
+		mem.setBirth(birth);
+		mem.setMemberName(name);
+		String email="";
+		System.out.println(pwCheck+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		List<Member> result=service.findPw(mem);
+	
+		if(!result.isEmpty()) {
+			email=aes.decrypt((result.get(0).getEmail().toString()));
+		}
+		
+		if(result.isEmpty()) {
+			//사용자 정보가 존재하지 않음
+			suc=1;
+			
+		}else {
+			//등록한 이메일로 발송
+			suc=mss.sendFindPwMail(email,pwCheck);
+		}
+				
+		
+		return suc;
+	}
 	
 	
 	
+	@RequestMapping("/member/updatePw")
+	public ModelAndView updatePw(ModelAndView mv,String password,Member mem,String modalId) {
+		System.out.println(password);
+		mem.setMemberPw(password);
+		if(mem.getMemberPw()!=null) {
+			//비밀번호 단방향 암호화(비밀번호를 모두 소문자로 바꿔서 암호화시킴)
+			mem.setMemberPw(encoder.encode(password.toLowerCase()));
+		}
+		mem.setMemberId(modalId);
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+mem);
+		int result=service.updatePw(mem);
+		
+		if(result>0) {
+			mv.addObject("msg", "비밀번호 재설정이 완료되었습니다");
+			mv.addObject("loc", "/member/login");
+			mv.setViewName("common/msg");
+		}else {
+			mv.addObject("msg", "비밀번호 재설정이 실패하였습니다");
+			mv.addObject("loc", "/member/findId");
+			mv.setViewName("common/msg");
+		}
+		
+		return mv;
+	}
 	
-	
+	 @ResponseBody
+		@RequestMapping(value = "/member/VerifyRecaptcha", method = RequestMethod.POST)
+		public int VerifyRecaptcha(HttpServletRequest request) {
+		    VerifyRecaptcha.setSecretKey("6LdmOf4ZAAAAANb1RZhYfscOrxGJ0JxhkoaZ5Ncy");
+		    String gRecaptchaResponse = request.getParameter("recaptcha");
+		    try {
+		       if(VerifyRecaptcha.verify(gRecaptchaResponse))
+		          return 0; // 성공
+		       else return 1; // 실패
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        return -1; //에러
+		    }
+		}
 	
 	
 	
