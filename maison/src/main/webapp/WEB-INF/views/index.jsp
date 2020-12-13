@@ -7,8 +7,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="첫화면"/>
 </jsp:include>
-<a href="${path }/shop/review.do">리뷰쓰러가기</a>
-<a href="${path }/shop/selectReviewList.do?productNo=3">리뷰보러가기</a>
 <script>
 	if(${auth ne null || !empty auth}) {
 		alert("${auth}");
@@ -19,6 +17,7 @@
 		clear:both;
 	}
 </style>
+<a href="${path }/shop/toReview.do">리뷰수정삭제</a>
 <!-- Start Slider -->
    <div id="slides-shop" class="cover-slides">
         <ul class="slides-container">

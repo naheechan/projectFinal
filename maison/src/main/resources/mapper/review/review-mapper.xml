@@ -21,4 +21,15 @@
 	<delete id="deleteReviewReply" parameterType="_int">
 		DELETE FROM REVIEWREPLY WHERE RRNO=#{rrNo}
 	</delete>
+	<update id="updateReviewReply" parameterType="reviewReply">
+		UPDATE REVIEWREPLY SET RRCONTENT=#{rrContent} WHERE RRNO=#{rrNo}
+	</update>
+	<select id="selectReviewOne" parameterType="_int" resultType="review">
+		SELECT * FROM REVIEW WHERE REVIEWNO=#{reviewNo}
+	</select>
+	<update id="updateReview" parameterType="review">
+		UPDATE REVIEW SET REVIEWCONTENT=#{reviewContent}, REVIEWSCORE=TO_NUMBER(#{reviewScore}) 
+		WHERE REVIEWNO=#{reviewNo}
+	</update>
+	
 </mapper>

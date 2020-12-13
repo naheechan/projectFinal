@@ -3,6 +3,7 @@ package com.kh.maison.review.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.maison.review.model.vo.Review;
@@ -15,5 +16,8 @@ public interface ReviewDao {
 	int insertReviewReply(SqlSessionTemplate session,Map param);
 	List<ReviewReply> selectReviewReplyList(SqlSessionTemplate session,int reviewNo);
 	int deleteReviewReply(SqlSessionTemplate session,int rrNo);
+	int updateReviewReply(SqlSessionTemplate session,ReviewReply rr);
+	Review selectReviewOne(SqlSessionTemplate session,int reviewNo);
+	int updateReview(SqlSessionTemplate session,Review r);
 	
 }

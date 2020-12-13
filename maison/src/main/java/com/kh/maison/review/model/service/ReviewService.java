@@ -12,4 +12,7 @@ public interface ReviewService {
 	int insertReviewReply(Map param);
 	List<ReviewReply> selectReviewReplyList(int reviewNo);
 	int deleteReviewReply(int rrNo);
+	int updateReviewReply(ReviewReply rr);
+	Review selectReviewOne(int reviewNo);
+	int updateReview(Review r);
 }

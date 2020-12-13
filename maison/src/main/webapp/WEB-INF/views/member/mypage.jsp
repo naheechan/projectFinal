@@ -144,8 +144,10 @@
 </section>
 <!-- End Mypage -->
 <script>
+
+
 	$(function(){
-		
+	//리뷰쓰는 팝띄우기		
 		$(".addreview").click(function(){
 			var productNo=$(this).prev().val();
 			$("#pop").show();

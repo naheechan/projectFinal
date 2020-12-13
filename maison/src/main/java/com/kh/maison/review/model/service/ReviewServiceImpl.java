@@ -49,5 +49,23 @@ public class ReviewServiceImpl implements ReviewService {
 		return dao.deleteReviewReply(session,rrNo);
 	}
 
+	@Override
+	public int updateReviewReply(ReviewReply rr) {
+		// TODO Auto-generated method stub
+		return dao.updateReviewReply(session,rr);
+	}
+
+	@Override
+	public Review selectReviewOne(int reviewNo) {
+		// TODO Auto-generated method stub
+		return dao.selectReviewOne(session,reviewNo);
+	}
+
+	@Override
+	public int updateReview(Review r) {
+		// TODO Auto-generated method stub
+		return dao.updateReview(session, r);
+	}
+
 	
 }

@@ -101,7 +101,7 @@
 				</div>
 				<div class="col-7">
 				<input type="hidden" name="reviewNo" value="${r.reviewNo }" >
-				<textarea  style="width:100%; resize:none;" cols="50"  wrap="hard"></textarea>
+				<textarea id="origin-ta" style="width:100%; resize:none;" cols="50"  wrap="hard"></textarea>
 				<button class="btn insert-reply" >등록하기</button>
 				</div>
 				</c:if>
@@ -118,7 +118,7 @@
 <script>
 
 //답변 div 생성하기
-function makereplydiv(rrContent,rrNo,reviewNo){
+/* function makereplydiv(rrContent,rrNo,reviewNo){
 	str+="<div class='row' style='margin-top:20px;'>";
 	str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
 	str+="</div>";
@@ -139,12 +139,12 @@ function makereplydiv(rrContent,rrNo,reviewNo){
 	str+="<input type='hidden' value='"+rrNo+"'>";
 	str+="</c:if>";
 	str+="</div>";
-};
+}; */
 
 
 
-//삭제하기
-function deletereply(rrNo,reviewNo){
+//답변 삭제하기
+function deleteReviewReply(rrNo,reviewNo){
 	$.ajax({
 		url: "${path}/shop/deleteReply.do",
 		data : {
@@ -155,23 +155,26 @@ function deletereply(rrNo,reviewNo){
 		success: function(data){
 			var str='';
 			$.each(data,function(i,v){
+				var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
 				str+="<div class='row' style='margin-top:20px;'>";
 				str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
 				str+="</div>";
 				str+="<div class='row'>";
 				str+="<div class='col-8' style='background-color:#EAEAEA;'>";
-				str+="<p style='margin:10px;'>";
+				str+="<p style='margin:10px;' id='p_"+v.rrNo+"'>";
 				str+=v.rrContent;
 				str+="</p>";
 				str+="</div>";
-				str+="<button class='offset-md-7 btn btn-sm update-reply' >"
+				str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
+				str+="<button id='rrupdate_"+v.rrNo+"' class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReply("+v.rrNo+","+v.reviewNo+")'>"
 				str+="수정";
 				str+="</button>";
 				str+="&nbsp;&nbsp;";
-				str+="<button class='btn btn-sm delete-reply' onclick='deletereply("+v.rrNo+","+v.reviewNo+")' >"
+				str+="<button class='btn btn-sm delete-reply' onclick='deleteReviewReply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
 				str+="삭제";
 				str+="</button>";
 				str+="<input type='hidden' value='"+v.rrNo+"'>";
+				str+="</c:if>"
 				str+="</div>";
 			});
 			$("#open_"+reviewNo).html(str);
@@ -185,14 +188,77 @@ function deletereply(rrNo,reviewNo){
 
 };
 
-//수정하기
+//답변 수정하기
+function updateReviewReply(rrNo,reviewNo){
+	/* 
+	 $(this).prev().prev().replaceWith("<form name='updateReviewReply'>
+			 <textarea class='col-8' id='rrContent' name='rrContent' rows='6' style='resize:none;' required>"+rrCont+"</textarea>
+	 <input type='hidden' id='rrNo' name='rrNo' value='"+rrNo+"'></form>");
+         $(this).replaceWith("<a name='after_adminModi' id='after_adminModi' style='float:right;'>답글 수정</a>");
+         /* modiAdminReply(no); */
 
+	var rrContent=$("#p_"+rrNo).html();
+    console.log(rrContent);
+	var rrCont=rrContent.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+	console.log(rrCont);
+	var update="<form name='updateReviewReplyFrm'><textarea class='col-8' id='rrContent_"+rrNo+"' name='rrContent' rows='6' style='resize:none;' required>"+rrCont+"</textarea><input type='hidden' id='rrNo' name='rrNo' value='"+rrNo+"'></form>";
+	update+="<input type='hidden' id='rrNo' name='rrNo' value='"+rrNo+"'></form>";
+	
+	
+	
+	$("#p_"+rrNo).replaceWith(update);
+	$("#rrupdate_"+rrNo).replaceWith("<button class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReplyEnd("+rrNo+","+reviewNo+")'>수정완료</button>");
+	$("#rrupdate_"+rrNo).next().replaceWith("<button>취소</button>")
+	
+}
 
+function updateReviewReplyEnd(rrNo,reviewNo){
+	
+	var rrContent=$("#rrContent_"+rrNo).val().replace(/(?:\r\n|\r|\n)/g,'<br/>');
+	console.log(rrContent+":rrContent");
+	
+	$.ajax({
+		url : "${path}/shop/updateReviewReply.do",
+		data : {
+			rrContent : rrContent,
+			rrNo : rrNo,
+			reviewNo : reviewNo
+		},
+		success : function(data){
+			var str='';
+			$.each(data,function(i,v){
+				var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
+				str+="<div class='row' style='margin-top:20px;'>";
+				str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
+				str+="</div>";
+				str+="<div class='row'>";
+				str+="<div class='col-8' style='background-color:#EAEAEA;'>";
+				str+="<p style='margin:10px;' id='p_"+v.rrNo+"'>";
+				str+=v.rrContent;
+				str+="</p>";
+				str+="</div>";
+				str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
+				str+="<button id='rrupdate_"+v.rrNo+"' class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReply("+v.rrNo+","+v.reviewNo+")'>"
+				str+="수정";
+				str+="</button>";
+				str+="&nbsp;&nbsp;";
+				str+="<button class='btn btn-sm delete-reply' onclick='deleteReviewReply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
+				str+="삭제";
+				str+="</button>";
+				str+="<input type='hidden' value='"+v.rrNo+"'>";
+				str+="</c:if>"
+				str+="</div>";
+			});
+			$("#open_"+reviewNo).html(str);
+		},
+	})
+	
+}
 
 
 
 function adjustHeight() {
-	  var reply = $('textarea');
+	  var reply = $("#origin-ta");
 	  reply[0].style.height = 'auto';
 	  var replyHeight = reply.prop('scrollHeight');
 	  reply.css('height', replyHeight);
@@ -220,21 +286,22 @@ function adjustHeight() {
 			success : function(data){
 				var str='';
 				$.each(data,function(i,v){
+					var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
 					str+="<div class='row' style='margin-top:20px;'>";
 					str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
 					str+="</div>";
 					str+="<div class='row'>";
 					str+="<div class='col-8' style='background-color:#EAEAEA;'>";
-					str+="<p style='margin:10px;'>";
+					str+="<p style='margin:10px;' id='p_"+v.rrNo+"'>";
 					str+=v.rrContent;
 					str+="</p>";
 					str+="</div>";
 					str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
-					str+="<button class='offset-md-7 btn btn-sm update-reply' onclick='updatereply("+v.rrNo+","+v.reviewNo+")'>"
+					str+="<button id='rrupdate_"+v.rrNo+"' class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReply("+v.rrNo+","+v.reviewNo+")'>"
 					str+="수정";
 					str+="</button>";
 					str+="&nbsp;&nbsp;";
-					str+="<button class='btn btn-sm delete-reply' onclick='deletereply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
+					str+="<button class='btn btn-sm delete-reply' onclick='deleteReviewReply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
 					str+="삭제";
 					str+="</button>";
 					str+="<input type='hidden' value='"+v.rrNo+"'>";
@@ -250,7 +317,6 @@ function adjustHeight() {
 		});
 	});
 	
-	//수정하기
 	
 	
 	
@@ -258,7 +324,7 @@ function adjustHeight() {
 	
 	
 	//삭제하기
-	$(".delete-reply").click(function(){
+/* 	$(".delete-reply").click(function(){
 		var rrNo=$(this).next().val();
 		console.log("클릭");
 		console.log(rrNo);
@@ -266,7 +332,7 @@ function adjustHeight() {
 			url: "${path}/shop/deleteReply.do",
 			data : {}
 		});
-	});
+	}); */
 	
 	
 	
@@ -289,23 +355,26 @@ function adjustHeight() {
 			success: function(data){
 				var str='';
 				$.each(data,function(i,v){
+					var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
 					str+="<div class='row' style='margin-top:20px;'>";
 					str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
 					str+="</div>";
 					str+="<div class='row'>";
 					str+="<div class='col-8' style='background-color:#EAEAEA;'>";
-					str+="<p style='margin:10px;'>";
+					str+="<p style='margin:10px;' id='p_"+v.rrNo+"'>";
 					str+=v.rrContent;
 					str+="</p>";
 					str+="</div>";
-					str+="<button class='offset-md-7 btn btn-sm update-reply' >"
-						str+="수정";
-						str+="</button>";
+					str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
+					str+="<button id='rrupdate_"+v.rrNo+"' class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReply("+v.rrNo+","+v.reviewNo+")'>"
+					str+="수정";
+					str+="</button>";
 					str+="&nbsp;&nbsp;";
-					str+="<span class='delete-reply' style='cursor:pointer'>"
+					str+="<button class='btn btn-sm delete-reply' onclick='deleteReviewReply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
 					str+="삭제";
-					str+="</span>";
+					str+="</button>";
 					str+="<input type='hidden' value='"+v.rrNo+"'>";
+					str+="</c:if>"
 					str+="</div>";
 				});
 				$("#open_"+reviewNo).html(str);

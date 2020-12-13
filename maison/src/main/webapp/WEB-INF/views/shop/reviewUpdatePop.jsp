@@ -84,7 +84,7 @@
 <div class="container">
 <div class="row">
 <div class="col">
-<form action="${path }/shop/insertReviewEnd.do" method="get" id="reviewForm">
+<form action="${path }/shop/updateReviewEnd.do" method="get" id="reviewForm">
 	<div id="data-div review-container">
 						<div class="form-group">
 							<label class="control-label">구매 후기 쓰기</label> <br>
@@ -131,7 +131,7 @@
 				<span class="starOn"><i class="fas fa-2x fa-star"></i></span>
 			</label>
 			
-			<input type="checkbox" name="reviewScore" id="rating5" checked value="5" class="rate_radio" title="5점">
+			<input type="checkbox" name="reviewScore" id="rating5" value="5" class="rate_radio" title="5점">
 			<label for="rating5">
 				<span class="starOn"><i class="fas  fa-2x fa-star"></i></span>
 			</label>
@@ -142,9 +142,11 @@
 		<div class="form-group required">
 		    <label for="reviewContent" class="control-label">내용</label>
 		    <br>
-		   <textarea class="form-control" name="reviewContent" rows="5" id="reviewContent" required></textarea>
+		   <textarea class="form-control" name="reviewContent" rows="5" id="reviewContent" required>${r.reviewContent}</textarea>
 		</div>
-		<input type="submit" class="btn btn-success" id="savebutton" value="등록" />
+		<input type="hidden" name="reviewNo" value="${r.reviewNo }">
+		<input type="hidden" name="memberId" value="${r.memberId }">
+		<input type="submit" class="btn btn-success" value="수정">
 		<input type="button" class="btn closebtn" value="닫기">
 	</div>
 
@@ -153,9 +155,76 @@
 </div>
 </div>
 </div>
-
 <script>
 $(function(){
+$("#pop").change(function(){
+
+switch(${r.reviewScore }){
+		
+		case '1': 
+			$("#rating1").prop("checked",true);
+			$("#rating2").prop("checked",false);
+			$("#rating3").prop("checked",false);
+			$("#rating4").prop("checked",false);
+			$("#rating5").prop("checked",false);
+			$("#rating2").next().children("span").removeClass("starOn").addClass("starOff");
+			$("#rating3").next().children("span").removeClass("starOn").addClass("starOff");
+			$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
+			$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
+			break;
+		case '2': 
+			$("#rating1").prop("checked",false);
+			$("#rating2").prop("checked",true);
+			$("#rating3").prop("checked",false);
+			$("#rating4").prop("checked",false);
+			$("#rating5").prop("checked",false);
+			$("#rating2").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating3").next().children("span").removeClass("starOn").addClass("starOff");
+			$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
+			$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
+			break;
+		case '3': 
+			$("#rating1").prop("checked",false);
+			$("#rating2").prop("checked",false);
+			$("#rating3").prop("checked",true);
+			$("#rating4").prop("checked",false);
+			$("#rating5").prop("checked",false);
+			$("#rating2").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating3").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
+			$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
+			break;
+		case '4': 
+			$("#rating1").prop("checked",false);
+			$("#rating2").prop("checked",false);
+			$("#rating3").prop("checked",false);
+			$("#rating4").prop("checked",true);
+			$("#rating5").prop("checked",false);
+			$("#rating2").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating3").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating4").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
+			break;
+		case '5': 
+			$("#rating1").prop("checked",false);
+			$("#rating2").prop("checked",false);
+			$("#rating3").prop("checked",false);
+			$("#rating4").prop("checked",false);
+			$("#rating5").prop("checked",true);
+			$("#rating2").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating3").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating4").next().children("span").removeClass("starOff").addClass("starOn");
+			$("#rating5").next().children("span").removeClass("starOff").addClass("starOn");
+			break;
+		
+		
+		}
+
+})
+
+
+
+
 	//닫기누르면 없애기
 	$(".closebtn").click(function(){
 		$("#pop").hide();

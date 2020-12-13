@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.review.model.service.ReviewService;
 import com.kh.maison.review.model.vo.Review;
@@ -53,8 +54,13 @@ public class ReviewController {
 	@RequestMapping("/shop/insertReviewEnd.do")
 	public ModelAndView insertRevuewEnd(ModelAndView mv,Review r,HttpSession session) {
 		
+		
 		Member m=(Member)session.getAttribute("loginMember");	
 		r.setMemberId(m.getMemberId());
+		
+		//orderdetail도 확인해야함
+		//이후 그 orderdetail로 등록된 리뷰가있는지 확인해야함
+		
 		int result=service.insertReview(r);
 		mv.setViewName("redirect:/shop/shopDetail.do?no="+r.getProductNo());
 		return mv;
@@ -121,6 +127,45 @@ public class ReviewController {
 		return rlist;
 	}
 
+	@RequestMapping("/shop/updateReviewReply.do")
+	@ResponseBody
+	List<ReviewReply> updateReviewReply(ReviewReply rr){
+		int result=service.updateReviewReply(rr);
+		List<ReviewReply> rlist=service.selectReviewReplyList(rr.getReviewNo());
+		return rlist;
+	}
 
-
+	@RequestMapping("/shop/toReview.do")
+	String toReview() {
+		return "shop/toReview";
+	}
+	
+	@RequestMapping("/shop/updateReview.do")
+	@ResponseBody
+	ModelAndView updateReview(@ModelAttribute Review r,ModelAndView mv) {
+		Review rev=service.selectReviewOne(r.getReviewNo());
+		Product p=pservice.selectProductOne(rev.getProductNo());
+		mv.setViewName("shop/reviewUpdatePop");
+		mv.addObject("r",rev);
+		mv.addObject("p",p);
+		return mv;
+		
+	}
+	
+	@RequestMapping("/shop/updateReviewEnd.do")
+	ModelAndView updateReviewEnd(Review r,HttpSession session,ModelAndView mv) {
+		System.out.println(r);
+		Member m=(Member)session.getAttribute("loginMember");
+		if(r.getMemberId().equals(m.getMemberId())){
+			int result=service.updateReview(r);
+			mv.setViewName("redirect:/shop/shopDetail.do?no="+r.getProductNo());
+			
+		}else {
+			mv.addObject("msg","수정 권한이 없습니다 !");
+			mv.addObject("loc","/shop/shopDetail.do?no="+r.getProductNo());
+			mv.setViewName("common/msg");
+		}
+		return mv;
+	}
+	
 }
