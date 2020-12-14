@@ -320,7 +320,7 @@ ul.cart-list > li.total > span{
     -webkit-box-shadow: 0px 0px 0px;
     -o-box-shadow: 0px 0px 0px;
     box-shadow: 0px 0px 0px;
-    color: #fff;
+    color: #a79c82;
     height: 40px;
     padding: 0 15px;
 }
@@ -328,7 +328,7 @@ ul.cart-list > li.total > span{
 .top-search .input-group-addon{
     background-color: transparent;
     border: none;
-    color: #fff;
+    color: #a79c82;
     padding-left: 0;
     padding-right: 0;
 }
@@ -339,7 +339,7 @@ ul.cart-list > li.total > span{
 
 /* Side Menu
 =================================*/
-body{
+/* body{
     -webkit-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
 	-o-transition: all 0.3s ease-in-out;
@@ -407,7 +407,7 @@ body.on-side{
 .side .widget ul.link li a:hover{
     color: #fff;
     text-decoration: none;
-}
+} */
 
 /* Share
 =================================*/
@@ -538,7 +538,7 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
         border-radius: 0px;
         padding: 0;
         width: 200px;
-        background: #000000;
+        background: #ffffff;
 		border: none;
 		padding: 30px 0;
     }
@@ -546,7 +546,7 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
     nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a:hover,
     nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a:hover{
         background-color: transparent;
-		color: #b0b435;
+		color: #f2bb9c;
 		-ms-transform: translateX(3px);
 		-webkit-transform: translateX(3px);
 		transform: translateX(3px);
@@ -1032,17 +1032,18 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
         float: none;
     }
     
-    nav.navbar.bootsnav li.dropdown a.dropdown-toggle:before{
+    nav.navbar.bootsnav li.dropdown a.dropdown-toggle::after{
         font-family: 'FontAwesome';
         content: "\f105";
         float: right;
         font-size: 16px;
         margin-left: 10px;
+        margin-right: 10px;
 		position: absolute;
 		top: 4px;
     }
     
-    nav.navbar.bootsnav li.dropdown.on > a.dropdown-toggle:before{
+    nav.navbar.bootsnav li.dropdown.on > a.dropdown-toggle::after{
         content: "\f107";
     }
     

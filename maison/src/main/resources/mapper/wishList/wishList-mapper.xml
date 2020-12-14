@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="wishList">
+  	
+  <insert id="insertWishList" parameterType="wishList">
+  	<!-- memberId 넣기 -->
+  	INSERT INTO WISHLIST(MEMBERID,PRODUCTNO) 
+  		SELECT #{memberId},#{productNo} FROM DUAL
+  			WHERE NOT EXISTS(SELECT 0 FROM WISHLIST WHERE PRODUCTNO=#{productNo} AND MEMBERID=#{memberId})
+    
+  </insert>
+  	
+  	<!-- memberId 넣기 -->
+  <select id="selectWishList" resultType="map" parameterType="string">
+  	SELECT P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG, P.PRICE
+		FROM WISHLIST JOIN PRODUCT P ON WISHLIST.PRODUCTNO=P.PRODUCTNO WHERE MEMBERID=#{memberId}
+  </select>	
+  	
+  <delete id="deleteWishList" parameterType="wishList">
+  	DELETE FROM WISHLIST WHERE PRODUCTNO=#{productNo} AND MEMBERID=#{memberId}
+  </delete>
+  	
+</mapper>

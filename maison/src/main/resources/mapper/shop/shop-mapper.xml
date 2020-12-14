@@ -2,7 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="shop">
 
-<select id="selectProduct" resultType="product">
+  <!-- <select id="shopList" resultType="map">
+  	SELECT * FROM PRODUCT
+  </select> -->
+  
+  <select id="selectProductOne" resultType="com.kh.maison.shop.vo.Product" parameterType="_int">
+  	SELECT * FROM PRODUCT WHERE PRODUCTNO=#{no}
+  </select>
+  
+
+
+<select id="selectProductList" resultType="product">
 	SELECT * FROM PRODUCT
 	<!-- <if test="largeCate!=null">
 		AND LARGECATE LIKE=#{largeCate}
@@ -16,7 +26,7 @@
 	SELECT DISTINCT LARGECATE FROM MEDIUMCATE
 </select>
 <select id="selectMediCate" resultType="category">
-	SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE
+	SELECT DISTINCT MEDIUMCATE ,MCNAME, LARGECATE FROM MEDIUMCATE
 </select>
 <insert id="insertRequestProduct" parameterType="Request">
 	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,#{memberId},#{requestContent},'요청하기',SYSDATE)
@@ -30,8 +40,61 @@
 </select>
 
 <select id="searchCate" resultType="cateProduct" parameterType="String">
-	SELECT M.*, P.PRODUCTNAME, P.PRODUCTIMG, P.MEDIUMCATE AS MEDICATE, P.PRICE 
-	FROM MEDIUMCATE M, PRODUCT P 
-	WHERE M.MEDIUMCATE=P.MEDIUMCATE 
+	SELECT MEDIUMCATE,PRODUCTIMG, PRODUCTNO,PRODUCTNAME,PRICE
+	FROM PRODUCT
+	WHERE MEDIUMCATE=TO_NUMBER(#{category})
 </select>
+
+<select id="selectInquiryList" resultType="totalInquiry">
+	<!-- SELECT PINO, PICATE, PITITLE, PICONTENT, MEMBERID, PRODUCTNO, -->
+	<!-- TO_CHAR(PIDATE,'YYYY-MM-DD HH24:MI')AS PIDATE, PIREADCOUNT FROM PDINQUIRY -->
+	<!-- PIDATE, PIREADCOUNT FROM PDINQUIRY -->
+		<!-- SELECT P.*, I.PIRNO,I.PIRCONTENT,I.PIRDATE,I.PINO AS IPINO FROM PDINQUIRY P, INQUIRYREPLY I WHERE P.PIDEL='Y'
+		ORDER BY P.PIDATE DESC -->
+		SELECT P.*,I.* FROM PDINQUIRY P LEFT JOIN INQUIRYREPLY I ON P.PINO=I.PINO ORDER BY PIDATE DESC
+</select>
+
+<select id="selectCountInquiry" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY
+</select>
+
+<select id="selectPdOne" resultType="product" parameterType="_int">
+	SELECT * FROM PRODUCT WHERE PRODUCTNO=#{no}
+</select>
+
+<insert id="writeInquiry" parameterType="pdInquiry">
+	INSERT INTO PDINQUIRY VALUES(SEQ_PINO.NEXTVAL,#{piCate},#{piTitle},#{piContent},#{memberId},
+	#{productNo},'N',SYSDATE,'Y',DEFAULT)
+</insert>
+
+<insert id="insertReply" parameterType="reply">
+	INSERT INTO INQUIRYREPLY VALUES(SEQ_PIRNO.NEXTVAL,#{pirContent},SYSDATE,#{piNo})
+</insert>
+
+<select id="selectInquiryOne" resultType="pdInquiry" parameterType="_int">
+	SELECT * FROM PDINQUIRY WHERE PINO=${piNo}
+</select>
+
+<!-- user문의글 수정 -->
+<update id="updateInquiry" parameterType="map">
+	UPDATE PDINQUIRY SET PICONTENT=#{piContent}, PICATE=#{piCate} WHERE PINO=#{piNo}
+</update>
+
+<select id="selectReplyOne" parameterType="_int" resultType="reply">
+	SELECT * FROM INQUIRYREPLY WHERE PINO=#{piNo}
+</select>
+
+<!--관리자 답변여부  -->
+<update id="updateStatus" parameterType="_int">
+	UPDATE PDINQUIRY SET PISTATUS='Y' WHERE PINO=#{no}
+</update>
+
+<update id="modiReply" parameterType="map">
+	UPDATE INQUIRYREPLY SET PIRCONTENT=#{pirContent} WHERE PIRNO=#{pirNo}
+</update>
+
+<update id="deleteInquiry" parameterType="_int">
+	UPDATE PDINQUIRY SET PIDEL='N' WHERE PINO=#{no}
+</update>
+
 </mapper>

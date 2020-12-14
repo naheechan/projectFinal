@@ -12,13 +12,16 @@ import org.springframework.stereotype.Repository;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.shop.model.vo.CateProduct;
+import com.kh.maison.shop.model.vo.InquiryReply;
+import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.shop.model.vo.TotalInquiry;
 @Repository
 public class ShopDaoImpl implements ShopDao {
 
 	@Override
-	public List<Product> selectProduct(SqlSession session,int cPage, int numPerPage) {
-		return session.selectList("shop.selectProduct",null,
+	public List<Product> selectProductList(SqlSession session,int cPage, int numPerPage) {
+		return session.selectList("shop.selectProductList",null,
 				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
@@ -58,6 +61,80 @@ public class ShopDaoImpl implements ShopDao {
 	public List<CateProduct> searchCate(SqlSession session, String category) {
 		System.out.println("shop dao category"+category);
 		return session.selectList("shop.searchCate",category);
+	}
+
+
+	@Override
+	public List<TotalInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage) {
+		return session.selectList("shop.selectInquiryList",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+
+	@Override
+	public int selectCountInquiry(SqlSession session) {
+		return session.selectOne("shop.selectCountInquiry");
+	}
+
+
+	@Override
+	public Product selectPdOne(SqlSession session, int no) {
+		return session.selectOne("shop.selectPdOne",no);
+	}
+
+
+	@Override
+	public int writeInquiry(SqlSession session, PdInquiry pi) {
+		System.err.println("shopDaiImple:"+pi);
+		return session.insert("shop.writeInquiry",pi);
+	}
+
+
+	@Override
+	public int insertReply(SqlSession session, InquiryReply ir) {
+		return session.insert("shop.insertReply",ir);
+	}
+
+
+	@Override
+	public PdInquiry selectInquiryOne(SqlSession session, int piNo) {
+		return session.selectOne("shop.selectInquiryOne",piNo);
+	}
+
+
+	@Override
+	public int updateInquiry(SqlSession session,Map<String,Object> m) {
+		return session.update("shop.updateInquiry",m);
+	}
+
+
+	@Override
+	public List<InquiryReply> selectReplyOne(SqlSession session, int piNo) {
+		return session.selectList("shop.selectReplyOne",piNo);
+	}
+
+
+	@Override
+	public int updateStatus(SqlSession session, int no) {
+		return session.update("shop.updateStatus",no);
+	}
+
+
+	@Override
+	public List<TotalInquiry> selectAddReply(SqlSession session, int no) {
+		return session.selectList("shop.selectAddReply",no);
+	}
+
+
+	@Override
+	public int modiReply(SqlSession session, Map<String,Object> param) {
+		return session.update("shop.modiReply",param);
+	}
+
+
+	@Override
+	public int deleteInquiry(SqlSession session, int no) {
+		return session.update("shop.deleteInquiry",no);
 	}
 	
 	

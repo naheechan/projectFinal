@@ -12,7 +12,7 @@
                 <div class="col-lg-12">
                     <h2><c:out value="${param.menuTitle }"/></h2>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="${path }/">Home</a></li>
                         <li class="breadcrumb-item active"><c:out value="${param.menuTitle }"/></li>
                     </ul>
                 </div>
