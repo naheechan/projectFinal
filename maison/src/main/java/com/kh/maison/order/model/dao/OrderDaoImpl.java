@@ -35,6 +35,15 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.update("shop.updateStock",map3);
 	}
+
+	@Override
+	public int bupdateStock(SqlSession session, Basket b) {
+		// TODO Auto-generated method stub
+		return session.update("shop.bupdateStock",b);
+	}
+	
+	
+	
 	
 	
 

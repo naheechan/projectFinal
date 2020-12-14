@@ -42,6 +42,14 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return dao.updateStock(session,map3);
 	}
+
+	@Override
+	public int bupdateStock(Basket b) {
+		// TODO Auto-generated method stub
+		return dao.bupdateStock(session,b);
+	}
+	
+	
 	
 	
 

@@ -17,4 +17,5 @@ public interface OrderDao {
 	
 	int updateStock(SqlSession session, Map<String,Object> map3);
 
+	int bupdateStock(SqlSession session, Basket b);
 }

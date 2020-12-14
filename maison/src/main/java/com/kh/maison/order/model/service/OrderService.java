@@ -15,6 +15,8 @@ public interface OrderService {
 	
 	int updateStock(Map<String,Object> map3);
 	
+	int bupdateStock(Basket b);
+	
 	
 	
 	

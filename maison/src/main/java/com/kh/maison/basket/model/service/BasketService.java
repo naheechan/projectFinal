@@ -12,4 +12,6 @@ public interface BasketService {
 	int updateAmount(Map param);
 	int selectBasketCount(String memberId);
 	Basket selectBasketOne(int basketNo);
+	
+	
 }

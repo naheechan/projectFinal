@@ -66,7 +66,6 @@ public class OrderController {
 		o.setSellRequest(sellRequest);
 		o.setDeliRequest(deliRequest);
 		o.setOrderPrice(Integer.parseInt(orderPrice));
-		
 		o.setUseMile(Integer.parseInt(useMile));
 		o.setStackMile(Integer.parseInt(stackMile));
 		o.setTotalPrice(Integer.parseInt(totalPrice));
@@ -85,7 +84,7 @@ public class OrderController {
 		
 		result=service.insertOrder(o);
 		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("array",basketNo);
+		
 		
 		
 		Map<String,Object> map2=new HashMap<String, Object>();
@@ -94,11 +93,17 @@ public class OrderController {
 		if(result>0) {
 			//orderDetail insert
 			for(String a: basketNo) {
-			Basket b=new Basket();
-			b.setBasketNo(Integer.parseInt(a));
-			int result3=service.insertOrderDetail(b);
+				Basket b=new Basket();
+				b.setBasketNo(Integer.parseInt(a));
+				int result3=service.insertOrderDetail(b);
 			}
+			
 			//재고 업데이트 productNo, productStock, amount
+			for(String basketno : basketNo) {
+				Basket b=new Basket();
+				b.setBasketNo(Integer.parseInt(basketno));
+				int result4=service.bupdateStock(b);
+			}
 			
 			//마일리지 업데이트
 			int result2=service.updateMileage(map2);
