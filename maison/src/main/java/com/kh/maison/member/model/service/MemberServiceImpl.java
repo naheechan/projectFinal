@@ -57,6 +57,19 @@ public class MemberServiceImpl implements MemberService {
 		return dao.updatePw(session,mem);
 	}
 	
+	//회원정보 변경 관련
+	@Override
+	public int updateMember(Member mem) {
+		// TODO Auto-generated method stub
+		return dao.updateMember(session,mem);
+	}
+
+	@Override
+	public int updateMemberPw(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.updateMemberPw(session,map);
+	}
+	
 	
 	
 	

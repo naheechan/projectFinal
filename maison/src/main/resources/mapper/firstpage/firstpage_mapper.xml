@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="firstpage">
+
+	<select id="selectBestWith" resultType="com.kh.maison.shop.vo.Product">
+	SELECT * FROM PRODUCT P,
+        (SELECT PRODUCTNO
+        FROM (
+              SELECT PRODUCTNO
+              FROM WISHLIST
+              GROUP BY PRODUCTNO
+              ORDER BY COUNT(*) DESC
+              )
+         WHERE ROWNUM &lt;=4
+        ) W
+	WHERE P.PRODUCTNO = W.PRODUCTNO	
+	</select>
+	
+	<select id="selectAdmin" resultType = "member">
+		SELECT * FROM MEMBER 
+		WHERE MEMBERID = 'admin'
+	</select>
+</mapper>
