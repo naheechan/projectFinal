@@ -58,6 +58,12 @@ public class ShopDaoImpl implements ShopDao {
 		System.out.println("shop dao category"+category);
 		return session.selectList("shop.searchCate",category);
 	}
+
+
+	@Override
+	public List<Category> searchMediCate(SqlSession session, String category) {
+		return session.selectList("shop.searchMediCate", category);
+	}
 	
 	
 

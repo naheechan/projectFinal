@@ -29,7 +29,7 @@
  			해당 메일을 통해 회원가입을 완료해 주세요.</p><br>
  			<p>- 참고사항 -</p>
  			<p>메일이 도착하는데까지 어느정도 시간이 소요될수있으니 참고해주세요.</p><br><br>
- 			<button class="btn btn-success mx-auto d-block">홈으로</button>
+ 			<button class="btn btn-success mx-auto d-block" onclick="location.replace(${path}/)">홈으로</button>
  		</div>
  		
  	</div>

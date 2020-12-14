@@ -20,5 +20,6 @@ public interface ShopDao {
 	
 	List<Product> selectOneMediCate(SqlSession session, String keyword);
 	List<CateProduct> searchCate(SqlSession session, String category);
+	List<Category> searchMediCate(SqlSession session, String category);
 	
 }

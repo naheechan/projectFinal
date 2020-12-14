@@ -62,6 +62,15 @@ public class ShopServiceImpl implements ShopService {
 	public List<CateProduct> searchCate(String category) {
 		return dao.searchCate(session,category);
 	}
+
+
+	@Override
+	public List<Category> searchMediCate(String category) {
+		return dao.searchMediCate(session, category);
+	}
+
+	
+	
 	
 	
 
