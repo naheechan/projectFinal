@@ -23,7 +23,10 @@ public interface ShopDao {
 	int insertRequestProduct(SqlSession session, Request rq);
 	
 	List<Product> selectOneMediCate(SqlSession session, String keyword);
+	
 	List<Product> searchCate(SqlSession session, String category);
+	
+	List<Category> searchMediCate(SqlSession session, String category);
 	
 	List<TotalInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage);
 	int selectCountInquiry(SqlSession session);

@@ -23,6 +23,8 @@
 		<typeAlias type="com.kh.maison.shop.model.vo.TotalInquiry" alias="totalInquiry"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.InquiryReply" alias="reply"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.AdminReply" alias="adminReply"/>
+		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleProduct" alias="cycleProduct"/>
+		<typeAlias type="com.kh.maison.shopCycle.model.vo.CountCycle" alias="countCycle"/>
 	</typeAliases>
 
 </configuration>

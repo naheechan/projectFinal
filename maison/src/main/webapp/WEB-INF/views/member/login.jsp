@@ -99,9 +99,9 @@
 		<table>
 			<tr>
 				<td colspan="2">
-					<p><a href="#">아이디 찾기</a></p>
+					<p><a href="${path}/member/findId">아이디 찾기</a></p>
 					<p>|</p>
-					<p><a href="#">비밀번호 찾기</a></p>
+					<p><a href="${path}/member/findPw ">비밀번호 찾기</a></p>
 					<p>|</p>
 					<p><a href="${path }/member/enroll">회원가입</a></p>
 				</td>

@@ -97,4 +97,8 @@
 	UPDATE PDINQUIRY SET PIDEL='N' WHERE PINO=#{no}
 </update>
 
+<select id="searchMediCate" resultType="category" parameterType="string">
+	SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE WHERE LARGECATE=#{category}
+</select>
+
 </mapper>
