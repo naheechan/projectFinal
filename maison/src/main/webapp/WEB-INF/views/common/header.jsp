@@ -88,7 +88,7 @@
                     
                     <li class="side-menu">
                     	<a href="${path }/basket/basket.do">
-							<i class="fa fa-shopping-bag"></i>
+							<i class="fa fa-shopping-bag" aria-hidden="false"></i>
 			                	<span class="badge">${basketCount }</span>
 								<p>장바구니</p>
 						</a>
@@ -157,4 +157,6 @@
         </div>
     </div>
 </div>
+
+
 <!-- End Top Search -->

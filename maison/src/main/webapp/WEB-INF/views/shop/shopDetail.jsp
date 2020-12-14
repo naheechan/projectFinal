@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="상품상세페이지"/>
 </jsp:include>
@@ -157,11 +158,14 @@ select::-ms-expand { /* for IE 11 */
     <div class="shop-detail-box-main">
         <div class="container">
             <div class="row">
+            <form action="${path }/order/buy.do" id="buyFrm">
                 <div class="col-xl-5 col-lg-5 col-md-6">
                 	<!-- 상품 상세 이미지 넣기 -->
-                   <img class="d-block w-100" src="${path }/resources/images/big-img-01.jpg" alt="First slide">
+                	
+                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide" style="width:470px;height:550px;">
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
+                
                     <div class="single-product-details">
                         <h2>${product.productName }</h2>
                         <input type="hidden" id="productNo" value="${product.productNo }"/>
@@ -173,8 +177,10 @@ select::-ms-expand { /* for IE 11 */
 							<li>
 								<div class="form-group quantity-box">
 									<label class="control-label">수량</label>
+
 									<input type="number" name="amount" class="form-control" id="amount" value="1" step="1" min="1" max="20" >
 									
+
 								</div>
 							</li>
 						</ul>
@@ -182,15 +188,32 @@ select::-ms-expand { /* for IE 11 */
 					
 					<div class="price-box-bar">
 							<div class="cart-and-bay-btn">
-								<a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a>
+
+
+								<!-- <a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a> -->
+									<input type="hidden" name="productName" value="${product.productName }">
+									<input type="hidden" name="productNo" value="${product.productNo }">
+									<input type="hidden" name="price" value="${product.price }">
+									
+									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	
+									
+								
+
+								
+
+								
 								<c:if test="${loginMember.memberId!=null && loginMember.memberId=='admin' }">
 								<a class="btn hvr-hover" data-fancybox-close="" href="${path}/admin/product/productView.do?no=${product.productNo }">상품수정하기</a>
 								</c:if>
+
 								<a class="btn hvr-hover" id="basketA" data-fancybox-close="" href="#">장바구니</a>
 
 							</div>
-							
+							</form>
 						</div>
+						
+						
+						
 
 						<div class="add-to-btn">
 							<div class="add-comp">
@@ -214,6 +237,7 @@ select::-ms-expand { /* for IE 11 */
 							
 						</div>
                     </div>
+                    
                 </div>
             </div>
             
@@ -248,7 +272,7 @@ select::-ms-expand { /* for IE 11 */
 				
 				<div class="card-body">
 					<!-- ck에디터 이미지 띄우기 -->
-					<img src="https://cdn.pixabay.com/photo/2020/02/08/10/35/soap-4829708_960_720.jpg">
+					<img src="${path }/resources/upload/product/${product.productImg }" style="width: 600px;height: 600px;">
 					<p>${product.productContent }</p>
 				</div>
 		 	</div>

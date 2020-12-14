@@ -28,6 +28,14 @@
   </update>
   
 
+
+  <update id="updateMileage" parameterType="map">
+  	UPDATE MEMBER SET MEILEAGE=#{memberMileage} WHERE MEMBERID=#{memberId}
+  </update>
+  
+
+
+
   <select id="findId" resultType="member" parameterType="member">
   	SELECT MEMBERID,EMAIL FROM MEMBER WHERE MEMBERNAME=#{memberName} AND BIRTH=#{birth}
   </select>
@@ -40,6 +48,7 @@
   	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
   </update>
   
+
 
   <update id="updateMember" parameterType="member">
   		UPDATE MEMBER SET
