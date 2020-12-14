@@ -14,5 +14,8 @@ public interface BasketDao {
 	int updateAmount(SqlSessionTemplate session,Map param);
 	int selectBasketCount(SqlSessionTemplate session,String memberId);
 	Basket selectBasketOne(SqlSessionTemplate session,int basketNo);
+	int insertBasket(SqlSessionTemplate session,Map param); 
+	int checkBasket(SqlSessionTemplate session,Map param);
+	int updateBasket(SqlSessionTemplate session, Map param);
 	
 }

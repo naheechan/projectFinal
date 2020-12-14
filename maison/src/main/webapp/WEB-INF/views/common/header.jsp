@@ -48,7 +48,7 @@
 			<div class="collapse navbar-collapse" id="navbar-menu">
 				<ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
 					<!-- 눌려졌을때를 표현하고 싶으면 li class에 active를 추가하세요. -->
-					<li class="nav-item"><a class="nav-link" href="index.html">메종은?</a></li>
+					<li class="nav-item"><a class="nav-link" href="${path }/firstpage/about.do">메종은?</a></li>
 
 					<li class="nav-item"><a class="nav-link" href="${ path }/shop/shopView.do">쇼핑해요</a></li>
 
@@ -78,7 +78,12 @@
                     	<li class="login"><a href="${path }/member/login"><i class="fas fa-user-alt"></i></a></li>
                     </c:if>
                     <c:if test="${loginMember ne null}">
-                    	<li class=""><a href="#"><c:out value="${loginMember.memberName}님"/></a></li>
+                    	<c:if test="${loginMember.memberId eq 'admin' }">
+	                    	<li class=""><a href="${path }/admin/dashBoard.do"><c:out value="${loginMember.memberName}"/></a></li>           	
+                    	</c:if>
+                    	<c:if test="${loginMember.memberId ne 'admin' }">
+	                    	<li class=""><a href="${path }/member/mypage.do"><c:out value="${loginMember.memberName}님"/></a></li>       	
+                    	</c:if>
                     </c:if>
                     
                     <li class="side-menu">

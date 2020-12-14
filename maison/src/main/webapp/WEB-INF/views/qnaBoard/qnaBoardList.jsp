@@ -23,7 +23,7 @@
 		
 		<div class=row>
 			<div class="col-lg-12">
-				<div class="talbe-main table-responsive">
+				<div class="table-main table-responsive">
 			        <table id="tbl-board" class="table table-hover">
 			            <thead>
 				            <tr>

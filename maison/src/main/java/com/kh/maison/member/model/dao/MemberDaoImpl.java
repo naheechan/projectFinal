@@ -29,6 +29,18 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateAuthStatus(SqlSessionTemplate session, String id) {
 		return session.update("member.updateAuthStatus", id);
 	}
+
+	@Override
+	public int updateMember(SqlSessionTemplate session, Member mem) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateMember",mem);
+	}
+
+	@Override
+	public int updateMemberPw(SqlSessionTemplate session, Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateMemberPw",map);
+	}
 	
 	
 	
