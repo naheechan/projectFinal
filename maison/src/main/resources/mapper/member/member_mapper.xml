@@ -72,9 +72,5 @@
   	UPDATE MEMBER SET MEMBERPW = #{pw}
   				WHERE MEMBERID = #{id}
   </update>
-<<<<<<< HEAD
 
-=======
-
->>>>>>> branch 'dev' of https://github.com/BrileyKim/finalProject_maison.git
 </mapper>
