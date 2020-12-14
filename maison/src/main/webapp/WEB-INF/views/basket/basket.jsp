@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-main table-responsive">
-                    <form action="${path }/basket/orderBasket" id="basketFrm" method="post">
+                    <form action="${path }/basket/orderBasket.do" id="basketFrm" method="post">
                         <table id="basketTable" class="table">
                             <thead>
                                 <tr>
@@ -38,19 +38,25 @@
                             <c:forEach var="list" items="${list }">
                                 <tr>
                                 	<td><input type="checkbox" name="basketChecked" value="${list.BASKETNO }" checked></td>
+                                	
                                     <td class="thumbnail-img">
                                         <a href="${path }/shop/shopDetail.do?no=${list.PRODUCTNO}">
 									<img class="" src='${path }/resources/upload/product/${list.PRODUCTIMG }' height="100px" alt="상품 이미지" />
 										</a>
                                     </td>
+                                    
                                     <td class="name-pr">
+
                                         <a href="${path }/shop/shopDetail.do?no=${list.PRODUCTNO}">
-									${list.PRODUCTNAME }
+											${list.PRODUCTNAME }
+
 										</a>
                                     </td>
+                                    
                                     <td class="price-pr">
                                        ${list.PRICE }원
                                     </td>
+                                    
                                     <td class="quantity-box">
                                     	<input type="number" name="amount" size="4" value="${list.AMOUNT }" min="1" step="1" class="c-input-text qty text">
                                     	<input type="hidden" name="basketNo" value="${list.BASKETNO }">			
@@ -59,11 +65,13 @@
                                     <td class="total-pr">
                                         <p class="pTotal"> ${list.PRICE*list.AMOUNT }원</p>
                                     </td>
+                                    
                                     <td class="remove-pr">
                                         <a href="${path }/basket/deleteBasket.do?basketNo=${list.BASKETNO}">
-									<i class="fas fa-times"></i>
-								</a>
+											<i class="fas fa-times"></i>
+										</a>
                                     </td>
+                                    
                                 </tr>
                                </c:forEach>
                          

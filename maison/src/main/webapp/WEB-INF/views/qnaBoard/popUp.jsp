@@ -17,18 +17,17 @@
 <script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
 <script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
 <script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
+<link rel="stylesheet" href="${path }/resources/css/style.css">
 <style>
 input:focus { outline: none; }
 #checkMsg:hover { cursor:default; }
 </style>
 <body>
-	현재 비밀번호
-	<c:out value="${qnaPw}"/><br>
 
 	<form action="">
 		<div style="text-align:center">
 		
-			<p><h5>비밀번호 입력</h5></p>
+			<p style="font-size:20px;margin-top:20px;margin-bottom:25px">비밀번호 입력</p>
 			<input type="password" maxlength='4' id="password" class="form-control" style="width:200px;height:35px;margin-left:55px">
 			<input type="text" value="" id="checkMsg"  style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;width:230px"readonly>
 		</div>

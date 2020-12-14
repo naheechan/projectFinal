@@ -1,5 +1,7 @@
 package com.kh.maison.member.model.service;
 
+import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,6 +37,24 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateAuthStatus(String id) {
 		return dao.updateAuthStatus(session, id);
+	}
+
+	@Override
+	public List<Member> findId(Member mem) {
+
+		return dao.findId(session,mem);
+	}
+
+	@Override
+	public List<Member> findPw(Member mem) {
+		
+		return dao.findPw(session,mem);
+	}
+
+	@Override
+	public int updatePw(Member mem) {
+		
+		return dao.updatePw(session,mem);
 	}
 	
 	//회원정보 변경 관련

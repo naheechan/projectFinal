@@ -30,7 +30,7 @@
  			<p>- 참고사항 -</p>
  			<p>메일이 도착하는데까지 어느정도 시간이 소요될수있으니 참고해주세요.</p><br><br>
  			<p>이메일을 수정하신 고객님께서는 이메일 인증후 다시 로그인해주시기 바랍니다.</p><br><br>
- 			<button class="btn btn-success mx-auto d-block">홈으로</button>
+ 			<button class="btn btn-success mx-auto d-block" onclick="location.replace(${path}/)">홈으로</button>
  		</div>
  		
  	</div>

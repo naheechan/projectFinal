@@ -26,7 +26,7 @@
 	SELECT DISTINCT LARGECATE FROM MEDIUMCATE
 </select>
 <select id="selectMediCate" resultType="category">
-	SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE
+	SELECT DISTINCT MEDIUMCATE ,MCNAME, LARGECATE FROM MEDIUMCATE
 </select>
 <insert id="insertRequestProduct" parameterType="Request">
 	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,#{memberId},#{requestContent},'요청하기',SYSDATE)
@@ -40,9 +40,76 @@
 </select>
 
 <select id="searchCate" resultType="cateProduct" parameterType="String">
-	SELECT M.*, P.PRODUCTNAME, P.PRODUCTIMG, P.MEDIUMCATE AS MEDICATE, P.PRICE 
-	FROM MEDIUMCATE M, PRODUCT P 
-	WHERE M.MEDIUMCATE=P.MEDIUMCATE 
+	SELECT MEDIUMCATE,PRODUCTIMG, PRODUCTNO,PRODUCTNAME,PRICE
+	FROM PRODUCT
+	WHERE MEDIUMCATE=TO_NUMBER(#{category})
 </select>
+
+<select id="selectInquiryList" resultType="totalInquiry">
+	<!-- SELECT PINO, PICATE, PITITLE, PICONTENT, MEMBERID, PRODUCTNO, -->
+	<!-- TO_CHAR(PIDATE,'YYYY-MM-DD HH24:MI')AS PIDATE, PIREADCOUNT FROM PDINQUIRY -->
+	<!-- PIDATE, PIREADCOUNT FROM PDINQUIRY -->
+		<!-- SELECT P.*, I.PIRNO,I.PIRCONTENT,I.PIRDATE,I.PINO AS IPINO FROM PDINQUIRY P, INQUIRYREPLY I WHERE P.PIDEL='Y'
+		ORDER BY P.PIDATE DESC -->
+		SELECT P.*,I.* FROM PDINQUIRY P LEFT JOIN INQUIRYREPLY I ON P.PINO=I.PINO ORDER BY PIDATE DESC
+</select>
+
+<select id="selectCountInquiry" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY
+</select>
+
+<select id="selectPdOne" resultType="product" parameterType="_int">
+	SELECT * FROM PRODUCT WHERE PRODUCTNO=#{no}
+</select>
+
+<insert id="writeInquiry" parameterType="pdInquiry">
+	INSERT INTO PDINQUIRY VALUES(SEQ_PINO.NEXTVAL,#{piCate},#{piTitle},#{piContent},#{memberId},
+	#{productNo},'N',SYSDATE,'Y',DEFAULT)
+</insert>
+
+<insert id="insertReply" parameterType="reply">
+	INSERT INTO INQUIRYREPLY VALUES(SEQ_PIRNO.NEXTVAL,#{pirContent},SYSDATE,#{piNo})
+</insert>
+
+<select id="selectInquiryOne" resultType="pdInquiry" parameterType="_int">
+	SELECT * FROM PDINQUIRY WHERE PINO=${piNo}
+</select>
+
+<!-- user문의글 수정 -->
+<update id="updateInquiry" parameterType="map">
+	UPDATE PDINQUIRY SET PICONTENT=#{piContent}, PICATE=#{piCate} WHERE PINO=#{piNo}
+</update>
+
+<select id="selectReplyOne" parameterType="_int" resultType="reply">
+	SELECT * FROM INQUIRYREPLY WHERE PINO=#{piNo}
+</select>
+
+<!--관리자 답변여부  -->
+<update id="updateStatus" parameterType="_int">
+	UPDATE PDINQUIRY SET PISTATUS='Y' WHERE PINO=#{no}
+</update>
+
+<update id="modiReply" parameterType="map">
+	UPDATE INQUIRYREPLY SET PIRCONTENT=#{pirContent} WHERE PIRNO=#{pirNo}
+</update>
+
+<update id="deleteInquiry" parameterType="_int">
+	UPDATE PDINQUIRY SET PIDEL='N' WHERE PINO=#{no}
+</update>
+
+<select id="searchMediCate" resultType="category" parameterType="string">
+	SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE WHERE LARGECATE=#{category}
+</select>
+
+<update id="updateStock" parameterType="map">
+	UPDATE PRODUCT SET PRODUCTSTOCK=(SELECT PRODUCTSTOCK FROM PRODUCT WHERE PRODUCTNAME=#{productName})-#{amount}
+		WHERE PRODUCTNAME=#{productName} 
+</update>
+
+<update id="bupdateStock" parameterType="basket">
+	UPDATE PRODUCT SET
+		PRODUCTSTOCK=(SELECT PRODUCTSTOCK FROM PRODUCT WHERE PRODUCTNO=(SELECT PRODUCTNO FROM BASKET WHERE BASKETNO=#{basketNo}))
+			-(SELECT AMOUNT FROM BASKET WHERE BASKETNO=#{basketNo}) WHERE PRODUCTNO=(SELECT PRODUCTNO FROM BASKET WHERE BASKETNO=#{basketNo})
+</update>
 
 </mapper>
