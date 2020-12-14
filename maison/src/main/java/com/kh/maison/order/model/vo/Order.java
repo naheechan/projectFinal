@@ -2,9 +2,13 @@ package com.kh.maison.order.model.vo;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 	
 	private int orderNo;
@@ -22,9 +26,9 @@ public class Order {
 	private String orAddress;
 	private String orDetailAddress;
 	private String orderStatus;
+	private Date orderDate;
 	private Date cancelDate;
 	
-	//member vo
-	private int mileage;
+	
 
 }

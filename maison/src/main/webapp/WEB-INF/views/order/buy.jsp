@@ -13,7 +13,6 @@
 	String dPhone = aes.decrypt(m.getPhone());
 	String dAddress=aes.decrypt(m.getAddress());
 	String dDetailAddress=aes.decrypt(m.getDetailAddress());
-	
 %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="함께해요"/>
@@ -47,7 +46,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName">수령인 *</label>
-                                    <input type="text" class="form-control" id="firstName" name="receiver" placeholder="" required>
+                                    <input type="text" class="form-control" id="firstName" name="receiver" value="${loginMember.memberName }" placeholder="" required>
                                     <div class="invalid-feedback"> Valid first name is required. </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -60,13 +59,9 @@
                             <div class="mb-3">
                                 <label for="username">회원아이디 *</label>
                                 <div class="input-group">
-                                	<c:set var="flag" value="0"/>
-                                	<c:forEach items="${list }" var="a">
-                                		<c:if test="${flag eq 0 }">
-                                    		<input type="text" class="form-control" name="memberId" id="username" placeholder="" value="${a.memberId }" readonly>
-                                    	</c:if>
-                                    		<c:set var="flag" value="1"/>		
-                                    </c:forEach>
+                                	
+                                    		<input type="text" class="form-control" name="memberId" id="username" placeholder="" value="${loginMember.memberId }" readonly>
+                                    	
                                     <div class="invalid-feedback" style="width: 100%;"> Your username is required. </div>
                                 </div>
                             </div>
@@ -94,7 +89,12 @@
                             </div>
                              <div class="mb-3">
                                 <label for="address2">배송 시 요청사항 *</label>
-                                <input type="text" class="form-control" name="deliRequest" id="deliRequest" placeholder=""> 
+                                <select class="form-control" name="deliRequest">
+                                	<option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
+                                	<option value="배송 전 미리 연락주세요.">배송 전 미리 연락주세요</option>
+                                	
+                                </select>
+
                             </div>
                             
                             <script>
@@ -142,20 +142,7 @@
                             }
                             </script>
                            
-                            <hr class="mb-4">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="same-address">
-                                <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="save-info">
-                                <label class="custom-control-label" for="save-info">Save this information for next time</label>
-                            </div>
-                            <hr class="mb-4">
-                            
                            
-                            
-                            <hr class="mb-1"> 
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-6 mb-3">
@@ -180,26 +167,21 @@
                                    <h3>주문상품</h3>
                                 </div>
                                	<table class="table">
-                                  			<tr>
-                                  				<th>상품명</th>
-                                  				<th>수량</th>
-                                  				<th>가격</th>
-                                  			</tr>
-                               				<c:forEach items="${list }" var="b">
-	                                  			<c:if test="${b.amount !=0 }">
-		                                   			<tr>
-		                                   				<td>${b.productName }</td>
-		                                   				<td>${b.amount }</td>
-		                                   				<td>${b.amount*b.price } 원</td>
-		                                   			</tr>
-		                                   			 <input type="hidden" name="basketNo" value="${b.basketNo }">
-		                                   			
-	                                   			</c:if>
-                                 			</c:forEach>
-                                 			 <%-- <input type="hidden" name="basket" value="<%=basket%>"> --%> 
-                                   			
-                                   			
-                                   		</table>
+                          			<tr>
+                          				<th>상품명</th>
+                          				<th>수량</th>
+                          				<th>가격</th>
+                          			</tr>
+                       				
+                           			<tr>
+                           				<td>${product.productName }</td>
+                           				<td>${amount }</td>
+                           				<td>${amount*product.price } 원</td>
+                           			</tr>
+                           			<input type="hidden" name="amount" value="${amount }">
+                           			<input type="hidden" name="productName" value="${product.productName }">
+                           			<input type="hidden" name="productNo" value="${product.productNo }"
+                           		</table>
                                    			
                                 
                             </div>
@@ -207,18 +189,20 @@
                         <div class="col-md-12 col-lg-12">
                             <div class="order-box">
                                 <div class="title-left">
+                                
+                                
+                                
                                     <h3>결제정보</h3>
                                 </div>
                                
                                 <hr class="my-1">
                                 <div class="d-flex">
                                     <div class="font-weight-bold">주문상품</div>
-                                    <c:set var="sum" value="0"/>
-                                    <c:forEach items="${list }" var="s">
-                                    	<c:set var="sum" value="${sum+(s.amount*s.price) }"/>
-                                    </c:forEach>
-                                    <div class="ml-auto font-weight-bold"> <label id="sumPrice">${sum } </label>원</div>
-                                    <input type="hidden" name="orderPrice" value="${sum }">
+                                    
+                                   
+                                    <div class="ml-auto font-weight-bold"> <label id="sumPrice">${amount*product.price }</label> 원</div>
+                                    <input type="hidden" name="orderPrice" value="${amount*product.price }">
+                                    <c:set var="sum" value="${amount*product.price }"/>
                                 </div>
                                 <!-- <div class="d-flex">
                                     <h4>Discount</h4>
@@ -267,7 +251,8 @@
                         			
                                     
                                 </div>
-                                <hr> </div>
+                                <hr> 
+                                </div>
                         </div>
                         	
                         	
@@ -299,7 +284,7 @@
 		})
 	}) */
 	
-	$("#result").click(function(){
+	 $("#result").click(function(){
 		var price=Number($("#sumPrice").html());
 		var useMile=Number($("#useMile").val());
 		var mileage=Number($("#mileage").val());
@@ -320,11 +305,11 @@
 			
 		}
 		
-	});
+	}); 
 	
 	$(document).on('click',"#checkout",function(){
 		
-   	 	var IMP = window.IMP; // 생략가능
+   	 	 var IMP = window.IMP; // 생략가능
         IMP.init('imp09698115'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         
@@ -377,16 +362,16 @@
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="${path}/basket/orderBasket.do"; 
+                location.href="${path}/order/buy.do"; 
                 alert(msg);
             }
-        }); 
+        });  
    	
    });
  
 	function orderInsert(orderData){
 		$.ajax({
-			url:'${path}/order/orderInsert.do',
+			url:'${path}/order/buyInsert.do',
 			type:'post',
 			data:orderData,
 			success : function(data){

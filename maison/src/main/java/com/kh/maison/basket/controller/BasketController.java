@@ -86,7 +86,7 @@ public class BasketController {
 			String msg = "";
 			String loc = "";
 			boolean soldout=false;
-			String[] basketNos = request.getParameterValues("basketNo");
+			String[] basketNos = request.getParameterValues("basketChecked");
 			
 			
 			// 장바구니에 상품이 없을때

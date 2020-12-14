@@ -27,4 +27,8 @@
   	UPDATE MEMBER SET AUTHSTATUS='Y' WHERE MEMBERID=#{id}
   </update>
   
+  <update id="updateMileage" parameterType="map">
+  	UPDATE MEMBER SET MEILEAGE=#{memberMileage} WHERE MEMBERID=#{memberId}
+  </update>
+  
 </mapper>

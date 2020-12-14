@@ -7,6 +7,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="첫화면"/>
 </jsp:include>
+
+
+
 <script>
 	if(${auth ne null || !empty auth}) {
 		alert("${auth}");

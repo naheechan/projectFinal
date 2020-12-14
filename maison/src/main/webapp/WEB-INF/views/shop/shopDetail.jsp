@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="첫화면"/>
 </jsp:include>
@@ -77,7 +78,7 @@
     <div class="shop-detail-box-main">
         <div class="container">
             <div class="row">
-            <form action="${path }/basket/buy.do" id="buyFrm">
+            <form action="${path }/order/buy.do" id="buyFrm">
                 <div class="col-xl-5 col-lg-5 col-md-6">
                 	<!-- 상품 상세 이미지 넣기 -->
                 	
@@ -103,22 +104,18 @@
 						<div class="price-box-bar">
 							<div class="cart-and-bay-btn">
 								<!-- <a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a> -->
-								
-									<input type="hidden" name="pNo" value="${product.productNo }">
-									<input type="hidden" name="pPrice" value="${product.price }">
+									<input type="hidden" name="productName" value="${product.productName }">
+									<input type="hidden" name="productNo" value="${product.productNo }">
+									<input type="hidden" name="price" value="${product.price }">
+									
 									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	
-								
+									
 								<a class="btn hvr-hover" data-fancybox-close="" href="#">장바구니</a>
 							</div>
 							</form>
 						</div>
-						<script>
-							$(function(){
-								$("#buyBtn").click(function(){
-									$("#buyFrm").submit();
-								})
-							})
-						</script>
+						
+						
 						
 
 						<div class="add-to-btn">
