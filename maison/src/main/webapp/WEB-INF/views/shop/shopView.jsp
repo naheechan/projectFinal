@@ -123,7 +123,7 @@
                                     
                                       <!-- 중분류카테고리 검색조건으로 seq넘기기 -->
                                     <c:if test="${ i.current.largeCate  eq j.current.largeCate }">
-                                        <a href=""  id="${j.index}" name="cateSearch" class="list-group-item list-group-item-action<c:if test='${i.index eq 0}'>active</c:if>" value="${ j.current.mediumCate }">${ mc.mcName }</a>
+                                        <a href=""  id="${j.index+1}" name="cateSearch" class="list-group-item list-group-item-action<c:if test='${i.index eq 0}'>active</c:if>" value="${ j.current.mediumCate }">${ mc.mcName }</a>
                                      </c:if>
                                      </c:forEach>
                                     </div>
@@ -256,6 +256,9 @@
     		$("[name=cateSearch]").click(function(){
     			var id=$(this).attr('id');
     			alert(id);
+    			var divResult = $("#divResult");
+    			var requestContainer = $("#request-container");
+    			var html="";
 				$.ajax({
 					url:"${path}/shop/cateSearch.do",
 					type:"post",
@@ -265,10 +268,10 @@
 						
 						var obj = Object.keys(data).length;
 						divResult.empty();
-						console.log("ajax통신성공"+data);
-						console.log(data[i].mediumCate);
+						console.log("카테서치 ajax통신성공"+data);
 						if(obj>0){
 						$.each(data,function(i){
+							console.log(data[i].mediumCate);
 							/* divResult.empty(); */
 			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
 							+"	<div class='products-single fix' onclick='searchCate("+data[i].mediumCate+")'>"
@@ -292,7 +295,7 @@
 							+"	</div>																							"
 							+"	<div class='why-text'>																		"
 							+"	<h4>																								"
-							+"	<a href='${ path }/shop/shopDetail.do?no="+data[i].productNo+"'>"+data[i].productName+"</a>	"
+							+"	<a href='${ path }/shop/shopDetail.do?category="+data[i].mediumCate+"'>"+data[i].productName+"</a>	"
 							+"	</h4>																							"
 							+"	<br>																								"
 							+"	<h5>"+data[i].price+"원</h5>															"
@@ -306,7 +309,7 @@
 							divResult.append("<span>해당 카테고리 제품은 없습니다.</span>");
 						}
 					},error:function(){
-						console.log("ajax통신실패");
+						console.log("카테 서치 ajax통신실패");
 					}
 				})
 				});
@@ -317,11 +320,11 @@
     </script>
     <script>
     	function selectOneProduct(productNo){							
-    		location.href="url?productNo= "+productNo;	//Get방식
+    		location.href="url?no= "+productNo;	//Get방식
     	}
     	
     	function searchCate(mediumCate){
-    		location.href="url?mediumCate="+mediumCate;
+    		location.href="url?category="+mediumCate;
     	}
     	
     </script>

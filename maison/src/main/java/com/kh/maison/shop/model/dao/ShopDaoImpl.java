@@ -58,7 +58,7 @@ public class ShopDaoImpl implements ShopDao {
 
 
 	@Override
-	public List<CateProduct> searchCate(SqlSession session, String category) {
+	public List<Product> searchCate(SqlSession session, String category) {
 		System.out.println("shop dao category"+category);
 		return session.selectList("shop.searchCate",category);
 	}

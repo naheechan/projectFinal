@@ -80,7 +80,7 @@ public class ShopController {
 	public String searchCate(@RequestParam(value="category", required=true)String category,ModelAndView mv) {
 		System.out.println("category 카테고리서치 :"+category);
 		
-		List<CateProduct> list = null;
+		List<Product> list = null;
 		ObjectMapper mapper = new ObjectMapper();
 		String str = null;
 		try {
