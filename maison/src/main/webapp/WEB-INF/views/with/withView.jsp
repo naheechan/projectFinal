@@ -380,7 +380,7 @@ $(document).on("click","a[name='reply_reply']",function(){
 	var sib= $(this).parent().siblings("input[name='reply_wcNo']").val();
 	console.log(sib);
 	var b = '';
-	b+='<div style="margin-left:55px;">'
+	b+='<div style="margin-left:55px;">';
 	b+='<form name="commentInsertFormSecond">';
 	b+='<input type="hidden" value="'+sib+'" name="wcParent"/>';
 	b+='<input type="hidden" value="'+mId+'" name="memberId"/>';

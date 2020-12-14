@@ -164,6 +164,7 @@ select::-ms-expand { /* for IE 11 */
                 <div class="col-xl-7 col-lg-7 col-md-6">
                     <div class="single-product-details">
                         <h2>${product.productName }</h2>
+                        <input type="hidden" id="productNo" value="${product.productNo }"/>
                         <h5><fmt:formatNumber type="currency" value="${product.price }"/></h5>
                         
 						<h2>상품 안내:</h2>
@@ -172,18 +173,21 @@ select::-ms-expand { /* for IE 11 */
 							<li>
 								<div class="form-group quantity-box">
 									<label class="control-label">수량</label>
-									<input class="form-control" value="3" min="0" max="20" type="number">
+									<input type="number" name="amount" class="form-control" id="amount" value="1" step="1" min="1" max="20" >
+									
 								</div>
 							</li>
 						</ul>
 
-						<div class="price-box-bar">
+					
+					<div class="price-box-bar">
 							<div class="cart-and-bay-btn">
 								<a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a>
-								<a class="btn hvr-hover" data-fancybox-close="" href="#">장바구니</a>
 								<c:if test="${loginMember.memberId!=null && loginMember.memberId=='admin' }">
 								<a class="btn hvr-hover" data-fancybox-close="" href="${path}/admin/product/productView.do?no=${product.productNo }">상품수정하기</a>
 								</c:if>
+								<a class="btn hvr-hover" id="basketA" data-fancybox-close="" href="#">장바구니</a>
+
 							</div>
 							
 						</div>
@@ -1087,5 +1091,18 @@ function delUserInquiry(no){
     <script src="<%=request.getContextPath() %>/resources/js/contact-form-script.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/custom.js"></script>
 </body>
+<script>
+						$(function() {
+						
+							$("#basketA").click(
+									function() {
+										var amount = $("input[name=amount]").val();
+										const productNo = $("#productNo").val();
+										$(this).attr('href',
+												'${path}/basket/insertBasket.do?productNo='+ productNo
+													+ '&amount=' + amount);
+										});
 
+						});
+					</script>
 </html>
