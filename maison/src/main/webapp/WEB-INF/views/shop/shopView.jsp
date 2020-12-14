@@ -255,7 +255,7 @@
     		//카테고리 서치
     		$("[name=cateSearch]").click(function(){
     			var id=$(this).attr('id');
-    			alert(typeof(id));
+    			alert(id);
 				$.ajax({
 					url:"${path}/shop/cateSearch.do",
 					type:"post",
@@ -303,13 +303,14 @@
 			       			 requestContainer.empty();
 						 });
 						}else{
-							divResult.append("<span>해당 카테고리 제품은 없습니다.");
+							divResult.append("<span>해당 카테고리 제품은 없습니다.</span>");
 						}
 					},error:function(){
 						console.log("ajax통신실패");
 					}
 				})
-				});//cateSearch
+				});
+    		//cateSearch
 				
     	});//onload
 	
@@ -320,7 +321,7 @@
     	}
     	
     	function searchCate(mediumCate){
-    		location.href="url?category="+mediumCate;
+    		location.href="url?mediumCate="+mediumCate;
     	}
     	
     </script>
