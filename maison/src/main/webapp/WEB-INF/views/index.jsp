@@ -17,7 +17,6 @@
 		clear:both;
 	}
 </style>
-<a href="${path }/shop/toReview.do">리뷰수정삭제</a>
 <!-- Start Slider -->
    <div id="slides-shop" class="cover-slides">
         <ul class="slides-container">
