@@ -1,5 +1,7 @@
 package com.kh.maison.member.model.dao;
 
+import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,6 +33,11 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	public List<Member> findId(SqlSessionTemplate session, Member mem) {
+		
+		return session.selectList("member.findId",mem);
+	}
+	@Override
 	public int updateMember(SqlSessionTemplate session, Member mem) {
 		// TODO Auto-generated method stub
 		return session.update("member.updateMember",mem);
@@ -42,8 +49,19 @@ public class MemberDaoImpl implements MemberDao {
 		return session.update("member.updateMemberPw",map);
 	}
 	
-	
-	
-	
 
+
+	@Override
+	public List<Member> findPw(SqlSessionTemplate session, Member mem) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.findPw",mem);
+	}
+
+	@Override
+	public int updatePw(SqlSessionTemplate session, Member mem) {
+		// TODO Auto-generated method stub
+		return session.update("member.updatePw", mem);
+	}
+	
+	
 }

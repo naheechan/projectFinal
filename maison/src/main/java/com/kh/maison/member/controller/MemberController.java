@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -13,7 +14,9 @@ import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -31,6 +34,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -45,6 +49,10 @@ import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.common.email.MailSendService;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.member.recaptcha.VerifyRecaptcha;
+
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 import nl.captcha.Captcha;
 
@@ -144,7 +152,7 @@ public class MemberController {
 		mem.setPhone(aes.encrypt(mem.getPhone()));
 		
 		int result = service.insertMember(mem);
-		
+
 		//성공하면 안내페이지로, 실패하면 회원가입 페이지로
 		if(result>0) {
 			mv.addObject("email",email);
@@ -464,6 +472,88 @@ public class MemberController {
 	}
 	
 	
+	@RequestMapping("/member/findId")
+	public ModelAndView findId(ModelAndView mv) {
+		
+		
+		mv.setViewName("member/findId");
+		return mv;
+	}
+	
+	@RequestMapping("/member/findPw")
+	public ModelAndView findPw(ModelAndView mv) {
+		
+		mv.setViewName("member/findPw");
+		return mv;
+	}
+	
+	@RequestMapping("/member/findIdSMTP")
+	public ModelAndView findIdSMTP(ModelAndView mv,Date birth,String name,Member mem) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		
+		mem.setBirth(birth);
+		mem.setMemberName(name);
+		String memberId="";
+		String email="";
+		
+		List<Member> result=service.findId(mem);
+		
+		if(!result.isEmpty()) {
+			memberId=result.get(0).getMemberId().toString();
+			email=aes.decrypt((result.get(0).getEmail().toString()));
+		}
+		System.out.println(email);
+		
+		if(result.isEmpty()) {
+
+			mv.addObject("msg", "사용자가 존재하지 않습니다");
+			mv.addObject("loc", "/member/findId");
+			mv.setViewName("common/msg");
+			
+		}else {
+			int suc=mss.sendFindIdMail(email, memberId);
+			if(suc==0) {
+				System.out.println("이메일 발송 실패:관리자에게 문의하세요");
+			}
+			else {
+				mv.addObject("msg", "등록하신 이메일로 아이디가 전송되었습니다.");
+				mv.addObject("loc", "/member/findId");
+				mv.setViewName("common/msg");
+			}
+		}
+				
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/member/findPwSMTP")
+	public int findPwSMTP(Date birth,String name,Member mem,String memberId,String pwCheck) throws NoSuchAlgorithmException, GeneralSecurityException, UnsupportedEncodingException {
+
+		int suc=0;
+		System.out.println(birth+"gggggggggggggg"+name+"ggggggggg"+memberId);
+		mem.setMemberId(memberId);
+		mem.setBirth(birth);
+		mem.setMemberName(name);
+		String email="";
+		System.out.println(pwCheck+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		List<Member> result=service.findPw(mem);
+	
+		if(!result.isEmpty()) {
+			email=aes.decrypt((result.get(0).getEmail().toString()));
+		}
+		
+		if(result.isEmpty()) {
+			//사용자 정보가 존재하지 않음
+			suc=1;
+			
+		}else {
+			//등록한 이메일로 발송
+			suc=mss.sendFindPwMail(email,pwCheck);
+		}
+				
+		
+		return suc;
+	}
 	
 	//회원정보 변경 눌렀을때 memberPw가 null인 경우 바로 이동 
 	@RequestMapping("/member/updateNaver.do")
@@ -543,6 +633,30 @@ public class MemberController {
 		return mv;
 	}
 	
+	@RequestMapping("/member/updatePw")
+	public ModelAndView updatePw(ModelAndView mv,String password,Member mem,String modalId) {
+		System.out.println(password);
+		mem.setMemberPw(password);
+		if(mem.getMemberPw()!=null) {
+			//비밀번호 단방향 암호화(비밀번호를 모두 소문자로 바꿔서 암호화시킴)
+			mem.setMemberPw(encoder.encode(password.toLowerCase()));
+		}
+		mem.setMemberId(modalId);
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+mem);
+		int result=service.updatePw(mem);
+		
+		if(result>0) {
+			mv.addObject("msg", "비밀번호 재설정이 완료되었습니다");
+			mv.addObject("loc", "/member/login");
+			mv.setViewName("common/msg");
+		}else {
+			mv.addObject("msg", "비밀번호 재설정이 실패하였습니다");
+			mv.addObject("loc", "/member/findId");
+			mv.setViewName("common/msg");
+		}
+		return mv;
+	}
+		
 	@RequestMapping("/member/updatePw.do")
 	public ModelAndView updateMemberPw(ModelAndView mv) {
 		mv.setViewName("member/updatePw");
@@ -568,6 +682,22 @@ public class MemberController {
 		return mv;
 	}
 	
+
+	 @ResponseBody
+		@RequestMapping(value = "/member/VerifyRecaptcha", method = RequestMethod.POST)
+		public int VerifyRecaptcha(HttpServletRequest request) {
+		    VerifyRecaptcha.setSecretKey("6LdmOf4ZAAAAANb1RZhYfscOrxGJ0JxhkoaZ5Ncy");
+		    String gRecaptchaResponse = request.getParameter("recaptcha");
+		    try {
+		       if(VerifyRecaptcha.verify(gRecaptchaResponse))
+		          return 0; // 성공
+		       else return 1; // 실패
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        return -1; //에러
+		    }
+		}
+
 	@RequestMapping("/member/updatePwEnd.do")
 	public ModelAndView updatePwEnd(ModelAndView mv) {
 		mv.setViewName("member/updatePwEnd");
@@ -581,6 +711,7 @@ public class MemberController {
 	public void captchaImg(HttpServletRequest req, HttpServletResponse res) throws Exception{ 
 		new CaptchaUtil().getImgCaptCha(req, res); 
 	}
+
 	
 	// 전달받은 문자열로 음성 가져오는 메서드 
 	@RequestMapping("/captchaAudio.do") 
