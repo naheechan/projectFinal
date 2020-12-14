@@ -137,6 +137,12 @@ public class ShopServiceImpl implements ShopService {
 	public int deleteInquiry(int no) {
 		return dao.deleteInquiry(session,no);
 	}
+
+	@Override
+	public List<Category> searchMediCate(String category) {
+		return dao.searchMediCate(session, category);
+	}
+
 	
 	
 

@@ -34,49 +34,48 @@
 				            </tr>
 			            </thead>
 			            <c:forEach var="q" items="${list }" varStatus="status">
-			            		<c:set var="num" value="${totalData-((cPage-1)*10)-status.index}"/>
-			            	<tr>
-			            		<td>${num }</td>
-			            		<c:if test="${q.qnaSecret eq 'secret'}">
-				            		<td>
-				            			<script>
-				            				
-				            			</script>
-				            		 <a id="aTag" href="${path}/qnaBoard/popup.do?pw=${q.qnaPw}&no=${q.qnaNO}" onclick="window.open(this.href,'','width=300,height=200,scrollbars=no,location=no,left=800,top=300'); return false;"><c:out value="${q.qnaTitle }"/>
-				            			
-				            				<i class="fas fa-lock"></i>
-				            				<c:if test="${q.qnaStatus eq '미답변'}">
-				            				<span id="qnaStatus" style="color:red;">${q.qnaStatus}</span>
-				            				</c:if>
-				            				
-				            				<c:if test="${q.qnaStatus eq '답변완료'}">
-				            				<span id="qnaStatus" style="color:green;">${q.qnaStatus}</span>
-				            				</c:if>
-				            			</a>
-				            		</td>
-	
-				            		        		
-			            		</c:if>
-
-			            		<c:if test="${q.qnaSecret eq 'open'}">
-			            			<td>
-			            				<a href="${path}/qnaBoard/qnaBoardView.do?no=${q.qnaNO}"><c:out value="${q.qnaTitle }"/>
-			            					<c:if test="${q.qnaStatus eq '미답변'}">
-				            					<span id="qnaStatus" style="color:red;">${q.qnaStatus}</span>
-				            				</c:if>
-				            				
-				            				<c:if test="${q.qnaStatus eq '답변완료'}">
-				            					<span id="qnaStatus" style="color:green;">${q.qnaStatus}</span>
-				            				</c:if>
-			            				</a>
-			            			</td>
-			            		</c:if>
-			            		<td><c:out value="${q.memberId }"/></td>
-			            		<td><c:out value="${q.qnaDate }"/></td>
-			           
-			            	</tr>
-			            	
-						<c:set var="num" value="${num-1 }"></c:set>
+				            <c:if test="${q.memberId eq loginMember.memberId}" >
+					            		<c:set var="num" value="${totalData-((cPage-1)*10)-status.index}"/>
+					            		<tr>
+					            		<td>${num }</td>
+					            		<c:if test="${q.qnaSecret eq 'secret'}">
+						            		<td>
+						            			<script>
+						            				
+						            			</script>
+						            			<a id="aTag" href="${path}/qnaBoard/popup.do?pw=${q.qnaPw}&no=${q.qnaNO}" onclick="window.open(this.href,'','width=300,height=200,scrollbars=no,location=no,left=800,top=300'); return false;"><c:out value="${q.qnaTitle }"/>  <i class="fas fa-lock"></i>
+						            				<c:if test="${q.qnaStatus eq '미답변'}">
+						            				<span id="qnaStatus" style="color:red;">${q.qnaStatus}</span>
+						            				</c:if>
+						            				
+						            				<c:if test="${q.qnaStatus eq '답변완료'}">
+						            				<span id="qnaStatus" style="color:green;">${q.qnaStatus}</span>
+						            				</c:if>
+						            			</a>
+						            		</td>
+			
+						            		        		
+					            		</c:if>
+					            		<c:if test="${q.qnaSecret eq 'open'}">
+					            			<td>
+					            				<a href="${path}/qnaBoard/qnaBoardView.do?no=${q.qnaNO}"><c:out value="${q.qnaTitle }"/>
+					            					<c:if test="${q.qnaStatus eq '미답변'}">
+						            					<span id="qnaStatus" style="color:red;">${q.qnaStatus}</span>
+						            				</c:if>
+						            				
+						            				<c:if test="${q.qnaStatus eq '답변완료'}">
+						            					<span id="qnaStatus" style="color:green;">${q.qnaStatus}</span>
+						            				</c:if>
+					            				</a>
+					            			</td>
+					            		</c:if>
+					            		<td><c:out value="${q.memberId }"/></td>
+					            		<td><c:out value="${q.qnaDate }"/></td>
+					           
+					            	</tr>
+					            	
+								<c:set var="num" value="${num-1 }"></c:set>
+				            </c:if>
 			
 			            </c:forEach>
 				            			 

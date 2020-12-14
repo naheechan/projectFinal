@@ -61,7 +61,7 @@
 						</ul>
 					</li>
 
-					<li class="nav-item"><a class="nav-link" href="contact-us.html">쇼핑시계</a></li>
+					<li class="nav-item"><a class="nav-link" href="${path }/shopCycle/cycleList">쇼핑시계</a></li>
 				</ul>
 			</div>
             <!-- /.navbar-collapse -->
