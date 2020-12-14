@@ -160,6 +160,25 @@ public class QnaBoardController {
 			return service.commentListService(bno);
     }
 	
+	
+	
+	@RequestMapping("/qnaboard/myQna.do")
+	public ModelAndView myQna(ModelAndView mv, 
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, 
+			@RequestParam(value="numPerPage", required=false, defaultValue="10") int numPerPage) {
+		
+		List<QnaBoardVo> list=service.selectList(cPage,numPerPage);
+		int totalData=service.selectCount();
+		
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "qnaboardList.do"));
+		mv.addObject("cPage",cPage);
+		mv.addObject("totalData",totalData);
+		mv.addObject("list",list);
+		mv.setViewName("qnaBoard/myQna");
+		
+		return mv;
+	}
+	
 }
 
 	

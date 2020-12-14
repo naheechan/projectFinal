@@ -29,32 +29,45 @@
          
         	</div>
 		</div>
+
 		
-		<form id="commentForm" name="commentForm" method="post">
-	    <br><br>
-	        <div>
-	            <div>
-	                <span><strong>Comments</strong></span> <span id="cCnt"></span>
-	            </div>
-	            <div>
-	                <table class="table">                    
-	                    <tr>
-	                        <td>
-	                         	<input type="hidden" value="${qnaNo}" name="bno">	
-	                            <textarea style="width: 1100px" rows="3" cols="30" id="content" name="content" placeholder="댓글을 입력하세요"></textarea>
-	                            <br>
-	                            <div>
-	                                <button class="btn" name="commentInsertBtn">등록</button>
-	                            </div>
-	                        </td>
-	                    </tr>
-	                </table>
-	            </div>
-	        </div>
-	     
-  	  </form>
+			<form id="commentForm" name="commentForm" method="post">
+		    <br><br>
+		        <div>
+		            <div>
+		                <span><strong>Comments</strong></span> <span id="cCnt"></span>
+		            </div>
+		            <div>
+		                <table class="table">                    
+		                    <tr>
+		                        <td>
+		                        	<c:if test="${loginMember.memberId eq 'admin' }">
+			                         	<input type="hidden" value="${qnaNo}" name="bno">	
+			                            <textarea style="width: 1100px" rows="3" cols="30" id="content" name="content" placeholder="댓글을 입력하세요" ></textarea>
+			                            <br>
+			                            <div>
+			                                <button class="btn" name="commentInsertBtn">등록</button>
+			                            </div>	          
+		                        	</c:if>
+		                    		<c:if test="${loginMember.memberId ne 'admin' }">
+			                         	<input type="hidden" value="${qnaNo}" name="bno">	
+			                            <textarea style="width: 1100px" rows="3" cols="30" id="content" name="content" placeholder="관리자만 사용가능합니다 " readonly ></textarea>
+			                            <br>
+			                            <div>
+			                                <button class="btn" name="commentInsertBtn">등록</button>
+			                            </div>	          
+		                        	</c:if>
+		                        	
+		                        </td>
+		                    </tr>
+		                </table>
+		            </div>
+		        </div>
+		     
+	  	  </form>
+
   	    <div class="container">
-        <div class="commentList"></div>
+       	 <div class="commentList"></div>
     	</div>
 
 	</div>
@@ -121,6 +134,8 @@
 
  $(document).ready(function() {
 	 	$("#imgShow").html($("#qnaContent").val());
+
+	 	
 });
  
  </script>

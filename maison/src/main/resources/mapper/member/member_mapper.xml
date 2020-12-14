@@ -27,6 +27,20 @@
   	UPDATE MEMBER SET AUTHSTATUS='Y' WHERE MEMBERID=#{id}
   </update>
   
+
+  <select id="findId" resultType="member" parameterType="member">
+  	SELECT MEMBERID,EMAIL FROM MEMBER WHERE MEMBERNAME=#{memberName} AND BIRTH=#{birth}
+  </select>
+  
+    <select id="findPw" resultType="member" parameterType="member">
+  	SELECT EMAIL FROM MEMBER WHERE MEMBERNAME=#{memberName} AND BIRTH=#{birth} AND MEMBERID=#{memberId}
+  </select>
+  
+  <update id="updatePw" parameterType="member" >
+  	UPDATE MEMBER SET MEMBERPW=#{memberPw} WHERE MEMBERID=#{memberId}
+  </update>
+  
+
   <update id="updateMember" parameterType="member">
   		UPDATE MEMBER SET
 	  		MEMBERNAME = #{memberName},
@@ -49,4 +63,5 @@
   	UPDATE MEMBER SET MEMBERPW = #{pw}
   				WHERE MEMBERID = #{id}
   </update>
+
 </mapper>
