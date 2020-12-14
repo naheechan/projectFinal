@@ -265,86 +265,7 @@
 						<a href="#" class="btn hvr-hover">리뷰 남기기</a>
 					</div>
 				  </div>
-				  <script>
-				  	$(function(){
-				  		$.ajax({
-				  			url: "${path}/shop/selectReviewList.do",
-				    		cache: false,
-				    		data : {
-								productNo : ${product.productNo}
-				    		},
-				    		dataType : "html",
-				    		success : function(data){
-				    			$("#review-container").html('');
-				    			$("#review-container").html(data);
-				    		},
-				    		error:function(request,status,error){
-				    	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-				    	       }	
-				  		});
-				  	});
-				  </script>
-				  <script>
-$(function(){
-	$(".comment").hide();
-	
-	//댓글 모양 누르면 보이기
-	$("span[name=commentBtn]").click(function(){
-		//$(this).parent().parent().parent().next().toggle();
-		
-		var reviewNo=$(this).next().val();
-		console.log(reviewNo);
-		$.ajax({
-			url: "${path}/shop/selectReviewReply.do",
-			data: {reviewNo : reviewNo},
-			dataType: "json",
-			success : function(data){
-				/* 	<div class="row">
-				<div class="col" style="font-weight: bolder;">관리자</div>
-			</div>
-				<div class="row">
-				<div class="col-6" style="background-color:#EAEAEA;">
-					djdjdjdjjdjdjjd
-				</div>
-				</div> */
-				var str='';
-				$.each(data,function(i,v){
-					str+="<div class='row'>";
-					str+="<div class='col' style='font-weight:bolder;'> 관리자  </div>";
-					str+="</div>";
-					str+="<div class='row'>";
-					str+="<div class='col-6' style='background-color:#EAEAEA;'>";
-					str+=v.rrContent;
-					str+="</div>";
-					str+="</div>";
-				});
-				$(this).parent().parent().parent().next().append(str);
-			}
-		});
-	});
-	
-	$(".reply").click(function(){
-		var rrContent=$(this).prev().prev().find("textarea").val();
-		var reviewNo=$(this).prev().val();
-		console.log(rrContent+": "+reviewNo);
-		$.ajax({
-			url: "${path}/shop/insertReviewReply.do",
-			data: {
-				rrContent : rrContent,
-				reviewNo : reviewNo
-			},
-			dataType: "html",
-			success : function(data){
 				
-			}
-		});
-		
-	});
-	
-	
-});
-
-</script>
 				  <!-- 상품 문의 -->
 				  
 				  <div class="card card-outline-secondary my-4" id="product-inquery">
@@ -824,17 +745,97 @@ $(function(){
     <script src="<%=request.getContextPath() %>/resources/js/custom.js"></script>
 </body>
 <script>
-						$(function() {
+	$(function() {
 						
-							$("#basketA").click(
-									function() {
-										var amount = $("input[name=amount]").val();
-										const productNo = $("#productNo").val();
-										$(this).attr('href',
-												'${path}/basket/insertBasket.do?productNo='+ productNo
-													+ '&amount=' + amount);
-										});
+	$("#basketA").click(
+			function() {
+				var amount = $("input[name=amount]").val();
+				const productNo = $("#productNo").val();
+				$(this).attr('href',
+				'${path}/basket/insertBasket.do?productNo='+ productNo
+				+ '&amount=' + amount);
+				});
 
-						});
-					</script>
+			});
+				
+	  $(function(){
+	  		$.ajax({
+	  			url: "${path}/shop/selectReviewList.do",
+	    		cache: false,
+	    		data : {
+				productNo : ${product.productNo}
+		    		},
+	    		dataType : "html",
+	    		success : function(data){
+	   			$("#review-container").html('');
+	   			$("#review-container").html(data);
+		    		},
+	    		error:function(request,status,error){
+	    	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    	       }	
+		  		});
+	  	});
+				  
+				  
+				  
+$(function(){
+	$(".comment").hide();
+	
+	//댓글 모양 누르면 보이기
+	$("span[name=commentBtn]").click(function(){
+		//$(this).parent().parent().parent().next().toggle();
+		
+		var reviewNo=$(this).next().val();
+		console.log(reviewNo);
+		$.ajax({
+			url: "${path}/shop/selectReviewReply.do",
+			data: {reviewNo : reviewNo},
+			dataType: "json",
+			success : function(data){
+				/* 	<div class="row">
+				<div class="col" style="font-weight: bolder;">관리자</div>
+			</div>
+				<div class="row">
+				<div class="col-6" style="background-color:#EAEAEA;">
+					djdjdjdjjdjdjjd
+				</div>
+				</div> */
+				var str='';
+				$.each(data,function(i,v){
+					str+="<div class='row'>";
+					str+="<div class='col' style='font-weight:bolder;'> 관리자  </div>";
+					str+="</div>";
+					str+="<div class='row'>";
+					str+="<div class='col-6' style='background-color:#EAEAEA;'>";
+					str+=v.rrContent;
+					str+="</div>";
+					str+="</div>";
+				});
+				$(this).parent().parent().parent().next().append(str);
+			}
+		});
+	});
+	
+	$(".reply").click(function(){
+		var rrContent=$(this).prev().prev().find("textarea").val();
+		var reviewNo=$(this).prev().val();
+		console.log(rrContent+": "+reviewNo);
+		$.ajax({
+			url: "${path}/shop/insertReviewReply.do",
+			data: {
+				rrContent : rrContent,
+				reviewNo : reviewNo
+			},
+			dataType: "html",
+			success : function(data){
+				
+			}
+		});
+		
+	});
+	
+	
+});
+
+</script>
 </html>

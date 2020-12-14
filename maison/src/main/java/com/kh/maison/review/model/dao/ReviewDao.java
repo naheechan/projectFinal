@@ -19,5 +19,5 @@ public interface ReviewDao {
 	int updateReviewReply(SqlSessionTemplate session,ReviewReply rr);
 	Review selectReviewOne(SqlSessionTemplate session,int reviewNo);
 	int updateReview(SqlSessionTemplate session,Review r);
-	
+	int deleteReview(SqlSessionTemplate session,int reviewNo);
 }

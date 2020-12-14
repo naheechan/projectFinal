@@ -168,4 +168,11 @@ public class ReviewController {
 		return mv;
 	}
 	
+	@RequestMapping("/shop/deleteReview")
+	ModelAndView deleteReview(int reviewNo,ModelAndView mv) {
+		int result=service.deleteReviewReply(reviewNo);
+		//다시 리뷰페이지로 가기
+		return mv;
+	}
+	
 }

@@ -31,5 +31,7 @@
 		UPDATE REVIEW SET REVIEWCONTENT=#{reviewContent}, REVIEWSCORE=TO_NUMBER(#{reviewScore}) 
 		WHERE REVIEWNO=#{reviewNo}
 	</update>
-	
+	<delete id="deleteReview" parameterType="_int">
+		DELETE FROM REVIEW WHERE REVIEWNO=#{reviewNo}
+	</delete>
 </mapper>
