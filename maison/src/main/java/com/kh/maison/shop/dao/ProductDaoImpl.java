@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.vo.Product;
 import com.kh.maison.shop.vo.WishList;
 
@@ -42,6 +43,7 @@ public class ProductDaoImpl implements ProductDao {
 		// TODO Auto-generated method stub
 		return session.delete("wishList.deleteWishList",w);
 	}
+
 	
 	
 	

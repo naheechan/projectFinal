@@ -42,7 +42,9 @@
 				            			<script>
 				            				
 				            			</script>
-				            			<a id="aTag" href="${path}/qnaBoard/popup.do?pw=${q.qnaPw}&no=${q.qnaNO}" onclick="window.open(this.href,'','width=300,height=200,scrollbars=no,location=no,left=800,top=300'); return false;"><c:out value="${q.qnaTitle }"/>  <i class="fas fa-lock"></i>
+				            		 <a id="aTag" href="${path}/qnaBoard/popup.do?pw=${q.qnaPw}&no=${q.qnaNO}" onclick="window.open(this.href,'','width=300,height=200,scrollbars=no,location=no,left=800,top=300'); return false;"><c:out value="${q.qnaTitle }"/>
+				            			
+				            				<i class="fas fa-lock"></i>
 				            				<c:if test="${q.qnaStatus eq '미답변'}">
 				            				<span id="qnaStatus" style="color:red;">${q.qnaStatus}</span>
 				            				</c:if>
@@ -55,6 +57,7 @@
 	
 				            		        		
 			            		</c:if>
+
 			            		<c:if test="${q.qnaSecret eq 'open'}">
 			            			<td>
 			            				<a href="${path}/qnaBoard/qnaBoardView.do?no=${q.qnaNO}"><c:out value="${q.qnaTitle }"/>
@@ -80,12 +83,15 @@
 			        </table> 
 				</div>
 			</div>
-			<c:if test="${loginMember.memberId != null}">
-				<div style="margin-left:900px;">
-					<button class="btn">내글보기</button>&nbsp;
-			        <button type="button" value="글쓰기" id="btn-add" class="btn" onclick="location.href='${path}/qnaboard/qnaboardEnroll.do'" style="background:#FCF7E1;float:right">글쓰기</button>
+
+			
+
+				<div style="width:100%">
+			        <button type="button" value="글쓰기" id="btn-add" class="btn" onclick="enrollQna();" style="background:#FCF7E1;float:right;margin-left:10px;">글쓰기</button>
+					<button class="btn" onclick="myQna()" style="float:right">내글보기</button>&nbsp;
 				</div>
-			</c:if>	
+
+			
 		</div>
 					 
 				 	
@@ -99,6 +105,26 @@
 	        </div>
 		</div>
 </section>
+<script>
+	function enrollQna(){
+		if(${loginMember.memberId ==null}){
+			alert("로그인이 필요한 페이지 입니다.");
+		}else{
+			location.href='${path}/qnaboard/qnaboardEnroll.do';
+		}
+		
+	}
+	function myQna(){
+		if(${loginMember.memberId ==null}){
+			alert("로그인이 필요한 페이지 입니다.");
+		}else{
+			location.href='${path}/qnaboard/myQna.do';
+		}
+	}
+		
+
+
+</script>
 
 
 

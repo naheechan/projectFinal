@@ -63,6 +63,52 @@ public class MailSendService {
 		return authKey;
 	}
 	
+	public int sendFindIdMail(String email, String memberId) {
+		int suc=0;
+		try {
+			MailUtils sendMail = new MailUtils(mailSender);
+			sendMail.setSubject("MAISON 아이디 찾기");
+			sendMail.setText(new StringBuffer().append("<h1>MAISON 아이디 찾기</h1>")
+					.append("<p>환영합니다 고객님</p>")
+					.append("<p>회원님의 아이디는</p>")
+					.append("<p>"+memberId+"입니다</p>")
+					.append("<a href='http://localhost:9090/maison/?authId=")
+					.append(memberId)
+					.toString());
+					sendMail.setForm("maisonRclass@gmail.com", "MAISON");
+					sendMail.setTo(email);
+					sendMail.send();
+					suc=1;
+		}catch(MessagingException e) {
+			e.printStackTrace();
+		}catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return suc;
+	}
+	
+	public int sendFindPwMail(String email,String pwCheck) {
+		int suc=0;
+		try {
+			MailUtils sendMail = new MailUtils(mailSender);
+			sendMail.setSubject("MAISON 비밀번호 재설정");
+			sendMail.setText(new StringBuffer().append("<h1>MAISON 아이디 찾기</h1>")
+					.append("<p>환영합니다 고객님</p>")
+					.append("<p>인증번호는 "+pwCheck+"</p>")
+					.toString());
+					sendMail.setForm("maisonRclass@gmail.com", "MAISON");
+					sendMail.setTo(email);
+					sendMail.send();
+					suc=2;
+		}catch(MessagingException e) {
+			e.printStackTrace();
+		}catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return suc;
+	}
 	
 	
 }

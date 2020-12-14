@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cycle">
+	
+	<select id="selectCycleList" resultType="cycleProduct" parameterType="map">
+		SELECT * 
+		FROM CYCLE C 
+		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
+		ON C.PRODUCTNO=PM.PRODUCTNO 
+		WHERE MEMBERID=#{id} 
+		<if test="tab != null">
+			AND LARGECATE=#{tab}
+		</if>
+		<if test="detailTab != null">
+			AND MCNAME=#{detailTab}
+		</if>
+	</select>
+  
+  	<select id="selectCycleOne" resultType="cycleProduct" parameterType="map">
+  		SELECT * 
+  		FROM CYCLE C 
+  		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
+  		ON C.PRODUCTNO=PM.PRODUCTNO 
+  		WHERE MEMBERID=#{id} AND C.PRODUCTNO=#{no}
+  	</select>
+  	
+  	<update id="updateCycle">
+  		UPDATE CYCLE
+  		<set>
+  			<if test="chooseCycle != null">CYCLEMODE=#{chooseCycle},</if>
+  			<if test="offInput != null">OFFCYCLE=#{offInput},</if>
+  			<if test="startCheckbox != null">LASTSTARTDATE=STARTDATE, STARTDATE=#{start}</if>
+  		</set>
+  		WHERE MEMBERID=#{id} and PRODUCTNO=#{no}
+  	</update>
+  	
+  	<select id="selectCountCycle" parameterType="string" resultType="countCycle">
+  		SELECT LARGECATE, COUNT(*) count
+  		FROM CYCLE C 
+  		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
+  		ON C.PRODUCTNO=PM.PRODUCTNO 
+  		WHERE MEMBERID=#{id}
+  		GROUP BY LARGECATE
+  	</select>
+  	
+  	
+  
+</mapper>

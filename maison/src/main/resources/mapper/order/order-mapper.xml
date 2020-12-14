@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="order">
+	<insert id="insertOrder" parameterType="order">	
+		INSERT INTO ORDER_TB VALUES(SEQ_ORDERNO.NEXTVAL,#{memberId},
+		'c',#{orderPrice},#{totalPrice},#{useMile},#{stackMile},#{receiver},
+			#{sellRequest},#{deliRequest},#{orPhone},#{orZipcode},
+			#{orAddress},#{orDetailAddress},'a',SYSDATE, NULL)
+	</insert>
+	
+	<insert id="insertOrderDetail" parameterType="basket">
+		 <!-- <foreach collection="array" item="item" open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO ORDERDETAIL (ORDERDETAILNO,ORDERNO,PRODUCTNO,ODAMOUNT)
+				VALUES(
+							(SELECT NVL(MAX(ORDERDETAILNO),0)+1 FROM ORDERDETAIL) AS ORDERDETAILNO,
+							(SELECT ORDERNO FROM BASKET WHERE BASKETNO=#{item}) AS ORDERNO,
+							(SELECT PRODUCTNO FROM BASKET WHERE BASKETNO=#{item}) AS PRODUCTNO,
+							(SELECT AMOUNT FROM BASKET WHERE BASKETNO=#{item}) AS ODAMOUNT
+							)
+
+		</foreach>  -->
+		
+		INSERT INTO ORDERDETAIL VALUES(SEQ_ORDERDETAILNO.NEXTVAL,
+			(SELECT NVL(MAX(ORDERNO),0)+1 FROM ORDER_TB),
+			(SELECT PRODUCTNO FROM BASKET WHERE BASKETNO=#{basketNo}),
+			(SELECT AMOUNT FROM BASKET WHERE BASKETNO=#{basketNo}))
+
+	</insert>
+	
+	
+	
+  
+</mapper>

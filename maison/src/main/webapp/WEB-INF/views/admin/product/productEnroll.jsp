@@ -156,7 +156,7 @@
     		$("#createbtn").click(function(){
     			alert("카테고리를 추가로 등록하시겠습니까?");
     		
-    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=500, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=600, height=350, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
     			
     		})
    
@@ -192,10 +192,12 @@
     				mc.append("<option value=' '>선택</option>");
     			}
     			if($("#largeCate").change(function(){
-	    				
 	    				$("#cateText1").empty();
+	    				$("#cateText2").empty();
 	    			}));
     			$("#cateText1").append(value);
+    			var name = $("#mediumCate").val();
+    			$("#cateText2").append(">"+name);
     			
     			 /* $.each(data,function(i){
     				 var result="";
@@ -212,7 +214,7 @@
     	//hidden에 mediumCate값 넣기
     	$("#mediumCate").change(function(){
     		var medival = $("#mediumCate").val();
-    		
+    		$("#cateText2").empty();
     		console.log(medival);
    			 var url = "${path}/admin/product/medicategory.do";
    		    	$.ajax({
@@ -234,14 +236,14 @@
  		    			console.log(data.mediumCate);
  		    			
    		    			$("#cateText2").append(">"+medival);
-   		    			if($("#largeCate").change(function(){
+   		    			$("#largeCate").change(function(){
    		    				
    		    				$("#cateText2").empty();
-   		    			}));
-   		    			if($("#mediumCate").change(function(){
+   		    			});
+   		    			$("#mediumCate").change(function(){
    		    				
 	   		    			$("#cateText2").empty();
-   		    			}));
+   		    			});
    					},
    					error:function(){
    						console.log("ajax통신실패");	
@@ -264,17 +266,23 @@
     		if(window.FileReader){
     			var reader = new FileReader();
     			reader.onload = function(e){
-    				$('body').append('<img src="" id="temp_img" style="display:none;"/>');
-    				$img = $('#temp_img').attr('src',e.target.result);
-    				if($img.width() != $width || $img.height() != $height){          
-    					alert('파일사이즈는 ('+$width+'x'+$height+')입니다.');
-    					$target.val('');
-    					$('#temp_img').remove();
-    					return;
+    				$img = $('<img>').attr({'src':e.target.result,"id":'temp_img'}).css({"height":"300px","width":"300px","display":"none"});
+    				$('body').append($img);
+    				let img=new Image();
+    				img.onload=function(e){
+        				if(e.target.width != $width && e.target.height != $height){          
+        					alert('파일사이즈는 ('+$width+'x'+$height+')입니다.');
+        					$target.val('');
+        					$('#temp_img').remove();
+        					return;
+        				}
     				}
-    			};
+    				img.src=e.target.result;
+    				    				
+    			}
     			reader.readAsDataURL($(this)[0].files[0]);//파일을 img태그에 보여줄 수 있도록 base64로 url생성
-    		}else{
+    		}
+    		/* else{
     			$(this)[0].select();
     			var src = document.selection.createRange().text;
     			$('body').append('<img src="" id="temp_img" style="display:none;"/>');
@@ -286,7 +294,7 @@
     				return;
     			}
     		}
-    		$('#temp_img').remove();
+    		$('#temp_img').remove(); */
     	})
     
     </script>
@@ -435,6 +443,16 @@ input[type="file"] {
   color:white;
 }
 
+#createbtn{
+	float:right;
+	color:#F2BB9C;
+	font-weight:bold;
+	
+}
+#createbtn:hover{
+	color:#1BBA93;
+	font-weight:bold;
+}
 
 
 </style>

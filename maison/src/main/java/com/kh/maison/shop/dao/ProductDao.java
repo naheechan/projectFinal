@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.vo.Product;
 import com.kh.maison.shop.vo.WishList;
 
