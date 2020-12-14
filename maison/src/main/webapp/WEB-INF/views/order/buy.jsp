@@ -166,6 +166,7 @@
                                 <div class="title-left">
                                    <h3>주문상품</h3>
                                 </div>
+                                
                                	<table class="table">
                           			<tr>
                           				<th>상품명</th>
@@ -178,10 +179,10 @@
                            				<td>${amount }</td>
                            				<td>${amount*product.price } 원</td>
                            			</tr>
+                           		</table>
                            			<input type="hidden" name="amount" value="${amount }">
                            			<input type="hidden" name="productName" value="${product.productName }">
                            			<input type="hidden" name="productNo" value="${product.productNo }"
-                           		</table>
                                    			
                                 
                             </div>
@@ -189,9 +190,6 @@
                         <div class="col-md-12 col-lg-12">
                             <div class="order-box">
                                 <div class="title-left">
-                                
-                                
-                                
                                     <h3>결제정보</h3>
                                 </div>
                                
@@ -258,7 +256,7 @@
                         	
                         	
                         </form>
-                        <button type="button" id="checkout" class="ml-auto btn hvr-hover">주문하기</button>
+                        <button type="button" id="checkout" class="ml-auto btn hvr-hover" style="float: right;">주문하기</button>
                         
      
                         	
