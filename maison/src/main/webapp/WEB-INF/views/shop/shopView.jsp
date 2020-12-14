@@ -320,7 +320,7 @@
     </script>
     <script>
     	function selectOneProduct(productNo){							
-    		location.href="url?no= "+productNo;	//Get방식
+    		location.href="url?no="+productNo;	//Get방식
     	}
     	
     	function searchCate(mediumCate){
