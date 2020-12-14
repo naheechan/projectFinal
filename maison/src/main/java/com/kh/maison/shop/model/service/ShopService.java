@@ -19,4 +19,6 @@ public interface ShopService {
 	List<Product> selectOneMediCate(String keyword);
 	
 	List<CateProduct> searchCate(String category);
+	
+	List<Category> searchMediCate(String category);
 }

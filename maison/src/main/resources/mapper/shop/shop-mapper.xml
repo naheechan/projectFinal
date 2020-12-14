@@ -45,4 +45,8 @@
 	WHERE M.MEDIUMCATE=P.MEDIUMCATE 
 </select>
 
+	<select id="searchMediCate" resultType="category" parameterType="string">
+		SELECT DISTINCT MCNAME, LARGECATE FROM MEDIUMCATE WHERE LARGECATE=#{category}
+	</select>
+
 </mapper>
