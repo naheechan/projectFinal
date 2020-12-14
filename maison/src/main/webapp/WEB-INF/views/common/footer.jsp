@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <!-- 우리 기준 추천상품 보이는 곳 -->
 <!-- Start Instagram Feed  -->
 <div class="instagram-box">
@@ -142,7 +145,7 @@
                         <div class="footer-link">
                             <h4>Information</h4>
                             <ul>
-                                <li><a href="#">About Us</a></li>
+                                <li><a href="${path }/firstpage/about.do">About Us</a></li>
                                 <li><a href="#">Customer Service</a></li>
                                 <li><a href="#">Our Sitemap</a></li>
                                 <li><a href="#">Terms &amp; Conditions</a></li>

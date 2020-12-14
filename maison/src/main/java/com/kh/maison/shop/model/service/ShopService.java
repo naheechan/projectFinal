@@ -22,7 +22,7 @@ public interface ShopService {
 	
 	List<Product> selectOneMediCate(String keyword);
 	
-	List<CateProduct> searchCate(String category);
+	List<Product> searchCate(String category);
 	
 	List<TotalInquiry> selectInquiryList(int cPage, int numPerPage);
 	int selectCountInquiry();

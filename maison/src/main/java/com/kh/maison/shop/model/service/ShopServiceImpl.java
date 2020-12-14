@@ -62,7 +62,7 @@ public class ShopServiceImpl implements ShopService {
 
 
 	@Override
-	public List<CateProduct> searchCate(String category) {
+	public List<Product> searchCate(String category) {
 		return dao.searchCate(session,category);
 	}
 
