@@ -22,6 +22,7 @@
             <div class="collapse" id="ui-product">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="#">상품 등록,수정</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">상품 재고 관리</a></li>
                 <li class="nav-item"> <a class="nav-link" href="#">상품 문의 관리 </a></li>
                 <li class="nav-item"> <a class="nav-link" href="#">상품 리뷰 관리 </a></li>
                 <li class="nav-item"> <a class="nav-link" href="#">입고 요청 관리 </a></li>
