@@ -40,14 +40,16 @@
                                 	<td><input type="checkbox" name="basketChecked" value="${list.BASKETNO }" checked></td>
                                 	
                                     <td class="thumbnail-img">
-                                        <a href="#">
-									<img class="" src='${path }/resources/images/upload/product/${list.PRODUCTIMG }' height="100px" alt="상품 이미지" />
+                                        <a href="${path }/shop/shopDetail.do?no=${list.PRODUCTNO}">
+									<img class="" src='${path }/resources/upload/product/${list.PRODUCTIMG }' height="100px" alt="상품 이미지" />
 										</a>
                                     </td>
                                     
                                     <td class="name-pr">
-                                        <a href="#">
+
+                                        <a href="${path }/shop/shopDetail.do?no=${list.PRODUCTNO}">
 											${list.PRODUCTNAME }
+
 										</a>
                                     </td>
                                     
@@ -56,7 +58,7 @@
                                     </td>
                                     
                                     <td class="quantity-box">
-                                    	<input type="number" name="amount" size="4" value="${list.AMOUNT }" min="0" step="1" class="c-input-text qty text">
+                                    	<input type="number" name="amount" size="4" value="${list.AMOUNT }" min="1" step="1" class="c-input-text qty text">
                                     	<input type="hidden" name="basketNo" value="${list.BASKETNO }">			
                                     </td>
                                     

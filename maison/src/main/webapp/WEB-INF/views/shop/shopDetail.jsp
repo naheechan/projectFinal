@@ -88,6 +88,7 @@
                 
                     <div class="single-product-details">
                         <h2>${product.productName }</h2>
+                        <input type="hidden" id="productNo" value="${product.productNo }"/>
                         <h5><fmt:formatNumber type="currency" value="${product.price }"/></h5>
                         
 						<h2>상품 안내:</h2>
@@ -96,13 +97,18 @@
 							<li>
 								<div class="form-group quantity-box">
 									<label class="control-label">수량</label>
-									<input class="form-control" value="1" min="0" max="20" type="number" name="amount">
+
+									<input type="number" name="amount" class="form-control" id="amount" value="1" step="1" min="1" max="20" >
+									
+
 								</div>
 							</li>
 						</ul>
 
-						<div class="price-box-bar">
+					
+					<div class="price-box-bar">
 							<div class="cart-and-bay-btn">
+
 								<!-- <a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a> -->
 									<input type="hidden" name="productName" value="${product.productName }">
 									<input type="hidden" name="productNo" value="${product.productNo }">
@@ -110,7 +116,11 @@
 									
 									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	
 									
-								<a class="btn hvr-hover" data-fancybox-close="" href="#">장바구니</a>
+								
+
+								
+								<a class="btn hvr-hover" id="basketA" data-fancybox-close="" href="#">장바구니</a>
+
 							</div>
 							</form>
 						</div>
@@ -753,5 +763,18 @@
     <script src="<%=request.getContextPath() %>/resources/js/contact-form-script.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/custom.js"></script>
 </body>
+<script>
+						$(function() {
+						
+							$("#basketA").click(
+									function() {
+										var amount = $("input[name=amount]").val();
+										const productNo = $("#productNo").val();
+										$(this).attr('href',
+												'${path}/basket/insertBasket.do?productNo='+ productNo
+													+ '&amount=' + amount);
+										});
 
+						});
+					</script>
 </html>

@@ -157,8 +157,48 @@ public class BasketController {
 //		  return mv;
 //	  }
 	 
-	
-	
-	
-	
+
+	  @RequestMapping("basket/insertBasket.do")
+	  public ModelAndView insertBasket(ModelAndView mv,@RequestParam Map param,HttpSession session) {
+		  Member m=(Member)session.getAttribute("loginMember");
+		  if(m==null) {
+			  mv.addObject("msg", "로그인 후 이용가능합니다 !");
+			  mv.addObject("loc", "/member/login");
+			  mv.setViewName("common/msg");
+			  return mv;
+		  }
+		  param.put("memberId", m.getMemberId());
+		  
+		  //장바구니에 동일상품이 있는지 확인 
+		  int same=service.checkBasket(param);
+
+		  if(same>0) {
+			  //동일상품 존재
+			  mv.addObject("productNo",param.get("productNo"));
+			  mv.addObject("amount",param.get("amount"));
+			  mv.addObject("msg", "동일 상품이 존재합니다. 추가하시겠습니까 ?");
+			  mv.addObject("loc", "/basket/updateBasket.do");
+			  mv.setViewName("basket/checkBasket");
+		  }else {
+			  //동일상품 없음
+			  int result=service.insertBasket(param);
+			  mv.setViewName("redirect:/basket/basket.do");
+		  }
+		  
+		  return mv;
+	  }
+	  @RequestMapping("basket/updateBasket.do")
+	  public String updateBasket(HttpSession session,HttpServletRequest request,int productNo,int amount) {
+			  
+		  	Member m=(Member)session.getAttribute("loginMember");
+		  	
+			Map param = new HashMap();
+			param.put("memberId", m.getMemberId());
+			param.put("productNo", productNo);
+			param.put("amount", amount);
+			int result = service.updateBasket(param);
+
+		  return "redirect:/basket/basket.do";
+	  }
+
 }

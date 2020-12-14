@@ -42,6 +42,24 @@ public class BasketDaoImpl implements BasketDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("basket.selectBasketOne",basketNo);
 	}
+
+	@Override
+	public int insertBasket(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.insert("basket.insertBasket",param);
+	}
+
+	@Override
+	public int checkBasket(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("basket.checkBasket",param);
+	}
+
+	@Override
+	public int updateBasket(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("basket.updateBasket",param);
+	}
 	
 	
 	
