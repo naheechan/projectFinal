@@ -59,7 +59,7 @@
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
                                     <div class="row" id="divResult">
-                                    
+                                    <input type="hidden" name="memberId" id="memberId" value="${loginMember.memberId }">
                                     <c:forEach var="list" items="${product}" varStatus="i">
                                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                             <div class="products-single fix">
@@ -155,6 +155,7 @@
    <br>
     <script>
     	$(function(){
+    		var mId = $("#memberId").val();
 			var html = '';
 			var divResult = $("#divResult");
 			var requestContainer = $("#request-container");
@@ -210,7 +211,7 @@
 						 });
 						}else{
 							requestContainer.empty();
-							if(${loginMember.memberId == null} || ${loginMember.memberId != 'admin'}){
+							if(mId == null || mId != 'admin'){
 					html = " <form action='${path}/shop/product/requestP.do' method='post'>																					"
 							+"<div>																																											"
 							+"<h2><strong>💌 요청해요</strong></h2><br><br>																											"
@@ -243,7 +244,8 @@
 							}
 	                		
 						}
-						/* }); */
+						
+						$("#autocomplete").val("");
 					},
 					error:function(){
 						console.log("ajax통신실패");
@@ -255,10 +257,6 @@
     		//카테고리 서치
     		$("[name=cateSearch]").click(function(){
     			var id=$(this).attr('id');
-    			alert(id);
-    			var divResult = $("#divResult");
-    			var requestContainer = $("#request-container");
-    			var html="";
 				$.ajax({
 					url:"${path}/shop/cateSearch.do",
 					type:"post",
@@ -295,7 +293,7 @@
 							+"	</div>																							"
 							+"	<div class='why-text'>																		"
 							+"	<h4>																								"
-							+"	<a href='${ path }/shop/shopDetail.do?category="+data[i].mediumCate+"'>"+data[i].productName+"</a>	"
+							+"	<a href='${ path }/shop/shopDetail.do?no="+data[i].productNo+"'>"+data[i].productName+"</a>	"
 							+"	</h4>																							"
 							+"	<br>																								"
 							+"	<h5>"+data[i].price+"원</h5>															"
@@ -306,12 +304,42 @@
 			       			 requestContainer.empty();
 						 });
 						}else{
-							divResult.append("<span>해당 카테고리 제품은 없습니다.</span>");
-						}
+							requestContainer.empty();
+							divResult.append("<span style='margin:5% 0% 5% 15%;'><small>현재 선택하신 카테고리의 상품은 존재하지 않습니다. &nbsp;필요한 상품이 있으시다면 하단 요청해요를 통해 요청해주세요:)<small></span><br><br><br><br><hr>");
+							if(mId == null || mId != 'admin'){
+								html = "<hr> <form action='${path}/shop/product/requestP.do' method='post'>																					"
+										+"<div>																																											"
+										+"<h2><strong>💌 요청해요</strong></h2><br><br>																											"
+										+"<span><strong>원하시는 상품의 모델명, 품번 등을 자세히 기입하시면 더 신속하게 확인 가능합니다.</strong><br><br>											"
+										+" &nbsp;**유의사항**<br>																																				"
+								 		+"1. 현재 판매중인 상품관련 문의는 질문해요 게시판에 남겨주세요.<br>																										"
+										+"2. 입점불가대상 : 생필품 제외한 모든 상품 &nbsp;																															"
+										+"ex)식품, 브랜드 정책상 온라인미판매 상품 등</span>																														"
+										+"</div>																																										"
+										+"<br>																																											"
+										+"<textarea rows='10' cols='80' name='requestContent' id='requestP' placeholder='이런 상품 구해주세요 ' required></textarea>			"
+										+"<input type='hidden' name='memberId' value='${loginMember.memberId}'><br>																					"
+										+"<c:if test='${ loginMember.memberId != null}'>																												"
+										+"<button type='submit' id='loginReqBtn' class='btn' onclick='${path}/shop/product/requestP.do'>요청</button>"
+										+"</c:if> 																																										"
+										+"<c:if test='${ loginMember eq null }'>																															"
+										+"<button type='button' id='reqBtn' class='btn'>요청</button>																								"
+										+"</c:if>																																										"
+				                		+"</form>																																										"
+				                		+"<script>"
+				                		+"$('#reqBtn').click(function(){"
+				            			+"console.log('여기오니');"
+				            			+"alert('로그인 후 이용해 주세요.');"
+				            			+"});//reqBtn"
+				            			+"<script>";
+				                		requestContainer.append(html);
+							}
+						};
 					},error:function(){
 						console.log("카테 서치 ajax통신실패");
 					}
 				})
+				return false;
 				});
     		//cateSearch
 				

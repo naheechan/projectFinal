@@ -19,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
+import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.shop.model.service.ShopService;
-import com.kh.maison.shop.model.vo.CateProduct;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
@@ -77,10 +77,10 @@ public class ShopController {
 	
 	@ResponseBody
 	@RequestMapping("/cateSearch.do")
-	public String searchCate(@RequestParam(value="category", required=true)String category,ModelAndView mv) {
+	public String searchCate(@RequestParam(value="category")String category) {
 		System.out.println("category 카테고리서치 :"+category);
 		
-		List<Product> list = null;
+		List<ProductCate> list = null;
 		ObjectMapper mapper = new ObjectMapper();
 		String str = null;
 		try {
@@ -91,8 +91,8 @@ public class ShopController {
 		}
 		System.out.println("shop controller category"+category);
 		System.out.println("shop controller 리스트"+list);
-		mv.addObject("cateSearchList",list);
-		mv.setViewName("shop/shopView");
+		/* m.addAttribute("cateSearchList",list); */
+		/* mv.setViewName("shop/shopView"); */
 		return str;
 	}
 	

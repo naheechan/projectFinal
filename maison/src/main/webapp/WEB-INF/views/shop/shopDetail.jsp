@@ -594,7 +594,7 @@ function inquiryList(){
 									str+="<a name='user_Ydel' id='user_Ydel' style='float:right;'>문의 삭제</a>";
 								}
 							}else{
-								str+="<tr class='replaceDel' style='color:lightgrey;'><td style='text-align:left;'>"+data[i].piNo+"</td><td colspan='2'>삭제된 문의글 입니다.</td><td style='text-align:left'>"+data[i].memberId+"</td><td colspan='2'></td></tr>";
+								str+="<tr class='replaceDel' style='color:lightgrey;'><td style='text-align:left;'>"+data[i].piNo+"</td><td></td><td>삭제된 문의글 입니다.</td><td style='text-align:left'>"+data[i].memberId+"</td><td colspan='2'></td></tr>";
 							}
 							//답글row추가
 							if(data[i].piStatus=='Y'){
@@ -633,8 +633,6 @@ function inquiryList(){
 							str+="<br>";
 							str+="</td></tr>";
 						}
-					}else{
-						str +="<td colspan='6'>해당 상품의 문의내역을 올려주세요.</td></tr>";
 					}
 				})
 					$("#pdInquiryList").append(str);

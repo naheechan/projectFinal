@@ -39,10 +39,10 @@
 	WHERE PRODUCTNAME LIKE '%' || #{keyword} || '%'
 </select>
 
-<select id="searchCate" resultType="cateProduct" parameterType="String">
-	SELECT MEDIUMCATE,PRODUCTIMG, PRODUCTNO,PRODUCTNAME,PRICE
-	FROM PRODUCT
-	WHERE MEDIUMCATE=TO_NUMBER(#{category})
+<select id="searchCate" resultType="productCate" parameterType="String">
+	SELECT P.MEDIUMCATE, P.PRODUCTIMG, P.PRODUCTNO, P.PRODUCTNAME, P.PRICE, M.MCNAME, M.LARGECATE
+	FROM PRODUCT P, MEDIUMCATE M
+	WHERE P.MEDIUMCATE=M.MEDIUMCATE AND P.MEDIUMCATE=TO_NUMBER(#{category})
 </select>
 
 <select id="selectInquiryList" resultType="totalInquiry">
