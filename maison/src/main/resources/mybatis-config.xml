@@ -29,6 +29,9 @@
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleProduct" alias="cycleProduct"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CountCycle" alias="countCycle"/>
 
+		<typeAlias type="com.kh.maison.mileage.model.vo.Mileage" alias="mileage"/>
 	</typeAliases>
+
+
 
 </configuration>

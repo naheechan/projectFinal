@@ -1,7 +1,6 @@
 package com.kh.maison.with.model.dao;
 
 import java.util.List;
-
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -117,5 +116,7 @@ public class WithBoardDaoImpl implements WithBoardDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("with.withEmailAndPhone",no);
 	}
+	
+
 
 }

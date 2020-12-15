@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mileage">
+	<insert id="insertWelcomeMileage" parameterType="String">
+		INSERT INTO MILEAGE VALUES(
+									SEQ_MILE_NO.NEXTVAL,		
+									#{memberId},
+									null,default,default,'W'
+		)
+	</insert>
+	
+	<insert id="insertBuyMileage" parameterType="mileage">
+		<selectKey keyProperty="orderNo" resultType="int" order="BEFORE">
+			SELECT SEQ_ORDERNO.CURRVAL FROM DUAL
+		</selectKey>
+			INSERT INTO MILEAGE VALUES(
+										SEQ_MILE_NO.NEXTVAL,
+										#{memberId},
+										#{orderNo},
+										default,
+										#{mile},
+										'O'
+			)
+	</insert>
+	
+	<update id="updateMemberMileage" parameterType="String">
+		UPDATE MEMBER SET MEILEAGE=1000
+		WHERE MEMBERID=#{memberId}
+	</update>
+	
+	<insert id="updateUseMileage" parameterType="mileage">
+		<selectKey keyProperty="orderNo" resultType="int" order="BEFORE">
+			SELECT SEQ_ORDERNO.CURRVAL FROM DUAL
+		</selectKey>		
+			INSERT INTO MILEAGE VALUES(
+										SEQ_MILE_NO.NEXTVAL,
+										#{memberId},
+										#{orderNo},
+										default,
+										#{mile},
+										'O'
+			)	
+	</insert>
+	
+	<select id="selectDefaultMileage" parameterType="String" resultType="mileage">
+		SELECT * FROM MILEAGE 
+		WHERE MEMBERID=#{memberId}
+	</select>
+	
+	<select id="selectDefaultMileageCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MILEAGE
+		WHERE MEMBERID=#{memberId}
+	</select>
+</mapper>

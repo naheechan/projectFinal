@@ -1,0 +1,23 @@
+package com.kh.maison.mileage.model.service;
+
+import java.util.List;
+
+import com.kh.maison.mileage.model.vo.Mileage;
+
+public interface MileageService {
+	
+	int insertWelcomeMileage(String memberId);
+	
+	int insertBuyMileage(Mileage mil);
+	
+	int updateMemberMileage(String memberId);
+	
+	int updateUseMileage(Mileage mil2);
+	
+	//List<Mileage> selectMileageList(int cPage,int numPerPage,String keyword,String startDate,String endDate);
+	
+	List<Mileage> selectDefaultMileage(String memberId,int cPage,int numPerPage);
+	
+	int selectDefaultMileageCount(String memberId);
+
+}

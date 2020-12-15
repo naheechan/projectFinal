@@ -40,7 +40,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-                <a class="navbar-brand" href="${path }/"><img src="${path }/resources/images/logo2.png" class="logo" alt="" style="width:94px;"></a>
+                <a class="navbar-brand" href="${path }/"><img src="${path }/resources/images/logo2.png" class="logo" alt="" style="width:94px;"/></a>
             </div>
             <!-- End Header Navigation -->
 

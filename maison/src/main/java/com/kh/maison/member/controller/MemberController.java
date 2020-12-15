@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -22,7 +21,6 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -50,9 +48,9 @@ import com.kh.maison.common.email.MailSendService;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.member.recaptcha.VerifyRecaptcha;
-
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
+import com.kh.maison.mileage.model.service.MileageService;
+import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.spring.common.PageBarFactory;
 
 import nl.captcha.Captcha;
 
@@ -61,6 +59,9 @@ import nl.captcha.Captcha;
 @SessionAttributes({"loginMember", "state", "res", "memNaver"})
 public class MemberController {
 
+	//마일리지 관련
+	@Autowired
+	private MileageService milService;
 	
 	@Autowired
 	private MemberService service;
@@ -155,6 +156,10 @@ public class MemberController {
 
 		//성공하면 안내페이지로, 실패하면 회원가입 페이지로
 		if(result>0) {
+			//회원가입하면 디폴트값으로 설정된 만큼 적립금 줌
+			milService.insertWelcomeMileage(mem.getMemberId());
+			milService.updateMemberMileage(mem.getMemberId());
+			
 			mv.addObject("email",email);
 			String authKey = mss.sendAuthMail(email, mem.getMemberId());
 			Map<String,String> map = new HashMap<>();
@@ -763,6 +768,43 @@ public class MemberController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	
+	//마이페이지에서 마일리지 관리로 화면전환
+	@RequestMapping("/member/mileage.do")
+	public String selectMileageList(Model m,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="status",required=false,defaultValue="")String status,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate) {
+		
+//		List<Mileage> list = milService.selectMileageList(cPage,numPerPage,keyword,startDate,endDate);
+//		
+//		int totalContents = milService.selectMileageCount(keyword,startDate,endDate);
+//		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "mileage.do"));
+//		m.addAttribute("list",list);
+//		m.addAttribute("totalContents",totalContents);
+		
+		return "member/mileageList";
+	}
+	
+	@RequestMapping("/member/defaultMileage.do")
+	@ResponseBody
+	public Map<String,Object> defaultMileage(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<Mileage> list = milService.selectDefaultMileage(memberId,cPage,numPerPage);
+		int totalContents = milService.selectDefaultMileageCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "defaultMileage.do");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}
+	
 	
 	
 	

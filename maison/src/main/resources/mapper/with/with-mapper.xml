@@ -32,6 +32,8 @@
 		ORDER BY WBDATE DESC	
 	</select>
 	
+
+	
 	<select id="selectWithCount" resultType="_int">
 		SELECT COUNT(*) 
 			FROM WITHBOARD
@@ -172,4 +174,6 @@
 			WHERE M.MEMBERID = W.MEMBERID
 				AND W.WBNO = #{no}
 	</select>
+	
+
 </mapper>
