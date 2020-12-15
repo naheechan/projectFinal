@@ -183,8 +183,8 @@ function defaultMileage(){
 				console.log(label + "::::"+value);
 			}) */
 
-			console.log(Object.values(data)[2]);
 			b+=Object.values(data)[2];
+			b+='<br/>';
 			$.each(Object.values(data)[0],function(index,item){
 				//날짜, 적립금, 주문, 내용
 				//item.orderNo 
@@ -194,6 +194,21 @@ function defaultMileage(){
 				var dateForm = new Date(item.mileDate);
 				a+='<tr>';
 				a+='<td>'+getFormatDate(dateForm)+'</td>';
+				a+='<td>'+numberWithCommas(item.mile)+'원 </td>';
+				if(item.orderNo==0){
+					a+='<td> </td>';	
+				}else{
+					a+='<td>'+item.orderNo+'</td>';
+				}
+				if(item.mileType=='W'){
+					a+='<td>신규회원 적립금</td>';
+				}else if(item.mileType=='O'){
+					a+='<td>구매에 대한 적립금</td>';
+				}else if(item.mileType=='C'){
+					a+='<td>구매취소로 인한 적립금 회수</td>';
+				}else if(item.mileType=='U'){
+					a+='<td>상품 구매시 사용한 적립금</td>';
+				}
 				a+='</tr>';
 			})
 				$("#tbl-mileageList-tbody").html(a);
@@ -211,6 +226,72 @@ function getFormatDate(date){
     day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
     return  year + '년 ' + month + '월 ' + day+'일';       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
 }
+//금액형태로 변환
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+//조회 버튼 클릭했을때 조건에 맞게 아래 내용 바꾸기
+$(function(){
+	$("#conditionOn").on('click',function(){
+		var x = $("#datepicker1").val();
+		var y = $("#datepicker2").val();
+		var z = $("#status").val();
+		var d = $("#hidenId").val();
+		conditionMileage(x,y,z,d);
+		console.log(x+y+z+d);
+	})
+})
+
+//조건이 들어간 데이터 ajax통신
+function conditionMileage(x,y,z,d){
+	$.ajax({
+		url : '${path }/member/conditionMileage.do',
+		type:'post',
+		data:{'startDate':x,'endDate':y,'status':z,'memberId':d},
+		success:function(data){
+			if(data!=null){	
+				var a ='';
+				var b = '';
+				b+=Object.values(data)[2];
+				b+='<br/>';
+				$.each(Object.values(data)[0],function(index,item){
+					//날짜, 적립금, 주문, 내용
+					//item.orderNo 
+					//item.mileDate
+					//item.mileType
+					//item.mile
+					var dateForm = new Date(item.mileDate);
+					a+='<tr>';
+					a+='<td>'+getFormatDate(dateForm)+'</td>';
+					a+='<td>'+numberWithCommas(item.mile)+'원 </td>';
+					if(item.orderNo==0){
+						a+='<td> </td>';	
+					}else{
+						a+='<td>'+item.orderNo+'</td>';
+					}
+					if(item.mileType=='W'){
+						a+='<td>신규회원 적립금</td>';
+					}else if(item.mileType=='O'){
+						a+='<td>구매에 대한 적립금</td>';
+					}else if(item.mileType=='C'){
+						a+='<td>구매취소로 인한 적립금 회수</td>';
+					}else if(item.mileType=='U'){
+						a+='<td>상품 구매시 사용한 적립금</td>';
+					}
+					a+='</tr>';
+				})
+					$("#tbl-mileageList-tbody").html(a);
+					$("#pageBar-div").html(b);
+			}else{
+				console.log("null이라는거지?");
+				$("#tbl-mileageList-tbody").html("");
+				$("#pageBar-div").html("");				
+			}
+		}
+	});
+}
+
 
 
 

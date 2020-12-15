@@ -1,6 +1,7 @@
 package com.kh.maison.mileage.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -21,4 +22,8 @@ public interface MileageDao {
 	List<Mileage> selectDefaultMileage(SqlSessionTemplate session,String memberId,int cPage,int numPerPage);
 	
 	int selectDefaultMileageCount(SqlSessionTemplate session,String memberId);
+	
+	List<Mileage> selectConditionMileage(SqlSessionTemplate session, int cPage, int numPerPage, Map<String,Object> condition);
+
+	int selectConditionMileageCount(SqlSessionTemplate session,Map<String,Object> condition);
 }

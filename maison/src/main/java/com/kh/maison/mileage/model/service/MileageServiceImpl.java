@@ -68,4 +68,23 @@ public class MileageServiceImpl implements MileageService {
 		return result;
 	}
 
+
+	@Override
+	public List<Mileage> selectConditionMileage(int cPage, int numPerPage, Map<String, Object> condition) {
+		// TODO Auto-generated method stub
+		List<Mileage> list = dao.selectConditionMileage(session, cPage, numPerPage, condition);
+		return list;
+	}
+
+
+	@Override
+	public int selectConditionMileageCount(Map<String, Object> condition) {
+		// TODO Auto-generated method stub
+		int result = dao.selectConditionMileageCount(session,condition);
+		return result;
+	}
+
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.kh.maison.mileage.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.maison.mileage.model.vo.Mileage;
 
@@ -19,5 +20,8 @@ public interface MileageService {
 	List<Mileage> selectDefaultMileage(String memberId,int cPage,int numPerPage);
 	
 	int selectDefaultMileageCount(String memberId);
+	
+	List<Mileage> selectConditionMileage(int cPage,int numPerPage,Map<String,Object> condition);
 
+	int selectConditionMileageCount(Map<String,Object> condition);
 }

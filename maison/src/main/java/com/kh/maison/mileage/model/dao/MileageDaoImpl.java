@@ -1,6 +1,7 @@
 package com.kh.maison.mileage.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -47,6 +48,20 @@ public class MileageDaoImpl implements MileageDao {
 	public int selectDefaultMileageCount(SqlSessionTemplate session, String memberId) {
 		// TODO Auto-generated method stub
 		return session.selectOne("mileage.selectDefaultMileageCount",memberId);
+	}
+
+
+	@Override
+	public List<Mileage> selectConditionMileage(SqlSessionTemplate session, int cPage, int numPerPage,
+			Map<String, Object> condition) {
+		// TODO Auto-generated method stub
+		return session.selectList("mileage.selectConditionMileage",condition,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int selectConditionMileageCount(SqlSessionTemplate session, Map<String, Object> condition) {
+		// TODO Auto-generated method stub
+		return session.selectOne("mileage.selectConditionMileageCount",condition);
 	}
 
 }

@@ -47,8 +47,34 @@
 		WHERE MEMBERID=#{memberId}
 	</select>
 	
-	<select id="selectDefaultMileageCount" parameterType="String" resultType="int">
+	<select id="selectDefaultMileageCount" parameterType="String" resultType="_int">
 		SELECT COUNT(*) FROM MILEAGE
 		WHERE MEMBERID=#{memberId}
+	</select>
+	
+	<select id="selectConditionMileage" parameterType="map" resultType="mileage">
+		SELECT * FROM MILEAGE
+		WHERE MEMBERID=#{memberId}
+		AND MILEDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+					AND TO_DATE(#{endDate},'YYYY-MM-DD')
+		<if test='status.equals("plus")'>
+		AND MILE &gt; 0
+		</if>
+		<if test='status.equals("minus")'>
+		AND MILE &lt; 0
+		</if>
+	</select>
+	
+	<select id="selectConditionMileageCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM MILEAGE
+		WHERE MEMBERID=#{memberId}
+		AND MILEDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+					AND TO_DATE(#{endDate},'YYYY-MM-DD')
+		<if test='status.equals("plus")'>
+		AND MILE &gt; 0
+		</if>
+		<if test='status.equals("minus")'>
+		AND MILE &lt; 0
+		</if>
 	</select>
 </mapper>

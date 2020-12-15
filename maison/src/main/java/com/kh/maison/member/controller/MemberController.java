@@ -805,6 +805,32 @@ public class MemberController {
 		return map;
 	}
 	
+	@RequestMapping("/member/conditionMileage.do")
+	@ResponseBody
+	public Map<String,Object> conditionMileage(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="status",required=false,defaultValue="")String status,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate
+			){
+
+		Map<String,Object> condition = new HashMap<String,Object>();
+		condition.put("memberId", memberId);
+		condition.put("status", status);
+		condition.put("startDate", startDate);
+		condition.put("endDate", endDate);
+		
+		List<Mileage> list = milService.selectConditionMileage(cPage,numPerPage,condition);
+		int totalContents = milService.selectConditionMileageCount(condition);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "conditionMileage.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar",pageBar);
+		return map;
+	}
+	
 	
 	
 	
