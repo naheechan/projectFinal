@@ -97,11 +97,11 @@
 		                        		<h4>결제수단 관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a> -->
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/emailAgree.do" class="list-group-item list-group-item-action">
 		                        		<h4>이메일 수신 동의 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/withdraw.do" class="list-group-item list-group-item-action">
 		                        		<h4>회원탈퇴 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>		                        			                        			                        			                        		                        	

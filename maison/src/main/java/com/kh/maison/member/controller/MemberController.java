@@ -931,6 +931,90 @@ public class MemberController {
 		return result;
 	}
 	
+	//이메일 수신 동의 페이지 전환
+	@RequestMapping("/member/emailAgree.do")
+	public String emailAgree() {
+		return "member/emailAgree";
+	}
+	
+	//이메일 수신 동의 확인 눌렀을때
+	@RequestMapping("/member/emailAgreeEnd.do")
+	public ModelAndView emailAgreeEnd(@RequestParam Map<String,Object> map,ModelAndView mv, SessionStatus status) {
+//		for(String key : map.keySet()) { 
+//			String value = (String) map.get(key); 
+//			System.out.println(key + " : " + value); 
+//		}
+		
+		Map<String,Object> target = new HashMap<String,Object>();
+		target.put("memberId", (String)map.get("memberId"));
+		if(map.get("emailStatus")==null) {
+			target.put("emailStatus", "N");
+		}else {
+			target.put("emailStatus", "Y");
+		}
+		int result = service.updateEmailStatus(target);
+		if(result>0) {
+			if(!status.isComplete()) {
+				status.setComplete();
+			}
+			mv.addObject("msg", "이메일 수신 동의가 변경되었습니다.");
+			mv.addObject("subMsg","로그인이 해제 됩니다. 다시 로그인해주세요.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/");
+		}else {
+			mv.addObject("msg", "이메일 수신 동의 변경 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/emailAgree.do");
+		}
+			mv.setViewName("common/sweetMsg");
+		
+		return mv;
+
+	}
+	
+	//회원탈퇴 페이지 전환 
+	@RequestMapping("/member/withdraw.do")
+	public String memberWithdraw() {
+		return"member/withdraw";
+	}
+	
+	//memberStatus 전환하기
+	@RequestMapping("/member/withdrawEnd.do")
+	public ModelAndView withdrawEnd(@RequestParam Map<String,Object> map,ModelAndView mv, SessionStatus status) {
+		for(String key : map.keySet()) { 
+			String value = (String) map.get(key); 
+			System.out.println(key + " : " + value); 
+		}
+		
+		Map<String,Object> target = new HashMap<String,Object>();
+		target.put("memberId", (String)map.get("memberId"));
+		if(map.get("withdrawChk")==null) {
+			target.put("withdrawChk", "Y");
+		}else {
+			target.put("withdrawChk", "N");
+		}
+		int result = service.updateMemberStatus(target);
+		if(result>0) {
+			if(!status.isComplete()) {
+				status.setComplete();
+			}
+			mv.addObject("msg", "이메일 수신 동의가 변경되었습니다.");
+			mv.addObject("subMsg","로그인이 해제 됩니다. 다시 로그인해주세요.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/");
+		}else {
+			mv.addObject("msg", "이메일 수신 동의 변경 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/emailAgree.do");
+		}
+			mv.setViewName("common/sweetMsg");
+		
+		return mv;
+
+	}	
+	
 	
 	
 	
