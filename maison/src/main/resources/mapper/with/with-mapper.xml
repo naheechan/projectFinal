@@ -175,5 +175,53 @@
 				AND W.WBNO = #{no}
 	</select>
 	
+	<select id="bringAllWithBoard" parameterType="String" resultMap="withMap">
+		SELECT * FROM WITHBOARD 
+		WHERE MEMBERID=#{memberId} 
+		AND WBDEL='Y'
+	</select>
+	
+	<select id="bringAllWithBoardCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*) FROM WITHBOARD
+		WHERE MEMBERID=#{memberId}
+		AND WBDEL='Y'
+	</select>
+	
+	<select id="bringAllWithComment" parameterType="String" resultType="withComment">
+		SELECT * 
+		FROM WITHCOMMENT 
+		WHERE MEMBERID=#{memberId}
+		AND WCDEL='Y'
+	</select>
+	
+	<select id="bringAllWithCommentCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*) FROM WITHCOMMENT
+		WHERE MEMBERID=#{memberId}
+		AND WCDEL='Y'
+	</select>
+	
+	<select id="bringCommentedWith" parameterType="String" resultMap="withMap">
+		SELECT B.WBNO, B.MEMBERID,B.WBTITLE,B.WBTYPE,B.WBPRICE,B.WBCONTENT,B.WBSTATUS,B.WBCOUNT,B.WBUSE,B.WBSHIP,B.WBDEL,B.WBPHONE,B.WBDATE    
+    	FROM WITHCOMMENT C,WITHBOARD B
+    	WHERE C.WBNO = B.WBNO
+    	AND C.MEMBERID=#{memberId}
+    	AND B.WBDEL='Y'
+	</select>
+	
+	<select id="bringCommentedWithCount" parameterType="String" resultType="_int">
+	    SELECT COUNT(*)
+	    FROM WITHCOMMENT C, WITHBOARD B
+	    WHERE C.WBNO = B.WBNO
+	    AND C.MEMBERID=#{memberId}
+	    AND B.WBDEL='Y'
+	</select>
+	
+	<update id="deleteBringAllWith" parameterType="_int">
+		UPDATE WITHBOARD SET WBDEL='N' WHERE WBNO=#{checkfordelete}
+	</update>
+	
+	<update id="deleteBringAllWithComment" parameterType="_int">
+		UPDATE WITHCOMMENT SET WCDEL='N' WHERE WCNO=#{checkStatus}
+	</update>
 
 </mapper>

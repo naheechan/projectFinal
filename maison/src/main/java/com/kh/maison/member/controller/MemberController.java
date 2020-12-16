@@ -50,6 +50,9 @@ import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.member.recaptcha.VerifyRecaptcha;
 import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.maison.with.model.service.WithBoardService;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
 import com.kh.spring.common.PageBarFactory;
 
 import nl.captcha.Captcha;
@@ -62,6 +65,9 @@ public class MemberController {
 	//마일리지 관련
 	@Autowired
 	private MileageService milService;
+	//함께해요 관련
+	@Autowired
+	private WithBoardService withService;
 	
 	@Autowired
 	private MemberService service;
@@ -831,8 +837,99 @@ public class MemberController {
 		return map;
 	}
 	
+	//함께해요 관리
+	@RequestMapping("/member/withList.do")
+	public ModelAndView memberWithList(ModelAndView mv, @RequestParam String memberId) {
+		
+		mv.addObject("withBoardTotalCount",withService.bringAllWithBoardCount(memberId));
+		mv.addObject("withCommentTotalCount",withService.bringAllWithCommentCount(memberId));
+		mv.setViewName("member/withList");
+		return mv;
+	}
 	
+	//함께해요 관리 내가 작성한글 보기 
+	@RequestMapping("/member/bringAllWithBoard.do")
+	@ResponseBody
+	public Map<String,Object> bringAllWith(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithBoard> list = withService.bringAllWithBoard(memberId,cPage,numPerPage);
+		int totalContents = withService.bringAllWithBoardCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringAllWithBoard.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}
 	
+	@RequestMapping("/member/bringAllWithComment.do")
+	@ResponseBody
+	public Map<String,Object> bringAllWithComment(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithComment> list = withService.bringAllWithComment(memberId,cPage,numPerPage);
+		int totalContents = withService.bringAllWithCommentCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringAllWithComment.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}	
+	
+	@RequestMapping("/member/deletedWithBoard.do")
+	@ResponseBody
+	public WithBoard deletedWithBoard(@RequestParam int wbNo) {
+		WithBoard wb = withService.selectOneWith(wbNo);
+		return wb;
+	}
+	
+	@RequestMapping("/member/bringCommentedWith.do")
+	@ResponseBody
+	public Map<String,Object> bringCommentedWith(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithBoard> list = withService.bringCommentedWith(memberId,cPage,numPerPage);
+		int totalContents = withService.bringCommentedWithCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringCommentedWith.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}	
+	
+	@RequestMapping("/member/deleteBringAllWith.do")
+	@ResponseBody
+	public int deleteBringAllWith(@RequestParam(value="checkfordelete[]") List<String> checkfordelete) {
+		int result = 0;
+		System.out.println(checkfordelete.size());
+		if(checkfordelete.size()==0) {
+			result = 1;
+		}else {
+			for(int i=0;i<checkfordelete.size();i++) {
+				System.out.println("여기====="+Integer.parseInt(checkfordelete.get(i))+"=====여기");
+				result = withService.deleteBringAllWith(Integer.parseInt(checkfordelete.get(i)));
+			}			
+		}
+		return result;
+	}
+	
+	@RequestMapping("/member/deleteBringAllWithComment.do")
+	@ResponseBody
+	public int deleteBringAllWithComment(@RequestParam(value="checkStatus[]") List<String> checkStatus) {
+		int result = 0;
+		System.out.println(checkStatus.size());
+		if(checkStatus.size()==0) {
+			result = 1;
+		}else {
+			for(int i=0;i<checkStatus.size();i++) {
+				result = withService.deleteBringAllWithComment(Integer.parseInt(checkStatus.get(i)));
+			}			
+		}
+		return result;
+	}
 	
 	
 	

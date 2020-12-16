@@ -17,7 +17,10 @@
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="마이페이지  / 적립금 관리"/>
 </jsp:include>
+<!-- datepicker -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Start Mypage mileageList-->
 <section>
 	<div class="container">
@@ -31,6 +34,9 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="table-main table-responsive">
+								<br/>
+								<h2>적립금 관리</h2>
+								<hr>
 								<table class="table table-bordered">
 									<tbody>
 										<tr>
@@ -83,6 +89,7 @@
 							</div>
 						</div>
 					</div>
+					<br>
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="table-main table-responsive">
@@ -101,6 +108,7 @@
 							</div>
 						</div>
 					</div>
+					<br>
 					<div class="row">
 						<div class="col-lg-12">
 							<div id="pageBar-div">
@@ -108,6 +116,7 @@
 							</div>
 						</div>
 					</div>
+					<br>
 				</div>
 			</div>			
 		</div>
@@ -128,7 +137,7 @@ $(function(){
 		nextText:'다음 달',
 		prevText:'이전 달',
 		yearRange:'c-150:c+0',
-		dateFormat:'yyyy-mm-dd',
+		dateFormat:'yy-mm-dd',
 		showMonthAfterYear:true,
 		dayNamesMin:['월','화','수','목','금','토','일'],
 		monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
@@ -143,11 +152,12 @@ $(function(){
 		nextText:'다음 달',
 		prevText:'이전 달',
 		yearRange:'c-150:c+0',
-		dateFormat:'yyyy-mm-dd',
+		dateFormat:'yy-mm-dd',
 		showMonthAfterYear:true,
 		dayNamesMin:['월','화','수','목','금','토','일'],
 		monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
 	});
+
 });
 
 //멤버아이디
@@ -224,7 +234,7 @@ function getFormatDate(date){
     month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
     var day = date.getDate();                   //d
     day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
-    return  year + '년 ' + month + '월 ' + day+'일';       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+    return  year + '- ' + month + '- ' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
 }
 //금액형태로 변환
 function numberWithCommas(x) {
@@ -238,10 +248,36 @@ $(function(){
 		var y = $("#datepicker2").val();
 		var z = $("#status").val();
 		var d = $("#hidenId").val();
-		conditionMileage(x,y,z,d);
-		console.log(x+y+z+d);
+		//날짜형식으로 변환해서 시작일 날짜가 종료일 날짜보다 후일 수 없게.
+		var xArr = x.split('-');
+		var xDate = new Date(xArr[0],xArr[1]-1,xArr[2]);		
+		var yArr = y.split('-');
+		var yDate = new Date(yArr[0],yArr[1]-1,yArr[2]);
+		if(xDate.getTime()<yDate.getTime()){
+			conditionMileage(x,y,z,d);		
+		}else{
+			swal('시작일이 종료일보다 클 수 없습니다.');
+			$("#datepicker2").val(today());
+			$("#datepicker1").val(lastMonth());
+		}
 	})
 })
+/* 날짜 객체 받아서 문자열로 리턴하는 함수 */
+function getDateStr(myDate){
+	return (myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-' + myDate.getDate())
+}
+/* 오늘로부터 1개월전 날짜 반환 */
+function lastMonth() {
+  var d = new Date()
+  var monthOfYear = d.getMonth()
+  d.setMonth(monthOfYear - 1)
+  return getDateStr(d)
+}
+/* 오늘날짜 반환 */
+function today() {
+	  var d = new Date()
+	  return getDateStr(d)
+	}
 
 //조건이 들어간 데이터 ajax통신
 function conditionMileage(x,y,z,d){
@@ -251,41 +287,45 @@ function conditionMileage(x,y,z,d){
 		data:{'startDate':x,'endDate':y,'status':z,'memberId':d},
 		success:function(data){
 			if(data!=null){	
-				var a ='';
-				var b = '';
-				b+=Object.values(data)[2];
-				b+='<br/>';
-				$.each(Object.values(data)[0],function(index,item){
-					//날짜, 적립금, 주문, 내용
-					//item.orderNo 
-					//item.mileDate
-					//item.mileType
-					//item.mile
-					var dateForm = new Date(item.mileDate);
-					a+='<tr>';
-					a+='<td>'+getFormatDate(dateForm)+'</td>';
-					a+='<td>'+numberWithCommas(item.mile)+'원 </td>';
-					if(item.orderNo==0){
-						a+='<td> </td>';	
-					}else{
-						a+='<td>'+item.orderNo+'</td>';
-					}
-					if(item.mileType=='W'){
-						a+='<td>신규회원 적립금</td>';
-					}else if(item.mileType=='O'){
-						a+='<td>구매에 대한 적립금</td>';
-					}else if(item.mileType=='C'){
-						a+='<td>구매취소로 인한 적립금 회수</td>';
-					}else if(item.mileType=='U'){
-						a+='<td>상품 구매시 사용한 적립금</td>';
-					}
-					a+='</tr>';
-				})
-					$("#tbl-mileageList-tbody").html(a);
-					$("#pageBar-div").html(b);
+				if(Object.values(data)[1]!=0){
+					var a ='';
+					var b = '';
+					b+=Object.values(data)[2];
+					b+='<br/>';
+					$.each(Object.values(data)[0],function(index,item){
+						//날짜, 적립금, 주문, 내용
+						//item.orderNo 
+						//item.mileDate
+						//item.mileType
+						//item.mile
+						var dateForm = new Date(item.mileDate);
+						a+='<tr>';
+						a+='<td>'+getFormatDate(dateForm)+'</td>';
+						a+='<td>'+numberWithCommas(item.mile)+'원 </td>';
+						if(item.orderNo==0){
+							a+='<td> </td>';	
+						}else{
+							a+='<td>'+item.orderNo+'</td>';
+						}
+						if(item.mileType=='W'){
+							a+='<td>신규회원 적립금</td>';
+						}else if(item.mileType=='O'){
+							a+='<td>구매에 대한 적립금</td>';
+						}else if(item.mileType=='C'){
+							a+='<td>구매취소로 인한 적립금 회수</td>';
+						}else if(item.mileType=='U'){
+							a+='<td>상품 구매시 사용한 적립금</td>';
+						}
+						a+='</tr>';
+					})
+						$("#tbl-mileageList-tbody").html(a);
+						$("#pageBar-div").html(b);
+				}else{
+					$("#tbl-mileageList-tbody").html("<tr><td colspan=4>입력하신 조건에 해당하는 적립금이 없습니다.</td></tr>");
+					$("#pageBar-div").html("");						
+				}
 			}else{
-				console.log("null이라는거지?");
-				$("#tbl-mileageList-tbody").html("");
+				$("#tbl-mileageList-tbody").html("<tr><td colspan=4>입력하신 조건에 해당하는 적립금이 없습니다.</td></tr>");
 				$("#pageBar-div").html("");				
 			}
 		}

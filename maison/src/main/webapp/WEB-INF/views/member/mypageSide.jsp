@@ -53,7 +53,7 @@
 		                        		<h4>질문관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>		
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/withList.do?memberId=${loginMember.memberId}" class="list-group-item list-group-item-action">
 		                        		<h4>함께해요 관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>                        	
