@@ -10,7 +10,7 @@
 
 <script>
 	if(${auth ne null || !empty auth}) {
-		alert("${auth}");
+		swal("${auth}");
 	}
 </script>
 <style>

@@ -327,7 +327,7 @@
 			$("#dateDiv").show();
 			$("#datepicker").attr("required","true");
 			if($("#startCheck").val()=="0") {
-				alert("시작일을 정확히 입력해주세요");
+				swal("시작일을 정확히 입력해주세요");
 				return false;
 			}
 		}
@@ -364,7 +364,7 @@
 			var currentVal = $(this).val();
 			var reg = /^[0-9]/g;
 			if(!reg.test(currentVal)) {
-				alert('숫자만 입력하시기 바랍니다.');
+				swal('숫자만 입력하시기 바랍니다.');
 				$(this).val('');
 			}
 		});

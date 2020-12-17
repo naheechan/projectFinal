@@ -14,8 +14,8 @@
 <script>
 	//submit할때 유효성검사
 	function checkSubmit() {
-		if($("#brithCheck").val()=="0") alert("생년월일을 정확히 입력해주세요");
-		else if($("#phoneCheck").val()=="0") alert("전화번호를 정확히 입력해주세요");
+		if($("#brithCheck").val()=="0") swal("생년월일을 정확히 입력해주세요");
+		else if($("#phoneCheck").val()=="0") swal("전화번호를 정확히 입력해주세요");
 		else return true;
 		
 		return false; 

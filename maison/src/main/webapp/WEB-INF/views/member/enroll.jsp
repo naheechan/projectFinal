@@ -14,12 +14,12 @@
 <script>
 	//submit할때 유효성검사
 	function checkSubmit() {
-		if($("#idCheck").val()=="0") alert("아이디를 정확히 입력해주세요");
-		else if($("#nameCheck").val()=="0") alert("이름을 정확히 입력해주세요");
-		else if($("#pwCheck").val()=="0") alert("비밀번호를 정확히 입력해주세요");
-		else if($("#rePwCheck").val()=="0") alert("비밀번호 확인을 해주세요");
-		else if($("#brithCheck").val()=="0") alert("생년월일을 정확히 입력해주세요");
-		else if($("#phoneCheck").val()=="0") alert("전화번호를 정확히 입력해주세요");
+		if($("#idCheck").val()=="0") swal("아이디를 정확히 입력해주세요");
+		else if($("#nameCheck").val()=="0") swal("이름을 정확히 입력해주세요");
+		else if($("#pwCheck").val()=="0") swal("비밀번호를 정확히 입력해주세요");
+		else if($("#rePwCheck").val()=="0") swal("비밀번호 확인을 해주세요");
+		else if($("#brithCheck").val()=="0") swal("생년월일을 정확히 입력해주세요");
+		else if($("#phoneCheck").val()=="0") swal("전화번호를 정확히 입력해주세요");
 		else return true;
 		
 		return false; 
@@ -119,7 +119,7 @@
     	    				}
     	    			},
     	    			error:function(error) {
-    	    				alert(error);
+    	    				swal(error);
     	    			}
     	    		}); 
     			}else {

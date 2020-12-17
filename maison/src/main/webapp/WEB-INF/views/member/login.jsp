@@ -12,9 +12,9 @@
 	//아이디랑 비밀번호 적었나 확인
 	function checkSubmit() {
 		if($("#memberId").val().trim().length==0) {
-			alert("아아디를 입력하세요");
+			swal("아아디를 입력하세요");
 		}else if($("#memberPw").val().trim().length==0) {
-			alert("비밀번호를 입력하세요");
+			swal("비밀번호를 입력하세요");
 		}else {
 			return true;
 		}
