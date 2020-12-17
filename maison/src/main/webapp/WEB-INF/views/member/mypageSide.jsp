@@ -45,7 +45,7 @@
 							</a>
 		                    <div class="collapse" id="sub-men3" data-parent="#list-group-men">
 		                    	<div class="list-group">
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/review/reviewList.do" class="list-group-item list-group-item-action">
 		                        		<h4>리뷰관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>

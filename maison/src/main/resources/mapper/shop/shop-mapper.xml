@@ -112,4 +112,9 @@
 			-(SELECT AMOUNT FROM BASKET WHERE BASKETNO=#{basketNo}) WHERE PRODUCTNO=(SELECT PRODUCTNO FROM BASKET WHERE BASKETNO=#{basketNo})
 </update>
 
+<select id="selectOdOne" parameterType="_int" resultType="orderDetail">
+	SELECT * FROM ORDERDETAIL WHERE ORDERDETAILNO=#{orderDetailNo}
+</select>
+
+
 </mapper>

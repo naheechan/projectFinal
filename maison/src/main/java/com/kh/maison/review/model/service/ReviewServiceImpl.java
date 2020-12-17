@@ -73,5 +73,48 @@ public class ReviewServiceImpl implements ReviewService {
 		return dao.deleteReview(session,reviewNo);
 	}
 
+	@Override
+	public List<Review> selectReviewList(String memberId,int cPage,int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectReviewList(session, memberId,cPage,numPerPage);
+	}
+
+	@Override
+	public int countReviewId(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.countReviewId(session,memberId);
+	}
+
+	@Override
+	public Review selectReviewOdNo(int orderDetailNo) {
+		// TODO Auto-generated method stub
+		return dao.selectReviewOdNo(session,orderDetailNo);
+	}
+
+	@Override
+	public List<Review> selectPeriodReview(Map param,int cPage,int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectPeriodReview(session,param,cPage,numPerPage);
+	}
+
+	@Override
+	public int countPeriodReview(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countPeriodReview(session,param);
+	}
+
+	@Override
+	public List<Review> selectReviewWithRR(Map param, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectReviewWithRR(session,param,cPage,numPerPage);
+	}
+
+	@Override
+	public int countReviewWithRR(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countReviewWithRR(session, param);
+	}
+
+	
 	
 }

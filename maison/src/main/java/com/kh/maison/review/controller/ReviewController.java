@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.order.model.service.OrderService;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.review.model.service.ReviewService;
 import com.kh.maison.review.model.vo.Review;
 import com.kh.maison.review.model.vo.ReviewReply;
@@ -30,18 +32,31 @@ public class ReviewController {
 	
 	@Autowired
 	ProductService pservice;
+	@Autowired
+	OrderService oservice;
 	
 	@RequestMapping("/shop/insertReview.do")
 	@ResponseBody
-	public ModelAndView insertReview(ModelAndView mv,int productNo) {
+	public ModelAndView insertReview(ModelAndView mv,int productNo,int orderDetailNo) {
 		
 		Product p=pservice.selectProductOne(productNo);
-		//나중에 오더디테일도 불러와야함
-		//OrderDetail od=;
+		OrderDetail od=oservice.selectOdOne(orderDetailNo);
+		//전달받은 오더디테일로 쓰여진 리뷰가 있는지 확인하기
+		Review r=service.selectReviewOdNo(orderDetailNo);
 		
-		mv.addObject("p",p);
-		//mv.addObject("od",od);
-		mv.setViewName("/shop/reviewPop");
+		//r이 null이어야 작성가능
+		if(r==null) {
+			mv.addObject("p",p);
+			mv.addObject("od",od);
+			mv.setViewName("/shop/reviewPop");
+			
+		}else {
+			//있으면 작성 불가능
+			mv.addObject("msg","이미 작성한 리뷰가 있습니다 !");
+			mv.addObject("loc","/member/mypage.do");
+			mv.setViewName("common/msg");
+			return mv;
+		}
 		return mv ;
 	}
 	@RequestMapping("/shop/review.do")
@@ -56,9 +71,6 @@ public class ReviewController {
 		
 		Member m=(Member)session.getAttribute("loginMember");	
 		r.setMemberId(m.getMemberId());
-		
-		//orderdetail도 확인해야함
-		//이후 그 orderdetail로 등록된 리뷰가있는지 확인해야함
 		
 		int result=service.insertReview(r);
 		mv.setViewName("redirect:/shop/shopDetail.do?no="+r.getProductNo());
@@ -134,15 +146,11 @@ public class ReviewController {
 		return rlist;
 	}
 
-	@RequestMapping("/shop/toReview.do")
-	String toReview() {
-		return "shop/toReview";
-	}
 	
-	@RequestMapping("/shop/updateReview.do")
+	@RequestMapping("/member/updateReview.do")
 	@ResponseBody
-	ModelAndView updateReview(@ModelAttribute Review r,ModelAndView mv) {
-		Review rev=service.selectReviewOne(r.getReviewNo());
+	ModelAndView updateReview(int reviewNo,ModelAndView mv) {
+		Review rev=service.selectReviewOne(reviewNo);
 		Product p=pservice.selectProductOne(rev.getProductNo());
 		mv.setViewName("shop/reviewUpdatePop");
 		mv.addObject("r",rev);
@@ -151,13 +159,13 @@ public class ReviewController {
 		
 	}
 	
-	@RequestMapping("/shop/updateReviewEnd.do")
+	@RequestMapping("/member/updateReviewEnd.do")
 	ModelAndView updateReviewEnd(Review r,HttpSession session,ModelAndView mv) {
 		System.out.println(r);
 		Member m=(Member)session.getAttribute("loginMember");
 		if(r.getMemberId().equals(m.getMemberId())){
 			int result=service.updateReview(r);
-			mv.setViewName("redirect:/shop/shopDetail.do?no="+r.getProductNo());
+			mv.setViewName("redirect:/member/review/reviewList.do");
 			
 		}else {
 			mv.addObject("msg","수정 권한이 없습니다 !");
@@ -167,11 +175,67 @@ public class ReviewController {
 		return mv;
 	}
 	
-	@RequestMapping("/shop/deleteReview")
+	@RequestMapping("/member/deleteReview.do")
 	ModelAndView deleteReview(int reviewNo,ModelAndView mv) {
-		int result=service.deleteReviewReply(reviewNo);
+		int result=service.deleteReview(reviewNo);
 		//다시 리뷰페이지로 가기
+		mv.setViewName("redirect:/member/review/reviewList.do");
 		return mv;
 	}
+	
+	@RequestMapping("/member/review/reviewList.do")
+	ModelAndView reviewList(ModelAndView mv,HttpSession session,
+			@RequestParam(value="cPage",required=false,defaultValue="1")int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage) {
+		Member m=(Member)session.getAttribute("loginMember");
+		if(m==null) {
+			mv.addObject("msg","로그인이 필요한 서비스입니다 !");
+			mv.addObject("loc","/member/login");
+		}else {
+			
+			List<Review> list=service.selectReviewList(m.getMemberId(),cPage,numPerPage);
+			int totalData=service.countReviewId(m.getMemberId());
+			
+			mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "reviewList.do"));
+			
+			
+			mv.addObject("list",list);
+			mv.setViewName("/member/review/reviewList");
+			
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("member/review/selectPeriodReview.do")
+	ModelAndView selectPeriodReview(@RequestParam Map param,ModelAndView mv,HttpSession session,
+			@RequestParam(value="cPage",required=false,defaultValue="1")int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage) {
+		
+		int select=Integer.parseInt((String)param.get("select"));
+		
+		Member m=(Member)session.getAttribute("loginMember");
+		param.put("memberId", m.getMemberId());
+		List<Review> list=null;
+		int totalData=0;
+		if(select==1) {
+			//전체보기
+			list=service.selectPeriodReview(param,cPage,numPerPage);
+			totalData=service.countPeriodReview(param);
+		}else if(select==2){
+			//답글달린거만 보기
+			list=service.selectReviewWithRR(param,cPage,numPerPage);
+			totalData=service.countReviewWithRR(param);
+		}
+		
+		
+		mv.addObject("pageBar",PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "selectPeriodReview.do?select="+select+"start="+param.get("start")+"&end="+param.get("end")));
+		mv.addObject("list",list);
+		mv.addObject("start",param.get("start"));
+		mv.addObject("end",param.get("end"));
+		mv.setViewName("member/review/reviewList");
+		return mv;
+	}
+	
 	
 }

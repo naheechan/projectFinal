@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.dao.OrderDao;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.order.model.vo.OrderDetail;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -47,6 +48,12 @@ public class OrderServiceImpl implements OrderService {
 	public int bupdateStock(Basket b) {
 		// TODO Auto-generated method stub
 		return dao.bupdateStock(session,b);
+	}
+
+	@Override
+	public OrderDetail selectOdOne(int orderDetailNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOdOne(session,orderDetailNo);
 	}
 	
 	

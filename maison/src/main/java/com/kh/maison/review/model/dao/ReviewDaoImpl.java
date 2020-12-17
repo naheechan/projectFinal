@@ -3,6 +3,7 @@ package com.kh.maison.review.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -66,6 +67,50 @@ public class ReviewDaoImpl implements ReviewDao {
 		// TODO Auto-generated method stub
 		return session.delete("review.deleteReview",reviewNo);
 	}
+
+	@Override
+	public List<Review> selectReviewList(SqlSessionTemplate session, String memberId, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("review.selectReviewListId",memberId,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int countReviewId(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("review.countReviewId",memberId);
+	}
+
+	@Override
+	public Review selectReviewOdNo(SqlSessionTemplate session, int orderDetailNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("review.selectReviewOdNo",orderDetailNo);
+	}
+
+	@Override
+	public List<Review> selectPeriodReview(SqlSessionTemplate session, Map param,int cPage,int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("review.selectPeriodReview",param,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int countPeriodReview(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("review.countPeriodReview",param);
+	}
+
+	@Override
+	public List<Review> selectReviewWithRR(SqlSessionTemplate session, Map param, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("review.selectReviewWithRR",param,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int countReviewWithRR(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("review.countReviewWithRR",param);
+	}
+
+	
 
 	
 	

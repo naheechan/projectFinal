@@ -127,7 +127,8 @@
 									<div class="form-group col-md-12">
 										<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;">취소요청</button>
 										<br>
-										<input type="hidden" value="3">
+										<input type="hidden" name="productNo" value="4">
+										<input type="hidden" name="orderDetailNo" value="13">
 										<button class="btn addreview" type="button" style="width:100%;height:45%;background:#F2BB9C;">리뷰쓰기</button>
 									</div>
 								</td>
@@ -149,17 +150,21 @@
 	$(function(){
 	//리뷰쓰는 팝띄우기		
 		$(".addreview").click(function(){
-			var productNo=$(this).prev().val();
-			$("#pop").show();
+			var productNo=$(this).prev().prev().val();
+			var orderDetailNo=$(this).prev().val();
+			
 			$.ajax({
 				url : "${path }/shop/insertReview.do",
 				data:{
-					productNo : productNo
+					orderDetailNo : orderDetailNo,
+					productNo : productNo	
+				
 				},
 				dataType : "html",
 				success : function(data){
 					$("#pop").html("");
 					$("#pop").html(data);
+					$("#pop").show();
 				}
 						
 			})

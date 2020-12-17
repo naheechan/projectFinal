@@ -96,6 +96,7 @@
 									<td>
 										<p class="title">${p.productName }</p>
 										<input type="hidden" name="productNo" value="${p.productNo }">
+										<input type="hidden" name="orderDetailNo" value="${od.orderDetailNo }"
 									</td>
 								</tr>
 								<tr>

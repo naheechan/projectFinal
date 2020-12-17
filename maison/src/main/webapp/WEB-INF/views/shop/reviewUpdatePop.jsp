@@ -69,11 +69,8 @@
 	}
 
 	#pop{
-		width:500px;
+	 	width:500px;
 		height:600px;
-		position:absolute;
-		top:100px;
-		left:300px;
 		text-align:center;
 		border :2px solid #f2bb9c; 
 		z-index: 100;
@@ -81,10 +78,23 @@
 	}
 
 </style>
+<script>
+$(function(){
+	//팝 항상 중앙에 띄우기
+	var left = ( $(window).scrollLeft() + ( $(window).width() - $('#pop').width()) / 2 );
+    var top = ( $(window).scrollTop() + ( $(window).height() - $('#pop').height()) / 2 );
+
+    // css 스타일을 변경합니다.
+    $('#pop').css({'left':left,'top':top, 'position':'absolute'});
+
+
+	
+});
+</script>
 <div class="container">
 <div class="row">
 <div class="col">
-<form action="${path }/shop/updateReviewEnd.do" method="get" id="reviewForm">
+<form action="${path }/member/updateReviewEnd.do" method="get" id="reviewForm">
 	<div id="data-div review-container">
 						<div class="form-group">
 							<label class="control-label">구매 후기 쓰기</label> <br>
@@ -157,11 +167,15 @@
 </div>
 <script>
 $(function(){
-$("#pop").change(function(){
+	
+	
+	
 
-switch(${r.reviewScore }){
+var reviewScore=${r.reviewScore };
+console.log(reviewScore);
+switch(reviewScore){
 		
-		case '1': 
+		case 1: 
 			$("#rating1").prop("checked",true);
 			$("#rating2").prop("checked",false);
 			$("#rating3").prop("checked",false);
@@ -172,7 +186,7 @@ switch(${r.reviewScore }){
 			$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
 			$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
 			break;
-		case '2': 
+		case 2: 
 			$("#rating1").prop("checked",false);
 			$("#rating2").prop("checked",true);
 			$("#rating3").prop("checked",false);
@@ -183,7 +197,7 @@ switch(${r.reviewScore }){
 			$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
 			$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
 			break;
-		case '3': 
+		case 3: 
 			$("#rating1").prop("checked",false);
 			$("#rating2").prop("checked",false);
 			$("#rating3").prop("checked",true);
@@ -194,7 +208,7 @@ switch(${r.reviewScore }){
 			$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
 			$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
 			break;
-		case '4': 
+		case 4: 
 			$("#rating1").prop("checked",false);
 			$("#rating2").prop("checked",false);
 			$("#rating3").prop("checked",false);
@@ -205,7 +219,7 @@ switch(${r.reviewScore }){
 			$("#rating4").next().children("span").removeClass("starOff").addClass("starOn");
 			$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
 			break;
-		case '5': 
+		case 5: 
 			$("#rating1").prop("checked",false);
 			$("#rating2").prop("checked",false);
 			$("#rating3").prop("checked",false);
@@ -220,7 +234,7 @@ switch(${r.reviewScore }){
 		
 		}
 
-})
+
 
 
 

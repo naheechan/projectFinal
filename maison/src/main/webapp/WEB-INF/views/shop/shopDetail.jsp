@@ -370,7 +370,7 @@ select::-ms-expand { /* for IE 11 */
 							</div> -->
 						</div>
 						<hr>
-						<a href="#" class="btn hvr-hover">리뷰 남기기</a>
+						<!-- <a href="#" class="btn hvr-hover">리뷰 남기기</a> -->
 					</div>
 				  </div>
 				

@@ -189,7 +189,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/notice/noticeUpdateEnd.do")
-	public ModelAndView noticaUpdateEnd(@RequestParam Map<String,String> param,ModelAndView mv) {
+	public ModelAndView noticeUpdateEnd(@RequestParam Map<String,String> param,ModelAndView mv) {
 		
 		int result=service.updateNotice(param);
 		int noticeNo=Integer.parseInt(param.get("noticeNo"));
@@ -201,17 +201,21 @@ public class NoticeController {
 		return mv;
 	}
 	
-	@RequestMapping("/notice/noticeLogin.do")
-	public String noticeLogin(HttpSession session) {
-		session.setAttribute("loginMember", "admin");
+	@RequestMapping("/admin/adminNoticeList.do")
+	public ModelAndView adminNoticeList(ModelAndView mv,
+			@RequestParam(value="cPage",required=false,defaultValue="1")int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage) {
+		List<Notice> list=service.selectNoticeList(cPage, numPerPage);
+		int totalData=service.selectCount();
 		
-		return "redirect:/notice/noticeList.do";
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "adminNoticeList.do"));
+		mv.addObject("totalData",totalData);
+		mv.addObject("list",list);
+		mv.setViewName("admin/notice/noticeList");
+		return mv;
 	}
 	
-	@RequestMapping("/notice/noticeLogout.do")
-	public String logout(HttpSession session) {
-		session.removeAttribute("loginMember");
-		return "redirect:/notice/noticeList.do";
-				
-	}
+	
+	
+	
 }

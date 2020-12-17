@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.order.model.vo.OrderDetail;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -40,6 +41,12 @@ public class OrderDaoImpl implements OrderDao {
 	public int bupdateStock(SqlSession session, Basket b) {
 		// TODO Auto-generated method stub
 		return session.update("shop.bupdateStock",b);
+	}
+
+	@Override
+	public OrderDetail selectOdOne(SqlSession session, int orderDetailNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("shop.selectOdOne",orderDetailNo);
 	}
 	
 	
