@@ -29,6 +29,7 @@
   
 
 
+
   <update id="updateMileage" parameterType="map">
   	UPDATE MEMBER SET MEILEAGE=#{memberMileage} WHERE MEMBERID=#{memberId}
   </update>
@@ -77,5 +78,14 @@
   	UPDATE MEMBER SET EMAILSTATUS=#{emailStatus}
   	WHERE MEMBERID=#{memberId}
   </update>
+  
+    <update id="updateMemberStatus" parameterType="map">
+  	UPDATE MEMBER SET MEMBERSTATUS = #{withdrawChk}
+  	WHERE MEMBERID=#{memberId}
+  </update>
+  
+  <insert id="updateMemberWithdraw" parameterType="map">
+  	INSERT INTO MEMBERWITHDRAW VALUES(#{memberId},#{withdrawCom},default)
+  </insert>
 
 </mapper>

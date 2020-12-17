@@ -982,38 +982,71 @@ public class MemberController {
 	//memberStatus 전환하기
 	@RequestMapping("/member/withdrawEnd.do")
 	public ModelAndView withdrawEnd(@RequestParam Map<String,Object> map,ModelAndView mv, SessionStatus status) {
-		for(String key : map.keySet()) { 
-			String value = (String) map.get(key); 
-			System.out.println(key + " : " + value); 
-		}
-		
-		Map<String,Object> target = new HashMap<String,Object>();
-		target.put("memberId", (String)map.get("memberId"));
+//		for(String key : map.keySet()) { 
+//			String value = (String) map.get(key); 
+//			System.out.println(key + " : " + value); 
+//		}
+		//체크 안하고 넘기면 
 		if(map.get("withdrawChk")==null) {
-			target.put("withdrawChk", "Y");
+			mv.addObject("msg", "회원탈퇴에 동의하지않으셨습니다.");
+			mv.addObject("subMsg","탈퇴하시려면 회원탈퇴 유의사항을 모두 확인하시고, 메종 회원탈퇴에 동의해주세요.");
+			mv.addObject("status","info");
+			mv.addObject("loc", "/member/withdraw.do");
+			mv.setViewName("common/sweetMsg");			
 		}else {
-			target.put("withdrawChk", "N");
-		}
-		int result = service.updateMemberStatus(target);
-		if(result>0) {
-			if(!status.isComplete()) {
-				status.setComplete();
+			//확인 버튼을 누르면 일단 스왈을 띄워줍니다. 
+			mv.addObject("memberId",(String)map.get("memberId"));
+			if(map.get("withdrawCom")==null) {
+				mv.addObject("withdrawCom","");		
+			}else {
+				mv.addObject("withdrawCom",(String)map.get("withdrawCom"));				
 			}
-			mv.addObject("msg", "이메일 수신 동의가 변경되었습니다.");
-			mv.addObject("subMsg","로그인이 해제 됩니다. 다시 로그인해주세요.");
-			mv.addObject("status","success");
-			mv.addObject("loc", "/");
-		}else {
-			mv.addObject("msg", "이메일 수신 동의 변경 실패!");
-			mv.addObject("subMsg","관리자에게 문의해주세요.");
-			mv.addObject("status","error");
-			mv.addObject("loc", "/member/emailAgree.do");
+			mv.setViewName("member/memberStatusMsg");
 		}
-			mv.setViewName("common/sweetMsg");
 		
 		return mv;
 
-	}	
+	}
+	
+	//탈퇴 진행용 메소드
+	@RequestMapping("member/memberStatusNo")
+	public ModelAndView memberStatusNo(@RequestParam Map<String,Object> map, SessionStatus status, ModelAndView mv) {
+		Map<String,Object> target = new HashMap<String,Object>();
+		target.put("memberId", (String)map.get("memberId"));
+		if(map.get("withdrawCom")==null) {
+			target.put("withdrawCom", "");
+		}else {
+			target.put("withdrawCom", map.get("withdrawCom"));
+		}	
+		target.put("withdrawChk", "N");
+		
+		//회원테이블에 업데이트 해주고
+		int result = service.updateMemberStatus(target);
+		if(result>0) {
+			//멤버 무덤 테이블에 insert해주기
+			result = service.updateMemberWithdraw(target);
+			if(result>0) {
+				if(!status.isComplete()) {
+					status.setComplete();
+				}
+				mv.setViewName("redirect:/");
+			}else {
+				mv.addObject("msg", "회원 탈퇴 실패!");
+				mv.addObject("subMsg","관리자에게 문의해주세요.");
+				mv.addObject("status","error");
+				mv.addObject("loc", "/member/withdraw.do");
+				mv.setViewName("common/sweetMsg");			
+			}
+		}else {
+			mv.addObject("msg", "회원 탈퇴 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/withdraw.do");
+			mv.setViewName("common/sweetMsg");			
+		}
+		
+		return mv;
+	}
 	
 	
 	

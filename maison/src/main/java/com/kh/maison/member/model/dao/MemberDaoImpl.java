@@ -68,6 +68,18 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.update("member.updateEmailStatus",target);
 	}
+
+	@Override
+	public int updateMemberStatus(SqlSessionTemplate session, Map<String, Object> target) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateMemberStatus",target);
+	}
+
+	@Override
+	public int updateMemberWithdraw(SqlSessionTemplate session, Map<String, Object> target) {
+		// TODO Auto-generated method stub
+		return session.insert("member.updateMemberWithdraw",target);
+	}
 	
 	
 }

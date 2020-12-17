@@ -22,7 +22,9 @@ public interface MemberService {
 	int  updateMember(Member mem);
 	int updateMemberPw(Map<String,String> map);
 	
+	
 	int updateEmailStatus(Map<String,Object> target);
+	int updateMemberStatus(Map<String,Object> target);
 
-
+	int updateMemberWithdraw(Map<String,Object> target);
 }

@@ -75,6 +75,18 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.updateEmailStatus(session,target);
 	}
+
+	@Override
+	public int updateMemberStatus(Map<String, Object> target) {
+		// TODO Auto-generated method stub
+		return dao.updateMemberStatus(session,target);
+	}
+
+	@Override
+	public int updateMemberWithdraw(Map<String, Object> target) {
+		// TODO Auto-generated method stub
+		return dao.updateMemberWithdraw(session,target);
+	}
 	
 	
 	
