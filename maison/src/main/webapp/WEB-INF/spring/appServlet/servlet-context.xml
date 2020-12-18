@@ -43,10 +43,25 @@
 	<interceptors>
       <interceptor>
          <mapping path="/shop/user/*" />
-         <beans:bean class="com.kh.maison.common.InquiryInterceptor" />
+         <beans:bean class="com.kh.maison.common.interceptor.InquiryInterceptor" />
+      </interceptor>
+    </interceptors>
+         
+	<!-- 멤버 마이페이지 문의하기 -->
+	<interceptors>
+      <interceptor>
+         <mapping path="/member/mypage/inquiry/*" />
+         <beans:bean class="com.kh.maison.common.interceptor.MyMemberInquiryInterceptor" />
+      </interceptor>
+    </interceptors>
+    
+	<!-- 관리자상품관리 -->
+	<interceptors>
+      <interceptor>
+         <mapping path="/admin/product/*" />
+         <beans:bean class="com.kh.maison.common.interceptor.AdminInterceptor" />
       </interceptor>
          </interceptors>
-	
 	
 	<!-- Resolver for File Upload -->
 	<beans:bean id="multipartResolver"
@@ -64,13 +79,6 @@
 			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 			
 			
-			<interceptors>
-      <interceptor>
-         <mapping path="/admin/product/*" />
-         <beans:bean class="com.kh.maison.common.AdminInterceptor" />
-      </interceptor>
-         </interceptors>
-         
 		<!-- requestMappingHandler에 등록,
 		response했을때 자동으로 전환이 되게 하자 -->
 		<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

@@ -134,7 +134,7 @@ public class ShopController {
 			e.printStackTrace();
 		}
 		m.addAttribute("list",list);
-		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "shopInquiry.do"));
+		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "shopInquiry"));
 		return str;
 	}
 	

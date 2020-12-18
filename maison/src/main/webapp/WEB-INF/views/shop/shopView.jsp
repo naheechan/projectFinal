@@ -61,6 +61,7 @@
                                     <div class="row" id="divResult">
                                     <input type="hidden" name="memberId" id="memberId" value="${loginMember.memberId }">
                                     <c:forEach var="list" items="${product}" varStatus="i">
+                                    <c:if test="${list.productStatus eq 'Y'}">
                                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                             <div class="products-single fix">
                                                 <div class="box-img-hover">
@@ -83,6 +84,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        </c:if>
                                         </c:forEach>
                                      </div>
                                   </div>
@@ -131,22 +133,13 @@
                                 </div>
                                  </c:forEach>
                                  <br>
-<!-- 관리자일경우에만 상품등록버튼 보이게 -->
-				<c:if test="${loginMember.memberId eq 'admin'}">
-                        <div class="filter-price-left">
-                            <div class="title-left">
-                                <h3>상품등록</h3>
-                            </div>
-                               <a class="btn hvr-hover" data-fancybox-close=""  id="Enrollbtn" href="${ path }/admin/product/productEnroll.do">상품등록</a>
-                            </div>
-                    </c:if>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-     </div>
-   </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	     </div>
+	   </div>
    
     <div id="pageBar">
     	${pageBar }
@@ -177,6 +170,7 @@
 						if(obj >0){
 						$.each(data,function(i){
 							/* divResult.empty(); */
+							if(data[i].productStatus=='Y'){
 			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
 							+"	<div class='products-single fix' onclick= selectOneProduct("+data[i].productNo +")>"
 							+"	<div class='box-img-hover'>																"
@@ -206,6 +200,9 @@
 							+"	</div>																							"
 							+"	</div>																							"
 							+"	</div>																							";
+							}else{
+								html="<span>검색하신 상품은 현재 준비중입니다.</span>";
+							}
 			       			 divResult.append(html);
 			       			 requestContainer.empty();
 						 });
@@ -271,6 +268,7 @@
 						$.each(data,function(i){
 							console.log(data[i].mediumCate);
 							/* divResult.empty(); */
+							if(data[i].productStatus=='Y'){
 			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
 							+"	<div class='products-single fix' onclick='searchCate("+data[i].mediumCate+")'>"
 							+"	<div class='box-img-hover'>																"
@@ -300,12 +298,19 @@
 							+"	</div>																							"
 							+"	</div>																							"
 							+"	</div>																							";
+							}else{
+								html="<span>해당 카테고리의 상품은 현재 준비중입니다.</span>";
+							}
 			       			 divResult.append(html);
 			       			 requestContainer.empty();
 						 });
 						}else{
 							requestContainer.empty();
-							divResult.append("<span style='margin:5% 0% 5% 15%;'><small>현재 선택하신 카테고리의 상품은 존재하지 않습니다. &nbsp;필요한 상품이 있으시다면 하단 요청해요를 통해 요청해주세요:)<small></span><br><br><br><br><hr>");
+							if(mId == null || mId != 'admin'){
+								divResult.append("<span style='margin:5% 0% 5% 15%;'><small>현재 선택하신 카테고리의 상품은 존재하지 않습니다. &nbsp;필요한 상품이 있으시다면 하단 요청해요를 통해 요청해주세요:)<small></span><br><br><br><br><hr>");
+							}else if(mId=='admin'){
+								divResult.append("<span style='margin:5% 0% 5% 15%;'><small>현재 선택하신 카테고리의 상품은 존재하지 않습니다.");
+							}
 							if(mId == null || mId != 'admin'){
 								html = "<hr> <form action='${path}/shop/product/requestP.do' method='post'>																					"
 										+"<div>																																											"
@@ -357,16 +362,7 @@
     	
     </script>
     <!-- End Shop Page -->
-    <style>
-    #Enrollbtn{
-    	color:#ffffff;
-    	border-radius: 5px;
-    }
-    #Enrollbtn:hover{
-    	color:#000000;
-    	border:0px;
-    }
-    </style>
+  
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		
 <!-- PLUGINS -->
 <script src="<%=request.getContextPath() %>/resources/js/jquery-ui.js"></script>

@@ -197,14 +197,6 @@ select::-ms-expand { /* for IE 11 */
 									
 									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	
 									
-								
-
-								
-
-								
-								<c:if test="${loginMember.memberId!=null && loginMember.memberId=='admin' }">
-								<a class="btn hvr-hover" data-fancybox-close="" href="${path}/admin/product/productView.do?no=${product.productNo }">상품수정하기</a>
-								</c:if>
 
 								<a class="btn hvr-hover" id="basketA" data-fancybox-close="" href="#">장바구니</a>
 

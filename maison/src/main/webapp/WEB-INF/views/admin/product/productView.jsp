@@ -25,7 +25,7 @@
 
       <!-- form header -->
       <div class="form-header">
-        <h1>상품등록</h1>
+        <h1>상품내역</h1>
       </div>
 
       <!-- form body -->
@@ -63,21 +63,21 @@
         <div class="form-group">
           <label for="productName" class="label-title">상품이름 *</label>
           <input type="text" name="productName" id="productName" class="form-input" placeholder="enter product name"  
-          value="${list.productName }" readonly>
+          value="${list.productName }" disabled>
         </div>
 		
 		<!-- Summary -->
         <div class="form-group">
           <label for="text" class="label-title">상품요약설명 *</label>
           <input type="text" name="productSummary" id="productSummary" class="form-input" placeholder="enter product summary"
-          value="${list.productSummary }" readonly>
+          value="${list.productSummary }" disabled>
         </div>
         
         <!--editor  -->
         	<div class="form-group">
         	<label for="productContent" class="label-title">상품상세페이지 *</label>
         	<textarea id="productContent" name="productContent" rows="10" cols="80" 
-        	placeholder="내용을 입력하세요" >${list.productContent}</textarea>
+        	placeholder="내용을 입력하세요" disabled>${list.productContent}</textarea>
         	<script>
         	$(function(){
         		CKEDITOR.replace("productContent",{
@@ -93,8 +93,8 @@
          <!-- Image -->
         <div class="horizontal-group">
           <div class="form-group left" >
-            <label for="productImg" class="label-title">상품이미지 *</label>
-            <input type="file" name="imageFile" id="productImg" size="80" accept=".jpg, .jpeg, .png, .bmp" data-width="300" data-height="300">
+            <label for="productImg" class="label-title">상품이미지 *</label><br><br>
+            <img src="${path}/resources/upload/product/${list.productImg}" style="width:300px;">
           </div>
           </div>
           
@@ -102,12 +102,12 @@
         <div class="horizontal-group">
           <div class="form-group left" >
              <label for="price" class="label-title">상품가격 *</label>
-            <input type="number" name="price" id="price" class="form-input" placeholder="원"  value="${list.price }" readonly>
+            <input type="number" name="price" id="price" class="form-input" placeholder="원"  value="${list.price }" disabled>
           </div>
-          <div class="form-group right">
+          <div class="form-group left">
             <label for="productStock" class="label-title">재고수량 *</label>
             <input type="range" min="0" max="1000" step="10"  value="0" name="productStock" id="productStock" class="form-input" value="${list.productStock }" 
-            onChange="change();" style="height:28px;width:78%;padding:0;" readonly>
+            onChange="change();" style="height:28px;width:78%;padding:0;" disabled='true'>
             <br>
             <span id="range-label">${list.productStock }</span>
           </div>
@@ -117,13 +117,13 @@
         <div class="horizontal-group">
           <div class="form-group left">
             <label for="productStatus" class="label-title">판매상태 *</label><br>
-            <input type="radio" id="productStatusY" name="productStatus" ${list.productStatus eq 'Y'?'checked':'' } >예
-            <input type="radio" id="productStatusN" name="productStatus" ${list.productStatus eq 'N'?'checked':''}>아니오
+            <input type="radio" id="productStatusY" name="productStatus" ${list.productStatus eq 'Y'?'checked':'' } disabled='true'>예
+            <input type="radio" id="productStatusN" name="productStatus" ${list.productStatus eq 'N'?'checked':''} disabled='true'>아니오
           </div>
           <!-- DefCycle -->
           <div class="form-group left">
           <label for="defCycle" class="label-title">주기일 *</label><br>
-            <input type="number" name="defCycle" id="defCycle" class="form-input"  value="${list.defCycle }" readonly>
+            <input type="number" name="defCycle" id="defCycle" class="form-input"  value="${list.defCycle }" disabled>
           </div>
 
 		<!-- mediumCate -->
@@ -146,8 +146,10 @@
     <script>
     $(function(){
     	$("#createbtn").click(function(){
-    		alert("상품 등록 or 상품 수정 페이지에서 이용가능합니다.");
+    		alert("관리자 마이페이지-상품 분류 관리 페이지에서 이용가능합니다.");
     	})
+    	
+
     })
       var rangeLabel = document.getElementById("range-label");
       var productStock = document.getElementById("productStock");
@@ -155,6 +157,7 @@
       function change() {
       rangeLabel.innerText = productStock.value + "개";
       }
+      
     </script>
     
     <script>
@@ -162,12 +165,11 @@
    		$("#viewSubmit").click(function(){
    			var no = $("#productNo").val();
    			console.log("상품번호:"+no);
-    		if(confirm("수정하시겠습니까?")){
+    		if(confirm("수정페이지로 이동하시겠습니까?")){
     			location.href="${path}/admin/product/update.do?no="+no;
     		}
    		});
 	   		
-    	//상품이미지 보이게
     	
     </script>
     

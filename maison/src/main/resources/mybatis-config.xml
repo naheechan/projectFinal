@@ -20,15 +20,14 @@
 		<typeAlias type="com.kh.maison.admin.product.model.vo.ProductCate" alias="productCate"/>
 		<typeAlias type="com.kh.maison.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.maison.shop.vo.WishList" alias="wishList"/>
-
 		<typeAlias type="com.kh.maison.order.model.vo.Order" alias="order"/>
-
 		<typeAlias type="com.kh.maison.shop.model.vo.PdInquiry" alias="pdInquiry"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.TotalInquiry" alias="totalInquiry"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.InquiryReply" alias="reply"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.AdminReply" alias="adminReply"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleProduct" alias="cycleProduct"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CountCycle" alias="countCycle"/>
+		<typeAlias type="com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList" alias="totalInquiryList"/>
 
 	</typeAliases>
 
