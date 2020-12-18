@@ -54,6 +54,19 @@ public class NoticeDaoImpl implements NoticeDao {
 		return session.update("notice.updateCount",noticeNo);
 	}
 
+	@Override
+	public List<Notice> selectNoticeListSearch(SqlSessionTemplate session, int cPage, int numPerPage, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectList("notice.selectNoticeListSearch",param,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int countSearch(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("notice.countSearch",param);
+	}
+
+	
 	
 	
 }

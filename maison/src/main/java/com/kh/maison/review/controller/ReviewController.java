@@ -233,6 +233,7 @@ public class ReviewController {
 		mv.addObject("list",list);
 		mv.addObject("start",param.get("start"));
 		mv.addObject("end",param.get("end"));
+		mv.addObject("select" ,select);
 		mv.setViewName("member/review/reviewList");
 		return mv;
 	}
