@@ -152,7 +152,7 @@ public class OrderController {
 		
 		return result;
 	}
-	
+	//바로구매
 	@RequestMapping("/order/buy.do")
 	public ModelAndView buy(ModelAndView mv, int productNo, int amount) {
 		
