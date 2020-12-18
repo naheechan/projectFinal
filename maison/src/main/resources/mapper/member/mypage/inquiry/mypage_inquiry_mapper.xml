@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="myMemInquiry">
+
+<select id="selectTotalList" resultType="totalInquiryList" parameterType="String">
+	SELECT 
+	P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG,
+	M.MEDIUMCATE, M.MCNAME, M.LARGECATE,
+	I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
+	FROM PRODUCT P, MEDIUMCATE M, PDINQUIRY I
+	WHERE 
+	I.MEMBERID=#{memberId}
+	AND 
+	P.PRODUCTNO=I.PRODUCTNO
+	AND
+	P.MEDIUMCATE=M.MEDIUMCATE
+</select>
+
+<select id="selectTotalCount" resultType="_int" parameterType="String">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE MEMBERID=#{memberId}
+</select>
+<!--답변완료-->
+<select id="selectCheckCount" resultType="_int" parameterType="String">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='Y' AND MEMBERID=#{memberId}
+</select>
+<!--미답변 -->
+<select id="selectNoCheckCount" resultType="_int" parameterType="String">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='N' AND MEMBERID=#{memberId}
+</select>
+<!--N이면 삭제 -->
+<select id="selectDelCount" resultType="_int" parameterType="String">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PIDEL='N' AND MEMBERID=#{memberId}
+</select>
+
+<select id="searchkeyword" resultType="totalInquiryList" parameterType="map">
+	SELECT 
+	P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG,
+	M.MEDIUMCATE, M.MCNAME, M.LARGECATE,
+	I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
+	FROM PRODUCT P, MEDIUMCATE M, PDINQUIRY I
+	WHERE 
+	I.MEMBERID=#{id}
+	AND 
+	P.PRODUCTNO=I.PRODUCTNO
+	AND
+	P.MEDIUMCATE=M.MEDIUMCATE
+	AND
+	P.PRODUCTNAME LIKE '%' || #{keyword} || '%'
+</select>
+</mapper>

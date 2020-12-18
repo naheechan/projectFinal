@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="myAdminProduct">
+
+<select id="selectTotalList" resultType="productCate">
+	SELECT P.*, M.MCNAME, M.LARGECATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE
+</select>
+
+<select id="selectTotalCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT
+</select>
+<!--노출여부 -->
+<select id="selectShowCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT WHERE PRODUCTSTATUS='Y'
+</select>
+<!-- 재고 -->
+<select id="selectStockCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT WHERE  PRODUCTSTOCK <![CDATA[<]]>6
+</select>
+<!-- 주기 -->
+<!-- <select id="selectDefCount" resultType="_int">
+	SELECT COUNT(*) FROM (SELECT P.PRODUCTDATE, P.DEFCYCLE, (TO_DATE(TO_CHAR(TRUNC(PRODUCTDATE,'dd'),'yyyymmdd'))+DEFCYCLE)-TO_DATE(SYSDATE) Cal FROM PRODUCT P, DUAL) 
+	WHERE
+	(TO_DATE(TO_CHAR(TRUNC(PRODUCTDATE,'dd'),'yyyymmdd'))+DEFCYCLE)-TO_DATE(SYSDATE)  <![CDATA[<]]>7
+</select> -->
+
+<select id="selectTodayCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT WHERE  TO_CHAR(PRODUCTDATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+</select>
+
+<!-- 검색 보류
+<select id="searchNameProduct" resultType="productCate" parameterType="map">
+	SELECT P.*, M.MCNAME, M.LARGECATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE 
+	AND 
+	<choose>
+	<if test="keyword!=null">
+		<when test="type=='name'.toString()">
+		 P.PRODUCTNAME LIKE CONCAT('%',#{keyword},'%')
+		 </when>
+		 <when test="type=='cate'.toString()">
+		 M.MCNAME LIKE CONCAT('%',#{keyword},'%')
+		 </when>
+		 <when test="type=='popular'.toString()">
+		 O.ODAMOUNT LIKE CONCAT('%',#{keyword},'%')
+		 </when>
+	 </if>
+	</choose>
+</select> -->
+
+
+</mapper>
