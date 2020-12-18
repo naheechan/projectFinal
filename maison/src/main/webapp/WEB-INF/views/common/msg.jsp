@@ -9,15 +9,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>시스템 메세지</title>
-
 </head>
 <body>
-
 	<script>
-		swal("${msg }").then((value)=> {
-			location.replace('${pageContext.request.contextPath }${loc}');
-		});
+		swal("${msg }")
+			.then((value)=>{		
+				location.replace('${pageContext.request.contextPath }${loc}');
+			});
 	</script>
 
 </body>

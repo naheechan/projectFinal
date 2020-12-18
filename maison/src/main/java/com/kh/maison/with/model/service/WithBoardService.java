@@ -43,4 +43,21 @@ public interface WithBoardService {
 	int insertWithask(WithAsk wa);
 	
 	Member selectEmailAndPhone(int no);
+	
+	//여기부터 마이페이지 함께해요 관련
+	List<WithBoard> bringAllWithBoard(String memberId,int cPage,int numPerPage);
+
+	int bringAllWithBoardCount(String memberId);
+	
+	List<WithComment> bringAllWithComment(String memberId,int cPage,int numPerPage);
+
+	int bringAllWithCommentCount(String memberId);
+	
+	List<WithBoard> bringCommentedWith(String memberId,int cPage,int numPerPage);
+	
+	int bringCommentedWithCount(String memberId);
+	
+	int deleteBringAllWith(int checkfordelete);
+	
+	int deleteBringAllWithComment(int checkStatus);
 }

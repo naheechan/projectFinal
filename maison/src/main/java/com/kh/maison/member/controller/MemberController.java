@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -22,7 +21,6 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -50,9 +48,12 @@ import com.kh.maison.common.email.MailSendService;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.member.recaptcha.VerifyRecaptcha;
-
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
+import com.kh.maison.mileage.model.service.MileageService;
+import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.maison.with.model.service.WithBoardService;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.spring.common.PageBarFactory;
 
 import nl.captcha.Captcha;
 
@@ -61,6 +62,12 @@ import nl.captcha.Captcha;
 @SessionAttributes({"loginMember", "state", "res", "memNaver"})
 public class MemberController {
 
+	//마일리지 관련
+	@Autowired
+	private MileageService milService;
+	//함께해요 관련
+	@Autowired
+	private WithBoardService withService;
 	
 	@Autowired
 	private MemberService service;
@@ -156,6 +163,10 @@ public class MemberController {
 
 		//성공하면 안내페이지로, 실패하면 회원가입 페이지로
 		if(result>0) {
+			//회원가입하면 디폴트값으로 설정된 만큼 적립금 줌
+			milService.insertWelcomeMileage(mem.getMemberId());
+			milService.updateMemberMileage(mem.getMemberId());
+			
 			mv.addObject("email",email);
 			String authKey = mss.sendAuthMail(email, mem.getMemberId());
 			Map<String,String> map = new HashMap<>();
@@ -773,6 +784,277 @@ public class MemberController {
 	}
 	
 	
+	//마이페이지에서 마일리지 관리로 화면전환
+	@RequestMapping("/member/mileage.do")
+	public String selectMileageList(Model m,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="status",required=false,defaultValue="")String status,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate) {
+		
+//		List<Mileage> list = milService.selectMileageList(cPage,numPerPage,keyword,startDate,endDate);
+//		
+//		int totalContents = milService.selectMileageCount(keyword,startDate,endDate);
+//		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "mileage.do"));
+//		m.addAttribute("list",list);
+//		m.addAttribute("totalContents",totalContents);
+		
+		return "member/mileageList";
+	}
+	
+	@RequestMapping("/member/defaultMileage.do")
+	@ResponseBody
+	public Map<String,Object> defaultMileage(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<Mileage> list = milService.selectDefaultMileage(memberId,cPage,numPerPage);
+		int totalContents = milService.selectDefaultMileageCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "defaultMileage.do");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}
+	
+	@RequestMapping("/member/conditionMileage.do")
+	@ResponseBody
+	public Map<String,Object> conditionMileage(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="status",required=false,defaultValue="")String status,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate
+			){
+
+		Map<String,Object> condition = new HashMap<String,Object>();
+		condition.put("memberId", memberId);
+		condition.put("status", status);
+		condition.put("startDate", startDate);
+		condition.put("endDate", endDate);
+		
+		List<Mileage> list = milService.selectConditionMileage(cPage,numPerPage,condition);
+		int totalContents = milService.selectConditionMileageCount(condition);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "conditionMileage.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar",pageBar);
+		return map;
+	}
+	
+	//함께해요 관리
+	@RequestMapping("/member/withList.do")
+	public ModelAndView memberWithList(ModelAndView mv, @RequestParam String memberId) {
+		
+		mv.addObject("withBoardTotalCount",withService.bringAllWithBoardCount(memberId));
+		mv.addObject("withCommentTotalCount",withService.bringAllWithCommentCount(memberId));
+		mv.setViewName("member/withList");
+		return mv;
+	}
+	
+	//함께해요 관리 내가 작성한글 보기 
+	@RequestMapping("/member/bringAllWithBoard.do")
+	@ResponseBody
+	public Map<String,Object> bringAllWith(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithBoard> list = withService.bringAllWithBoard(memberId,cPage,numPerPage);
+		int totalContents = withService.bringAllWithBoardCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringAllWithBoard.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}
+	
+	@RequestMapping("/member/bringAllWithComment.do")
+	@ResponseBody
+	public Map<String,Object> bringAllWithComment(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithComment> list = withService.bringAllWithComment(memberId,cPage,numPerPage);
+		int totalContents = withService.bringAllWithCommentCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringAllWithComment.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}	
+	
+	@RequestMapping("/member/deletedWithBoard.do")
+	@ResponseBody
+	public WithBoard deletedWithBoard(@RequestParam int wbNo) {
+		WithBoard wb = withService.selectOneWith(wbNo);
+		return wb;
+	}
+	
+	@RequestMapping("/member/bringCommentedWith.do")
+	@ResponseBody
+	public Map<String,Object> bringCommentedWith(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithBoard> list = withService.bringCommentedWith(memberId,cPage,numPerPage);
+		int totalContents = withService.bringCommentedWithCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringCommentedWith.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}	
+	
+	@RequestMapping("/member/deleteBringAllWith.do")
+	@ResponseBody
+	public int deleteBringAllWith(@RequestParam(value="checkfordelete[]") List<String> checkfordelete) {
+		int result = 0;
+		System.out.println(checkfordelete.size());
+		if(checkfordelete.size()==0) {
+			result = 1;
+		}else {
+			for(int i=0;i<checkfordelete.size();i++) {
+				System.out.println("여기====="+Integer.parseInt(checkfordelete.get(i))+"=====여기");
+				result = withService.deleteBringAllWith(Integer.parseInt(checkfordelete.get(i)));
+			}			
+		}
+		return result;
+	}
+	
+	@RequestMapping("/member/deleteBringAllWithComment.do")
+	@ResponseBody
+	public int deleteBringAllWithComment(@RequestParam(value="checkStatus[]") List<String> checkStatus) {
+		int result = 0;
+		System.out.println(checkStatus.size());
+		if(checkStatus.size()==0) {
+			result = 1;
+		}else {
+			for(int i=0;i<checkStatus.size();i++) {
+				result = withService.deleteBringAllWithComment(Integer.parseInt(checkStatus.get(i)));
+			}			
+		}
+		return result;
+	}
+	
+	//이메일 수신 동의 페이지 전환
+	@RequestMapping("/member/emailAgree.do")
+	public String emailAgree() {
+		return "member/emailAgree";
+	}
+	
+	//이메일 수신 동의 확인 눌렀을때
+	@RequestMapping("/member/emailAgreeEnd.do")
+	public ModelAndView emailAgreeEnd(@RequestParam Map<String,Object> map,ModelAndView mv, SessionStatus status) {
+//		for(String key : map.keySet()) { 
+//			String value = (String) map.get(key); 
+//			System.out.println(key + " : " + value); 
+//		}
+		
+		Map<String,Object> target = new HashMap<String,Object>();
+		target.put("memberId", (String)map.get("memberId"));
+		if(map.get("emailStatus")==null) {
+			target.put("emailStatus", "N");
+		}else {
+			target.put("emailStatus", "Y");
+		}
+		int result = service.updateEmailStatus(target);
+		if(result>0) {
+			if(!status.isComplete()) {
+				status.setComplete();
+			}
+			mv.addObject("msg", "이메일 수신 동의가 변경되었습니다.");
+			mv.addObject("subMsg","로그인이 해제 됩니다. 다시 로그인해주세요.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/");
+		}else {
+			mv.addObject("msg", "이메일 수신 동의 변경 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/emailAgree.do");
+		}
+			mv.setViewName("common/sweetMsg");
+		
+		return mv;
+
+	}
+	
+	//회원탈퇴 페이지 전환 
+	@RequestMapping("/member/withdraw.do")
+	public String memberWithdraw() {
+		return"member/withdraw";
+	}
+	
+	//memberStatus 전환하기
+	@RequestMapping("/member/withdrawEnd.do")
+	public ModelAndView withdrawEnd(@RequestParam Map<String,Object> map,ModelAndView mv, SessionStatus status) {
+//		for(String key : map.keySet()) { 
+//			String value = (String) map.get(key); 
+//			System.out.println(key + " : " + value); 
+//		}
+		//체크 안하고 넘기면 
+		if(map.get("withdrawChk")==null) {
+			mv.addObject("msg", "회원탈퇴에 동의하지않으셨습니다.");
+			mv.addObject("subMsg","탈퇴하시려면 회원탈퇴 유의사항을 모두 확인하시고, 메종 회원탈퇴에 동의해주세요.");
+			mv.addObject("status","info");
+			mv.addObject("loc", "/member/withdraw.do");
+			mv.setViewName("common/sweetMsg");			
+		}else {
+			//확인 버튼을 누르면 일단 스왈을 띄워줍니다. 
+			mv.addObject("memberId",(String)map.get("memberId"));
+			if(map.get("withdrawCom")==null) {
+				mv.addObject("withdrawCom","");		
+			}else {
+				mv.addObject("withdrawCom",(String)map.get("withdrawCom"));				
+			}
+			mv.setViewName("member/memberStatusMsg");
+		}
+		
+		return mv;
+
+	}
+	
+	//탈퇴 진행용 메소드
+	@RequestMapping("member/memberStatusNo")
+	public ModelAndView memberStatusNo(@RequestParam Map<String,Object> map, SessionStatus status, ModelAndView mv) {
+		Map<String,Object> target = new HashMap<String,Object>();
+		target.put("memberId", (String)map.get("memberId"));
+		if(map.get("withdrawCom")==null) {
+			target.put("withdrawCom", "");
+		}else {
+			target.put("withdrawCom", map.get("withdrawCom"));
+		}	
+		target.put("withdrawChk", "N");
+		
+		//회원테이블에 업데이트 해주고
+		int result = service.updateMemberStatus(target);
+		if(result>0) {
+			//멤버 무덤 테이블에 insert해주기
+			result = service.updateMemberWithdraw(target);
+			if(result>0) {
+				if(!status.isComplete()) {
+					status.setComplete();
+				}
+				mv.setViewName("redirect:/");
+			}else {
+				mv.addObject("msg", "회원 탈퇴 실패!");
+				mv.addObject("subMsg","관리자에게 문의해주세요.");
+				mv.addObject("status","error");
+				mv.addObject("loc", "/member/withdraw.do");
+				mv.setViewName("common/sweetMsg");			
+			}
+		}else {
+			mv.addObject("msg", "회원 탈퇴 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/withdraw.do");
+			mv.setViewName("common/sweetMsg");			
+		}
+		
+		return mv;
+	}
 	
 	
 	

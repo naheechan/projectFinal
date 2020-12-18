@@ -125,7 +125,7 @@
 					<label for="" style="font-weight:bold;">판매자 정보</label>
 					
 					<br>
-					<!-- ${loginMember.emial}, ${loginMmeber.phone}
+					<!-- ${loginMember.email}, ${loginMmeber.phone}
 						DB에 따로 들어가는게 아니라 작성자 데이터 가지고 요리해서 띄워주는거.-->
 					<span><c:out value="이메일 들어가는 자리"/></span>&nbsp;&nbsp; | &nbsp; 
 					<span id="wbPhoneNum"><c:out value="전화번호 들어가는 자리"/></span>

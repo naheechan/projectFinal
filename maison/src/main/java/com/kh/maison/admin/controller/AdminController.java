@@ -16,4 +16,10 @@ public class AdminController {
 	public String adminMain() {
 		return "admin/dashBoard";
 	}
+	
+	//상품재고 관리 페이지 전환 
+	@RequestMapping("/admin/productStock.do")
+	public String adminProductStock() {
+		return "admin/productStock";
+	}
 }

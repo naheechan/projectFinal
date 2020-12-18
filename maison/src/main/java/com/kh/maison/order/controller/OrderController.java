@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.maison.basket.model.service.BasketService;
 import com.kh.maison.basket.model.service.BasketServiceImpl;
 import com.kh.maison.basket.model.vo.Basket;
+import com.kh.maison.mileage.model.service.MileageService;
+import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.order.model.service.OrderService;
 import com.kh.maison.order.model.service.OrderServiceImpl;
 import com.kh.maison.order.model.vo.Order;
@@ -46,6 +48,9 @@ public class OrderController {
 	private ShopCycleService cycleService;
 	
 	private Logger logger = LoggerFactory.getLogger(OrderController.class);
+
+	@Autowired
+	private MileageService mservice;
 	
 	@RequestMapping("/order/orderInsert.do")
 	@ResponseBody
@@ -78,18 +83,28 @@ public class OrderController {
 		o.setSellRequest(sellRequest);
 		o.setDeliRequest(deliRequest);
 		o.setOrderPrice(Integer.parseInt(orderPrice));
-		o.setUseMile(Integer.parseInt(useMile));
+		if(useMile.equals("")) {
+			o.setUseMile(0);
+		}else {
+			o.setUseMile(Integer.parseInt(useMile));		
+		}
 		o.setStackMile(Integer.parseInt(stackMile));
-		o.setTotalPrice(Integer.parseInt(totalPrice));
-		
-		System.out.println(o);
-		
-		
-		
-		
+		if(totalPrice.equals("")) {
+			o.setTotalPrice(Integer.parseInt(orderPrice));
+		}else {
+			o.setTotalPrice(Integer.parseInt(totalPrice));			
+		}
+
 		//마일리지 계산
 		int result=0;
-		int memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-Integer.parseInt(useMile);
+		int memberMileage=0;
+		if(useMile.equals("")) {
+			memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-0;
+		}else {
+			memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-Integer.parseInt(useMile);
+		}
+		
+		
 		
 
 
@@ -103,6 +118,24 @@ public class OrderController {
 		map2.put("memberMileage", memberMileage);
 		map2.put("memberId", memberId);
 		if(result>0) {
+			//마일리지 처리 필요
+			//마일리지 테이블에 마일리지 쌓기(가감)
+			Mileage mil = new Mileage();
+			mil.setMemberId(memberId);
+			mil.setMile(Integer.parseInt(stackMile));
+			mservice.insertBuyMileage(mil);
+
+			//상품 구매시 사용한 적립금 
+			Mileage mil2 = new Mileage();
+			mil2.setMemberId(memberId);
+			if(useMile.equals("")) {
+				mil2.setMile(0);
+			}else {
+				mil2.setMile(-Integer.parseInt(useMile));
+			}
+			mservice.updateUseMileage(mil2);
+			
+			
 			//orderDetail insert
 			for(String a: basketNo) {
 				Basket b=new Basket();
@@ -130,7 +163,7 @@ public class OrderController {
 		
 		return result;
 	}
-	
+	//바로구매
 	@RequestMapping("/order/buy.do")
 	public ModelAndView buy(ModelAndView mv, int productNo, int amount) {
 		
@@ -170,14 +203,26 @@ public class OrderController {
 		o.setSellRequest(sellRequest);
 		o.setDeliRequest(deliRequest);
 		o.setOrderPrice(Integer.parseInt(orderPrice));
-		
-		o.setUseMile(Integer.parseInt(useMile));
+		if(useMile.equals("")) {
+			o.setUseMile(0);
+		}else {
+			o.setUseMile(Integer.parseInt(useMile));		
+		}
 		o.setStackMile(Integer.parseInt(stackMile));
-		o.setTotalPrice(Integer.parseInt(totalPrice));
+		if(totalPrice.equals("")) {
+			o.setTotalPrice(Integer.parseInt(orderPrice));
+		}else {
+			o.setTotalPrice(Integer.parseInt(totalPrice));			
+		}
 		
 		//마일리지 계산
 		int result=0;
-		int memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-Integer.parseInt(useMile);
+		int memberMileage=0;
+		if(useMile.equals("")) {
+			memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-0;
+		}else {
+			memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-Integer.parseInt(useMile);
+		}
 		
 		
 		result=service.insertOrder(o);
@@ -186,7 +231,24 @@ public class OrderController {
 		map2.put("memberMileage", memberMileage);
 		map2.put("memberId", memberId);
 		
+		//마일리지 테이블에 마일리지 쌓기(가감)
+		Mileage mil = new Mileage();
+		mil.setMemberId(memberId);
+		mil.setMile(Integer.parseInt(stackMile));
+		mservice.insertBuyMileage(mil);
+		
+		//상품 구매시 사용한 적립금 
+		Mileage mil2 = new Mileage();
+		mil2.setMemberId(memberId);
+		if(useMile.equals("")) {
+			mil2.setMile(0);
+		}else {
+			mil2.setMile(-Integer.parseInt(useMile));
+		}
+		mservice.updateUseMileage(mil2);
+
 		//상품재고
+
 		
 		Map<String,Object> map3=new HashMap<String, Object>();
 		map3.put("amount", amount);
