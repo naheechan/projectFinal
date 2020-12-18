@@ -33,6 +33,27 @@ public class ShopCycleDaoImpl implements ShopCycleDao {
 	public List<CountCycle> selectCountCycle(SqlSessionTemplate session, String id) {
 		return session.selectList("cycle.selectCountCycle", id);
 	}
+
+	@Override
+	public int selectCycleExist(SqlSessionTemplate session, Map map) {
+		return session.selectOne("cycle.selectCycleExist", map);
+	}
+
+	@Override
+	public int insertCycle(SqlSessionTemplate session, Map map) {
+		return session.insert("cycle.insertCycle", map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectRecentCycle(SqlSessionTemplate session, Map<String, String> map) {
+		return session.selectList("cycle.selectRecentCycle", map);
+	}
+
+	@Override
+	public int updateOnCycle(SqlSessionTemplate session, Map<String, String> map) {
+		return session.update("cycle.updateOnCycle", map);
+	}
+	
 	
 	
 	

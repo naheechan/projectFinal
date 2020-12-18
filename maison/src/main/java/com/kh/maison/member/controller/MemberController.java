@@ -103,8 +103,9 @@ public class MemberController {
 		
 		Member mem = service.selectMemberOne(String.valueOf(map.get("memberId")));
 		logger.debug(mem==null?"null":mem.toString());
-		//비밀번호 다 소문자로 바꿔서 암호화된 비번이랑 비교
-		if(mem!=null && encoder.matches(String.valueOf(map.get("memberPw")).toLowerCase(), mem.getMemberPw())) {
+		
+		//비밀번호 다 소문자로 바꿔서 암호화된 비번이랑 비교 + 탈퇴여부도 확인
+		if(mem!=null && encoder.matches(String.valueOf(map.get("memberPw")).toLowerCase(), mem.getMemberPw()) && "Y".equals(mem.getMemberStatus())) {
 			//이메일 인증 여부
 			if("Y".equals(mem.getAuthStatus())) {
 				logger.debug("로그인 성공");
@@ -330,8 +331,15 @@ public class MemberController {
 			if(mem!=null) {
 				//로그인
 				
-				//이메일 인증 여부
-				if("Y".equals(mem.getAuthStatus())) {
+				//회원탈퇴 여부
+				if(!"Y".equals(mem.getMemberStatus())) {
+					logger.debug("탈퇴회원 로그인 시도");
+					m.addAttribute("msg", "탈퇴한 회원입니다.홈페이지 자체 회원가입을 해주세요.");
+					m.addAttribute("loc", "/member/login");
+					loc = "common/msg";
+					
+				 //이메일 인증 여부
+				}else if("Y".equals(mem.getAuthStatus())) {
 					logger.debug("로그인 성공");
 					//세션처리
 					m.addAttribute("loginMember", mem);

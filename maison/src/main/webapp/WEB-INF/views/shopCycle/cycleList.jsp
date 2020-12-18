@@ -147,11 +147,11 @@
                                                     <button class="btn btn-outline-info" onclick="location.href='${path }/shopCycle/cycleDetail?no=${list.productNo}'">주기 설정하기</button>
                                                     <c:if test="${list.cycleMode eq 'onCycle' }">
                                                   		<c:set var="cycleDay" value="${list.onCycle}" />
-	                                                    <h5>구매주기 : <c:out value="${cycleDay}" />일</h5>                                                
+	                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>                                                
                                                     </c:if>
                                                     <c:if test="${list.cycleMode eq 'offCycle' }">  
 	                                                    <c:set var="cycleDay" value="${list.offCycle}" />
-	                                                    <h5>구매주기 : <c:out value="${cycleDay}" />일</h5>                                               
+	                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>                                               
                                                     </c:if>
                                                     
                                                     <!-- startDate를 밀리세컨드로 변환 -->

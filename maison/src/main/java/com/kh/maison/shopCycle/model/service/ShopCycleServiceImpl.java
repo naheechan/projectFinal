@@ -38,6 +38,27 @@ public class ShopCycleServiceImpl implements ShopCycleService {
 	public List<CountCycle> selectCountCycle(String id) {
 		return dao.selectCountCycle(session, id);
 	}
+
+	@Override
+	public int selectCycleExist(Map map) {
+		return dao.selectCycleExist(session, map);
+	}
+
+	@Override
+	public int insertCycle(Map map) {
+		return dao.insertCycle(session, map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectRecentCycle(Map<String, String> map) {
+		return dao.selectRecentCycle(session, map);
+	}
+
+	@Override
+	public int updateOnCycle(Map<String, String> map) {
+		return dao.updateOnCycle(session, map);
+	}
+	
 	
 	
 	

@@ -12,4 +12,8 @@ public interface ShopCycleService {
 	CycleProduct selectCycleOne(Map<String,String> cycleMap);
 	int updateCycle(Map map);
 	List<CountCycle> selectCountCycle(String id);
+	int selectCycleExist(Map map);
+	int insertCycle(Map map);
+	List<Map<String,String>> selectRecentCycle(Map<String,String> map);
+	int updateOnCycle(Map<String,String> map);
 }

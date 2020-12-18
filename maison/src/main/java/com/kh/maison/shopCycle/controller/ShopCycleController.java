@@ -103,9 +103,33 @@ public class ShopCycleController {
 		//대분류(카테고리 표시용)
 		List<Category> catelist = shopService.selectCategory();
 		
+		//대분류 별 cycle갯수 가져오기
+		List<CountCycle> countCycleList = service.selectCountCycle(mem.getMemberId());
+		//list를 map에 넣기
+		Map<String,Integer> countCycleMap = new HashMap<>();
+		int totalData = 0;
+		
+		for(CountCycle c : countCycleList) {
+			switch(c.getLargeCate()) {
+			case "주방": countCycleMap.put("kitchen", c.getCount()); break;
+			case "욕실": countCycleMap.put("bathroom", c.getCount()); break;
+			case "세탁실": countCycleMap.put("laundry", c.getCount()); break;
+			case "현관": countCycleMap.put("front", c.getCount()); break;
+			case "창고": countCycleMap.put("warehouse", c.getCount()); break;
+			}
+			totalData+=c.getCount();
+		}
+		countCycleMap.put("total", totalData);
+		
+		
+		//구매내역 최근5개만 가져오기
+		cycleMap.put("limit", "5"); //가져올 개수
+		List<Map<String,String>> recentCycleList = service.selectRecentCycle(cycleMap);
 		
 		mv.addObject("product", cycleProduct);
 		mv.addObject("category",catelist);
+		mv.addObject("countCycleMap",countCycleMap);
+		mv.addObject("recentCycleList",recentCycleList);
 		
 		
 		mv.setViewName("shopCycle/cycleDetail");

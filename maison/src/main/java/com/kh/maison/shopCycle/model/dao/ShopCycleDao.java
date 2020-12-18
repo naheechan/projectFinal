@@ -14,4 +14,8 @@ public interface ShopCycleDao {
 	CycleProduct selectCycleOne(SqlSessionTemplate session, Map<String,String> cycleMap);
 	int updateCycle(SqlSessionTemplate session, Map map);
 	List<CountCycle> selectCountCycle(SqlSessionTemplate session, String id);
+	int selectCycleExist(SqlSessionTemplate session, Map map);
+	int insertCycle(SqlSessionTemplate session, Map map);
+	List<Map<String,String>> selectRecentCycle(SqlSessionTemplate session, Map<String,String> map);
+	int updateOnCycle(SqlSessionTemplate session, Map<String,String> map);
 }

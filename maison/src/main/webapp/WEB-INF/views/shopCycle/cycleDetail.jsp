@@ -35,7 +35,7 @@
 	}
 	.cycle {
 		width: 40vh;
-		height: 40vh;
+		height: 45vh;
 		font-size: 3vh;
 		text-align: center;
 		color: white;
@@ -120,7 +120,7 @@
 		                          	
 							<div class="list-group-collapse sub-men">
 								<a class="list-group-item list-group-item-action " href="${path }/shopCycle/cycleList?tab=all">
-									<b>한번에 보기</b>
+									<b>한번에 보기(<c:out value="${countCycleMap.total}"/>)</b>
 								</a>
 							</div>
 								
@@ -132,7 +132,17 @@
 		                    <div class="show" id="sub-men1" data-parent="#list-group-men">
 		                    	<div class="list-group">
 		                     		<c:forEach var="largeCate" items="${category }" varStatus="i">
-										<a href="${path }/shopCycle/cycleList?tab=${largeCate.largeCate }" id="cateSearch" class="list-group-item list-group-item-action <c:if test="${product.largeCate eq largeCate.largeCate}">active</c:if>">${largeCate.largeCate}</a>
+										<a href="${path }/shopCycle/cycleList?tab=${largeCate.largeCate }" id="cateSearch" class="list-group-item list-group-item-action <c:if test="${product.largeCate eq largeCate.largeCate}">active</c:if>">
+											<c:set var="cate" value="${largeCate.largeCate}"/>
+											<c:out value="${cate}" />
+											<c:choose>
+												<c:when test="${cate eq '주방'}"><c:out value="${countCycleMap.kitchen ne null?'('+=countCycleMap.kitchen+=')':''}"/></c:when>
+												<c:when test="${cate eq '세탁실'}"><c:out value="${countCycleMap.laundry ne null?'('+=countCycleMap.laundry+=')':''}"/></c:when>
+												<c:when test="${cate eq '현관'}"><c:out value="${countCycleMap.front ne null?'('+=countCycleMap.front+=')':''}"/></c:when>
+												<c:when test="${cate eq '창고'}"><c:out value="${countCycleMap.warehouse ne null?'('+=countCycleMap.warehouse+=')':''}"/></c:when>
+												<c:when test="${cate eq '욕실'}"><c:out value="${countCycleMap.bathroom ne null?'('+=countCycleMap.bathroom+=')':''}"/></c:when>
+											</c:choose> 
+										</a>
 		                     		</c:forEach>
 		                    	</div>
 		                    </div>
@@ -149,7 +159,7 @@
 				<div class="announce-text rounded">
 					<span>현재 '</span>
 					<span>${product.productName}</span>
-					<span>'의 현재주기는 </span>
+					<span>'의 현재상태는 자동주기계산</span>
 					<span style="color:#FFBB00"><c:out value="${selectedCycle eq 'onCycle'?'ON':'OFF'}"/></span>
 					<span>입니다.</span>
 				</div>
@@ -182,15 +192,18 @@
 						<div class="cycle" id="on-cycle">
 							<!-- text부분 -->
 							<div class="cycleTitle">
-								<span>ON</span>
+								<span>자동주기계산 ON</span>
 							</div>
 							
 							<!-- 해당 주기내용 부분 -->
 							<div class="cycle-content">
 								<!-- 설정된 주기가 몇일인지 -->
 								<div class="marginBottom">
-									<span class="display-3 font-weight-bold underLine">${product.onCycle}</span>
-									<span>일</span>
+									<p>
+										<span class="display-3 font-weight-bold underLine">${product.onCycle}</span>
+										<span>일</span>
+									</p>
+									<span>(상품 1개(set) 기준)</span>
 								</div>
 								<div class="">
 									<span>다음 예상 구매일 :</span>	
@@ -205,15 +218,18 @@
 						<div class="cycle" id="off-cycle">
 							<!-- text부분 -->
 							<div class="cycleTitle">
-								<span>OFF</span>
+								<span>자동주기계산 OFF</span>
 							</div>
 							
 							<!-- 해당 주기내용 부분 -->
 							<div class="cycle-content">
 								<!-- 설정된 주기가 몇일인지 -->
 								<div class="marginBottom">
-									<span class="display-3 font-weight-bold underLine">${product.offCycle}</span>
-									<span>일</span>
+									<p>
+										<span class="display-3 font-weight-bold underLine">${product.offCycle}</span>
+										<span>일</span>
+									</p>
+									<span>(상품 1개(set) 기준)</span>
 								</div>
 								<div class="">
 									<span>다음 예상 구매일 :</span>	
@@ -247,15 +263,15 @@
 								<div class="modal-body">
 									<!-- 필수 부분(주기 선택) -->
 									<div class="marginBottom">
-										<h4>&bull; 주기를 선택하세요(필수사항)</h4>
+										<h4>&bull; 자동주기계산 ON/OFF를 선택하세요(필수사항)</h4>
 										<div class="form-check">
 										 	<label class="form-check-label">
-										   		<input type="radio" class="form-check-input" name="chooseCycle" id="onRadio" value="onCycle" required ${selectedCycle eq 'onCycle'?'checked':''}>ON
+										   		<input type="radio" class="form-check-input" name="chooseCycle" id="onRadio" value="onCycle" required ${selectedCycle eq 'onCycle'?'checked':''}>자동주기계산 ON
 										 	</label>
 										</div>
 										<div class="form-check">
 										 	<label class="form-check-label">
-										   		<input type="radio" class="form-check-input" name="chooseCycle" id="offRadio" value="offCycle" ${selectedCycle eq 'offCycle'?'checked':''}>OFF
+										   		<input type="radio" class="form-check-input" name="chooseCycle" id="offRadio" value="offCycle" ${selectedCycle eq 'offCycle'?'checked':''}>자동주기계산 OFF
 										 	</label>
 										</div>
 										<div class="form-group">
@@ -302,8 +318,27 @@
 				
 				
 				<!-- 구매이력 -->
-				<div class="">
-					<p>구매이력</p>
+				<div class=""> 											<!-- 더보기 버튼은 마이페이지의 구매내역으로 갈거임 -->
+					<h3>&bull; 구매이력(최근 5개) <button class="btn btn-info" >더보기</button></h3>
+					<table class="table table-bordered">
+					    <thead class="thead-light">
+					      <tr>
+					        <th>상품 이름</th>
+					        <th>구매 수량</th>
+					        <th>구매 날짜</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <c:forEach var="rc" items="${recentCycleList}" >
+					      	<tr>
+					      		<td>${product.productName }</td>
+					      		<td>${rc.ODAMOUNT}개</td>
+					      		<td><fmt:formatDate value="${rc.ORDERDATE}" pattern="yyyy년 MM월 dd일"/></td>
+					      		<%-- <td>${rc.ORDERDATE}</td> --%>
+					      	</tr>
+					      </c:forEach>
+					    </tbody>
+				  	</table>
 				</div>
 				
 				

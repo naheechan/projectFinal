@@ -44,8 +44,34 @@
   	</select>
   	
   	
+  	<select id="selectCycleExist" parameterType="map" resultType="_int">
+  		SELECT COUNT(*) FROM CYCLE WHERE MEMBERID=#{id} AND PRODUCTNO=#{no}
+  	</select>
   	
+  	<insert id="insertCycle" parameterType="map">
+  		<selectKey keyProperty="defaultCycle" resultType="_int" order="BEFORE">
+  			SELECT DEFCYCLE FROM PRODUCT WHERE PRODUCTNO=#{no}
+  		</selectKey>
+  		INSERT INTO CYCLE VALUES(#{id},#{no},default,default,default,null,#{defaultCycle},default)
+  	</insert>
   	
+  	<select id="selectRecentCycle" parameterType="map" resultType="map">
+  		SELECT * 
+		FROM (SELECT ROWNUM RNUM, A.*
+		      FROM (SELECT ODAMOUNT, ORDERDATE
+					FROM ORDER_TB OT
+		            JOIN ORDERDETAIL OD
+		            ON OT.ORDERNO=OD.ORDERNO
+		            WHERE MEMBERID=#{id} AND PRODUCTNO=#{no}
+		            ORDER BY OT.ORDERNO DESC) A)
+		WHERE RNUM <![CDATA[<=]]> #{limit}
+  	</select>
+  	
+  	<update id="updateOnCycle" parameterType="map">
+  		UPDATE CYCLE 
+  		SET LASTSTARTDATE=STARTDATE, STARTDATE=SYSDATE, ONCYCLE=#{onCycle}
+  		WHERE MEMBERID=#{id} and PRODUCTNO=#{no}
+  	</update>
   	
   	
   	
