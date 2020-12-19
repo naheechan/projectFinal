@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.adminMypage.product.model.dao.ProductMyAdminDao;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
 
 @Service
 public class ProductMyAdminServiceImpl implements ProductMyAdminService {
@@ -44,13 +45,91 @@ public class ProductMyAdminServiceImpl implements ProductMyAdminService {
 	public int selectTodayCount() {
 		return dao.selectTodayCount(session);
 	}
+	
+	
+	//카테고리
+	@Override
+	public List<MyAdminCate> selectCateList(int cPage, int numPerPage) {
+		return dao.selectCateList(session,cPage,numPerPage);
+	}
 
+	@Override
+	public int selectTotalCateCount() {
+		return dao.selectTotalCateCount(session);
+	}
 
+	@Override
+	public int largeCateCount() {
+		return dao.largeCateCount(session);
+	}
+
+	@Override
+	public int mediCateCount() {
+		return dao.mediCateCount(session);
+	}
+
+	@Override
+	public int todayEnrollCount() {
+		return dao.todayEnrollCount(session);
+	}
+
+	@Override
+	public List<Category> selectLargeCateList() {
+		return dao.selectLargeCateList(session);
+	}
+
+	@Override
+	public List<Category> selectMediCateList() {
+		return dao.selectMediCateList(session);
+	}
+
+	@Override
+	public List<Category> selectNewOneCate() {
+		return dao.selectNewOneCate(session);
+	}
+
+	@Override
+	public List<MyAdminCate> selectListInMedi(Map<String,Object> param) {
+		return dao.selectListInMedi(session,param);
+	}
+
+	@Override
+	public List<Category> cateView(String val) {
+		return dao.cateView(session,val);
+	}
+
+	@Override
+	public Category cateNameCheck(String name) {
+		return dao.cateNameCheck(session,name);
+	}
+
+	@Override
+	public int updateCate(Map<String, Object> param) {
+		return dao.updateCate(session,param);
+	}
+
+	@Override
+	public int insertCate(Map<String, Object> param) {
+		return dao.insertCate(session,param);
+	}
+
+	@Override
+	public int deleteCate(String id) {
+		return dao.deleteCate(session, id);
+	}
+
+	@Override
+	public List<MyAdminCate> searchDate(Map<String, Object> param) {
+		return dao.searchDate(session,param);
+	}
+
+	
 	
 //	@Override
 //	public List<ProductCate> searchNameProduct(Map<String, Object> param) {
 //		return dao.searchNameProduct(session,param);
 //	}
+	
 	
 	
 }

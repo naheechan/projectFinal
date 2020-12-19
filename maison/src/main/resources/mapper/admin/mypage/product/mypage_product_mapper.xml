@@ -47,5 +47,73 @@
 	</choose>
 </select> -->
 
+<!-- 카테고리 -->
+<select id="selectCateList" resultType="adminCate">
+	SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE
+</select>
 
+<select id="selectTotalCateCount" resultType="_int">
+	SELECT COUNT(*) FROM MEDIUMCATE
+</select>
+
+<select id="largeCateCount" resultType="_int">
+	SELECT COUNT(DISTINCT LARGECATE) FROM MEDIUMCATE
+</select>
+
+<select id="mediCateCount" resultType="_int">
+	SELECT COUNT(DISTINCT MCNAME) FROM MEDIUMCATE
+</select>
+
+<select id="todayEnrollCount" resultType="_int">
+	SELECT COUNT(*) FROM MEDIUMCATE WHERE TO_CHAR(ENROLLCATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+</select>
+
+<select id="selectLargeCateList" resultType="category">
+	SELECT DISTINCT LARGECATE FROM MEDIUMCATE
+</select>
+
+<select id="selectMediCateList" resultType="category">
+	SELECT DISTINCT MEDIUMCATE ,MCNAME, LARGECATE FROM MEDIUMCATE
+</select>
+
+<select id="selectNewOneCate" resultType="category">
+	SELECT MCNAME FROM MEDIUMCATE WHERE TO_CHAR(ENROLLCATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+</select>
+
+<select id="selectListInMedi" resultType="adminCate" parameterType="map">
+SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE
+<choose>
+<when test='largeCate!=null and largeCate!=""'>
+	 AND LARGECATE LIKE #{largeCate}
+</when>
+<otherwise>
+	AND MCNAME LIKE #{mcName}
+</otherwise>
+</choose>
+</select>
+
+<select id="cateView" resultType="category" parameterType="String">
+	SELECT * FROM MEDIUMCATE WHERE MEDIUMCATE=#{value}
+</select>
+
+<update id="updateCate" parameterType="map">
+	UPDATE MEDIUMCATE SET MCNAME=#{mcName}, LARGECATE=#{largeCate} WHERE MEDIUMCATE=#{mediumCate}
+</update>
+
+<select id="cateNameCheck" resultType="category" parameterType="String">
+	SELECT MCNAME FROM MEDIUMCATE WHERE MCNAME=#{name}
+</select>
+
+<insert id="insertCate" parameterType="map">
+	INSERT INTO MEDIUMCATE VALUES((SELECT NVL(MAX(MEDIUMCATE)+1,0) FROM MEDIUMCATE),#{mcName},#{largeCate},SYSDATE)
+</insert>
+
+<delete id="deleteCate" parameterType="String">
+	DELETE FROM MEDIUMCATE WHERE MEDIUMCATE=TO_NUMBER(#{id})
+</delete>
+
+<select id="searchDate" resultType="adminCate" parameterType="map">
+	SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE
+	AND M.ENROLLCATE BETWEEN #{one} AND #{two}
+</select>
 </mapper>
