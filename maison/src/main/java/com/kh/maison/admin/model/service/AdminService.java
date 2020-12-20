@@ -1,5 +1,10 @@
 package com.kh.maison.admin.model.service;
 
+import java.util.List;
+
+import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.shop.model.vo.Request;
+
 public interface AdminService {
 	
 	//productStock.jsp 첫번째 div에 들어갈 값들 가져오는 메소드
@@ -12,4 +17,16 @@ public interface AdminService {
 	int selectSecondChange(int sendNum);
 	int selectSecondIn(int sendNum);
 	int selectSecondOut(int sendNum);
+	
+	//productStock.jsp 세번째 div에 들어갈 값들 가져오는 메소드
+	List<ProductStock> bringThirdList(int cPage,int numPerPage);
+	int bringThirdCount();
+	
+	//productRequest.jsp에 들어갈 데이터
+	List<Request> selectAllRequest(int cPage,int numPerPage,String requestStatus);
+	int selectAllRequestCount(String requestStatus);
+	
+	//productRequest 세부 데이터 보여주는 작은창
+	Request selectOneRequest(int no);
+	
 }

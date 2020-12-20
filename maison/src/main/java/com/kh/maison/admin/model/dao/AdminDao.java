@@ -1,6 +1,11 @@
 package com.kh.maison.admin.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
+
+import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.shop.model.vo.Request;
 
 public interface AdminDao {
 	
@@ -15,4 +20,15 @@ public interface AdminDao {
 	int selectSecondIn(SqlSessionTemplate session,int sendNum);
 	int selectSecondOut(SqlSessionTemplate session,int sendNum);
 	
+	//productStock.jsp 세번째 div데이터 가져오기
+	List<ProductStock> bringThirdList(SqlSessionTemplate session,int cPage,int numPerPage);
+	int bringThirdCount(SqlSessionTemplate session);
+	
+	//productRequest.jsp 데이터 가져오기
+	List<Request> selectAllRequest(SqlSessionTemplate session,int cPage,int numPerPage,String requestStatus);
+	int selectAllRequestCount(SqlSessionTemplate session,String requestStatus);
+	
+	//productRequest view 보기
+	Request selectOneRequest(SqlSessionTemplate session,int no);
+
 }

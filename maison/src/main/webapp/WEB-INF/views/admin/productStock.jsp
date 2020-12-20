@@ -37,6 +37,7 @@
   <link rel="stylesheet" href="${path }/resources/admin/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${path }/resources/admin/images/favicon.png" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 <div class="container-scroller">
@@ -109,28 +110,28 @@
 		                          <i class="mdi mdi-basket mr-3 icon-lg" style="color:#4d83ff;"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">현재 총 재고</small>
-		                            <h5 class="mr-2 mb-0" id="totalStock7">$577545</h5>
+		                            <h5 class="mr-2 mb-0" id="totalStock7"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-contrast mr-3 icon-lg text-success"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">재고 변동</small>
-		                            <h5 class="mr-2 mb-0" id="changeStock7">9833550</h5>
+		                            <h5 class="mr-2 mb-0" id="changeStock7"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-basket-fill mr-3 icon-lg text-warning"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">입고량</small>
-		                            <h5 class="mr-2 mb-0" id="inStock7">2233783</h5>
+		                            <h5 class="mr-2 mb-0" id="inStock7"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-basket-unfill mr-3 icon-lg text-danger"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">출고량</small>
-		                            <h5 class="mr-2 mb-0" id="outStock7">3497843</h5>
+		                            <h5 class="mr-2 mb-0" id="outStock7"></h5>
 		                          </div>
 		                        </div>
 		                      </div>
@@ -154,28 +155,28 @@
 		                          <i class="mdi mdi-basket mr-3 icon-lg text-success"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">현재 총 재고</small>
-		                            <h5 class="mr-2 mb-0" id="totalStock30">2233783</h5>
+		                            <h5 class="mr-2 mb-0" id="totalStock30"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-contrast mr-3 icon-lg text-warning"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">재고변동</small>
-		                            <h5 class="mr-2 mb-0" id="changeStock30">9833550</h5>
+		                            <h5 class="mr-2 mb-0" id="changeStock30"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-basket-fill mr-3 icon-lg text-danger"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">입고량</small>
-		                            <h5 class="mr-2 mb-0" id="inStock30">$577545</h5>
+		                            <h5 class="mr-2 mb-0" id="inStock30"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-basket-unfill mr-3 icon-lg" style="color:#4d83ff;"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">출고량</small>
-		                            <h5 class="mr-2 mb-0" id="outStock30">3497843</h5>
+		                            <h5 class="mr-2 mb-0" id="outStock30"></h5>
 		                          </div>
 		                        </div>
 		                      </div>
@@ -199,28 +200,28 @@
 		                          <i class="mdi mdi-basket mr-3 icon-lg text-warning"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">현재 총 재고</small>
-		                            <h5 class="mr-2 mb-0" id="totalStock365">$577545</h5>
+		                            <h5 class="mr-2 mb-0" id="totalStock365"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-contrast mr-3 icon-lg text-danger"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">재고변동</small>
-		                            <h5 class="mr-2 mb-0" id="changeStock365">9833550</h5>
+		                            <h5 class="mr-2 mb-0" id="changeStock365"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-basket-fill mr-3 icon-lg" style="color:#4d83ff;"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">입고량</small>
-		                            <h5 class="mr-2 mb-0" id="inStock365">2233783</h5>
+		                            <h5 class="mr-2 mb-0" id="inStock365"></h5>
 		                          </div>
 		                        </div>
 		                        <div class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
 		                          <i class="mdi mdi-basket-unfill mr-3 icon-lg text-success"></i>
 		                          <div class="d-flex flex-column justify-content-around">
 		                            <small class="mb-1 text-muted">출고량</small>
-		                            <h5 class="mr-2 mb-0" id="outStock365">3497843</h5>
+		                            <h5 class="mr-2 mb-0" id="outStock365"></h5>
 		                          </div>
 		                        </div>
 		                      </div>
@@ -249,10 +250,12 @@
 		          <!-- 3번 row div 끝 -->
 		          <!-- 네번째 row div 시작 -->
 				  <div class="row">
+		
 		            <div class="col-md-12 stretch-card">
 		              <div class="card">
 		                <div class="card-body">
-		                  <p class="card-title">Recent Purchases</p>
+		                  <p class="card-title">상품 재고 변동</p>
+			              <br/>
 		                  <div class="table-responsive">
 		                    <table id="recent-purchases-listing" class="table">
 		                      <thead>
@@ -265,73 +268,37 @@
 		                            <th>재고변동수량</th>
 		                        </tr>
 		                      </thead>
-		                      <tbody>
-		                        <tr>
-		                            <td>Jeremy Ortega</td>
-		                            <td>Levelled up</td>
-		                            <td>Catalinaborough</td>
-		                            <td>$790</td>
-		                            <td>06 Jan 2018</td>
-		                            <td>$2274253</td>
-		                        </tr>
-		                        <tr>
-		                            <td>Alvin Fisher</td>
-		                            <td>Ui design completed</td>
-		                            <td>East Mayra</td>
-		                            <td>$23230</td>
-		                            <td>18 Jul 2018</td>
-		                            <td>$83127</td>
-		                        </tr>
-		                        <tr>
-		                            <td>Emily Cunningham</td>
-		                            <td>support</td>
-		                            <td>Makennaton</td>
-		                            <td>$939</td>
-		                            <td>16 Jul 2018</td>
-		                            <td>$29177</td>
-		                        </tr>
-		                        <tr>
-		                            <td>Minnie Farmer</td>
-		                            <td>support</td>
-		                            <td>Agustinaborough</td>
-		                            <td>$30</td>
-		                            <td>30 Apr 2018</td>
-		                            <td>$44617</td>
-		                        </tr>
-		                        <tr>
-		                            <td>Betty Hunt</td>
-		                            <td>Ui design not completed</td>
-		                            <td>Lake Sandrafort</td>
-		                            <td>$571</td>
-		                            <td>25 Jun 2018</td>
-		                            <td>$78952</td>
-		                        </tr>
-		                        <tr>
-		                            <td>Myrtie Lambert</td>
-		                            <td>Ui design completed</td>
-		                            <td>Cassinbury</td>
-		                            <td>$36</td>
-		                            <td>05 Nov 2018</td>
-		                            <td>$36422</td>
-		                        </tr>
-		                        <tr>
-		                            <td>Jacob Kennedy</td>
-		                            <td>New project</td>
-		                            <td>Cletaborough</td>
-		                            <td>$314</td>
-		                            <td>12 Jul 2018</td>
-		                            <td>$34167</td>
-		                        </tr>
-		                        <tr>
-		                            <td>Ernest Wade</td>
-		                            <td>Levelled up</td>
-		                            <td>West Fidelmouth</td>
-		                            <td>$484</td>
-		                            <td>08 Sep 2018</td>
-		                            <td>$50862</td>
-		                        </tr>
-		                      </tbody>
+		                      <tbody id="recent-purchases-tbody">
+		                      	<c:if test="${not empty list }">
+		                      		<c:forEach items="${list }" var="l" varStatus="vs">
+		                      			<tr>
+		                      				<td><c:out value="${l.productNo }"/></td>
+		                      				<td><c:out value="${l.productName }"/></td>
+		                      				<td>
+		                      					<c:choose>
+												        <c:when test="${fn:length(l.productSummary) gt 26}">
+												        <c:out value="${fn:substring(l.productSummary, 0, 25)}">...
+												        </c:out></c:when>
+												        <c:otherwise>
+												        <c:out value="${l.productSummary}">
+												        </c:out></c:otherwise>
+												</c:choose>
+		                      				</td>
+		                      				<td><c:out value="${l.productStock }"/></td>
+		                      				
+		                      				<c:set var="dateTempParse"><fmt:formatDate pattern="yyyy-MM-dd" value="${l.pcDate }"/></c:set>
+		                      				
+		                      				<td><c:out value="${dateTempParse }"/></td>
+		                      				<td><c:out value="${l.pcAmount }"/></td>
+		                      			</tr>
+		                      		</c:forEach>
+		                      	</c:if>
+	                      	  </tbody>
 		                    </table>
+		                  </div>
+		                  <br>
+		                  <div id="pageBar">
+		                  	${pageBar }
 		                  </div>
 		                </div>
 		              </div>

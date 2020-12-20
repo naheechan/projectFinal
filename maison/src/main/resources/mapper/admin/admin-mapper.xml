@@ -5,25 +5,25 @@
  		SELECT * FROM PRODUCT
  	</select>
  	
- 	<select id="selectFirstTotal" parameterType="_int" resultType="_int">
+ 	<select id="selectFirstTotal" parameterType="Integer" resultType="Integer">
  		SELECT SUM(PRODUCTSTOCK)
  		FROM PRODUCT
  	</select>
 
-	<select id="selectFirstChange" parameterType="_int" resultType="_int">
+	<select id="selectFirstChange" parameterType="Integer" resultType="Integer">
 		SELECT SUM(PCAMOUNT)
 		FROM PRODUCTCHANGES
 		WHERE PCDATE&gt;(SYSDATE-#{numDate})
 	</select>
 	
-	<select id="selectFirstIn" parameterType="_int" resultType="_int">
+	<select id="selectFirstIn" parameterType="Integer" resultType="Integer">
 		SELECT SUM(PCAMOUNT)
 		FROM PRODUCTCHANGES
 		WHERE PCDATE&gt;(SYSDATE-#{numDate})
 		AND PCAMOUNT&gt;0
 	</select>
 	
-	<select id="selectFirstOut" parameterType="_int" resultType="_int">
+	<select id="selectFirstOut" parameterType="Integer" resultType="Integer">
 		SELECT SUM(PCAMOUNT)
 		FROM PRODUCTCHANGES
 		WHERE PCDATE&gt;(SYSDATE-#{numDate})
@@ -48,5 +48,43 @@
 		FROM PRODUCTCHANGES
 		WHERE TO_DATE(PCDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
 		AND PCAMOUNT&lt;0	
+	</select>
+	
+	<select id="selectThirdList" resultType="com.kh.maison.admin.model.vo.ProductStock">
+		SELECT P.PRODUCTNO, P.PRODUCTNAME,P.PRODUCTSUMMARY,
+               P.PRODUCTIMG, P.PRODUCTSTOCK,C.PCAMOUNT,C.PCDATE
+        FROM PRODUCT P, PRODUCTCHANGES C
+        WHERE P.PRODUCTNO = C.PRODUCTNO
+        ORDER BY PCDATE DESC
+	</select>
+	
+	<select id="selectThirdCount" resultType="Integer">
+		SELECT COUNT(*) 
+        FROM PRODUCTCHANGES
+	</select>
+	
+	<select id="selectAllRequest" resultType="Request" parameterType="String">
+		<if test="!_parameter.equals('')">
+			SELECT * FROM REQUEST
+			WHERE REQUESTSTATUS=#{requestStatus}
+		</if>
+		<if test="_parameter.equals('')">
+			SELECT * FROM REQUEST
+		</if>
+	</select>
+	
+	<select id="selectAllRequestCount" resultType="Integer" parameterType="String">
+		<if test="!_parameter.equals('')">
+			SELECT COUNT(*) FROM REQUEST
+			WHERE REQUESTSTATUS=#{requestStatus}
+		</if>
+		<if test="_parameter.equals('')">
+			SELECT COUNT(*) FROM REQUEST
+		</if>		
+	</select>
+	
+	<select id="selectOneRequest" parameterType="_int" resultType="Request">
+		SELECT * FROM REQUEST
+		WHERE REQUESTNO=#{no}
 	</select>
 </mapper>
