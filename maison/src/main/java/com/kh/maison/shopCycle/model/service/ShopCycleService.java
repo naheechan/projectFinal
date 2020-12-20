@@ -16,4 +16,5 @@ public interface ShopCycleService {
 	int insertCycle(Map map);
 	List<Map<String,String>> selectRecentCycle(Map<String,String> map);
 	int updateOnCycle(Map<String,String> map);
+	int selectProductNo(Map<String,String> map);
 }

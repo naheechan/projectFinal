@@ -70,6 +70,8 @@
 
 
 <!-- 각 주기별 다음 구매예상 날짜 구하기 -->
+<!-- 직전에 구매한 상품 갯수 -->
+<c:set var="odAmount" value="${product.odAmount}" />
 <!-- startDate를 밀리세컨드로 변환 -->
 <fmt:parseNumber var="startDate_M" value="${product.startDate.time}"/>
 <!-- 변수를 스크립틀릿에서 사용하기 위해서 c:set으로 저장 -->
@@ -78,6 +80,9 @@
 <c:set var="onCycleDay" value="${product.onCycle}" />
 <c:set var="offCycleDay" value="${product.offCycle}" />
 <%
+	//직전에 구매한 상품의 갯수
+	int amount = Integer.parseInt(String.valueOf(pageContext.getAttribute("odAmount")));
+
 	//주기(day)를 int변수에 넣어줌
 	int onCycleDay = Integer.parseInt(String.valueOf(pageContext.getAttribute("onCycleDay")));
 	int offCycleDay = Integer.parseInt(String.valueOf(pageContext.getAttribute("offCycleDay")));
@@ -91,11 +96,11 @@
 	Calendar calToday = Calendar.getInstance(); //지금 현재 날짜
 	//오늘보다 다음구매예상일이 더 커질때까지 더함.
 	do{
-		onCal.add(Calendar.DATE, onCycleDay);
+		onCal.add(Calendar.DATE, onCycleDay*amount);
 	}while(onCal.getTimeInMillis() < calToday.getTimeInMillis());
 	
 	do{
-		offCal.add(Calendar.DATE, offCycleDay);
+		offCal.add(Calendar.DATE, offCycleDay*amount);
 	}while(offCal.getTimeInMillis() < calToday.getTimeInMillis());
 
 	Date onStartDa = new Date(onCal.getTimeInMillis());

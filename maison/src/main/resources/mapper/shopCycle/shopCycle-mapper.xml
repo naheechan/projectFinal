@@ -3,11 +3,24 @@
 <mapper namespace="cycle">
 	
 	<select id="selectCycleList" resultType="cycleProduct" parameterType="map">
+		<!-- SELECT * 
+		FROM CYCLE C 
+		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
+		ON C.PRODUCTNO=PM.PRODUCTNO 
+		WHERE MEMBERID=#{id}  -->
 		SELECT * 
 		FROM CYCLE C 
 		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
 		ON C.PRODUCTNO=PM.PRODUCTNO 
-		WHERE MEMBERID=#{id} 
+		JOIN (SELECT PRODUCTNO, ODAMOUNT FROM ORDERDETAIL WHERE ORDERDETAILNO IN (
+		                SELECT MAX(OD.ORDERDETAILNO)
+		                FROM ORDER_TB OT
+		                JOIN ORDERDETAIL OD
+		                ON OT.ORDERNO=OD.ORDERNO
+		                WHERE OT.ORDERSTATUS IN ('a','b','c') 
+		                GROUP BY OD.PRODUCTNO)) O
+		ON C.PRODUCTNO=O.PRODUCTNO
+		WHERE C.MEMBERID=#{id}
 		<if test="tab != null">
 			AND LARGECATE=#{tab}
 		</if>
@@ -17,11 +30,24 @@
 	</select>
   
   	<select id="selectCycleOne" resultType="cycleProduct" parameterType="map">
-  		SELECT * 
+  		<!-- SELECT * 
   		FROM CYCLE C 
   		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
   		ON C.PRODUCTNO=PM.PRODUCTNO 
-  		WHERE MEMBERID=#{id} AND C.PRODUCTNO=#{no}
+  		WHERE MEMBERID=#{id} AND C.PRODUCTNO=#{no} -->
+  		SELECT * 
+		FROM CYCLE C 
+		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
+		ON C.PRODUCTNO=PM.PRODUCTNO 
+		JOIN (SELECT PRODUCTNO, ODAMOUNT FROM ORDERDETAIL WHERE ORDERDETAILNO IN (
+		                SELECT MAX(OD.ORDERDETAILNO)
+		                FROM ORDER_TB OT
+		                JOIN ORDERDETAIL OD
+		                ON OT.ORDERNO=OD.ORDERNO
+		                WHERE OT.ORDERSTATUS IN ('a','b','c') 
+		                GROUP BY OD.PRODUCTNO)) O
+		ON C.PRODUCTNO=O.PRODUCTNO
+		WHERE C.MEMBERID=#{id} AND C.PRODUCTNO=#{no}
   	</select>
   	
   	<update id="updateCycle">
@@ -45,7 +71,7 @@
   	
   	
   	<select id="selectCycleExist" parameterType="map" resultType="_int">
-  		SELECT COUNT(*) FROM CYCLE WHERE MEMBERID=#{id} AND PRODUCTNO=#{no}
+  			SELECT COUNT(*) FROM CYCLE WHERE MEMBERID=#{id} AND PRODUCTNO=#{no}
   	</select>
   	
   	<insert id="insertCycle" parameterType="map">
@@ -62,7 +88,7 @@
 					FROM ORDER_TB OT
 		            JOIN ORDERDETAIL OD
 		            ON OT.ORDERNO=OD.ORDERNO
-		            WHERE MEMBERID=#{id} AND PRODUCTNO=#{no}
+		            WHERE MEMBERID=#{id} AND PRODUCTNO=#{no} AND (ORDERSTATUS IN ('a','b','c'))
 		            ORDER BY OT.ORDERNO DESC) A)
 		WHERE RNUM <![CDATA[<=]]> #{limit}
   	</select>
@@ -73,7 +99,11 @@
   		WHERE MEMBERID=#{id} and PRODUCTNO=#{no}
   	</update>
   	
-  	
+  	<select id="selectProductNo" parameterType="map" resultType="_int">
+  		SELECT PRODUCTNO
+		FROM BASKET
+		WHERE BASKETNO=#{basketno} AND MEMBERID=#{id}
+  	</select>
   	
   	
   	

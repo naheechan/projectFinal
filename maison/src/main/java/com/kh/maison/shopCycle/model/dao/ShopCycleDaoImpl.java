@@ -53,6 +53,11 @@ public class ShopCycleDaoImpl implements ShopCycleDao {
 	public int updateOnCycle(SqlSessionTemplate session, Map<String, String> map) {
 		return session.update("cycle.updateOnCycle", map);
 	}
+
+	@Override
+	public int selectProductNo(SqlSessionTemplate session, Map<String, String> map) {
+		return session.selectOne("cycle.selectProductNo", map);
+	}
 	
 	
 	

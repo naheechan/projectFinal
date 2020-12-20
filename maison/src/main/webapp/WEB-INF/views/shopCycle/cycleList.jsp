@@ -147,19 +147,23 @@
                                                     <button class="btn btn-outline-info" onclick="location.href='${path }/shopCycle/cycleDetail?no=${list.productNo}'">주기 설정하기</button>
                                                     <c:if test="${list.cycleMode eq 'onCycle' }">
                                                   		<c:set var="cycleDay" value="${list.onCycle}" />
-	                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>                                                
+	                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>
                                                     </c:if>
                                                     <c:if test="${list.cycleMode eq 'offCycle' }">  
 	                                                    <c:set var="cycleDay" value="${list.offCycle}" />
 	                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>                                               
                                                     </c:if>
                                                     
+                                                    <!-- 직전에 구매한 상품 갯수 -->
+                                                    <c:set var="odAmount" value="${list.odAmount}" />
                                                     <!-- startDate를 밀리세컨드로 변환 -->
                                                     <fmt:parseNumber var="startDate_M" value="${list.startDate.time}"/>
                                                    	<!-- 변수를 스크립틀릿에서 사용하기 위해서 c:set으로 저장 -->
                                                     <c:set var="startDa" value="${startDate_M}" />
-                                                 	
                                                     <%
+                                                    	//직전에 구매한 상품의 갯수
+                                                    	int amount = Integer.parseInt(String.valueOf(pageContext.getAttribute("odAmount")));
+                                                    	
                                                     	//주기(day)를 int변수에 넣어줌
                                                     	int cycleDay = Integer.parseInt(String.valueOf(pageContext.getAttribute("cycleDay")));
                                                     	//startDate를 Calendar를 이용해서 주기(day)를 더하면 다음 구매예상일 날짜 구해짐
@@ -170,7 +174,7 @@
                                                     	Calendar calToday = Calendar.getInstance(); //지금 현재 날짜
                                                     	//오늘보다 다음구매예상일이 더 커질때까지 더함.
                                                     	do{
-                                                    		cal.add(Calendar.DATE, cycleDay);
+                                                    		cal.add(Calendar.DATE, cycleDay*amount);
                                                     	}while(cal.getTimeInMillis() < calToday.getTimeInMillis());
                                                     	
                                                     	startDa = new Date(cal.getTimeInMillis());

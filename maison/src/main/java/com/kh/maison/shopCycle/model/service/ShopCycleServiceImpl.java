@@ -58,6 +58,11 @@ public class ShopCycleServiceImpl implements ShopCycleService {
 	public int updateOnCycle(Map<String, String> map) {
 		return dao.updateOnCycle(session, map);
 	}
+
+	@Override
+	public int selectProductNo(Map<String, String> map) {
+		return dao.selectProductNo(session, map);
+	}
 	
 	
 	

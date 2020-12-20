@@ -4,4 +4,23 @@
  	<select id="selectProductList" resultType="com.kh.maison.shop.vo.Product">
  		SELECT * FROM PRODUCT
  	</select>
+ 	
+ 	<select id="selectAllCycleList" resultType="cycleAdmin">
+ 		SELECT M.EMAIL, M.MEMBERNAME, C.*, R.ODAMOUNT
+		FROM MEMBER M 
+		JOIN CYCLE C 
+		ON M.MEMBERID=C.MEMBERID
+		JOIN (SELECT ORDERDETAILNO, ORDERNO, A.PRODUCTNO, ODAMOUNT, MEMBERID
+		          FROM ORDERDETAIL A
+		          JOIN (SELECT PRODUCTNO, MEMBERID, MAX(ORDERDETAILNO) MAXDETAILNO FROM ORDERDETAIL OD JOIN ORDER_TB OT ON OD.ORDERNO=OT.ORDERNO
+		          WHERE ORDERSTATUS IN ('a','b','c') AND (MEMBERID, PRODUCTNO) IN (SELECT C.MEMBERID, C.PRODUCTNO
+                                                                                   FROM MEMBER M 
+                                                                                   JOIN CYCLE C 
+                                                                                   ON M.MEMBERID=C.MEMBERID
+                                                                                   WHERE EMAILSTATUS='Y' AND ALERTSTATUS='Y')
+		          GROUP BY PRODUCTNO, MEMBERID) B
+		          ON A.ORDERDETAILNO=B.MAXDETAILNO) R
+		ON C.MEMBERID=R.MEMBERID AND C.PRODUCTNO=R.PRODUCTNO
+ 	</select>
+ 	
 </mapper>

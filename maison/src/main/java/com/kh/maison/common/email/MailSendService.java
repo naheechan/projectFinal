@@ -111,4 +111,42 @@ public class MailSendService {
 	}
 	
 	
+	public int sendCycleEmail(String email, String memberName, int productNo, String productName) {
+		int result = 0;
+		try {
+			MailUtils sendMail = new MailUtils(mailSender);
+			sendMail.setSubject("MAISON "+productName+" 재구매 알림");
+//			sendMail.setText(new StringBuffer().append("<img src='https://littledeep.com/wp-content/uploads/2019/04/littledeep_house_style2.png' alt='img' />")
+			sendMail.setText(new StringBuffer().append("<img src='https://postfiles.pstatic.net/MjAyMDEyMTlfMzAg/MDAxNjA4Mzg3MDk5NzI3.aIIMwG_iLClsj6bO9_O_QQZKAyhC9msQHZfvP6FZJ0Ag.d0f-FKVaj5QAbRfOV5r92aAzmjWYysh22HNWbAdwQOgg.PNG.nhchihi/logo.png?type=w773' alt='img' />")
+					.append("<h1>MAISON 쇼핑시계 알림 서비스</h1>")
+					.append("<p>"+memberName+"님 반갑습니다.</p>")
+					.append("<p>항상 저희 MAISON을 이용해주셔서 감사합니다.</p>")
+					.append("<p>고객님께서 지난번에 주문하셨던 "+productName+"을(를) 거의 다 사용하시지 않았나요?</p>")
+					.append("<p>아래 상품을 클릭하시면 해당 제품으로 연결됩니다.</p>")
+					
+					.append("<a href='http://localhost:9090/maison/shop/shopDetail.do/?no=")
+					.append(productNo)
+					.append("' target='_blenk'>")
+					.append("<img src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80' alt='img' />")
+					.append("</a>")
+					
+					.append("<a href='http://localhost:9090/maison/shop/shopDetail.do/?no=")
+					.append(productNo)
+					.append("' target='_blenk'>"+productName+"</a>")
+					
+					.toString());
+			sendMail.setForm("maisonRclass@gmail.com", "MAISON");
+			sendMail.setTo(email);
+			sendMail.send();
+			result = 1;
+		}catch(MessagingException e) {
+			e.printStackTrace();
+		}catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
 }
