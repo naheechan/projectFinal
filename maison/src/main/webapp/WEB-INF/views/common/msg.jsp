@@ -15,12 +15,12 @@
 <body>
 
 	<script>
-	
+
     swal("${msg }")
     .then((value)=>{      
        location.replace('${pageContext.request.contextPath }${loc}');
     });
-		location.replace('${pageContext.request.contextPath }${loc}');
+	
 
 	</script>
 
