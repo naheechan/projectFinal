@@ -17970,6 +17970,10 @@ a.text-light:hover, a.text-light:focus {
   color: #cbd3da !important;
 }
 
+.text-blue{
+	color: #4d83ff !important;
+}
+
 .text-dark {
   color: #282f3a !important;
 }

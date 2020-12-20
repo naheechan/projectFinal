@@ -4,4 +4,49 @@
  	<select id="selectProductList" resultType="com.kh.maison.shop.vo.Product">
  		SELECT * FROM PRODUCT
  	</select>
+ 	
+ 	<select id="selectFirstTotal" parameterType="_int" resultType="_int">
+ 		SELECT SUM(PRODUCTSTOCK)
+ 		FROM PRODUCT
+ 	</select>
+
+	<select id="selectFirstChange" parameterType="_int" resultType="_int">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE PCDATE&gt;(SYSDATE-#{numDate})
+	</select>
+	
+	<select id="selectFirstIn" parameterType="_int" resultType="_int">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE PCDATE&gt;(SYSDATE-#{numDate})
+		AND PCAMOUNT&gt;0
+	</select>
+	
+	<select id="selectFirstOut" parameterType="_int" resultType="_int">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE PCDATE&gt;(SYSDATE-#{numDate})
+		AND PCAMOUNT&lt;0
+	</select>
+	
+	<select id="selectSecondChange" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE TO_DATE(PCDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
+	</select>
+	
+	<select id="selectSecondIn" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE TO_DATE(PCDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
+		AND PCAMOUNT&gt;0	
+	</select>
+	
+	<select id="selectSecondOut" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE TO_DATE(PCDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
+		AND PCAMOUNT&lt;0	
+	</select>
 </mapper>

@@ -14,5 +14,54 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	private AdminDao dao;
+
+	@Override
+	public int selectFirstTotal(int numDate) {
+		// TODO Auto-generated method stub
+		int result = dao.selectFirstTotal(session,numDate);
+		return result;
+	}
+
+	@Override
+	public int selectFirstChange(int numDate) {
+		// TODO Auto-generated method stub
+		int result = dao.selectFirstChange(session,numDate);
+		return result;
+	}
+
+	@Override
+	public int selectFirstIn(int numDate) {
+		// TODO Auto-generated method stub
+		int result = dao.selectFirstIn(session,numDate);
+		return result;
+	}
+
+	@Override
+	public int selectFirstOut(int numDate) {
+		// TODO Auto-generated method stub
+		int result = dao.selectFirstOut(session,numDate);
+		return result;
+	}
+
+	@Override
+	public int selectSecondChange(int sendNum) {
+		// TODO Auto-generated method stub
+		int result = dao.selectSecondChange(session,sendNum);
+		return result;
+	}
+
+	@Override
+	public int selectSecondIn(int sendNum) {
+		// TODO Auto-generated method stub
+		int result = dao.selectSecondIn(session,sendNum);
+		return result;
+	}
+
+	@Override
+	public int selectSecondOut(int sendNum) {
+		// TODO Auto-generated method stub
+		int result = dao.selectSecondOut(session,sendNum);
+		return result;
+	}
 	
 }

@@ -11,7 +11,7 @@
 	<context:annotation-config/>
 	<task:annotation-driven/>
 		
-	<bean id="jobScheduler" class="com.kh.maison.admin.scheduler.controller.AminSchedulerController"/>
+	
 	
 	
 	

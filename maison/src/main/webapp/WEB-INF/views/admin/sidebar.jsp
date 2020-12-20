@@ -68,11 +68,11 @@
                 <li class="nav-item"> <a class="nav-link" href="#">질문 관리</a></li>
               </ul>
             </div>
-          </li>      
+          </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-with" aria-expanded="false" aria-controls="ui-with">
-              <i class="mdi mdi-bridge menu-ico"></i>
-              <span class="menu-title">함께해요관리</span>
+              <i class="mdi mdi-bridge menu-icon"></i>
+              <span class="menu-title">함께해요 관리</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-with">
@@ -81,7 +81,7 @@
                 <li class="nav-item"> <a class="nav-link" href="#">신고 관리</a></li>
               </ul>
             </div>
-          </li>                
+          </li>                     
           <li class="nav-item">
             <a class="nav-link" href="#">
               <i class="mdi mdi-cash menu-icon"></i>
