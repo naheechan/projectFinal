@@ -2,7 +2,11 @@ package com.kh.maison.order.controller;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,9 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.maison.basket.model.service.BasketService;
 import com.kh.maison.basket.model.service.BasketServiceImpl;
 import com.kh.maison.basket.model.vo.Basket;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.order.model.service.OrderService;
 import com.kh.maison.order.model.service.OrderServiceImpl;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.service.ProductService;
 import com.kh.maison.shop.service.ProductServiceImpl;
 import com.kh.maison.shop.vo.Product;
@@ -145,7 +151,7 @@ public class OrderController {
 			@RequestParam String stackMile,
 			@RequestParam String totalPrice,
 			@RequestParam String amount,
-			String productName) {
+			String productName, String productNo) {
 		
 		Order o=new Order();
 		o.setReceiver(receiver);
@@ -166,7 +172,7 @@ public class OrderController {
 		int result=0;
 		int memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-Integer.parseInt(useMile);
 		
-		
+		//order_tb insert
 		result=service.insertOrder(o);
 		
 		Map<String,Object> map2=new HashMap<String, Object>();
@@ -179,7 +185,14 @@ public class OrderController {
 		map3.put("amount", amount);
 		map3.put("productName", productName);
 		
+		//바로구매 orderDetail insert
+		Map<String,Object> map4=new HashMap<String, Object>();
+		map4.put("amount", amount);
+		map4.put("productNo", productNo);
+		
 		if(result>0) {
+			
+			int result4=service.insertBuyOrderDetail(map4);
 			int result2=service.updateMileage(map2);
 			int result3=service.updateStock(map3);
 		}
@@ -187,6 +200,22 @@ public class OrderController {
 		
 		return result;
 	}
+	
+	@RequestMapping("/order/orderEnd.do")
+	public ModelAndView orderEnd(ModelAndView mv,HttpServletRequest request) {
+		
+		HttpSession session=request.getSession();
+		Member loginMember=(Member)session.getAttribute("loginMember");
+		String memberId=loginMember.getMemberId();
+		
+		List<OrderDetail> list=service.selectOrderDetail(memberId);
+		
+		mv.addObject("list",list);
+		mv.setViewName("order/orderEnd");
+		return mv;
+	}
+	
+	
 	
 	
 	

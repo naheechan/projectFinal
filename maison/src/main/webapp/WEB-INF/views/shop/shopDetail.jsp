@@ -96,6 +96,7 @@ select::-ms-expand { /* for IE 11 */
 </style>
  <script>
       $(document).ready(function(){
+    	
 		/* 상품 상세로 스크롤이동 */
  		$('.menu1').click(function(){
 
@@ -156,6 +157,7 @@ select::-ms-expand { /* for IE 11 */
 	
     <!-- Start Shop Detail  -->
     <div class="shop-detail-box-main">
+    
         <div class="container">
             <div class="row">
             <form action="${path }/order/buy.do" id="buyFrm">
@@ -168,7 +170,7 @@ select::-ms-expand { /* for IE 11 */
                 
                     <div class="single-product-details">
                         <h2>${product.productName }</h2>
-                        <input type="hidden" id="productNo" value="${product.productNo }"/>
+                        
                         <h5><fmt:formatNumber type="currency" value="${product.price }"/></h5>
                         
 						<h2>상품 안내:</h2>
@@ -198,7 +200,7 @@ select::-ms-expand { /* for IE 11 */
 									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	
 									
 								
-
+									
 								
 
 								
@@ -209,6 +211,7 @@ select::-ms-expand { /* for IE 11 */
 								<a class="btn hvr-hover" id="basketA" data-fancybox-close="" href="#">장바구니</a>
 
 							</div>
+							
 							</form>
 						</div>
 						

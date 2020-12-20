@@ -1,11 +1,13 @@
 package com.kh.maison.order.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.order.model.vo.OrderDetail;
 
 public interface OrderDao {
 	
@@ -18,4 +20,8 @@ public interface OrderDao {
 	int updateStock(SqlSession session, Map<String,Object> map3);
 
 	int bupdateStock(SqlSession session, Basket b);
+	
+	int insertBuyOrderDetail(SqlSession session, Map<String,Object> map4);
+	
+	List<OrderDetail> selectOrderDetail(SqlSession session,String memberId);
 }

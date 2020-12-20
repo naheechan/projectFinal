@@ -27,6 +27,18 @@
 
 	</insert>
 	
+	<insert id="insertBuyOrderDetail" parameterType="map">
+		INSERT INTO ORDERDETAIL VALUES(SEQ_ORDERDETAILNO.NEXTVAL,
+			(SELECT NVL(MAX(ORDERNO),0) FROM ORDER_TB),
+			#{productNo},#{amount})
+	</insert>
+	
+	<select id="selectOrderDetail" resultType="orderDetail" parameterType="string">
+		SELECT * FROM ORDERDETAIL OD JOIN ORDER_TB O ON OD.ORDERNO=O.ORDERNO
+			JOIN PRODUCT P ON P.PRODUCTNO=OD.PRODUCTNO
+				WHERE O.ORDERNO=(SELECT MAX(ORDERNO) FROM ORDER_TB O WHERE O.MEMBERID=#{memberId}) 
+	</select>
+	
 	
 	
   

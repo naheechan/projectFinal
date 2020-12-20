@@ -1,5 +1,6 @@
 package com.kh.maison.order.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.order.model.vo.OrderDetail;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -41,6 +43,20 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return session.update("shop.bupdateStock",b);
 	}
+	@Override
+	public int insertBuyOrderDetail(SqlSession session, Map<String, Object> map4) {
+		// TODO Auto-generated method stub
+		return session.insert("order.insertBuyOrderDetail",map4);
+	}
+
+	@Override
+	public List<OrderDetail> selectOrderDetail(SqlSession session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectList("order.selectOrderDetail",memberId);
+	}
+
+	
+	
 	
 	
 	

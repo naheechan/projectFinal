@@ -1,9 +1,11 @@
 package com.kh.maison.order.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.order.model.vo.OrderDetail;
 
 public interface OrderService {
 	
@@ -16,6 +18,10 @@ public interface OrderService {
 	int updateStock(Map<String,Object> map3);
 	
 	int bupdateStock(Basket b);
+	
+	int insertBuyOrderDetail(Map<String,Object> map4);
+	
+	List<OrderDetail> selectOrderDetail(String memberId);
 	
 	
 	

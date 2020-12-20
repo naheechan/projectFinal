@@ -403,7 +403,7 @@ String dDetailAddress = aes.decrypt(m.getDetailAddress());
 					}
 				});
 				//성공시 이동할 페이지
-				location.href = '${path}/';
+				location.href = '${path}/order/orderEnd.do';
 			} else {
 				msg = '결제에 실패하였습니다.';
 				msg += '에러내용 : ' + rsp.error_msg;

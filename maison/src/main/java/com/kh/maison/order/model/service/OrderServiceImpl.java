@@ -1,5 +1,6 @@
 package com.kh.maison.order.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.dao.OrderDao;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.order.model.vo.OrderDetail;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -48,6 +50,22 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return dao.bupdateStock(session,b);
 	}
+
+	@Override
+	public List<OrderDetail> selectOrderDetail(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderDetail(session, memberId);
+	}
+
+	@Override
+	public int insertBuyOrderDetail(Map<String, Object> map4) {
+		// TODO Auto-generated method stub
+		return dao.insertBuyOrderDetail(session,map4);
+	}
+	
+	
+	
+	
 	
 	
 	
