@@ -46,6 +46,7 @@ public interface ShopService {
 	int modiReply(Map<String,Object> param);
 	
 	int deleteInquiry(int no);
+	int deleteRep(int no);
 	
 	List<Category> searchMediCate(String category);
 }

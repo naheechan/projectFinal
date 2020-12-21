@@ -143,6 +143,12 @@ public class ShopServiceImpl implements ShopService {
 		return dao.searchMediCate(session, category);
 	}
 
+
+	@Override
+	public int deleteRep(int no) {
+		return dao.deleteRep(session,no);
+	}
+
 	
 	
 

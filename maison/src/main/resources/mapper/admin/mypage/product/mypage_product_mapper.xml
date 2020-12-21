@@ -114,6 +114,159 @@ SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHE
 
 <select id="searchDate" resultType="adminCate" parameterType="map">
 	SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE
-	AND M.ENROLLCATE BETWEEN #{one} AND #{two}
+	AND M.ENROLLCATE BETWEEN #{one} AND #{two} ORDER BY M.ENROLLCATE DESC
 </select>
+
+<!-- 문의 -->
+<select id="selectInquiryList" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M 
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="selectInquiryCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY I, MEMBER M WHERE I.MEMBERID=M.MEMBERID AND M.MEMBERSTATUS='Y'
+</select>
+
+<select id="selectnoRepCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='N' AND PIDEL='Y'
+</select>
+
+<select id="selectYRepCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='Y' AND PIDEL='Y'
+</select>
+
+<select id="selectDelRepCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='N' AND PIDEL='N'
+</select>
+
+<select id="selectTodayIQCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE TO_CHAR(PIDATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+</select>
+
+<select id="selectReplyList" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	R.PIRNO, R.PIRCONTENT, R.PIRDATE,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M, INQUIRYREPLY R 
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND R.PINO=I.PINO
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="selectReplyCount" resultType="_int">
+	SELECT COUNT(*) FROM INQUIRYREPLY
+</select>
+
+<select id="noreply" resultType="adminIQ"><!-- 문의가 존재하고 답변이 없는거 -->
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND I.PISTATUS='N' AND I.PIDEL='Y'
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="yesreply" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	R.PIRNO, R.PIRCONTENT, R.PIRDATE,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M, INQUIRYREPLY R
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND R.PINO=I.PINO
+	AND I.PISTATUS='Y' AND I.PIDEL='Y'
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="delreply" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND I.PIDEL='N' AND I.PISTATUS='N'
+	ORDER BY I.PINO DESC
+</select>
+
+
+<select id="allList" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M 
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	ORDER BY I.PINO DESC
+</select>
+<select id="todayEnroll" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M 
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND TO_CHAR(I.PIDATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+	ORDER BY I.PINO DESC
+</select>
+
+<!-- 고객문의만 검색 관리자관련은 상단박스에서 검색하게끔-->
+<select id="selectsearch" resultType="adminIQ" parameterType="map">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+			AND I.MEMBERID=M.MEMBERID
+			AND M.MEMBERSTATUS='Y'  AND
+	<include refid="search"></include>
+	
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="searchCountInq" resultType="_int" parameterType="map">
+	SELECT COUNT(*) FROM PDINQUIRY I, PRODUCT P, MEMBER M
+	<where>
+	I.PRODUCTNO=P.PRODUCTNO AND
+	M.MEMBERID=I.MEMBERID AND
+	<include refid="search"></include>
+	</where>
+</select>
+
+
+
+<sql id="search">
+	<choose>
+		<when test="searchType == 'name' and keyword!=''">
+			I.MEMBERID LIKE '%'||#{keyword}||'%'
+		</when>
+		<when test="searchType=='name' and selectCate!=''">
+			 I.PICATE LIKE #{selectCate}
+		</when>
+		<when test="searchType=='name' and keyword!='' and selectCate!=''">
+			I.MEMBERID LIKE '%'||#{keyword}||'%' AND I.PICATE LIKE #{selectCate}
+		</when>
+		<when test="searchType == 'piDate'">
+			I.PIDATE BETWEEN #{datepicker} AND #{datepicker2}
+		</when>
+		<otherwise>
+		<if test="searchType=='productName'">
+			P.
+		</if>
+		<if test=" searchType!=name and searchType!='productName'">
+			I.
+		</if>
+			${searchType} LIKE '%'||#{keyword}||'%'
+		</otherwise>
+	</choose>
+</sql>
 </mapper>

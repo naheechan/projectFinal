@@ -279,10 +279,14 @@ public class ShopController {
 	@RequestMapping("/user/deleteInQuiry.do")
 	public String deleteInquiry(@RequestParam(value="no") int no) {
 		int result = 0;
+		int repResult=0;
 		String str = null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			result = service.deleteInquiry(no);
+			if(result>0) {
+				repResult = service.deleteRep(no);
+			}
 			str=mapper.writeValueAsString(result);
 		}catch(Exception e) {
 			e.printStackTrace();

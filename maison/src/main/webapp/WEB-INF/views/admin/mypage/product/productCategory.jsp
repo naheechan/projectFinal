@@ -98,10 +98,10 @@
 										<!-- <i class="fa fa-list-alt"></i> -->
 								</tr>
 								<tr style="text-align:center;">
-									<td>전체 카테고리<br><span class="badge">${total}</span></td>
-									<td>대분류<br><span class="badge">${largeCount}</span></td>
-									<td>중분류<br><span class="badge">${mediCount}</span></td>
-									<td>신규카테고리<br><span class="badge">${todayCount}</span></td>
+									<td><a class="color" href="#">전체 카테고리</a><br><span class="badge">${total}</span></td>
+									<td><a class="color" href="#">대분류</a><br><span class="badge">${largeCount}</span></td>
+									<td><a class="color" href="#">중분류</a><br><span class="badge">${mediCount}</span></td>
+									<td><a class="color" href="#">신규카테고리</a><br><span class="badge">${todayCount}</span></td>
 								</tr>
 							</tbody>
 						</table>
@@ -202,6 +202,7 @@
                                 str+='<td>'+data[i].price+'</td>';
                                 str+='<td>'+data[i].defCycle+'</td>';
                                 str+='<td>'+data[i].productDate+'</td>';
+                                str+='<td>'+data[i].enrollCate+'</td>';
                                 str+='<td>';
                                 str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">';
                                 str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movePd" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>';
@@ -209,9 +210,9 @@
                                 str+='<a class="btn hvr-hover" data-fancybox-close="" >상품카테고리수정</a>';
                                 str+='</td>';
                                 str+='</tr>';
-            					$("#recent-purchases-listing").append(str);
-             				}
+             					}
              					});
+            					$("#recent-purchases-listing").append(str);
         					var offset = $("#list-view").offset(); 
         				     $('html').animate({scrollTop : offset.top}, 1000);
         				     $("#fath").parent().attr('class','');
@@ -250,7 +251,7 @@
                   <p class="card-title">상품 리스트</p>
                   <div class="table-responsive">
                     <table id="recent-purchases-listing" class="table" style="text-align:center;">
-                    <colgroup>
+            <%--         <colgroup>
 						<col width="5%">
 						<col width="12%">
 						<col width="20%">
@@ -263,20 +264,21 @@
 						<col width="7%">
 						<col width="15%">
 						<col width="13%">
-					</colgroup>
+					</colgroup> --%>
                       <thead>
                         <tr>
-                            <th><small>상품번호</small></th>
-                            <th colspan="2"><small>상품이름</small></th>
+                            <th><small>상품<br>번호</small></th>
+                            <th colspan="2"><small>상품<br>정보</small></th>
                             <th><small>대분류</small></th>
                             <th><small>중분류</small></th>
-                            <th><small>상품요약</small></th>
-                            <th><small>상품노출</small></th>
-                            <th><small>재고수량</small></th>
+                            <th><small>상품<br>요약</small></th>
+                            <th><small>상품<br>노출</small></th>
+                            <th><small>재고<br>수량</small></th>
                             <th><small>가격</small></th>
                             <th><small>주기</small></th>
-                            <th><small>상품등록일</small></th>
-                            <th><small>상품수정</small></th>
+                            <th><small>상품<br>등록일</small></th>
+                            <th><small>카테고리<br>등록일</small></th>
+                            <th><small>상품<br>수정</small></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -466,15 +468,16 @@ $(function(){
                     str+='<tr class="append">';
                     str+='<td>'+data[i].productNo+'</td>';
                     str+='<td><img src="${path}/resources/upload/product/'+data[i].productImg+'" style="width:50px;"></td>';
-                    str+='<td width="10" style="text-overflow:ellipsis; overflow: hidden;"><span>'+data[i].productName+'</span></td>';
+                    str+='<td><span>'+data[i].productName+'</span></td>';
                     str+='<td>'+data[i].largeCate+'</td>';
                     str+='<td>'+data[i].mcName+'</td>';
-                    str+='<td width="10" style="text-overflow:ellipsis; overflow: hidden;"><span>'+data[i].productSummary+'</span></td>';
+                    str+='<td><span>'+data[i].productSummary+'</span></td>';
                     str+='<td>'+data[i].productStatus+'</td>';
                     str+='<td>'+data[i].productStock+'</td>';
                     str+='<td>'+data[i].price+'</td>';
                     str+='<td>'+data[i].defCycle+'</td>';
                     str+='<td>'+data[i].productDate+'</td>';
+                    str+='<td>'+data[i].enrollCate+'</td>';
                     str+='<td>';
                     str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">';
                     str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movePd" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>';
@@ -482,12 +485,9 @@ $(function(){
                     str+='<a class="btn hvr-hover" data-fancybox-close="" >상품카테고리수정</a>';
                     str+='</td>';
                     str+='</tr>';
-					$("#recent-purchases-listing").append(str);
-				}else {//왜 리스트 없는데 안되지???
-					$("#recent-purchases-listing tbody").empty();
-					str+="<tr><td><span>검색결과가 없습니다.</span></td></tr>";
-					$("#recent-purchases-listing").append(str);
 				}
+				})
+					$("#recent-purchases-listing").append(str);
 					$("#largeCate option:eq(0)").prop('selected','selected');
 					$("#largeCate1 option:eq(0)").prop('selected','selected');
 					$("#mediCate").empty();
@@ -498,7 +498,6 @@ $(function(){
 				     $("#fath").attr('class','nav-link');
 				     $("#listul").parent().attr('class','active');
 				     $("#listul").attr('class','nav-link active');
-				})
 			},
 			error:function(){
 				console.log("ajax통신실패");
@@ -529,7 +528,7 @@ $(function(){
 				str+='<td><span name="mediChk">'+data[i].mcName+'</span></td></tr></table>'
 				str+='<br><br>'
 				str+='<form action="" name="updateFrm">'
-				str+='<label>변경하실 분류를 선택하세요</label>'
+				str+='<label>대분류를 선택하세요</label>'
 				str+='<button type="button" name="add">+추가</button><br>'
 				str+='<select class="form-group" id="ajaxlargeCate" name="ajaxlargeCate" size="7" style="width:30%;margin-right:10%;position:relative;float:left;">'
             	str+='<option value="주방">주방</option>'	
@@ -706,6 +705,7 @@ $(function(){
 });
 </script>
 <style>
+.color{color:#000000;}
 /*datepicer 버튼 롤오버 시 손가락 모양 표시*/
 .ui-datepicker-trigger{cursor: pointer;}
 /*datepicer input 롤오버 시 손가락 모양 표시*/
@@ -762,20 +762,23 @@ $(function(){
 	 table tr td:hover{
     	background-color:#FCF7E1;
     }
-    table{
+     table{
     	table-layout:fixed;
     }
+    #recent-purchases-listing tr td{
+      width:200px;
+      padding:0 5px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      }
+     
     th small{
-    	writing-mode:tb-rl;
+    	/* writing-mode:tb-rl; */
     	padding-top:0px;
     }
     .badge{
     	font-weight:bold;
-    }
-    .badge:hover{
-    	color:#F2BB9C;
-    	text-decoration : none;
-	   	border-bottom : 1px dashed #F2BB9C;
     }
     #recent-purchases-listing tr:hover{
     	background-color:#FCF7E1;

@@ -29,6 +29,7 @@
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CountCycle" alias="countCycle"/>
 		<typeAlias type="com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList" alias="totalInquiryList"/>
 		<typeAlias type="com.kh.maison.adminMypage.product.model.vo.MyAdminCate" alias="adminCate"/>
+		<typeAlias type="com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry" alias="adminIQ"/>
 
 	</typeAliases>
 

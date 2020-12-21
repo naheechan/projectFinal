@@ -50,4 +50,5 @@ public interface ShopDao {
 	int modiReply(SqlSession session, Map<String,Object> param);
 	
 	int deleteInquiry(SqlSession session, int no);
+	int deleteRep(SqlSession session, int no);
 }

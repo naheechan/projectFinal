@@ -6,7 +6,7 @@
 	SELECT 
 	P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG,
 	M.MEDIUMCATE, M.MCNAME, M.LARGECATE,
-	I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
+	I.PINO,I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
 	FROM PRODUCT P, MEDIUMCATE M, PDINQUIRY I
 	WHERE 
 	I.MEMBERID=#{memberId}
@@ -21,22 +21,63 @@
 </select>
 <!--답변완료-->
 <select id="selectCheckCount" resultType="_int" parameterType="String">
-	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='Y' AND MEMBERID=#{memberId}
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='Y' AND PIDEL='Y' AND MEMBERID=#{memberId}
 </select>
 <!--미답변 -->
 <select id="selectNoCheckCount" resultType="_int" parameterType="String">
-	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='N' AND MEMBERID=#{memberId}
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='N'  AND PIDEL='Y' AND MEMBERID=#{memberId}
 </select>
 <!--N이면 삭제 -->
 <select id="selectDelCount" resultType="_int" parameterType="String">
-	SELECT COUNT(*) FROM PDINQUIRY WHERE PIDEL='N' AND MEMBERID=#{memberId}
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PIDEL='N'  AND PISTATUS='N' AND MEMBERID=#{memberId}
 </select>
 
-<select id="searchkeyword" resultType="totalInquiryList" parameterType="map">
+<select id="searchList" resultType="totalInquiryList" parameterType="map">
+	SELECT 
+	P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG,
+	I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL,
+	M.MEMBERSTATUS,
+	MD.MEDIUMCATE, MD.MCNAME, MD.LARGECATE
+	FROM PRODUCT P, MEDIUMCATE MD, PDINQUIRY I,MEMBER M
+	WHERE
+	I.MEMBERID=#{id}
+	AND 
+	P.PRODUCTNO=I.PRODUCTNO
+	AND
+	P.MEDIUMCATE=MD.MEDIUMCATE
+	AND
+	I.MEMBERID=M.MEMBERID
+	<include refid="search"></include>
+	ORDER BY I.PIDATE DESC
+</select>
+	
+<sql id="search">
+	<choose>
+		<when test="searchType=='name'">
+				AND
+				P.PRODUCTNAME LIKE '%'||#{keyword}||'%'
+		</when>
+		<otherwise>
+				AND I.PICONTENT LIKE '%'||#{keyword}||'%'
+		</otherwise>
+	</choose>
+</sql>
+<select id="selectListCount" resultType="_int" parameterType="String">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE MEMBERID=#{memberId}
+</select>
+<select id="searchCount" resultType="_int" parameterType="map">
+	SELECT COUNT(*) FROM PDINQUIRY I, PRODUCT P
+	<where>
+	P.PRODUCTNO=I.PRODUCTNO AND I.MEMBERID=#{id}
+	<include refid="search"></include>
+	</where>
+</select>
+
+<select id="selectMyList" resultType="totalInquiryList" parameterType="String">
 	SELECT 
 	P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG,
 	M.MEDIUMCATE, M.MCNAME, M.LARGECATE,
-	I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
+	I.PINO, I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
 	FROM PRODUCT P, MEDIUMCATE M, PDINQUIRY I
 	WHERE 
 	I.MEMBERID=#{id}
@@ -44,7 +85,66 @@
 	P.PRODUCTNO=I.PRODUCTNO
 	AND
 	P.MEDIUMCATE=M.MEDIUMCATE
-	AND
-	P.PRODUCTNAME LIKE '%' || #{keyword} || '%'
 </select>
+
+<select id="replySuccess" resultType="totalInquiryList" parameterType="String">
+	SELECT 
+	P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG,
+	M.MEDIUMCATE, M.MCNAME, M.LARGECATE,
+	I.PINO, I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
+	FROM PRODUCT P, MEDIUMCATE M, PDINQUIRY I
+	WHERE 
+	I.MEMBERID=#{id}
+	AND 
+	P.PRODUCTNO=I.PRODUCTNO
+	AND
+	P.MEDIUMCATE=M.MEDIUMCATE
+	AND I.PISTATUS='Y' AND I.PIDEL='Y'
+</select>
+<select id="replyYet" resultType="totalInquiryList" parameterType="String">
+	SELECT 
+	P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG,
+	M.MEDIUMCATE, M.MCNAME, M.LARGECATE,
+	I.PINO, I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
+	FROM PRODUCT P, MEDIUMCATE M, PDINQUIRY I
+	WHERE 
+	I.MEMBERID=#{id}
+	AND 
+	P.PRODUCTNO=I.PRODUCTNO
+	AND
+	P.MEDIUMCATE=M.MEDIUMCATE
+	AND I.PISTATUS='N' AND I.PIDEL='Y'
+</select>
+<select id="replydel" resultType="totalInquiryList" parameterType="String">
+	SELECT 
+	P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG,
+	M.MEDIUMCATE, M.MCNAME, M.LARGECATE,
+	I.PINO, I.PICATE, I.PICONTENT, I.MEMBERID, I.PISTATUS, I.PIDATE, I.PIDEL
+	FROM PRODUCT P, MEDIUMCATE M, PDINQUIRY I
+	WHERE 
+	I.MEMBERID=#{id}
+	AND 
+	P.PRODUCTNO=I.PRODUCTNO
+	AND
+	P.MEDIUMCATE=M.MEDIUMCATE
+	AND I.PIDEL='N' AND I.PISTATUS='N'
+</select>
+
+<select id="selectSuccessCount" resultType="_int" parameterType="String">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE MEMBERID=#{id} AND PISTATUS='Y' AND PIDEL='Y'
+</select>
+<select id="selectYetCount" resultType="_int" parameterType="String">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE MEMBERID=#{id} AND PISTATUS='N' AND PIDEL='Y'
+</select>
+<select id="selectDellCount" resultType="_int" parameterType="String">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE MEMBERID=#{id} AND PIDEL='N' AND PISTATUS='N'
+</select>
+
+<update id="deleteIq" parameterType="map">
+	UPDATE PDINQUIRY SET PIDEL='N', PISTATUS='N' WHERE PINO=#{no} AND MEMBERID=#{id}
+</update>
+
+<delete id="deleteRep" parameterType="String">
+	DELETE FROM INQUIRYREPLY WHERE PINO=#{no}
+</delete>
 </mapper>

@@ -15,6 +15,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="${path}/resources/js/datepickerSettings.js"/>
   <!-- plugins:css -->
   <link rel="stylesheet" href="${path }/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="${path }/resources/admin/vendors/base/vendor.bundle.base.css">
@@ -117,7 +118,6 @@
                   <p class="card-title">검색</p>
                   <select id="searchType">
                   	<option value="name">상품명으로 검색</option>
-                  	<option value="cate">카테고리별 검색</option>
                   	<option value="popular">Top3 검색</option>
                   	<option value="date">기간별 검색</option>
                   </select>
@@ -125,23 +125,6 @@
                   	<form action="${path}/admin/mypage/product/search.do">
                   		<input type="hidden" name="searchType" value="name">
                   		<input type="text" name="searchKeyword" id="searchName" size="50" placeholder="검색하실 상품이름을 입력해주세요">
-                  		<i class="fa fa-search" aria-hidden="true" id="search" name="search"></i>
-                  	</form>
-                  </div>
-                  <div id="search-cate">
-                  	<form action="${path}/admin/mypage/product/search.do">
-                  		<input type="hidden" name="searchType" value="category">
-                  		<select id="largeCate" name="searchKeyword">
-                  			<option value="">대분류</option>
-                  			<option value="주방">주방</option>
-			            	<option value="욕실">욕실</option>
-			            	<option value="세탁실">세탁실</option>
-			            	<option value="현관">현관</option>
-			            	<option value="창고">창고</option>
-                  		</select>
-                  		<select id="mediCate" name="searchKeyword">
-                  			<option value="">중분류</option>
-                  		</select>
                   		<i class="fa fa-search" aria-hidden="true" id="search" name="search"></i>
                   	</form>
                   </div>
@@ -157,9 +140,9 @@
                   <div id="search-date" >
                   	<form action="${path}/admin/mypage/product/search.do">
                   		<input type="hidden" name="searchType" value="date">
-                  		<input type="text" name="searchKeyword" size="20" placeholder="yyyy-mm-dd"><i class="fa fa-calendar" aria-hidden="true"></i>
+                  		<input type="date" name="datepicker" size="20" placeholder="yyyy-mm-dd">
                   		<label>~</label>&nbsp;&nbsp;&nbsp;
-                  		<input type="text" name="searchKeyword" size="20" placeholder="yyyy-mm-dd"><i class="fa fa-calendar" aria-hidden="true"></i>
+                  		<input type="date" name="datepicker2" size="20" placeholder="yyyy-mm-dd">
                   		<i class="fa fa-search" aria-hidden="true" id="search" name="search"></i>
                   	</form>
                   </div>

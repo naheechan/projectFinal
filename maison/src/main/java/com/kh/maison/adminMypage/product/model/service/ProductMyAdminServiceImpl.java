@@ -11,6 +11,7 @@ import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.adminMypage.product.model.dao.ProductMyAdminDao;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry;
 
 @Service
 public class ProductMyAdminServiceImpl implements ProductMyAdminService {
@@ -123,12 +124,92 @@ public class ProductMyAdminServiceImpl implements ProductMyAdminService {
 		return dao.searchDate(session,param);
 	}
 
-	
-	
-//	@Override
-//	public List<ProductCate> searchNameProduct(Map<String, Object> param) {
-//		return dao.searchNameProduct(session,param);
-//	}
+	//문의
+	@Override
+	public List<MyAdminInquiry> selectInquiryList(int cPage, int numPerPage) {
+		return dao.selectInquiryList(session,cPage,numPerPage);
+	}
+
+	@Override
+	public int selectInquiryCount() {
+		return dao.selectInquiryCount(session);
+	}
+
+	@Override
+	public int selectnoRepCount() {
+		return dao.selectnoRepCount(session);
+	}
+
+	@Override
+	public int selectYRepCount() {
+		return dao.selectYRepCount(session);
+	}
+
+	@Override
+	public int selectDelRepCount() {
+		return dao.selectDelRepCount(session);
+	}
+
+	@Override
+	public int selectTodayIQCount() {
+		return dao.selectTodayIQCount(session);
+	}
+
+	@Override
+	public List<MyAdminInquiry> selectReplyList(int cPage, int numPerPage) {
+		return dao.selectReplyList(session, cPage,numPerPage);
+	}
+
+	@Override
+	public int selectReplyCount() {
+		return dao.selectReplyCount(session);
+	}
+
+	@Override
+	public List<MyAdminInquiry> noreply() {
+		return dao.noreply(session);
+	}
+
+	@Override
+	public List<MyAdminInquiry> yesreply() {
+		return dao.yesreply(session);
+	}
+
+	@Override
+	public List<MyAdminInquiry> delreply() {
+		return dao.delreply(session);
+	}
+
+	@Override
+	public List<MyAdminInquiry> listAll(String searchType, String searchKeyword,String selectKeyword,int cPage,int numPerPage) {
+		return dao.listAll(session,searchType,searchKeyword,selectKeyword,cPage,numPerPage);
+	}
+
+	@Override
+	public int countArticle(String searchType, String searchKeyword, String selectKeyword) {
+		return dao.countArticle(session,searchType,searchKeyword,selectKeyword);
+	}
+
+	@Override
+	public List<MyAdminInquiry> allList() {
+		return dao.allList(session);
+	}
+
+	@Override
+	public List<MyAdminInquiry> todayEnroll() {
+		return dao.todayEnroll(session);
+	}
+
+	@Override
+	public List<MyAdminInquiry> selectsearch(String searchType, String selectCate, String searchKeyword,String datepicker,String datepicker2,int cPage,int numPerPage) {
+		return dao.selectsearch(session,searchType,selectCate,searchKeyword,datepicker,datepicker2,cPage,numPerPage);
+	}
+
+	@Override
+	public int searchCountInq(String searchType, String selectCate, String searchKeyword,String datepicker,String datepicker2) {
+		return dao.searchCountInq(session,searchType,selectCate,searchKeyword,datepicker,datepicker2);
+	}
+
 	
 	
 	

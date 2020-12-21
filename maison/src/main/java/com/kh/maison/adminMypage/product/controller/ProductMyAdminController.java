@@ -1,6 +1,5 @@
 package com.kh.maison.adminMypage.product.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.adminMypage.product.model.service.ProductMyAdminService;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry;
 import com.kh.spring.common.PageBarFactory;
 
 @Controller
@@ -50,10 +51,63 @@ public class ProductMyAdminController {
 	}
 	
 	@RequestMapping("/inquiryView.do")
-	public String moveInquiryView(Model m) {
+	public String moveInquiryView(Model m,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
 		
+		List<MyAdminInquiry> IQlist = service.selectInquiryList(cPage,numPerPage);
+		List<MyAdminInquiry> Replist = service.selectReplyList(cPage,numPerPage);
+		int totalData1 = service.selectInquiryCount();
+		int totalData2 = service.selectReplyCount();
+		int noRepData = service.selectnoRepCount();
+		int yesRepData = service.selectYRepCount();
+		int delRepData=service.selectDelRepCount();
+		int todayData = service.selectTodayIQCount();
+		
+		m.addAttribute("totalCount",totalData1);
+		m.addAttribute("totalCount2",totalData2);
+		m.addAttribute("noRepData",noRepData);
+		m.addAttribute("yesRepData",yesRepData);
+		m.addAttribute("delRepData",delRepData);
+		m.addAttribute("todayCount",todayData);
+		m.addAttribute("list",IQlist);//문의리스트
+		m.addAttribute("RepList",Replist);//답글리스트
+		System.out.println("문의"+IQlist);
+		System.out.println("답글"+Replist);
+		
+		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalData1, cPage, numPerPage, "inquiryView.do"));
+		m.addAttribute("pageBar2",PageBarFactory.getPageBar(totalData2, cPage, numPerPage, "inquiryView.do"));
 		return "admin/mypage/product/productInquiry";
-	}
+	};
+	
+	
+//	//검색기능
+//	@RequestMapping("inquiryView.do")
+//	public ModelAndView list(
+//			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+//			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage,
+//			@RequestParam(defaultValue="name", required=false)String searchType,
+//			@RequestParam(defaultValue="",required=false)String searchKeyword,
+//			@RequestParam(defaultValue="상품문의",required=false)String selectKeyword
+//			)throws Exception{
+//		List<MyAdminInquiry> list = service.listAll(searchType,searchKeyword,selectKeyword,cPage, numPerPage);
+//		int count = service.countArticle(searchType,searchKeyword,selectKeyword);
+//		ModelAndView mv = new ModelAndView();
+//		
+//		Map<String,Object> map = new HashMap<>();
+//		map.put("list",list);//list
+//		map.put("count",count);//레코드개수
+//		map.put("searchType",searchType);//검색옵션
+//		map.put("keyword",searchKeyword);//검색키워드
+//		map.put("select",selectKeyword);
+//		map.put("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage,"inquiryView.do"));
+//		System.out.println(map+"map");
+//		mv.addObject("map",map);
+//		mv.setViewName("admin/mypage/product/productInquiry");
+//		
+//		return mv;
+//				
+//	}
 	
 	@RequestMapping("/categoryView.do")
 	public String moveCategoryView(Model m,
@@ -177,6 +231,118 @@ public class ProductMyAdminController {
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
+		return str;
+	}
+	
+	//문의하기
+	@ResponseBody
+	@RequestMapping("/noreply.do")
+	public String noreply(ModelAndView mv){
+		List<MyAdminInquiry> list = null;
+		String str=null;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list=service.noreply();
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/yesreply.do")
+	public String yesreply(ModelAndView mv){
+		List<MyAdminInquiry> list = null;
+		String str=null;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list=service.yesreply();
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/delreply.do")
+	public String delreply(ModelAndView mv){
+		List<MyAdminInquiry> list = null;
+		String str=null;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list=service.delreply();
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	};
+	
+	@ResponseBody
+	@RequestMapping("/allList.do")
+	public String allList() {
+		List<MyAdminInquiry> list = null;
+		String str=null;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list = service.allList();
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/todayEnroll.do")
+	public String todayEnroll() {
+		List<MyAdminInquiry> list = null;
+		String str=null;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list = service.todayEnroll();
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/search.do")
+	public String list(@RequestParam(defaultValue="name")String searchType,
+			@RequestParam(defaultValue="", required=false)String selectCate,
+			@RequestParam(defaultValue="",required=false)String searchKeyword,
+			@RequestParam(defaultValue="",required=false)String datepicker,
+			@RequestParam(defaultValue="",required=false)String datepicker2,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		List<MyAdminInquiry> list =null;
+		int count=0;
+		ObjectMapper mapper= new ObjectMapper();
+		String str=null;
+		try{
+			list = service.selectsearch(searchType,selectCate,searchKeyword,datepicker,datepicker2,cPage,numPerPage);
+			count = service.searchCountInq(searchType,selectCate,searchKeyword,datepicker,datepicker2);
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		ModelAndView mv = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("list",list);
+		map.put("count",count);
+		map.put("searchType",searchType);
+		map.put("selectCate",selectCate);
+		map.put("keyword",searchKeyword);
+		mv.addObject("map",map);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage, "search"));
+		System.out.println("컨트롤러search리스트"+list);
+		System.out.println(map);
+//		mv.setViewName("admin/mypage/product/productInquiry");
 		return str;
 	}
 }

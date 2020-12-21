@@ -141,6 +141,12 @@ public class ShopDaoImpl implements ShopDao {
 	public List<Category> searchMediCate(SqlSession session, String category) {
 	return session.selectList("shop.searchMediCate", category);
 	}
+
+
+	@Override
+	public int deleteRep(SqlSession session, int no) {
+		return session.delete("shop.deleteRep",no);
+	}
 	
 	
 
