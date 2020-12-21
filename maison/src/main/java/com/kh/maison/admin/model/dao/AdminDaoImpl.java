@@ -1,12 +1,15 @@
 package com.kh.maison.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.vo.Request;
 
 @Repository
@@ -122,6 +125,25 @@ public class AdminDaoImpl implements AdminDao {
 	public Request selectOneRequest(SqlSessionTemplate session, int no) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectOneRequest",no);
+	}
+
+	@Override
+	public int requestStatusUpdate(SqlSessionTemplate session, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.update("admin.requestStatusUpdate",map);
+	}
+
+	@Override
+	public List<Member> selectAllMember(SqlSessionTemplate session, int cPage, int numPerPage,
+			MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllMember",ms,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int selectAllMemberCount(SqlSessionTemplate session, MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllMemberCount",ms);
 	}
 
 }

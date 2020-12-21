@@ -30,6 +30,7 @@
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CountCycle" alias="countCycle"/>
 
 		<typeAlias type="com.kh.maison.mileage.model.vo.Mileage" alias="mileage"/>
+		<typeAlias type="com.kh.maison.admin.model.vo.MemberSearch" alias="memberSearch"/>
 	</typeAliases>
 
 

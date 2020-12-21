@@ -87,4 +87,51 @@
 		SELECT * FROM REQUEST
 		WHERE REQUESTNO=#{no}
 	</select>
+	
+	<update id="requestStatusUpdate" parameterType="map">
+		UPDATE REQUEST 
+		SET REQUESTSTATUS=#{requestStatus}
+		WHERE REQUESTNO=#{requestNo}
+	</update>
+	
+	<select id="selectAllMember" parameterType="memberSearch" resultType="member">
+		SELECT * FROM MEMBER
+		<trim prefix="where" prefixOverrides="AND">
+			<if test="!type.equals('')">
+				<choose>
+					<when test="type.equals('memberId')">
+						AND MEMBERID LIKE '%'||#{keyword}||'%'
+					</when>
+					<when test="type.equals('memberName')">
+						AND MEMBERNAME LIKE '%'||#{keyword}||'%'
+					</when>
+					<when test="type.equals('both')">
+						AND MEMBERID LIKE '%'||#{keyword}||'%'
+						OR MEMBERNAME LIKE '%'||#{keyword}||'%'
+					</when>
+				</choose>
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectAllMemberCount" parameterType="memberSearch" resultType="_int">
+		<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				SELECT COUNT(*) FROM MEMBER
+				WHERE MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('memberName')">
+				SELECT COUNT(*) FROM MEMBER
+				WHERE MEMBERNAME LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('both')">
+				SELECT COUNT(*) FROM MEMBER
+				WHERE MEMBERID LIKE '%'||#{keyword}||'%'
+				OR MEMBERNAME LIKE '%'||#{keyword}||'%'
+			</if>			
+		</if>
+		<if test="type.equals('')">
+			SELECT COUNT(*) FROM MEMBER
+		</if>
+	</select>
 </mapper>

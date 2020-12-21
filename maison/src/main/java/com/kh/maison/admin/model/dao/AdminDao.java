@@ -1,10 +1,13 @@
 package com.kh.maison.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.vo.Request;
 
 public interface AdminDao {
@@ -30,5 +33,9 @@ public interface AdminDao {
 	
 	//productRequest view 보기
 	Request selectOneRequest(SqlSessionTemplate session,int no);
-
+	int requestStatusUpdate(SqlSessionTemplate session, Map<String,Object> map);
+	
+	//admin/member/memberList.jsp에 데이터 불러오기
+	List<Member> selectAllMember(SqlSessionTemplate session,int cPage,int numPerPage,MemberSearch ms);
+	int selectAllMemberCount(SqlSessionTemplate session,MemberSearch ms);
 }

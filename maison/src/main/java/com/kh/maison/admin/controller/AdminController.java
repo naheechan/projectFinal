@@ -1,5 +1,9 @@
 package com.kh.maison.admin.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.maison.admin.model.service.AdminService;
+import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.common.crypto.AES256Util;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.vo.Request;
 import com.kh.spring.common.PageBarFactory;
 
@@ -21,6 +28,9 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
+	
+	@Autowired
+	private AES256Util aes;
 	
 	@RequestMapping("/admin/dashBoard.do")
 	public String adminMain() {
@@ -136,13 +146,13 @@ public class AdminController {
 			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
 			@RequestParam(value="numPerPage",required=false,defaultValue="20")int numPerPage,
 			@RequestParam(value="requestStatus",required=false,defaultValue="")String requestStatus) {
-		
 		List<Request> list = service.selectAllRequest(cPage,numPerPage,requestStatus);
 		int totalContents = service.selectAllRequestCount(requestStatus);
 		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "productRequest.do");
 		mv.addObject("list",list);
 		mv.addObject("totalContents",totalContents);
 		mv.addObject("pageBar",pageBar);
+		mv.addObject("requestStatus",requestStatus);
 		mv.setViewName("admin/productRequest");
 		return mv;
 	}
@@ -153,5 +163,71 @@ public class AdminController {
 		mv.setViewName("admin/productRequestView");		
 		return mv;
 		
+	}
+	
+	//입고요청 status변경 
+	@RequestMapping("/admin/requestStatus.do")
+	@ResponseBody
+	public int requestStatus(@RequestParam int requestNo,
+							@RequestParam String requestStatus) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("requestNo", requestNo);
+		map.put("requestStatus", requestStatus);
+		int result=service.requestStatusUpdate(map);
+		return result;
+		
+	}
+	
+	@RequestMapping("/admin/memberList.do")
+	public ModelAndView memberList(ModelAndView mv,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="type",required=false,defaultValue="")String type,
+			@RequestParam(value="keyword",required=false,defaultValue="")String keyword,
+			@RequestParam(value="memberSocial",required=false,defaultValue="all")String memberSocial,
+			@RequestParam(value="emailStatus",required=false,defaultValue="all")String emailStatus,
+			@RequestParam(value="memberLevel",required=false,defaultValue="")String memberLevel){
+		//검색어(target,check), 회원구분, 이메일 수신 여부, 회원등급
+			
+		//		@RequestParam(value="memberLevel",required=false,defaultValue="")String memberLevel,
+		//		@RequestParam(value="emailStatus",required=false,defaultValue="")String emailStatus,
+		//		@RequestParam(value = "valueArr[]",required=false,defaultValue="") List<String> valueArr
+
+		MemberSearch ms = new MemberSearch();
+		ms.setType(type);
+		ms.setKeyword(keyword);
+		ms.setMemberSocial(memberSocial);
+		ms.setEmailStatus(emailStatus);
+		ms.setMemberLevel(memberLevel);
+		
+		List<Member> list = service.selectAllMember(cPage,numPerPage,ms);
+		List<Member> list2 = new ArrayList();
+		for(int i=0;i<list.size();i++) {
+			try {
+				Member mem = new Member();
+				mem.setMemberId(list.get(i).getMemberId());
+				mem.setMemberName(list.get(i).getMemberName());
+				mem.setEmail(aes.decrypt(list.get(i).getEmail()));
+				mem.setPhone(aes.decrypt(list.get(i).getPhone()));
+				mem.setGradeCode(list.get(i).getGradeCode());
+				list2.add(mem);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (GeneralSecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		int totalContents = service.selectAllMemberCount(ms);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "memberList.do");
+		mv.addObject("list",list2);
+		mv.addObject("totalContents",totalContents);
+		mv.addObject("pageBar",pageBar);
+		mv.setViewName("admin/member/memberList");
+		return mv;
 	}
 }

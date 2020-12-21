@@ -1,8 +1,11 @@
 package com.kh.maison.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.vo.Request;
 
 public interface AdminService {
@@ -28,5 +31,10 @@ public interface AdminService {
 	
 	//productRequest 세부 데이터 보여주는 작은창
 	Request selectOneRequest(int no);
+	int requestStatusUpdate(Map<String,Object> map);
+	
+	//admin밑에 member밑에 memberList.jsp에 들어갈 거
+	List<Member> selectAllMember(int cPage,int numPerPage,MemberSearch ms);
+	int selectAllMemberCount(MemberSearch ms);
 	
 }

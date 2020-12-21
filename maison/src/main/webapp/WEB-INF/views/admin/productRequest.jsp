@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="${path }/resources/admin/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${path }/resources/admin/images/favicon.png" />
+
 </head>
 <body>
 <div class="container-scroller">
@@ -34,16 +35,47 @@
 		<!-- End sidebar -->
 		 <div class="main-panel">
 		 	<div class="content-wrapper">
-
-
 		 		<div class="row">
 				 	<div class="col-lg-12 grid-margin stretch-card">
 		              <div class="card">
 		                <div class="card-body">
-		                  <h4 class="card-title">입고 요청 목록(<c:out value="${totalContents }"/>)</h4>	        
+		                  <h4 class="card-title">입고 요청 목록(<c:out value="${totalContents }"/>)</h4>	
+		                        
 		                  <p class="card-description">
 		                    <%-- Add class <code>.table-hover</code> --%>
 		                  </p>
+			               <form name="checkStatusFrm" action="${path }/admin/productRequest.do">
+								<div class="form-group" style="float:right;">
+									<select class="form-control" name="requestStatus" id="requestStatus">
+									<c:choose>
+										<c:when test="${requestStatus eq 'N' }">
+											<option selected value="N">미처리</option>
+											<option value="">전체보기</option>
+											<option value="P">처리중</option>
+											<option value="Y">처리완료</option>
+										</c:when>
+										<c:when test="${requestStatus eq 'P' }">
+											<option selected value="P">처리중</option>
+											<option value="">전체보기</option>
+											<option value="N">미처리</option>
+											<option value="Y">처리완료</option>												
+										</c:when>
+										<c:when test="${requestStatus eq 'Y' }">
+											<option selected value="Y">처리완료</option>
+											<option value="">전체보기</option>
+											<option value="N">미처리</option>												
+											<option value="P">처리중</option>
+										</c:when>	
+										<c:otherwise>
+											<option selected value="">전체보기</option>
+											<option value="N">미처리</option>												
+											<option value="P">처리중</option>
+											<option value="Y">처리완료</option>	
+										</c:otherwise>										
+									</c:choose>	
+									</select>						
+								</div>
+							</form>
 		                  <div class="table-responsive">
 		                    <table class="table table-hover" id="tbl-requestList">
 		                      <thead>
@@ -72,6 +104,7 @@
 												</c:choose>
 		                      				</td>
 		                      				<td>
+		               
 		                      					<c:choose>
 		                      						<c:when test="${l.requestStatus eq 'N' }">
 		                      							<label class="badge badge-danger">미처리</label>
@@ -93,6 +126,8 @@
 		                      	</c:if>
 		                      </tbody>
 		                    </table>
+		                    <br/>
+		                    <h5>※ 입고 진행상태를 변경하시려면 해당 요청의 행을 클릭하세요.</h5>  
 		                  </div>
 		                  <br/>
 		                  <div id="pageBar">
@@ -117,7 +152,12 @@ $(function(){
 		var td = tr.children();
 		var no = td.eq(0).text();
 		window.name="parentForm";
-		openWin= window.open('${path }/admin/requestView?no='+no,'입고요청 세부내용','width=600,height=390,scrollbars=no,left=200,top=50,resizable=no');
+		openWin= window.open('${path }/admin/requestView?no='+no,'입고요청 세부내용','width=440,height=320,scrollbars=no,left=200,top=50,resizable=no');
+	})
+	
+	$("#requestStatus").on('change',function(){
+		$(this).closest('form[name=checkStatusFrm]').submit();
+		console.log("콘솔도 하나 찍어볼까?");
 	})
 })
 </script>
