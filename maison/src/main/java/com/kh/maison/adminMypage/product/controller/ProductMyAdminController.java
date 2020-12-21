@@ -17,6 +17,7 @@ import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.adminMypage.product.model.service.ProductMyAdminService;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry;
 import com.kh.spring.common.PageBarFactory;
 
@@ -26,13 +27,14 @@ public class ProductMyAdminController {
 
 	@Autowired
 	private ProductMyAdminService service;
-	
+//상품등록,수정	
 	@RequestMapping("/enrollView.do")
 	public String moveEnrollView(Model m,
 			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
 			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
 		
 		List<ProductCate> list = service.selectTotalList(cPage,numPerPage);
+//		List<MyAdminEnroll> popular = service.selectPopularList();
 		
 		int totalData = service.selectTotalCount();
 		int showProduct = service.selectShowCount();
@@ -44,6 +46,8 @@ public class ProductMyAdminController {
 		m.addAttribute("todayCount",todayData);
 		m.addAttribute("totalCount",totalData);
 		m.addAttribute("product",list);
+//		m.addAttribute("popular",popular);
+//		System.out.println("인기리스트"+popular);
 		System.out.println("상품카테 리스트"+list);
 		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "enrollView.do"));
 		
@@ -234,7 +238,7 @@ public class ProductMyAdminController {
 		return str;
 	}
 	
-	//문의하기
+//문의하기
 	@ResponseBody
 	@RequestMapping("/noreply.do")
 	public String noreply(ModelAndView mv){
@@ -309,7 +313,8 @@ public class ProductMyAdminController {
 		}
 		return str;
 	}
-	
+
+	/* 문의 */
 	@ResponseBody
 	@RequestMapping("/search.do")
 	public String list(@RequestParam(defaultValue="name")String searchType,
@@ -343,6 +348,123 @@ public class ProductMyAdminController {
 		System.out.println("컨트롤러search리스트"+list);
 		System.out.println(map);
 //		mv.setViewName("admin/mypage/product/productInquiry");
+		return str;
+	}
+	
+//상품등록관리
+//	int totalData = service.selectTotalCount();
+//	int showProduct = service.selectShowCount();
+//	int stockData = service.selectStockCount();
+//	int todayData = service.selectTodayCount();
+//	
+//	m.addAttribute("showCount",showProduct);
+//	m.addAttribute("stockCount",stockData);
+//	m.addAttribute("todayCount",todayData);
+//	m.addAttribute("totalCount",totalData);
+	
+	@ResponseBody
+	@RequestMapping("/allPdList.do")
+	public String allPdList(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		List<MyAdminEnroll> list = null;
+		String str=null;
+		int count=0;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list = service.allPdList(cPage,numPerPage);
+			count = service.enrollAllCount();
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/todayPdEnroll.do")
+	public String todayPdEnroll(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		List<MyAdminEnroll> list = null;
+		String str=null;
+		int count=0;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list = service.todayPdEnroll(cPage,numPerPage);
+			count = service.enrolltodayCount();
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/pdStatus.do")
+	public String pdStatus(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		List<MyAdminEnroll> list = null;
+		String str=null;
+		int count=0;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list = service.pdStatus(cPage,numPerPage);
+			count = service.selectShowCount();
+			str=mapper.writeValueAsString(list);
+			System.out.println("값!"+list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	@ResponseBody
+	@RequestMapping("/pdStock.do")
+	public String pdStock(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		List<MyAdminEnroll> list = null;
+		String str=null;
+		int count=0;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			list = service.pdStock(cPage,numPerPage);
+			count = service.selectStockCount();
+			str=mapper.writeValueAsString(list);
+			System.out.println("값!"+list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/Enrollsearch.do")
+	public String Enrollsearch(@RequestParam(defaultValue="productName")String searchType,
+			@RequestParam(defaultValue="",required=false)String searchKeyword,
+			@RequestParam(defaultValue="",required=false)String datepicker,
+			@RequestParam(defaultValue="",required=false)String datepicker2,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		List<MyAdminEnroll> list =null;
+		int count=0;
+		ObjectMapper mapper= new ObjectMapper();
+		String str=null;
+		try{
+			list = service.Enrollsearch(searchType,searchKeyword,datepicker,datepicker2,cPage,numPerPage);
+			count = service.EnrollsearchCount(searchType,searchKeyword,datepicker,datepicker2);
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		ModelAndView mv = new ModelAndView();
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("list",list);
+		map.put("count",count);
+		map.put("searchType",searchType);
+		map.put("keyword",searchKeyword);
+		mv.addObject("map",map);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage, "search"));
+		System.out.println("컨트롤러search리스트"+list);
+		System.out.println(map);
 		return str;
 	}
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry;
 
 public interface ProductMyAdminDao {
@@ -88,4 +89,23 @@ public interface ProductMyAdminDao {
 	List<MyAdminInquiry> selectsearch(SqlSession session, String searchType,String selectCate,String datepicker,String datepicker2,String searchKeyword,int cPage,int numPerPage);
 	
 	int searchCountInq(SqlSession session, String searchType,String selectCate,String searchKeyword,String datepicker,String datepicker2);
+	
+	List<MyAdminEnroll> allPdList(SqlSession session,int cPage,int numPerPage);
+	
+	int enrollAllCount(SqlSession session);
+	
+	List<MyAdminEnroll> todayPdEnroll(SqlSession session, int cPage, int numPerPage);
+	
+	int enrolltodayCount(SqlSession session);
+	
+	List<MyAdminEnroll> pdStatus(SqlSession session,int cPage, int numPerPage);
+	
+	List<MyAdminEnroll> pdStock(SqlSession session,int cPage, int numPerPage);
+	
+	List<MyAdminEnroll> selectPopularList(SqlSession session);
+	
+	List<MyAdminEnroll> Enrollsearch(SqlSession session, String searchType,String searchKeyword,String datepicker,String datepicker2,int cPage,int numPerPage);
+	
+	int EnrollsearchCount(SqlSession session, String searchType,String searchKeyword,String datepicker,String datepicker2);
+	
 }

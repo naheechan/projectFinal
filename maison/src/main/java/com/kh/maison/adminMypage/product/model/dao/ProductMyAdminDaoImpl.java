@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry;
 
 @Repository
@@ -230,6 +231,70 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 		map.put("datepicker2",datepicker2);
 		System.out.println("daoIm"+map);
 		return session.selectOne("myAdminProduct.searchCountInq",map);
+	}
+
+	@Override
+	public List<MyAdminEnroll> allPdList(SqlSession session, int cPage, int numPerPage) {
+		return session.selectList("myAdminProduct.selectTotalList",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int enrollAllCount(SqlSession session) {
+		return session.selectOne("myAdminProduct.selectTotalCount");
+	}
+
+	@Override
+	public List<MyAdminEnroll> todayPdEnroll(SqlSession session, int cPage, int numPerPage) {
+		return session.selectList("myAdminProduct.todayPdEnroll",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int enrolltodayCount(SqlSession session) {
+		return session.selectOne("myAdminProduct.selectTodayCount");
+	}
+
+	@Override
+	public List<MyAdminEnroll> pdStatus(SqlSession session, int cPage, int numPerPage) {
+		return session.selectList("myAdminProduct.pdStatus",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public List<MyAdminEnroll> pdStock(SqlSession session, int cPage, int numPerPage) {
+		return session.selectList("myAdminProduct.pdStock",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public List<MyAdminEnroll> selectPopularList(SqlSession session) {
+		return session.selectList("myAdminProduct.selectPopularList");
+	}
+
+	@Override
+	public List<MyAdminEnroll> Enrollsearch(SqlSession session, String searchType,String searchKeyword, String datepicker,
+			String datepicker2, int cPage, int numPerPage) {
+		Map<String,Object> map = new HashMap<>();
+			map.put("searchType",searchType);
+			map.put("keyword",searchKeyword);
+			map.put("datepicker",datepicker);
+			map.put("datepicker2",datepicker2);
+			System.out.println("daoIm"+map);
+		return session.selectList("myAdminProduct.Enrollsearch",map,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int EnrollsearchCount(SqlSession session, String searchType, String searchKeyword, String datepicker,
+			String datepicker2) {
+		Map<String,Object> map = new HashMap<>();
+			map.put("searchType",searchType);
+			map.put("keyword",searchKeyword);
+			map.put("datepicker",datepicker);
+			map.put("datepicker2",datepicker2);
+			System.out.println("countdaoIm"+map);
+		return session.selectOne("myAdminProduct.EnrollsearchCount",map);
 	}
 	
 	

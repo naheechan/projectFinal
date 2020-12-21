@@ -149,7 +149,7 @@
 									<div class="form-group col-md-12">
 										<a href = "javascript:void(0)" onclick ="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">
 										수정</a>
-										<a class="btn" type="button" style="height:45%;background:#F2BB9C;" href="${path}/member/mypage/inquiry/deleteIq.do?no=${list.piNo }&id=${loginMember.memberId}">삭제</a>
+										<a class="btn" type="button" style="height:45%;background:#F2BB9C;" onclick="if(!confirm('삭제하시겠습니까?')){return false;}" href="${path}/member/mypage/inquiry/deleteIq.do?no=${list.piNo }&id=${loginMember.memberId}">삭제</a>
 									</div>
 								</c:if>
 								<c:if test="${list.piDel eq 'N'}">

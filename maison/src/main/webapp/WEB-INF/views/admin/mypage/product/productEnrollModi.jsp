@@ -96,10 +96,10 @@
 										<!-- <i class="fa fa-list-alt"></i> -->
 								</tr>
 								<tr style="text-align:center;">
-									<td>전체 상품<br><span class="badge">${totalCount}</span></td>
-									<td>진열 상품<br><span class="badge">${showCount}</span></td>
-									<td>재고 수량(<small>5개↓</small>)<br><span class="badge">${stockCount}</span></td>
-									<td>오늘등록상품<br><span class="badge">${todayCount}</span></td>
+									<td><a class="color" id="all" href="#recent-purchases-listing">전체 상품</a><br><span class="badge">${totalCount}</span></td>
+									<td><a class="color" id="show" href="#recent-purchases-listing">진열 상품</a><br><span class="badge">${showCount}</span></td>
+									<td><a class="color" id="stock" href="#recent-purchases-listing">재고 수량(<small>5개↓</small>)</a><br><span class="badge">${stockCount}</span></td>
+									<td><a class="color" id="today" href="#recent-purchases-listing">오늘등록상품</a><br><span class="badge">${todayCount}</span></td>
 								</tr>
 							</tbody>
 						</table>
@@ -117,13 +117,13 @@
                 <div class="card-body">
                   <p class="card-title">검색</p>
                   <select id="searchType">
-                  	<option value="name">상품명으로 검색</option>
+                  	<option value="productName">상품명으로 검색</option>
                   	<option value="popular">Top3 검색</option>
-                  	<option value="date">기간별 검색</option>
+                  	<option value="productDate">기간별 검색</option>
                   </select>
-                  <div id="search-name" >
+                  <div id="search-productName" >
                   	<form action="${path}/admin/mypage/product/search.do">
-                  		<input type="hidden" name="searchType" value="name">
+                  		<input type="hidden" name="searchType" value="productName">
                   		<input type="text" name="searchKeyword" id="searchName" size="50" placeholder="검색하실 상품이름을 입력해주세요">
                   		<i class="fa fa-search" aria-hidden="true" id="search" name="search"></i>
                   	</form>
@@ -137,9 +137,9 @@
                   		<i class="fa fa-search" aria-hidden="true" id="search" name="search"></i>
                   	</form>
                   </div>
-                  <div id="search-date" >
+                  <div id="search-productDate" >
                   	<form action="${path}/admin/mypage/product/search.do">
-                  		<input type="hidden" name="searchType" value="date">
+                  		<input type="hidden" name="searchType" value="productDate">
                   		<input type="date" name="datepicker" size="20" placeholder="yyyy-mm-dd">
                   		<label>~</label>&nbsp;&nbsp;&nbsp;
                   		<input type="date" name="datepicker2" size="20" placeholder="yyyy-mm-dd">
@@ -158,10 +158,10 @@
                 <div class="card-body">
                   <p class="card-title">전체 상품 리스트</p>
                   <div class="table-responsive">
-                    <table id="recent-purchases-listing" class="table" style="text-align:center;">
+                    <table id="recent-purchases-listing" class="table" style="text-align:center;" name="searchList">
                     <colgroup>
-						<col width="5%">
-						<col width="12%">
+						<col width="7%">
+						<col width="10%">
 						<col width="20%">
 						<col width="10%">
 						<col width="15%">
@@ -175,17 +175,17 @@
 					</colgroup>
                       <thead>
                         <tr>
-                            <th><small>상품번호</small></th>
-                            <th colspan="2"><small>상품이름</small></th>
+                            <th><small>상품<br>번호</small></th>
+                            <th colspan="2"><small>상품<br>정보</small></th>
                             <th><small>대분류</small></th>
                             <th><small>중분류</small></th>
-                            <th><small>상품요약</small></th>
-                            <th><small>상품노출</small></th>
-                            <th><small>재고수량</small></th>
+                            <th><small>상품<br>요약</small></th>
+                            <th><small>상품<br>노출</small></th>
+                            <th><small>재고<br>수량</small></th>
                             <th><small>가격</small></th>
                             <th><small>주기</small></th>
-                            <th><small>상품등록일</small></th>
-                            <th><small>상품수정</small></th>
+                            <th><small>상품<br>등록일</small></th>
+                            <th><small>상품<br>수정</small></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -193,16 +193,16 @@
                         <tr>
                             <td>${list.productNo}</td>
                             <td><img src="${path}/resources/upload/product/${list.productImg}" style="width:50px;"></td>
-                            <td width="10" style="text-overflow:ellipsis; overflow: hidden;"><span>${list.productName}</span></td>
+                            <td><span>${list.productName}</span></td>
                             <td>${list.largeCate}</td>
                             <td>${list.mcName}</td>
-                            <td width="10" style="text-overflow:ellipsis; overflow: hidden;"><span>${list.productSummary}</span></td>
+                            <td><span>${list.productSummary}</span></td>
                             <td>${list.productStatus}</td>
                             <td>${list.productStock}</td>
                             <td>${list.price}</td>
                             <td>${list.defCycle}</td>
                             <td>${list.productDate}</td>
-                            <td>
+                            <td onclick="event.cancelBubble=true">
                             	<input type="hidden" name="pno" id="pno" value="${list.productNo}">
                             	<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no=${list.productNo}">수정</a>
                             	<br><br>
@@ -231,11 +231,8 @@
 $(document).ready(function(){
 	
 	$("#movemodi").click(function(){
-	
 			var offset = $("#product-list").offset(); 
-	
 	     $('html').animate({scrollTop : offset.top}, 1000);
-	
 		});
 });
 $(function(){
@@ -249,13 +246,11 @@ $(function(){
 	
 	//searchType change
 	$("#searchType").change(function(e){
-		let name=$("#search-name");
-		let cate=$("#search-cate");
+		let name=$("#search-productName");
 		let popular = $("#search-popular");
-		let date = $("#search-date");
+		let date = $("#search-productDate");
 		
 		name.css("display","none");
-		cate.css("display","none");
 		popular.css("display","none");
 		date.css("display","none");
 		
@@ -284,20 +279,221 @@ $(function(){
 		searchNameProduct(nameFrm);
 		console.log(nameFrm);
 	}) */
+
 	
+	//all show stock today
+	$("#all").click(function(){
+		var table=$("[name=searchList]");
+		table.children('tbody').empty();
+			$.ajax({
+			url:"${path}/admin/mypage/product/allPdList.do",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				var str="";
+				console.log("AllProductList ajax 통신성공"+data);
+				$.each(data,function(i){
+					str+='<tr>'
+	                str+='<td>'+data[i].productNo+'</td>'
+	                str+='<td colspan="2"><img src="${path}/resources/upload/product/'+data[i].productImg+'">&nbsp;&nbsp;'+data[i].productName+'</td>'
+	                str+='<td>'+data[i].largeCate+'</td>'
+	                str+='<td>'+data[i].mcName+'</td>'
+	                str+='<td><span>'+data[i].productSummary+'</span></td>'
+	                str+='<td>'+data[i].productStatus+'</td>'
+	                str+='<td>'+data[i].productStock+'</td>'
+	                str+='<td>'+data[i].price+'</td>'
+	                str+='<td>'+data[i].defCycle+'</td>'
+	                str+='<td>'+data[i].productDate+'</td>'
+	                str+='<td onclick="event.cancelBubble=true">'
+	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='</td>'
+	                str+='</tr>'
+					})
+					table.append(str);
+			},
+			error:function(){
+				console.log("AllProductList ajax 통신실패");
+			}
+		});
+	});
 	
+	$("#today").click(function(){
+		var table=$("[name=searchList]");
+		table.children('tbody').empty();
+			$.ajax({
+			url:"${path}/admin/mypage/product/todayPdEnroll.do",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				var str="";
+				console.log("today ajax 통신성공"+data);
+				$.each(data,function(i){
+					str+='<tr>'
+	                str+='<td>'+data[i].productNo+'</td>'
+	                str+='<td colspan="2"><img src="${path}/resources/upload/product/'+data[i].productImg+'">&nbsp;&nbsp;'+data[i].productName+'</td>'
+	                str+='<td>'+data[i].largeCate+'</td>'
+	                str+='<td>'+data[i].mcName+'</td>'
+	                str+='<td><span>'+data[i].productSummary+'</span></td>'
+	                str+='<td>'+data[i].productStatus+'</td>'
+	                str+='<td>'+data[i].productStock+'</td>'
+	                str+='<td>'+data[i].price+'</td>'
+	                str+='<td>'+data[i].defCycle+'</td>'
+	                str+='<td>'+data[i].productDate+'</td>'
+	                str+='<td onclick="event.cancelBubble=true">'
+	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='</td>'
+	                str+='</tr>'
+					})
+					table.append(str);
+			},
+			error:function(){
+				console.log("today ajax 통신실패");
+			}
+		});
+	});
+	
+	$("#show").click(function(){
+		var table=$("[name=searchList]");
+		table.children('tbody').empty();
+			$.ajax({
+			url:"${path}/admin/mypage/product/pdStatus.do",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				var str="";
+				console.log("today ajax 통신성공"+data);
+				$.each(data,function(i){
+					str+='<tr>'
+	                str+='<td>'+data[i].productNo+'</td>'
+	                str+='<td colspan="2"><img src="${path}/resources/upload/product/'+data[i].productImg+'">&nbsp;&nbsp;'+data[i].productName+'</td>'
+	                str+='<td>'+data[i].largeCate+'</td>'
+	                str+='<td>'+data[i].mcName+'</td>'
+	                str+='<td><span>'+data[i].productSummary+'</span></td>'
+	                str+='<td>'+data[i].productStatus+'</td>'
+	                str+='<td>'+data[i].productStock+'</td>'
+	                str+='<td>'+data[i].price+'</td>'
+	                str+='<td>'+data[i].defCycle+'</td>'
+	                str+='<td>'+data[i].productDate+'</td>'
+	                str+='<td onclick="event.cancelBubble=true">'
+	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='</td>'
+	                str+='</tr>'
+					})
+					table.append(str);
+			},
+			error:function(){
+				console.log("today ajax 통신실패");
+			}
+		});
+	});
+	$("#stock").click(function(){
+		var table=$("[name=searchList]");
+		table.children('tbody').empty();
+			$.ajax({
+			url:"${path}/admin/mypage/product/pdStock.do",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				var str="";
+				console.log("today ajax 통신성공"+data);
+				$.each(data,function(i){
+					str+='<tr>'
+	                str+='<td>'+data[i].productNo+'</td>'
+	                str+='<td colspan="2"><img src="${path}/resources/upload/product/'+data[i].productImg+'">&nbsp;&nbsp;'+data[i].productName+'</td>'
+	                str+='<td>'+data[i].largeCate+'</td>'
+	                str+='<td>'+data[i].mcName+'</td>'
+	                str+='<td><span>'+data[i].productSummary+'</span></td>'
+	                str+='<td>'+data[i].productStatus+'</td>'
+	                str+='<td>'+data[i].productStock+'</td>'
+	                str+='<td>'+data[i].price+'</td>'
+	                str+='<td>'+data[i].defCycle+'</td>'
+	                str+='<td>'+data[i].productDate+'</td>'
+	                str+='<td onclick="event.cancelBubble=true">'
+	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='</td>'
+	                str+='</tr>'
+					})
+					table.append(str);
+			},
+			error:function(){
+				console.log("today ajax 통신실패");
+			}
+		});
+	});
+	
+	$("#searchName").val("");
+	$("[name=searchKeyword]").val("");
+	$(document).on("click","#search",function(e){
+		var table = $("[name=searchList]").children('tbody').empty();
+		var frm = $(e.target).parent();
+		var searchfrm= frm.serializeArray();
+		console.log(searchfrm);
+		
+		$.ajax({
+			url:"${path}/admin/mypage/product/Enrollsearch.do",
+			data:searchfrm,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				console.log("search ajax통신 성공"+data);
+				var str="";
+				$.each(data,function(i){
+					str+='<tr>'
+	                str+='<td>'+data[i].productNo+'</td>'
+	                str+='<td colspan="2"><img src="${path}/resources/upload/product/'+data[i].productImg+'">&nbsp;&nbsp;'+data[i].productName+'</td>'
+	                str+='<td>'+data[i].largeCate+'</td>'
+	                str+='<td>'+data[i].mcName+'</td>'
+	                str+='<td><span>'+data[i].productSummary+'</span></td>'
+	                str+='<td>'+data[i].productStatus+'</td>'
+	                str+='<td>'+data[i].productStock+'</td>'
+	                str+='<td>'+data[i].price+'</td>'
+	                str+='<td>'+data[i].defCycle+'</td>'
+	                str+='<td>'+data[i].productDate+'</td>'
+	                str+='<td onclick="event.cancelBubble=true">'
+	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='</td>'
+	                str+='</tr>'
+					})
+					table.append(str);
+				$("#searchName").val("");
+				$("[name=searchKeyword]").val("");
+			},
+			error:function(){
+				console.log("search ajax통신 실패");
+			}
+		})
+	});
 	
 })
 </script>
   <style>
+  [name=searchList] tr td{
+    width:200px;
+    padding:0 5px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    }
+  .color{
+		color:#000000;
+	}
   .fa-calendar{position:relative;left:-20px;}
   #searchType{margin-left:20%;height:25px;}
   #largeCate{height:25px;width:170px;}
   #mediCate{height:25px;width:170px;}
-  div#search-name{display:inline-block; margin-left:10px;}
-  div#search-cate{display:none;margin-left:10px;}
+  div#search-productName{display:inline-block; margin-left:10px;}
   div#search-popular{display:none;margin-left:10px;;}
-  div#search-date{display:none;margin-left:10px;}
+  div#search-productDate{display:none;margin-left:10px;}
     .btn{
     	float:right;
     }
@@ -344,7 +540,6 @@ $(function(){
     	table-layout:fixed;
     }
     th small{
-    	writing-mode:tb-rl;
     	padding-top:0px;
     }
     .badge{

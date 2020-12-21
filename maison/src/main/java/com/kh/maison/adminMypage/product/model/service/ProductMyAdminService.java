@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry;
 
 public interface ProductMyAdminService {
@@ -87,4 +88,25 @@ public interface ProductMyAdminService {
 	List<MyAdminInquiry> selectsearch(String searchType,String selectCate,String searchKeyword,String datepicker,String datepicker2,int cPage,int numPerPage);
 	
 	int searchCountInq(String searchType,String selectCate,String searchKeyword,String datepicker,String datepicker2);
+	
+	//등록
+	List<MyAdminEnroll> allPdList(int cPage, int numPerPage);
+	
+	int enrollAllCount();
+	
+	List<MyAdminEnroll> todayPdEnroll(int cPage, int numPerPage);
+	
+	int enrolltodayCount();
+	
+	List<MyAdminEnroll> pdStatus(int cPage,int numPerPage);
+	
+	List<MyAdminEnroll> pdStock(int cPage,int numPerPage);
+	
+	List<MyAdminEnroll> selectPopularList();
+	
+	List<MyAdminEnroll> Enrollsearch(String searchType,String searchKeyword,String datepicker,String datepicker2,int cPage,int numPerPage);
+	
+	int EnrollsearchCount(String searchType,String searchKeyword,String datepicker,String datepicker2);
+	
+	
 }

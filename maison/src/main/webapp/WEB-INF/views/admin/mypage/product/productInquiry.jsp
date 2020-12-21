@@ -602,6 +602,8 @@
 	                str+='</tr>'
 					})
 					table.append(str);
+				$("#searchName").val("");
+				$("[name=searchKeyword]").val("");
 			},
 			error:function(){
 				console.log("search ajax통신 실패");

@@ -11,6 +11,7 @@ import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.adminMypage.product.model.dao.ProductMyAdminDao;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry;
 
 @Service
@@ -208,6 +209,52 @@ public class ProductMyAdminServiceImpl implements ProductMyAdminService {
 	@Override
 	public int searchCountInq(String searchType, String selectCate, String searchKeyword,String datepicker,String datepicker2) {
 		return dao.searchCountInq(session,searchType,selectCate,searchKeyword,datepicker,datepicker2);
+	}
+
+	@Override
+	public List<MyAdminEnroll> allPdList(int cPage, int numPerPage) {
+		return dao.allPdList(session,cPage,numPerPage);
+	}
+
+	@Override
+	public int enrollAllCount() {
+		return dao.enrollAllCount(session);
+	}
+
+	@Override
+	public List<MyAdminEnroll> todayPdEnroll(int cPage, int numPerPage) {
+		return dao.todayPdEnroll(session,cPage,numPerPage);
+	}
+
+	@Override
+	public int enrolltodayCount() {
+		return dao.enrolltodayCount(session);
+	}
+
+	@Override
+	public List<MyAdminEnroll> pdStatus(int cPage, int numPerPage) {
+		return dao.pdStatus(session,cPage,numPerPage);
+	}
+
+	@Override
+	public List<MyAdminEnroll> pdStock(int cPage, int numPerPage) {
+		return dao.pdStock(session,cPage,numPerPage);
+	}
+
+	@Override
+	public List<MyAdminEnroll> selectPopularList() {
+		return dao.selectPopularList(session);
+	}
+
+	@Override
+	public List<MyAdminEnroll> Enrollsearch(String searchType, String searchKeyword, String datepicker,
+			String datepicker2, int cPage, int numPerPage) {
+		return dao.Enrollsearch(session,searchType,searchKeyword,datepicker,datepicker2,cPage,numPerPage);
+	}
+
+	@Override
+	public int EnrollsearchCount(String searchType, String searchKeyword, String datepicker, String datepicker2) {
+		return dao.EnrollsearchCount(session,searchType,searchKeyword,datepicker,datepicker2);
 	}
 
 	
