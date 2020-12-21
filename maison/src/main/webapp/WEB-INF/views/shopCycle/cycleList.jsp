@@ -9,10 +9,29 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value=""/>
 </jsp:include>
+<link href="//cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">  
+<script src="//cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
 <style>
 	#detailTab-container{
 		padding: 3vh;
 	}
+	.productActive {
+		filter: brightness(100%);
+	}
+	.productInactive {
+		filter: brightness(50%);
+	} 
+	.noList {
+		padding: 20vh;
+		text-align: center;
+	}
+	.noList button {
+		margin-top: 5vh;
+	}
+	.custom-control{-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center}
+	.custom-switch{padding-left:2.25rem}
+	.custom-control-input{position:absolute;left:0;z-index:-1;width:1rem;height:1.25rem;opacity:0}
+	.custom-control-label{position:relative;margin-bottom:0;vertical-align:top}
 </style>
 <section>
 <div class="shop-box-inner">
@@ -128,66 +147,83 @@
 				<!-- 상품 -->
                  <div class="product-categorie-box">
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
-                                    <div class="row" id="divResult">
-                                    
-                                    <c:forEach var="list" items="${cycleList}" varStatus="i">
-                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                                            <div class="products-single fix">
-                                                <div class="box-img-hover">
-                                                    <div class="type-lb">
-                                                    </div>
-                                                    <img src="${path }/resources/upload/product/${list.productImg}" class="img-fluid" alt="Image">
-                                                    <div class="mask-icon">
-                                                        <a class="cart" href="${path }/shop/shopDetail.do?no=${list.productNo}">상품 보러가기</a>
-                                                    </div>
-                                                </div>
-                                                <div class="why-text">
-                                                    <h4><a href="#">${list.productName}</a></h4><br>
-                                                    <button class="btn btn-outline-info" onclick="location.href='${path }/shopCycle/cycleDetail?no=${list.productNo}'">주기 설정하기</button>
-                                                    <c:if test="${list.cycleMode eq 'onCycle' }">
-                                                  		<c:set var="cycleDay" value="${list.onCycle}" />
-	                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>
-                                                    </c:if>
-                                                    <c:if test="${list.cycleMode eq 'offCycle' }">  
-	                                                    <c:set var="cycleDay" value="${list.offCycle}" />
-	                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>                                               
-                                                    </c:if>
-                                                    
-                                                    <!-- 직전에 구매한 상품 갯수 -->
-                                                    <c:set var="odAmount" value="${list.odAmount}" />
-                                                    <!-- startDate를 밀리세컨드로 변환 -->
-                                                    <fmt:parseNumber var="startDate_M" value="${list.startDate.time}"/>
-                                                   	<!-- 변수를 스크립틀릿에서 사용하기 위해서 c:set으로 저장 -->
-                                                    <c:set var="startDa" value="${startDate_M}" />
-                                                    <%
-                                                    	//직전에 구매한 상품의 갯수
-                                                    	int amount = Integer.parseInt(String.valueOf(pageContext.getAttribute("odAmount")));
-                                                    	
-                                                    	//주기(day)를 int변수에 넣어줌
-                                                    	int cycleDay = Integer.parseInt(String.valueOf(pageContext.getAttribute("cycleDay")));
-                                                    	//startDate를 Calendar를 이용해서 주기(day)를 더하면 다음 구매예상일 날짜 구해짐
-                                                    	Date startDa = new Date(Long.valueOf(String.valueOf(pageContext.getAttribute("startDa"))));
-                                                    	Calendar cal = Calendar.getInstance();
-                                                    	cal.setTime(startDa);
-                                                    	
-                                                    	Calendar calToday = Calendar.getInstance(); //지금 현재 날짜
-                                                    	//오늘보다 다음구매예상일이 더 커질때까지 더함.
-                                                    	do{
-                                                    		cal.add(Calendar.DATE, cycleDay*amount);
-                                                    	}while(cal.getTimeInMillis() < calToday.getTimeInMillis());
-                                                    	
-                                                    	startDa = new Date(cal.getTimeInMillis());
-                                                    	pageContext.setAttribute("startDate", startDa);
-                                                   	%>
-                                                    <h5>다음 구매예상일 : </h5>
-                                                    <h5><fmt:formatDate value="${startDate}" pattern="yyyy년 MM월 dd일" /></h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </c:forEach>
-                                     </div>
-                                  </div>
+                            	<c:if test="${cycleList.size()==0}">
+                            		<div class="noList">
+	                            		<p>이곳은 구매하신 상품의 관리를 위한 곳입니다.</p>
+	                            		<p>상품을 구매하시고 '쇼핑시계'서비스를 이용해 보세요.</p>
+	                            		<button class="btn btn-info" onclick="location.href='${path}/shop/shopView.do'">쇼핑하러 가기</button>
+	                            	</div>
+                            	</c:if>
+                            	<c:if test="${cycleList.size()!=0}">
+	                                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+	                                    <div class="row" id="divResult">
+	                                    
+	                                    <c:forEach var="list" items="${cycleList}" varStatus="i">
+	                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4 eachItem">
+	                                            <div class="products-single fix">
+	                                            	<c:set var="toggleId" value="toggle${i.index}"/>
+										     		<%-- <input type="checkbox" class="custom-control-input" id="${toggleId}" name="alertCheck" ${list.alertStatus eq 'Y'?'checked':''}>
+										     		<label class="custom-control-label" for="${toggleId}">알림 서비스 수신</label>
+										     		 --%>
+										     		<input type="hidden" name="no" value="${list.productNo}"/>
+											     	<input type="checkbox" id="${toggleId}" class="alertToggle" name="alertCheck" data-toggle="toggle" data-size="xs" ${list.alertStatus eq 'Y'?'checked':''}><c:out value=" 알림 서비스 수신"/>
+	                                                <div class="box-img-hover">
+	                                                    <div class="type-lb">
+	                                                    </div>
+	                                                    <img src="${path }/resources/upload/product/${list.productImg}" class="img-fluid" alt="Image">
+	                                                    <div class="mask-icon">
+	                                                        <a class="cart" href="${path }/shop/shopDetail.do?no=${list.productNo}">상품 보러가기</a>
+	                                                    </div>
+	                                                </div>
+	                                                <div class="why-text">
+	                                                    <h4><a class="pName" href="${path }/shopCycle/cycleDetail?no=${list.productNo}">${list.productName}</a></h4><br>
+	                                                    
+	                                                    <button class="btn btn-outline-info pSetting" onclick="location.href='${path }/shopCycle/cycleDetail?no=${list.productNo}'">주기 설정하기</button>
+	                                                    <c:if test="${list.cycleMode eq 'onCycle' }">
+	                                                  		<c:set var="cycleDay" value="${list.onCycle}" />
+		                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>
+	                                                    </c:if>
+	                                                    <c:if test="${list.cycleMode eq 'offCycle' }">  
+		                                                    <c:set var="cycleDay" value="${list.offCycle}" />
+		                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>                                               
+	                                                    </c:if>
+	                                                    
+	                                                    <!-- 직전에 구매한 상품 갯수 -->
+	                                                    <c:set var="odAmount" value="${list.odAmount}" />
+	                                                    <!-- startDate를 밀리세컨드로 변환 -->
+	                                                    <fmt:parseNumber var="startDate_M" value="${list.startDate.time}"/>
+	                                                   	<!-- 변수를 스크립틀릿에서 사용하기 위해서 c:set으로 저장 -->
+	                                                    <c:set var="startDa" value="${startDate_M}" />
+	                                                    <%
+	                                                    	//직전에 구매한 상품의 갯수
+	                                                    	int amount = Integer.parseInt(String.valueOf(pageContext.getAttribute("odAmount")));
+	                                                    	
+	                                                    	//주기(day)를 int변수에 넣어줌
+	                                                    	int cycleDay = Integer.parseInt(String.valueOf(pageContext.getAttribute("cycleDay")));
+	                                                    	//startDate를 Calendar를 이용해서 주기(day)를 더하면 다음 구매예상일 날짜 구해짐
+	                                                    	Date startDa = new Date(Long.valueOf(String.valueOf(pageContext.getAttribute("startDa"))));
+	                                                    	Calendar cal = Calendar.getInstance();
+	                                                    	cal.setTime(startDa);
+	                                                    	
+	                                                    	Calendar calToday = Calendar.getInstance(); //지금 현재 날짜
+	                                                    	//오늘보다 다음구매예상일이 더 커질때까지 더함.
+	                                                    	do{
+	                                                    		cal.add(Calendar.DATE, cycleDay*amount);
+	                                                    	}while(cal.getTimeInMillis() < calToday.getTimeInMillis());
+	                                                    	
+	                                                    	startDa = new Date(cal.getTimeInMillis());
+	                                                    	pageContext.setAttribute("startDate", startDa);
+	                                                   	%>
+	                                                    <h5>다음 구매예상일 : </h5>
+	                                                    <h5><fmt:formatDate value="${startDate}" pattern="yyyy년 MM월 dd일" /></h5>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                        </c:forEach>
+	                                     </div>
+	                                     ${pageBar }
+	                                  </div>
+								</c:if>
                             </div>
                         </div>
                     </div>
@@ -204,6 +240,71 @@
 	</div>
 </div>
 </section>
+
+
+<script>
+$(function() {
+	
+	//알림 수신 여부에 따라서 활성화/비활성화
+	$("input[name=alertCheck]").each(function(index, item) {
+		if(item.checked==true) {
+			$(item).parents(".eachItem").addClass("productActive");
+			$(item).parents(".eachItem").find(".pName").unbind('click');
+			$(item).parents(".eachItem").find(".pSetting").attr("disabled",false);
+		}else {
+			$(item).parents(".eachItem").addClass("productInactive");
+			$(item).parents(".eachItem").find(".pName").bind('click',false); 
+			$(item).parents(".eachItem").find(".pSetting").attr("disabled",true);
+		}
+	});  
+	
+	
+	//알림 수신 체크박스 누를때마다 ajax로 알림수신 on/off
+	$("input[name=alertCheck]").on('change', function(e) {
+		var item = e.target;
+		var no = $(item).parent().prev().val();
+		var check = item.checked;
+		
+		$.ajax({
+			type:"get",
+			url:"${path}/shopCycle/editAlert",
+			data:{
+				no:no,
+				check:check
+			},
+			error:function(error) {
+				console.log(error);
+				swal("처리중 요류가 발생했습니다", "관리자에게 문의하세요", "warning");
+			},
+			success:function(data) {
+				if(data=="1") {
+					//ajax성공했으면 view도 알맞게 바꿔줌
+					if(item.checked==true) {
+						$(item).parents(".eachItem").addClass("productActive");
+						$(item).parents(".eachItem").removeClass("productInactive");
+						$(item).parents(".eachItem").find(".pName").unbind('click');
+						$(item).parents(".eachItem").find(".pSetting").attr("disabled",false); 
+						
+					}else {
+						$(item).parents(".eachItem").addClass("productInactive");
+						$(item).parents(".eachItem").removeClass("productActive");
+						$(item).parents(".eachItem").find(".pName").bind('click',false); 
+						$(item).parents(".eachItem").find(".pSetting").attr("disabled",true);
+					}
+				}else {
+					swal("처리중 요류가 발생했습니다", "관리자에게 문의하세요", "warning");
+				}
+			}
+		});
+		
+		
+	}); 
+	
+});
+
+
+
+</script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		

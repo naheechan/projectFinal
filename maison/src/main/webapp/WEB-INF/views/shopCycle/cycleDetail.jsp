@@ -197,6 +197,7 @@
 						<div class="cycle" id="on-cycle">
 							<!-- text부분 -->
 							<div class="cycleTitle">
+								<img class="checkImg" src="${path}/resources/images/cycleChecked.png" width="25px" alt="checkImg">
 								<span>자동주기계산 ON</span>
 							</div>
 							
@@ -223,6 +224,7 @@
 						<div class="cycle" id="off-cycle">
 							<!-- text부분 -->
 							<div class="cycleTitle">
+								<img class="checkImg" src="${path}/resources/images/cycleChecked.png" width="25px" alt="checkImg">
 								<span>자동주기계산 OFF</span>
 							</div>
 							
@@ -382,10 +384,13 @@
 			/* 현재 주기가 ON일때 */
 			$("#on-cycle").addClass('selected');
 			$("#off-cycle").removeClass('selected');
+			$("#off-cycle").find(".checkImg").hide();
 		}else {
 			/* 현재 주기가 OFF일때 */
 			$("#on-cycle").removeClass('selected');
 			$("#off-cycle").addClass('selected');
+			$("#on-cycle").find(".checkImg").hide();
+			/* $("#on-cycle").find(".checkImg").attr("display","none"); */
 		}
 		
 		/* offRadio버튼이 선택되어 있을때만 offInput에 입력가능 */

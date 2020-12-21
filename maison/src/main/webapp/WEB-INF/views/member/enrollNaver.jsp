@@ -167,7 +167,14 @@
 	 .checked {
 	 	width: 20px;
 	 }
-
+	#submit-container {
+		display: flex;
+		justify-content: center;
+	}
+	#submit-container button {
+		padding: 2vh;
+		margin: 5vh;
+	}
 </style>
 <section>
 	<div class="jumbotron jumbotron-fluid">
@@ -197,7 +204,7 @@
 		 	
 		 	<div class="form-group">
 			    <label for="datepicker">생년월일</label><br>
-			    <input type="text" class="form-control" id="datepicker" name="birth" required>
+			    <input type="text" class="form-control" id="datepicker" name="birth" autocomplete="off" required>
 			    <div id="checkBrith-container">
 				    <p class="text-danger" id="notRegBrith" style="display:none">달력에서 생년월일을 선택해주세요</p>
 			    </div>

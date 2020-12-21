@@ -105,7 +105,14 @@
 		WHERE BASKETNO=#{basketno} AND MEMBERID=#{id}
   	</select>
   	
-  	
+  	<update id="updateAlertStatus" parameterType="map">
+  		UPDATE CYCLE
+  		<set>
+  			<if test='check.equals("true")'>ALERTSTATUS='Y'</if>
+	  		<if test='check.equals("false")'>ALERTSTATUS='N'</if>
+  		</set>
+  		WHERE MEMBERID=#{id} AND PRODUCTNO=#{no}
+  	</update>
   	
   	
   	

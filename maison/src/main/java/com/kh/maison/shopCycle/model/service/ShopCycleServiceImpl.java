@@ -20,8 +20,8 @@ public class ShopCycleServiceImpl implements ShopCycleService {
 	private SqlSessionTemplate session;
 	
 	@Override
-	public List<CycleProduct> selectCycleList(Map<String,String> cateMap) {
-		return dao.selectCycleList(session, cateMap);
+	public List<CycleProduct> selectCycleList(Map<String,String> cateMap, int cPage, int numPerPage) {
+		return dao.selectCycleList(session, cateMap, cPage, numPerPage);
 	}
 
 	@Override
@@ -62,6 +62,11 @@ public class ShopCycleServiceImpl implements ShopCycleService {
 	@Override
 	public int selectProductNo(Map<String, String> map) {
 		return dao.selectProductNo(session, map);
+	}
+
+	@Override
+	public int updateAlertStatus(Map<String, String> map) {
+		return dao.updateAlertStatus(session, map);
 	}
 	
 	

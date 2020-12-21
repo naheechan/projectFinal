@@ -1,9 +1,12 @@
 package com.kh.maison.shopCycle.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +15,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.product.model.vo.Category;
+import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.service.ShopService;
 import com.kh.maison.shopCycle.model.service.ShopCycleService;
@@ -36,7 +44,10 @@ public class ShopCycleController {
 	
 	@RequestMapping("/cycleList")
 	public String cycleList(Model m, @RequestParam(defaultValue="all") String tab
-						, String detailTab, @SessionAttribute("loginMember") Member mem) {
+						, String detailTab, @SessionAttribute("loginMember") Member mem
+						, @RequestParam(defaultValue="1") int cPage
+						, @RequestParam(defaultValue="9") int numPerPage
+						, HttpServletRequest request) {
 		
 		Map<String,String> cateMap = new HashMap<>();
 		cateMap.put("id",mem.getMemberId());
@@ -52,16 +63,17 @@ public class ShopCycleController {
 			cateMap.put("tab",tab);
 			if(detailTab==null) {
 				//대분류카테고리 선택o, 소분류카테고리 선택x 일때
-				cycleList = service.selectCycleList(cateMap);	
+				cycleList = service.selectCycleList(cateMap, cPage, numPerPage);	
 			}else {
 				//대분류카테고리 선택o, 소분류카테고리 선택o 일때
 				cateMap.put("detailTab",detailTab);
-				cycleList = service.selectCycleList(cateMap);
+				cycleList = service.selectCycleList(cateMap, cPage, numPerPage);
 			}
 		}else {
 			//'한번에 보기'일때 cycle전체를 가져옴
-			cycleList = service.selectCycleList(cateMap);	
+			cycleList = service.selectCycleList(cateMap, cPage, numPerPage);	
 		}
+		
 		
 		//대분류 별 cycle갯수 가져오기
 		List<CountCycle> countCycleList = service.selectCountCycle(mem.getMemberId());
@@ -88,6 +100,7 @@ public class ShopCycleController {
 		m.addAttribute("tab",tab);
 		m.addAttribute("detailTab",detailTab);
 		m.addAttribute("countCycleMap",countCycleMap);
+		m.addAttribute("pageBar", PageBarFactory.getPageBar(cycleList.size(), cPage, numPerPage, request.getRequestURI()));
 		return "shopCycle/cycleList";
 	}
 	
@@ -174,7 +187,26 @@ public class ShopCycleController {
 		return mv;
 	}
 	
-	
+	//ajax로 alertStatus 변경
+	@ResponseBody
+	@RequestMapping(value="/editAlert")
+	public String editAlert(String no, String check, @SessionAttribute("loginMember") Member mem) throws JsonMappingException, JsonGenerationException, IOException {
+		ObjectMapper mapper= new ObjectMapper();
+		
+		Map<String,String> map = new HashMap<>();
+		map.put("id",mem.getMemberId());
+		map.put("no",no);
+		map.put("check",check);
+
+		//checkbox의 checked가 true이면 alertStatus='Y'로 업데이트
+		//checkbox의 checked가 false이면 alertStatus='Y'로 업데이트
+		int result = service.updateAlertStatus(map);
+		
+		if(result>0) logger.debug("쇼핑시계 alertStatus변경 성공. memberId="+mem.getMemberId()+", productNo="+no);
+		else logger.debug("쇼핑시계 alertStatus변경 실패. memberId="+mem.getMemberId()+", productNo="+no);
+		
+		return mapper.writeValueAsString(result);
+	}
 	
 	
 	

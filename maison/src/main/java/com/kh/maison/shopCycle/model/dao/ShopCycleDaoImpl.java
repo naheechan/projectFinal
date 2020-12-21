@@ -3,6 +3,7 @@ package com.kh.maison.shopCycle.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,8 +16,8 @@ import com.kh.maison.shopCycle.model.vo.CycleProduct;
 public class ShopCycleDaoImpl implements ShopCycleDao {
 
 	@Override
-	public List<CycleProduct> selectCycleList(SqlSessionTemplate session, Map<String,String> cateMap) {
-		return session.selectList("cycle.selectCycleList", cateMap);
+	public List<CycleProduct> selectCycleList(SqlSessionTemplate session, Map<String,String> cateMap, int cPage, int numPerPage) {
+		return session.selectList("cycle.selectCycleList", cateMap, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
 
 	@Override
@@ -57,6 +58,11 @@ public class ShopCycleDaoImpl implements ShopCycleDao {
 	@Override
 	public int selectProductNo(SqlSessionTemplate session, Map<String, String> map) {
 		return session.selectOne("cycle.selectProductNo", map);
+	}
+
+	@Override
+	public int updateAlertStatus(SqlSessionTemplate session, Map<String, String> map) {
+		return session.update("cycle.updateAlertStatus", map);
 	}
 	
 	
