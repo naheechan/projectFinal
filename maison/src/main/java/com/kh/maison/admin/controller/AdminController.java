@@ -184,8 +184,8 @@ public class AdminController {
 			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
 			@RequestParam(value="type",required=false,defaultValue="")String type,
 			@RequestParam(value="keyword",required=false,defaultValue="")String keyword,
-			@RequestParam(value="memberSocial",required=false,defaultValue="all")String memberSocial,
-			@RequestParam(value="emailStatus",required=false,defaultValue="all")String emailStatus,
+			@RequestParam(value="memberSocial",required=false,defaultValue="")String memberSocial,
+			@RequestParam(value="emailStatus",required=false,defaultValue="")String emailStatus,
 			@RequestParam(value="memberLevel",required=false,defaultValue="")String memberLevel){
 		//검색어(target,check), 회원구분, 이메일 수신 여부, 회원등급
 			
@@ -230,4 +230,24 @@ public class AdminController {
 		mv.setViewName("admin/member/memberList");
 		return mv;
 	}
+	
+	//버튼 누르면 멤버 탈퇴시키기 
+	@RequestMapping("admin/memberDelete.do")
+	public ModelAndView memberDelete(ModelAndView mv, @RequestParam String memberId) {
+		int result = service.updateMemberStatus(memberId);
+		if(result>0) {
+			mv.addObject("msg", memberId+"님이 탈퇴되었습니다.");
+			mv.addObject("subMsg","관리자 > 멤버 목록 화면을 리로드합니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/admin/memberList.do");			
+		}else {
+			mv.addObject("msg", "탈퇴시도가 실패했습니다.");
+			mv.addObject("subMsg","다시시도하신 후 관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/admin/memberList.do");
+		}
+		mv.setViewName("common/sweetMsg");
+		return mv;
+	}
+	
 }

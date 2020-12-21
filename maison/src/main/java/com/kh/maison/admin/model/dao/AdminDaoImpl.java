@@ -146,4 +146,10 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectOne("admin.selectAllMemberCount",ms);
 	}
 
+	@Override
+	public int updateMemberStatus(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateMemberStatus",memberId);
+	}
+
 }

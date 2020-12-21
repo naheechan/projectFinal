@@ -36,5 +36,5 @@ public interface AdminService {
 	//admin밑에 member밑에 memberList.jsp에 들어갈 거
 	List<Member> selectAllMember(int cPage,int numPerPage,MemberSearch ms);
 	int selectAllMemberCount(MemberSearch ms);
-	
+	int updateMemberStatus(String memberId);
 }

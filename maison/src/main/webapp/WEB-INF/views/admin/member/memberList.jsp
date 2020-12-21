@@ -92,7 +92,7 @@
 								  		<td>
 								  			<div class="form-check-inline">
 											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="all">전체
+											    <input type="radio" class="form-check-input" name="memberSocial" value="">전체
 											  </label>
 											</div>							  		
 								  			<div class="form-check-inline">
@@ -112,7 +112,7 @@
 								  		<td>
 								  			<div class="form-check-inline">
 											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="all">전체
+											    <input type="radio" class="form-check-input" name="emailStatus" value="">전체
 											  </label>
 											</div>
 						  					<div class="form-check-inline">
@@ -194,7 +194,7 @@
 		                      				<td><c:out value="${l.phone }"/></td>
 											<td>
 												<button class="btn btn-lignt">수정</button>
-												<button class="btn btn-secondary">탈퇴</button>
+												<button class="btn btn-secondary" onclick="memberDelete('${l.memberId}')">탈퇴</button>
 											</td>
 		                      			</tr>
 		                      		</c:forEach>
@@ -217,5 +217,10 @@
 	</div>
 </div>
 <jsp:include page="/WEB-INF/views/admin/jses.jsp"/>
+<script>
+	function memberDelete(str){
+		location.href='${path }/admin/memberDelete.do?memberId='+str;
+	}
+</script>
 </body>
 </html>

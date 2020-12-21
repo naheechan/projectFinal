@@ -96,7 +96,7 @@
 	
 	<select id="selectAllMember" parameterType="memberSearch" resultType="member">
 		SELECT * FROM MEMBER
-		<trim prefix="where" prefixOverrides="AND">
+		WHERE MEMBERSTATUS='Y'
 			<if test="!type.equals('')">
 				<choose>
 					<when test="type.equals('memberId')">
@@ -111,7 +111,44 @@
 					</when>
 				</choose>
 			</if>
-		</trim>
+
+		<if test="!memberSocial.equals('')">
+			<choose>
+				<when test="memberSocial.equals('normal')">
+					AND MEMBERPW IS NOT NULL
+				</when>
+				<when test="memberSocial.equals('social')">
+					AND MEMBERPW IS NULL
+				</when>
+			</choose>
+		</if>
+		<if test="!emailStatus.equals('')">
+			<choose>
+				<when test="emailStatus.equals('accept')">
+					AND EMAILSTATUS ='Y'
+				</when>
+				<when test="emailStatus.equals('deny')">
+					AND EMAILSTATUS='N'
+				</when>
+			</choose>
+		</if>
+		<if test="!memberLevel.equals('')">
+			<choose>
+				<when test="memberLevel.equals('ace')">
+					AND GRADECODE='ace'
+				</when>
+				<when test="memberLevel.equals('gold')">
+					AND GRADECODE='gold'
+				</when>				
+				<when test="memberLevel.equals('vip')">
+					AND GRADECODE='vip'
+				</when>				
+				<when test="memberLevel.equals('mvg')">
+					AND GRADECODE='mvg'
+				</when>				
+			</choose>
+		</if>
+		
 	</select>
 	
 	<select id="selectAllMemberCount" parameterType="memberSearch" resultType="_int">
@@ -134,4 +171,10 @@
 			SELECT COUNT(*) FROM MEMBER
 		</if>
 	</select>
+	
+	<update id="updateMemberStatus" parameterType="String">
+		UPDATE MEMBER 
+		SET MEMBERSTATUS='N'
+		WHERE MEMBERID=#{memberId}
+	</update>
 </mapper>

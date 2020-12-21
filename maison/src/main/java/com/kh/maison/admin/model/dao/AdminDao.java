@@ -38,4 +38,6 @@ public interface AdminDao {
 	//admin/member/memberList.jsp에 데이터 불러오기
 	List<Member> selectAllMember(SqlSessionTemplate session,int cPage,int numPerPage,MemberSearch ms);
 	int selectAllMemberCount(SqlSessionTemplate session,MemberSearch ms);
+	
+	int updateMemberStatus(SqlSessionTemplate session,String memberId);
 }

@@ -126,5 +126,12 @@ public class AdminServiceImpl implements AdminService {
 		int result = dao.selectAllMemberCount(session,ms);
 		return result;
 	}
+
+	@Override
+	public int updateMemberStatus(String memberId) {
+		// TODO Auto-generated method stub
+		int result = dao.updateMemberStatus(session,memberId);
+		return result;
+	}
 	
 }
