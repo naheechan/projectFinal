@@ -2,6 +2,7 @@ package com.kh.maison.admin.scheduler.controller;
 
 import java.util.List;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import com.kh.maison.member.model.vo.Member;
 
 
 @Controller
-public class AminSchedulerController {
+public class AdminSchedulerController {
 		
 
 	@Autowired
@@ -23,7 +24,7 @@ public class AminSchedulerController {
 	 
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
-	@Scheduled(cron="0 59 23 L * ?")
+	@Scheduled(cron="0 59 23 30 * ?")
 	public void memberGradeUpdate() {
 		
 	//매월 말일 11시 59분에 돌아가게 만들기 0 59 23 L * ?
