@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.maison.admin.model.vo.MemberSearch;
+import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.vo.Request;
@@ -38,6 +39,9 @@ public interface AdminDao {
 	//admin/member/memberList.jsp에 데이터 불러오기
 	List<Member> selectAllMember(SqlSessionTemplate session,int cPage,int numPerPage,MemberSearch ms);
 	int selectAllMemberCount(SqlSessionTemplate session,MemberSearch ms);
-	
 	int updateMemberStatus(SqlSessionTemplate session,String memberId);
+	
+	//admin/member/deletedMemberList.jsp
+	List<MemberWithdraw> deletedMemberList(SqlSessionTemplate session,int cPage,int numPerPage,MemberSearch ms);
+	int deletedMemberListCount(SqlSessionTemplate session,MemberSearch ms);
 }

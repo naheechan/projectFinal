@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.maison.admin.model.vo.MemberSearch;
+import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.vo.Request;
@@ -150,6 +151,18 @@ public class AdminDaoImpl implements AdminDao {
 	public int updateMemberStatus(SqlSessionTemplate session, String memberId) {
 		// TODO Auto-generated method stub
 		return session.update("admin.updateMemberStatus",memberId);
+	}
+
+	@Override
+	public List<MemberWithdraw> deletedMemberList(SqlSessionTemplate session, int cPage, int numPerPage,MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.deletedMemberList",ms,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int deletedMemberListCount(SqlSessionTemplate session,MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.deletedMemberListCount",ms);
 	}
 
 }

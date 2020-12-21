@@ -177,4 +177,54 @@
 		SET MEMBERSTATUS='N'
 		WHERE MEMBERID=#{memberId}
 	</update>
+	
+	<select id="deletedMemberList" resultType="memberWithdraw" parameterType="memberSearch">
+		SELECT * FROM MEMBERWITHDRAW
+		WHERE 1=1
+		<if test="!keyword.equals('')">
+			AND MEMBERID LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND MVDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>
+	</select>
+	
+	<select id="deletedMemberListCount" resultType="_int" parameterType="memberSearch">
+		SELECT COUNT(*) FROM MEMBERWITHDRAW
+	</select>
+	
+	<select id="selectMemberList" resultType="member">
+		SELECT * FROM MEMBER
+		WHERE MEMBERSTATUS='Y'	
+	</select>
+	
+	<select id="selectTotalPriceSum" parameterType="String" resultType="Integer">
+		SELECT SUM(TOTALPRICE) FROM ORDER_TB
+        WHERE MEMBERID=#{memberId}
+        AND ORDERDATE BETWEEN TRUNC(ADD_MONTHS(sysdate,-2)+1) - TO_CHAR(sysdate,'DD')
+						AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+	</select>
+	
+	<select id="selectGradeList" resultType="grade">
+		SELECT * FROM GRADE
+	</select>
+	
+	<update id="updateToGold" parameterType="String">
+		UPDATE MEMBER 
+		SET GRADECODE='gold'
+		WHERE MEMBERID=#{memberId}
+	</update>
+	<update id="updateToVip" parameterType="String">
+		UPDATE MEMBER 
+		SET GRADECODE='vip'
+		WHERE MEMBERID=#{memberId}
+	</update>
+	<update id="updateToMvg" parameterType="String">
+		UPDATE MEMBER 
+		SET GRADECODE='mvg'
+		WHERE MEMBERID=#{memberId}
+	</update>
 </mapper>

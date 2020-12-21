@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.maison.admin.model.service.AdminService;
 import com.kh.maison.admin.model.vo.MemberSearch;
+import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.member.model.vo.Member;
@@ -247,6 +249,29 @@ public class AdminController {
 			mv.addObject("loc", "/admin/memberList.do");
 		}
 		mv.setViewName("common/sweetMsg");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/deletedMemberList.do")
+	public ModelAndView deletedMemberList(ModelAndView mv,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="keyword",required=false,defaultValue="")String keyword,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate) {
+		//아이디, 탈퇴사유, 탈퇴일, 탈퇴기간
+		MemberSearch ms = new MemberSearch();
+		ms.setKeyword(keyword);
+		ms.setStartDate(startDate);
+		ms.setEndDate(endDate);
+		List<MemberWithdraw> list = service.deletedMemberList(cPage,numPerPage,ms);
+		int totalContents = service.deletedMemberListCount(ms);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "deletedMemberList.do");
+		
+		mv.addObject("list",list);
+		mv.addObject("totalContents",totalContents);
+		mv.addObject("pageBar",pageBar);
+		mv.setViewName("admin/member/deletedMemberList");
 		return mv;
 	}
 	

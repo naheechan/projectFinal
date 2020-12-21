@@ -52,7 +52,7 @@
             <div class="collapse" id="ui-member">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="${path }/admin/memberList.do">회원 목록</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">회원 탈퇴 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/deletedMemberList.do">회원 탈퇴 관리</a></li>
                 <li class="nav-item"> <a class="nav-link" href="#">회원 등급 관리</a></li>
               </ul>
             </div>

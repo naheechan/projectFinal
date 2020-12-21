@@ -9,4 +9,6 @@ public class MemberSearch {
 	private String memberSocial;
 	private String emailStatus;
 	private String memberLevel;
+	private String startDate;
+	private String endDate;
 }

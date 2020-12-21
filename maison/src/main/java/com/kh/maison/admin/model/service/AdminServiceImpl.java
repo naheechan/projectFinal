@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.maison.admin.model.dao.AdminDao;
 import com.kh.maison.admin.model.vo.MemberSearch;
+import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.vo.Request;
@@ -131,6 +132,20 @@ public class AdminServiceImpl implements AdminService {
 	public int updateMemberStatus(String memberId) {
 		// TODO Auto-generated method stub
 		int result = dao.updateMemberStatus(session,memberId);
+		return result;
+	}
+
+	@Override
+	public List<MemberWithdraw> deletedMemberList(int cPage, int numPerPage,MemberSearch ms) {
+		// TODO Auto-generated method stub
+		List<MemberWithdraw> list= dao.deletedMemberList(session,cPage,numPerPage,ms);
+		return list ;
+	}
+
+	@Override
+	public int deletedMemberListCount(MemberSearch ms) {
+		// TODO Auto-generated method stub
+		int result = dao.deletedMemberListCount(session,ms);
 		return result;
 	}
 	

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.maison.admin.model.vo.MemberSearch;
+import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.model.vo.Request;
@@ -37,4 +38,8 @@ public interface AdminService {
 	List<Member> selectAllMember(int cPage,int numPerPage,MemberSearch ms);
 	int selectAllMemberCount(MemberSearch ms);
 	int updateMemberStatus(String memberId);
+	
+	//admin > member > deletedMemberList.jsp에 들어갈거
+	List<MemberWithdraw> deletedMemberList(int cPage,int numPerPage,MemberSearch ms);
+	int deletedMemberListCount(MemberSearch ms);
 }
