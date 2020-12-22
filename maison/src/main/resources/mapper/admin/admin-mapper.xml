@@ -23,4 +23,236 @@
 		ON C.MEMBERID=R.MEMBERID AND C.PRODUCTNO=R.PRODUCTNO
  	</select>
  	
+ 	<select id="selectFirstTotal" parameterType="Integer" resultType="Integer">
+ 		SELECT SUM(PRODUCTSTOCK)
+ 		FROM PRODUCT
+ 	</select>
+
+	<select id="selectFirstChange" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE PCDATE&gt;(SYSDATE-#{numDate})
+	</select>
+	
+	<select id="selectFirstIn" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE PCDATE&gt;(SYSDATE-#{numDate})
+		AND PCAMOUNT&gt;0
+	</select>
+	
+	<select id="selectFirstOut" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE PCDATE&gt;(SYSDATE-#{numDate})
+		AND PCAMOUNT&lt;0
+	</select>
+	
+	<select id="selectSecondChange" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE TO_DATE(PCDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
+	</select>
+	
+	<select id="selectSecondIn" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE TO_DATE(PCDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
+		AND PCAMOUNT&gt;0	
+	</select>
+	
+	<select id="selectSecondOut" parameterType="Integer" resultType="Integer">
+		SELECT SUM(PCAMOUNT)
+		FROM PRODUCTCHANGES
+		WHERE TO_DATE(PCDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
+		AND PCAMOUNT&lt;0	
+	</select>
+	
+	<select id="selectThirdList" resultType="com.kh.maison.admin.model.vo.ProductStock">
+		SELECT P.PRODUCTNO, P.PRODUCTNAME,P.PRODUCTSUMMARY,
+               P.PRODUCTIMG, P.PRODUCTSTOCK,C.PCAMOUNT,C.PCDATE
+        FROM PRODUCT P, PRODUCTCHANGES C
+        WHERE P.PRODUCTNO = C.PRODUCTNO
+        ORDER BY PCDATE DESC
+	</select>
+	
+	<select id="selectThirdCount" resultType="Integer">
+		SELECT COUNT(*) 
+        FROM PRODUCTCHANGES
+	</select>
+	
+	<select id="selectAllRequest" resultType="Request" parameterType="String">
+		<if test="!_parameter.equals('')">
+			SELECT * FROM REQUEST
+			WHERE REQUESTSTATUS=#{requestStatus}
+		</if>
+		<if test="_parameter.equals('')">
+			SELECT * FROM REQUEST
+		</if>
+	</select>
+	
+	<select id="selectAllRequestCount" resultType="Integer" parameterType="String">
+		<if test="!_parameter.equals('')">
+			SELECT COUNT(*) FROM REQUEST
+			WHERE REQUESTSTATUS=#{requestStatus}
+		</if>
+		<if test="_parameter.equals('')">
+			SELECT COUNT(*) FROM REQUEST
+		</if>		
+	</select>
+	
+	<select id="selectOneRequest" parameterType="_int" resultType="Request">
+		SELECT * FROM REQUEST
+		WHERE REQUESTNO=#{no}
+	</select>
+	
+	<update id="requestStatusUpdate" parameterType="map">
+		UPDATE REQUEST 
+		SET REQUESTSTATUS=#{requestStatus}
+		WHERE REQUESTNO=#{requestNo}
+	</update>
+	
+	<select id="selectAllMember" parameterType="memberSearch" resultType="member">
+		SELECT * FROM MEMBER
+		WHERE MEMBERSTATUS='Y'
+			<if test="!type.equals('')">
+				<choose>
+					<when test="type.equals('memberId')">
+						AND MEMBERID LIKE '%'||#{keyword}||'%'
+					</when>
+					<when test="type.equals('memberName')">
+						AND MEMBERNAME LIKE '%'||#{keyword}||'%'
+					</when>
+					<when test="type.equals('both')">
+						AND MEMBERID LIKE '%'||#{keyword}||'%'
+						OR MEMBERNAME LIKE '%'||#{keyword}||'%'
+					</when>
+				</choose>
+			</if>
+
+		<if test="!memberSocial.equals('')">
+			<choose>
+				<when test="memberSocial.equals('normal')">
+					AND MEMBERPW IS NOT NULL
+				</when>
+				<when test="memberSocial.equals('social')">
+					AND MEMBERPW IS NULL
+				</when>
+			</choose>
+		</if>
+		<if test="!emailStatus.equals('')">
+			<choose>
+				<when test="emailStatus.equals('accept')">
+					AND EMAILSTATUS ='Y'
+				</when>
+				<when test="emailStatus.equals('deny')">
+					AND EMAILSTATUS='N'
+				</when>
+			</choose>
+		</if>
+		<if test="!memberLevel.equals('')">
+			<choose>
+				<when test="memberLevel.equals('ace')">
+					AND GRADECODE='ace'
+				</when>
+				<when test="memberLevel.equals('gold')">
+					AND GRADECODE='gold'
+				</when>				
+				<when test="memberLevel.equals('vip')">
+					AND GRADECODE='vip'
+				</when>				
+				<when test="memberLevel.equals('mvg')">
+					AND GRADECODE='mvg'
+				</when>				
+			</choose>
+		</if>
+		
+	</select>
+	
+	<select id="selectAllMemberCount" parameterType="memberSearch" resultType="_int">
+		<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				SELECT COUNT(*) FROM MEMBER
+				WHERE MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('memberName')">
+				SELECT COUNT(*) FROM MEMBER
+				WHERE MEMBERNAME LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('both')">
+				SELECT COUNT(*) FROM MEMBER
+				WHERE MEMBERID LIKE '%'||#{keyword}||'%'
+				OR MEMBERNAME LIKE '%'||#{keyword}||'%'
+			</if>			
+		</if>
+		<if test="type.equals('')">
+			SELECT COUNT(*) FROM MEMBER
+		</if>
+	</select>
+	
+	<update id="updateMemberStatus" parameterType="String">
+		UPDATE MEMBER 
+		SET MEMBERSTATUS='N'
+		WHERE MEMBERID=#{memberId}
+	</update>
+	
+	<select id="deletedMemberList" resultType="memberWithdraw" parameterType="memberSearch">
+		SELECT * FROM MEMBERWITHDRAW
+		WHERE 1=1
+		<if test="!keyword.equals('')">
+			AND MEMBERID LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND MVDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>
+	</select>
+	
+	<select id="deletedMemberListCount" resultType="_int" parameterType="memberSearch">
+		SELECT COUNT(*) FROM MEMBERWITHDRAW
+	</select>
+	
+	<select id="selectMemberList" resultType="member">
+		SELECT * FROM MEMBER
+		WHERE MEMBERSTATUS='Y'	
+	</select>
+	
+	<select id="selectTotalPriceSum" parameterType="String" resultType="Integer">
+		SELECT SUM(TOTALPRICE) FROM ORDER_TB
+        WHERE MEMBERID=#{memberId}
+        AND ORDERDATE BETWEEN TRUNC(ADD_MONTHS(sysdate,-2)+1) - TO_CHAR(sysdate,'DD')
+						AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+	</select>
+	
+	<select id="selectGradeList" resultType="grade">
+		SELECT * FROM GRADE
+	</select>
+	
+	<update id="updateToGold" parameterType="String">
+		UPDATE MEMBER 
+		SET GRADECODE='gold'
+		WHERE MEMBERID=#{memberId}
+	</update>
+	<update id="updateToVip" parameterType="String">
+		UPDATE MEMBER 
+		SET GRADECODE='vip'
+		WHERE MEMBERID=#{memberId}
+	</update>
+	<update id="updateToMvg" parameterType="String">
+		UPDATE MEMBER 
+		SET GRADECODE='mvg'
+		WHERE MEMBERID=#{memberId}
+	</update>
+
+	
+	<select id="selectAllMemberShip" resultType="HashMap">
+		SELECT MAX(G.GRADECODE), MAX(G.ACCRATE), MAX(G.GRADEBASE),
+                    COUNT(1)
+        FROM GRADE G
+        INNER JOIN MEMBER M
+        ON G.GRADECODE = M.GRADECODE
+        GROUP BY G.GRADECODE
+	</select>
 </mapper>

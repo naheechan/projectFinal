@@ -25,7 +25,7 @@
                 <li class="nav-item"> <a class="nav-link" href="${path }/admin/productStock.do">상품 재고 관리</a></li>
                 <li class="nav-item"> <a class="nav-link" href="#">상품 문의 관리 </a></li>
                 <li class="nav-item"> <a class="nav-link" href="#">상품 리뷰 관리 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">입고 요청 관리 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/productRequest.do">입고 요청 관리 </a></li>
                 <li class="nav-item"> <a class="nav-link" href="#">상품 분류 관리 </a></li>
               </ul>
             </div>
@@ -51,8 +51,9 @@
             </a>
             <div class="collapse" id="ui-member">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">회원 목록</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">등급별 혜택 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/memberList.do">회원 목록</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/deletedMemberList.do">회원 탈퇴 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/membership.do">회원 등급 관리</a></li>
               </ul>
             </div>
           </li>      
@@ -68,11 +69,11 @@
                 <li class="nav-item"> <a class="nav-link" href="#">질문 관리</a></li>
               </ul>
             </div>
-          </li>      
+          </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-with" aria-expanded="false" aria-controls="ui-with">
-              <i class="mdi mdi-bridge menu-ico"></i>
-              <span class="menu-title">함께해요관리</span>
+              <i class="mdi mdi-bridge menu-icon"></i>
+              <span class="menu-title">함께해요 관리</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-with">
@@ -81,7 +82,7 @@
                 <li class="nav-item"> <a class="nav-link" href="#">신고 관리</a></li>
               </ul>
             </div>
-          </li>                
+          </li>                     
           <li class="nav-item">
             <a class="nav-link" href="#">
               <i class="mdi mdi-cash menu-icon"></i>
