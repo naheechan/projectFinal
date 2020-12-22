@@ -1,21 +1,18 @@
 package com.kh.maison.order.controller;
 
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-=======
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
->>>>>>> branch 'dev' of https://github.com/BrileyKim/finalProject_maison.git
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,17 +23,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.maison.basket.model.service.BasketService;
 import com.kh.maison.basket.model.service.BasketServiceImpl;
 import com.kh.maison.basket.model.vo.Basket;
-<<<<<<< HEAD
 import com.kh.maison.member.model.vo.Member;
-=======
 import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
->>>>>>> branch 'dev' of https://github.com/BrileyKim/finalProject_maison.git
 import com.kh.maison.order.model.service.OrderService;
 import com.kh.maison.order.model.service.OrderServiceImpl;
 import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.order.model.vo.OrderDetail;
-import com.kh.maison.order.model.vo.ShippingDestination;
 import com.kh.maison.shop.service.ProductService;
 import com.kh.maison.shop.service.ProductServiceImpl;
 import com.kh.maison.shop.vo.Product;
