@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.order.model.vo.OrderDetail;
+import com.kh.maison.order.model.vo.ShippingDestination;
 
 public interface OrderService {
 	
@@ -23,6 +24,9 @@ public interface OrderService {
 	
 	List<OrderDetail> selectOrderDetail(String memberId);
 	
+	List<Order> selectShippingDestination(String memberId);
+	
+	int insertShippingDestination(Order o);
 	
 	
 	

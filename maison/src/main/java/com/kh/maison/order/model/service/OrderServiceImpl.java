@@ -11,6 +11,7 @@ import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.dao.OrderDao;
 import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.order.model.vo.OrderDetail;
+import com.kh.maison.order.model.vo.ShippingDestination;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -62,6 +63,25 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return dao.insertBuyOrderDetail(session,map4);
 	}
+
+	@Override
+	public List<Order> selectShippingDestination(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.selectShippingDestination(session,memberId);
+	}
+
+	@Override
+	public int insertShippingDestination(Order o) {
+		// TODO Auto-generated method stub
+		return dao.insertShippingDestination(session,o);
+	}
+
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.order.model.vo.OrderDetail;
+import com.kh.maison.order.model.vo.ShippingDestination;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -55,24 +56,23 @@ public class OrderDaoImpl implements OrderDao {
 		return session.selectList("order.selectOrderDetail",memberId);
 	}
 
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public List<Order> selectShippingDestination(SqlSession session,String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectList("order.selectShippingDestination",memberId);
+	}
+
+	@Override
+	public int insertShippingDestination(SqlSession session, Order o) {
+		// TODO Auto-generated method stub
+		return session.insert("order.insertShippingDestination",o);
+	}
 
 	
 	
-	
-	
-	
 
-	
-	
-	
-	
+
+
 	
 
 }

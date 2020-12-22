@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.order.model.vo.OrderDetail;
+import com.kh.maison.order.model.vo.ShippingDestination;
 
 public interface OrderDao {
 	
@@ -24,4 +25,10 @@ public interface OrderDao {
 	int insertBuyOrderDetail(SqlSession session, Map<String,Object> map4);
 	
 	List<OrderDetail> selectOrderDetail(SqlSession session,String memberId);
+	
+	List<Order> selectShippingDestination(SqlSession session,String memberId);
+	
+	int insertShippingDestination(SqlSession session,Order o);
+	
+	
 }

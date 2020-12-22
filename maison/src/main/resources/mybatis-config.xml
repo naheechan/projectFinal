@@ -29,6 +29,7 @@
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleProduct" alias="cycleProduct"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CountCycle" alias="countCycle"/>
 		<typeAlias type="com.kh.maison.order.model.vo.OrderDetail" alias="orderDetail"/>
+		<typeAlias type="com.kh.maison.order.model.vo.ShippingDestination" alias="shippingDestination"/>
 	</typeAliases>
 
 </configuration>

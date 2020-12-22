@@ -89,7 +89,7 @@
 			                        		<small class="text-muted"></small>
 			                        	</a>	
 		                        	</c:if>
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/order/shippingDestination.do" class="list-group-item list-group-item-action">
 		                        		<h4>배송지/환불계좌 관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>

@@ -13,4 +13,5 @@ public class OrderDetail {
 	//조인
 	private String productImg;
 	private int price;
+	private String productName;
 }

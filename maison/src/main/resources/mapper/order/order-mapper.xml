@@ -21,7 +21,7 @@
 		</foreach>  -->
 		
 		INSERT INTO ORDERDETAIL VALUES(SEQ_ORDERDETAILNO.NEXTVAL,
-			(SELECT NVL(MAX(ORDERNO),0)+1 FROM ORDER_TB),
+			(SELECT NVL(MAX(ORDERNO),0) FROM ORDER_TB),
 			(SELECT PRODUCTNO FROM BASKET WHERE BASKETNO=#{basketNo}),
 			(SELECT AMOUNT FROM BASKET WHERE BASKETNO=#{basketNo}))
 
@@ -38,6 +38,18 @@
 			JOIN PRODUCT P ON P.PRODUCTNO=OD.PRODUCTNO
 				WHERE O.ORDERNO=(SELECT MAX(ORDERNO) FROM ORDER_TB O WHERE O.MEMBERID=#{memberId}) 
 	</select>
+	
+	<select id="selectShippingDestination" resultType="ShippingDestination" parameterType="string">
+		SELECT ROWNUM,A.*
+			FROM (SELECT * FROM SHIPPINGDESTINATION WHERE MEMBERID=#{memberId} ORDER BY SDNO DESC) A
+				WHERE ROWNUM BETWEEN 1 AND 3
+	</select>
+	
+	<insert id="insertShippingDestination" parameterType="order">
+		INSERT INTO SHIPPINGDESTINATION VALUES(SEQ_SHIPPINGDESTINATION.NEXTVAL,#{receiver},#{receiver},#{memberId},#{orZipcode},
+			#{orAddress},#{orDetailAddress},#{orPhone})
+	</insert>
+	
 	
 	
 	

@@ -81,7 +81,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="address2">상세주소 *</label>
-                                <input type="text" class="form-control" name="orDetailAddress" value="<%=dDetailAddress %>" id="orDetailAddress" placeholder=""> 
+                                <input type="text" class="form-control" name="orDetailAddress" value="<%=dDetailAddress %>" id="orDetailAddress" placeholder="상세주소"> 
                             </div>
                             <div class="mb-3">
                                 <label for="address2">구매 요청사항 *</label>

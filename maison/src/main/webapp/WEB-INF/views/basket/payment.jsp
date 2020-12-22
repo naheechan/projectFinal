@@ -103,7 +103,7 @@ String dDetailAddress = aes.decrypt(m.getDetailAddress());
 								<label for="address2">상세주소 *</label> <input type="text"
 									class="form-control" name="orDetailAddress"
 									value="<%=dDetailAddress%>" id="orDetailAddress"
-									placeholder="">
+									placeholder="상세주소">
 							</div>
 							<div class="mb-3">
 								<label for="address2">구매 요청사항 *</label> <input type="text"

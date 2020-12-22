@@ -55,7 +55,7 @@
 					<td>${o.orderDetailNo }</td>
 					<td>${o.productNo }</td>
 					<td><img src="${path }/resources/upload/product/${o.productImg }" style="width: 50px;height: 50px;"></td>
-					<td>세제</td>
+					<td>${o.productName }</td>
 					<td>${o.odAmount }</td>
 					<td>${o.odAmount*o.price }</td>
 					<td><i class="fas fa-user-edit fa-2x"></i></td>
