@@ -181,10 +181,10 @@
 		                      							<label class="badge badge-warning">GOLD</label>
 		                      						</c:when>
 		                      						<c:when test="${l.gradeCode eq 'vip' }">
-		                      							<label class="badge badge-primary">VIP</label>
+		                      							<label class="badge badge-danger">VIP</label>
 		                      						</c:when>
 		                      						<c:when test="${l.gradeCode eq 'mvg' }">
-		                      							<label class="badge badge-danger">MVG</label>
+		                      							<label class="badge badge-primary">MVG</label>
 		                      						</c:when>		                      						
 		                      					</c:choose>
 		                      				</td>

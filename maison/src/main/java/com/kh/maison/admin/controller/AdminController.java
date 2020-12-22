@@ -4,8 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -272,6 +272,24 @@ public class AdminController {
 		mv.addObject("totalContents",totalContents);
 		mv.addObject("pageBar",pageBar);
 		mv.setViewName("admin/member/deletedMemberList");
+		return mv;
+	}
+	
+	//회원등급관리 페이지 전환 
+	@RequestMapping("/admin/membership.do")
+	public ModelAndView membershipList(ModelAndView mv,
+			@RequestParam(value="cPage",required=false,defaultValue="1")int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage) {
+		//회원등급 데이터 꽂기
+		List<Map<String,Object>> list = service.selectAllMemberShip(cPage,numPerPage);
+		System.out.println(list);
+		for(int i=0;i<list.size();i++) {
+			Iterator<String> keys = list.get(i).keySet().iterator();
+			while(keys.hasNext()) {
+				String key = keys.next();
+				System.out.println("key값 :::"+key+"::::");
+			}
+		}
 		return mv;
 	}
 	

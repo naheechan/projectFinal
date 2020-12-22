@@ -42,4 +42,7 @@ public interface AdminService {
 	//admin > member > deletedMemberList.jsp에 들어갈거
 	List<MemberWithdraw> deletedMemberList(int cPage,int numPerPage,MemberSearch ms);
 	int deletedMemberListCount(MemberSearch ms);
+	
+	//admin>member>memberShip.jsp 에 들어갈거
+	List<Map<String,Object>> selectAllMemberShip(int cPage, int numPerPage);
 }

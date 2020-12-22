@@ -44,4 +44,7 @@ public interface AdminDao {
 	//admin/member/deletedMemberList.jsp
 	List<MemberWithdraw> deletedMemberList(SqlSessionTemplate session,int cPage,int numPerPage,MemberSearch ms);
 	int deletedMemberListCount(SqlSessionTemplate session,MemberSearch ms);
+	
+	//admin/member/membership.jsp
+	List<Map<String,Object>> selectAllMemberShip(SqlSessionTemplate session, int cPage, int numPerPage);
 }

@@ -24,7 +24,7 @@ public class AdminSchedulerController {
 	 
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
-	@Scheduled(cron="0 59 23 30 * ?")
+	@Scheduled(cron="0 59 23 1 * ?")
 	public void memberGradeUpdate() {
 		
 	//매월 말일 11시 59분에 돌아가게 만들기 0 59 23 L * ?

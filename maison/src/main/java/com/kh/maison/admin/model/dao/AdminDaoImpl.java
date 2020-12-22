@@ -165,4 +165,10 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectOne("admin.deletedMemberListCount",ms);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectAllMemberShip(SqlSessionTemplate session,int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllMemberShip",null,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
 }

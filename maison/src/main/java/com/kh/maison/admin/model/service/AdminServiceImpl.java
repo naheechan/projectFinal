@@ -148,5 +148,11 @@ public class AdminServiceImpl implements AdminService {
 		int result = dao.deletedMemberListCount(session,ms);
 		return result;
 	}
+
+	@Override
+	public List<Map<String, Object>> selectAllMemberShip(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectAllMemberShip(session,cPage,numPerPage);
+	}
 	
 }

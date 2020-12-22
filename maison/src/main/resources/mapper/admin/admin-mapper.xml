@@ -227,4 +227,14 @@
 		SET GRADECODE='mvg'
 		WHERE MEMBERID=#{memberId}
 	</update>
+
+	
+	<select id="selectAllMemberShip" resultType="HashMap">
+		SELECT MAX(G.GRADECODE), MAX(G.ACCRATE), MAX(G.GRADEBASE),
+                    COUNT(1)
+        FROM GRADE G
+        INNER JOIN MEMBER M
+        ON G.GRADECODE = M.GRADECODE
+        GROUP BY G.GRADECODE
+	</select>
 </mapper>
