@@ -24,7 +24,7 @@ import com.kh.maison.shopCycle.model.vo.CycleAdmin;
 
 
 @Controller
-public class AminSchedulerController {
+public class AdminSchedulerController {
 		
 
 	@Autowired
