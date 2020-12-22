@@ -39,6 +39,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -59,7 +61,7 @@ import nl.captcha.Captcha;
 
 
 @Controller
-@SessionAttributes({"loginMember", "state", "res", "memNaver"})
+@SessionAttributes({"loginMember", "state", "memNaver"})
 public class MemberController {
 
 	//마일리지 관련
@@ -240,7 +242,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/member/naver/checkStatus")
-	public String naverCheckStatus(@SessionAttribute("state") String state, @RequestParam Map map, Model m) throws UnsupportedEncodingException {
+	public String naverCheckStatus(@SessionAttribute("state") String state, @RequestParam Map map, Model m, SessionStatus status) throws UnsupportedEncodingException {
 		String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";
 		logger.debug("체크 스테이터스!");
 		//세션의 state와 콜백으로 받은 state값이 일치하는지 확인
@@ -250,7 +252,7 @@ public class MemberController {
 			String clientId = "ox1UH2H5tD1qdFjz7mFS";
 			String clientSecret = "BSJvDH8Kk8";
 			String code = String.valueOf(map.get("code"));
-			String redirectURI = URLEncoder.encode("http://localhost:9090/maison/member/naver/loginEnd", "UTF-8");
+			//String redirectURI = URLEncoder.encode("http://localhost:9090/maison/member/naver/loginEnd", "UTF-8");
 			apiURL += "&client_id="+clientId;
 			apiURL += "&client_secret="+clientSecret;
 			//apiURL += "&redirect_uri="+redirectURI;
@@ -278,6 +280,10 @@ public class MemberController {
 					res.append(inputLine);
 				}
 				br.close();
+				//세션 삭제(state세션 삭제용)
+				if(!status.isComplete()) {
+					status.setComplete();
+				}
 				if(responseCode==200) {
 					m.addAttribute("res",res.toString());
 				}else {
@@ -294,16 +300,19 @@ public class MemberController {
 			return "common/msg";
 		}
 	
-		return "redirect:/member/naver/loginEnd";
+		return "member/naverLoginHidden";
 	}
 	
 	
 	@RequestMapping(value="/member/naver/loginEnd")
-	public String naverLoginEnd(@SessionAttribute("res") String res, SessionStatus status, Model m) throws ParseException {
+//	public String naverLoginEnd(@SessionAttribute("res") String res, SessionStatus status, Model m) throws ParseException {
+	public String naverLoginEnd(HttpServletRequest request, SessionStatus status, Model m) throws ParseException {
 		
 		logger.debug("loginEnd 도착");
+
+		String res = request.getParameter("res");
 		
-		logger.debug(res);
+		logger.debug("res : "+res);
 		String loc = "";
 		
 		if(res!=null || !"".equals(res)) {

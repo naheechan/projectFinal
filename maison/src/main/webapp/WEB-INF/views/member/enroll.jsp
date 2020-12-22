@@ -198,7 +198,7 @@
     	$("#datepicker").change(function(e) {
     		$("#brithCheck").val("0");
     		let checkBirth = $(e.target).val().trim();
-    		let regBirth = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+    		let regBirth = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
     		if(regBirth.test(checkBirth)) {
     			$("#checkBrith-container").children().css("display","none");
     			$("#brithCheck").val("1");

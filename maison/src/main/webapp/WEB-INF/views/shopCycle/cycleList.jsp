@@ -63,7 +63,7 @@
 		                     		<c:forEach var="largeCate" items="${category }" varStatus="i">
 										<a href="${path }/shopCycle/cycleList?tab=${largeCate.largeCate }" id="cateSearch" class="list-group-item list-group-item-action <c:if test="${tab eq largeCate.largeCate}">active</c:if>">
 											<c:set var="cate" value="${largeCate.largeCate}"/>
-											<c:out value="${cate}" />
+											<c:out value="- ${cate}" />
 											<c:choose>
 												<c:when test="${cate eq '주방'}"><c:out value="${countCycleMap.kitchen ne null?'('+=countCycleMap.kitchen+=')':''}"/></c:when>
 												<c:when test="${cate eq '세탁실'}"><c:out value="${countCycleMap.laundry ne null?'('+=countCycleMap.laundry+=')':''}"/></c:when>

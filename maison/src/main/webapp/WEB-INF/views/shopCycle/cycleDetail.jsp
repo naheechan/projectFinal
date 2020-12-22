@@ -432,7 +432,7 @@
     	$("#datepicker").change(function(e) {
     		$("#startCheck").val("0");
     		let checkStart = $(e.target).val().trim();
-    		let regStart = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+    		let regStart = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
     		if(regStart.test(checkStart)) {
     			$("#checkStart-container").children().css("display","none");
     			$("#startCheck").val("1");
