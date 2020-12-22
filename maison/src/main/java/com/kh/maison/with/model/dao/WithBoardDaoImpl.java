@@ -1,7 +1,6 @@
 package com.kh.maison.with.model.dao;
 
 import java.util.List;
-
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -117,5 +116,58 @@ public class WithBoardDaoImpl implements WithBoardDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("with.withEmailAndPhone",no);
 	}
+
+	@Override
+	public List<WithBoard> bringAllWithBoard(SqlSessionTemplate session, String memberId, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("with.bringAllWithBoard",memberId,
+				new RowBounds((cPage-1)*numPerPage, numPerPage));
+	}
+
+	@Override
+	public int bringAllWithBoardCount(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("with.bringAllWithBoardCount",memberId);
+	}
+
+	@Override
+	public List<WithComment> bringAllWithComment(SqlSessionTemplate session, String memberId, int cPage,
+			int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("with.bringAllWithComment",memberId,
+				new RowBounds((cPage-1)*numPerPage, numPerPage));
+	}
+
+	@Override
+	public int bringAllWithCommentCount(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("with.bringAllWithCommentCount",memberId);
+	}
+
+	@Override
+	public List<WithBoard> bringCommentedWith(SqlSessionTemplate session, String memberId, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("with.bringCommentedWith",memberId,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int bringCommentedWithCount(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("with.bringCommentedWithCount",memberId);
+	}
+
+	@Override
+	public int deleteBringAllWith(SqlSessionTemplate session, int checkfordelete) {
+		// TODO Auto-generated method stub
+		return session.update("with.deleteBringAllWith",checkfordelete);
+	}
+
+	@Override
+	public int deleteBringAllWithComment(SqlSessionTemplate session, int checkStatus) {
+		// TODO Auto-generated method stub
+		return session.update("with.deleteBringAllWithComment",checkStatus);
+	}
+	
+
 
 }

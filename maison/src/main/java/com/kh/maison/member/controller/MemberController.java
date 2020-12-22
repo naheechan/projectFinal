@@ -22,7 +22,6 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -48,6 +47,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -61,6 +62,13 @@ import com.kh.maison.member.model.vo.KakaoProfile;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.member.model.vo.OAuthToken;
 import com.kh.maison.member.recaptcha.VerifyRecaptcha;
+import com.kh.maison.mileage.model.service.MileageService;
+import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.maison.with.model.service.WithBoardService;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.spring.common.PageBarFactory;
+
 
 import nl.captcha.Captcha;
 
@@ -69,6 +77,12 @@ import nl.captcha.Captcha;
 @SessionAttributes({"loginMember", "state", "res", "memNaver","memKakao"})
 public class MemberController {
 
+	//마일리지 관련
+	@Autowired
+	private MileageService milService;
+	//함께해요 관련
+	@Autowired
+	private WithBoardService withService;
 	
 	@Autowired
 	private MemberService service;
@@ -111,8 +125,9 @@ public class MemberController {
 		
 		Member mem = service.selectMemberOne(String.valueOf(map.get("memberId")));
 		logger.debug(mem==null?"null":mem.toString());
-		//비밀번호 다 소문자로 바꿔서 암호화된 비번이랑 비교
-		if(mem!=null && encoder.matches(String.valueOf(map.get("memberPw")).toLowerCase(), mem.getMemberPw())) {
+		
+		//비밀번호 다 소문자로 바꿔서 암호화된 비번이랑 비교 + 탈퇴여부도 확인
+		if(mem!=null && encoder.matches(String.valueOf(map.get("memberPw")).toLowerCase(), mem.getMemberPw()) && "Y".equals(mem.getMemberStatus())) {
 			//이메일 인증 여부
 			if("Y".equals(mem.getAuthStatus())) {
 				logger.debug("로그인 성공");
@@ -163,6 +178,10 @@ public class MemberController {
 
 		//성공하면 안내페이지로, 실패하면 회원가입 페이지로
 		if(result>0) {
+			//회원가입하면 디폴트값으로 설정된 만큼 적립금 줌
+			milService.insertWelcomeMileage(mem.getMemberId());
+			milService.updateMemberMileage(mem.getMemberId());
+			
 			mv.addObject("email",email);
 			String authKey = mss.sendAuthMail(email, mem.getMemberId());
 			Map<String,String> map = new HashMap<>();
@@ -236,7 +255,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/member/naver/checkStatus")
-	public String naverCheckStatus(@SessionAttribute("state") String state, @RequestParam Map map, Model m) throws UnsupportedEncodingException {
+	public String naverCheckStatus(@SessionAttribute("state") String state, @RequestParam Map map, Model m, SessionStatus status) throws UnsupportedEncodingException {
 		String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";
 		logger.debug("체크 스테이터스!");
 		//세션의 state와 콜백으로 받은 state값이 일치하는지 확인
@@ -246,7 +265,7 @@ public class MemberController {
 			String clientId = "ox1UH2H5tD1qdFjz7mFS";
 			String clientSecret = "BSJvDH8Kk8";
 			String code = String.valueOf(map.get("code"));
-			String redirectURI = URLEncoder.encode("http://localhost:9090/maison/member/naver/loginEnd", "UTF-8");
+			//String redirectURI = URLEncoder.encode("http://localhost:9090/maison/member/naver/loginEnd", "UTF-8");
 			apiURL += "&client_id="+clientId;
 			apiURL += "&client_secret="+clientSecret;
 			//apiURL += "&redirect_uri="+redirectURI;
@@ -274,6 +293,10 @@ public class MemberController {
 					res.append(inputLine);
 				}
 				br.close();
+				//세션 삭제(state세션 삭제용)
+				if(!status.isComplete()) {
+					status.setComplete();
+				}
 				if(responseCode==200) {
 					m.addAttribute("res",res.toString());
 				}else {
@@ -290,16 +313,19 @@ public class MemberController {
 			return "common/msg";
 		}
 	
-		return "redirect:/member/naver/loginEnd";
+		return "member/naverLoginHidden";
 	}
 	
 	
 	@RequestMapping(value="/member/naver/loginEnd")
-	public String naverLoginEnd(@SessionAttribute("res") String res, SessionStatus status, Model m) throws ParseException {
+//	public String naverLoginEnd(@SessionAttribute("res") String res, SessionStatus status, Model m) throws ParseException {
+	public String naverLoginEnd(HttpServletRequest request, SessionStatus status, Model m) throws ParseException {
 		
 		logger.debug("loginEnd 도착");
+
+		String res = request.getParameter("res");
 		
-		logger.debug(res);
+		logger.debug("res : "+res);
 		String loc = "";
 		
 		if(res!=null || !"".equals(res)) {
@@ -338,8 +364,15 @@ public class MemberController {
 			if(mem!=null) {
 				//로그인
 				
-				//이메일 인증 여부
-				if("Y".equals(mem.getAuthStatus())) {
+				//회원탈퇴 여부
+				if(!"Y".equals(mem.getMemberStatus())) {
+					logger.debug("탈퇴회원 로그인 시도");
+					m.addAttribute("msg", "탈퇴한 회원입니다.홈페이지 자체 회원가입을 해주세요.");
+					m.addAttribute("loc", "/member/login");
+					loc = "common/msg";
+					
+				 //이메일 인증 여부
+				}else if("Y".equals(mem.getAuthStatus())) {
 					logger.debug("로그인 성공");
 					//세션처리
 					m.addAttribute("loginMember", mem);
@@ -773,9 +806,281 @@ public class MemberController {
 	}
 	
 	
+
+	//마이페이지에서 마일리지 관리로 화면전환
+	@RequestMapping("/member/mileage.do")
+	public String selectMileageList(Model m,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="status",required=false,defaultValue="")String status,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate) {
+		
+//		List<Mileage> list = milService.selectMileageList(cPage,numPerPage,keyword,startDate,endDate);
+//		
+//		int totalContents = milService.selectMileageCount(keyword,startDate,endDate);
+//		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "mileage.do"));
+//		m.addAttribute("list",list);
+//		m.addAttribute("totalContents",totalContents);
+		
+		return "member/mileageList";
+	}
+	
+	@RequestMapping("/member/defaultMileage.do")
+	@ResponseBody
+	public Map<String,Object> defaultMileage(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<Mileage> list = milService.selectDefaultMileage(memberId,cPage,numPerPage);
+		int totalContents = milService.selectDefaultMileageCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "defaultMileage.do");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}
+	
+	@RequestMapping("/member/conditionMileage.do")
+	@ResponseBody
+	public Map<String,Object> conditionMileage(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="status",required=false,defaultValue="")String status,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate
+			){
+
+		Map<String,Object> condition = new HashMap<String,Object>();
+		condition.put("memberId", memberId);
+		condition.put("status", status);
+		condition.put("startDate", startDate);
+		condition.put("endDate", endDate);
+		
+		List<Mileage> list = milService.selectConditionMileage(cPage,numPerPage,condition);
+		int totalContents = milService.selectConditionMileageCount(condition);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "conditionMileage.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar",pageBar);
+		return map;
+	}
+	
+	//함께해요 관리
+	@RequestMapping("/member/withList.do")
+	public ModelAndView memberWithList(ModelAndView mv, @RequestParam String memberId) {
+		
+		mv.addObject("withBoardTotalCount",withService.bringAllWithBoardCount(memberId));
+		mv.addObject("withCommentTotalCount",withService.bringAllWithCommentCount(memberId));
+		mv.setViewName("member/withList");
+		return mv;
+	}
+	
+	//함께해요 관리 내가 작성한글 보기 
+	@RequestMapping("/member/bringAllWithBoard.do")
+	@ResponseBody
+	public Map<String,Object> bringAllWith(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithBoard> list = withService.bringAllWithBoard(memberId,cPage,numPerPage);
+		int totalContents = withService.bringAllWithBoardCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringAllWithBoard.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}
+	
+	@RequestMapping("/member/bringAllWithComment.do")
+	@ResponseBody
+	public Map<String,Object> bringAllWithComment(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithComment> list = withService.bringAllWithComment(memberId,cPage,numPerPage);
+		int totalContents = withService.bringAllWithCommentCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringAllWithComment.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}	
+	
+	@RequestMapping("/member/deletedWithBoard.do")
+	@ResponseBody
+	public WithBoard deletedWithBoard(@RequestParam int wbNo) {
+		WithBoard wb = withService.selectOneWith(wbNo);
+		return wb;
+	}
+	
+	@RequestMapping("/member/bringCommentedWith.do")
+	@ResponseBody
+	public Map<String,Object> bringCommentedWith(@RequestParam String memberId,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage){
+		List<WithBoard> list = withService.bringCommentedWith(memberId,cPage,numPerPage);
+		int totalContents = withService.bringCommentedWithCount(memberId);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "bringCommentedWith.do");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("totalContents", totalContents);
+		map.put("pageBar", pageBar);
+		return map;
+	}	
+	
+	@RequestMapping("/member/deleteBringAllWith.do")
+	@ResponseBody
+	public int deleteBringAllWith(@RequestParam(value="checkfordelete[]") List<String> checkfordelete) {
+		int result = 0;
+		System.out.println(checkfordelete.size());
+		if(checkfordelete.size()==0) {
+			result = 1;
+		}else {
+			for(int i=0;i<checkfordelete.size();i++) {
+				System.out.println("여기====="+Integer.parseInt(checkfordelete.get(i))+"=====여기");
+				result = withService.deleteBringAllWith(Integer.parseInt(checkfordelete.get(i)));
+			}			
+		}
+		return result;
+	}
+	
+	@RequestMapping("/member/deleteBringAllWithComment.do")
+	@ResponseBody
+	public int deleteBringAllWithComment(@RequestParam(value="checkStatus[]") List<String> checkStatus) {
+		int result = 0;
+		System.out.println(checkStatus.size());
+		if(checkStatus.size()==0) {
+			result = 1;
+		}else {
+			for(int i=0;i<checkStatus.size();i++) {
+				result = withService.deleteBringAllWithComment(Integer.parseInt(checkStatus.get(i)));
+			}			
+		}
+		return result;
+	}
+	
+	//이메일 수신 동의 페이지 전환
+	@RequestMapping("/member/emailAgree.do")
+	public String emailAgree() {
+		return "member/emailAgree";
+	}
+	
+	//이메일 수신 동의 확인 눌렀을때
+	@RequestMapping("/member/emailAgreeEnd.do")
+	public ModelAndView emailAgreeEnd(@RequestParam Map<String,Object> map,ModelAndView mv, SessionStatus status) {
+//		for(String key : map.keySet()) { 
+//			String value = (String) map.get(key); 
+//			System.out.println(key + " : " + value); 
+//		}
+		
+		Map<String,Object> target = new HashMap<String,Object>();
+		target.put("memberId", (String)map.get("memberId"));
+		if(map.get("emailStatus")==null) {
+			target.put("emailStatus", "N");
+		}else {
+			target.put("emailStatus", "Y");
+		}
+		int result = service.updateEmailStatus(target);
+		if(result>0) {
+			if(!status.isComplete()) {
+				status.setComplete();
+			}
+			mv.addObject("msg", "이메일 수신 동의가 변경되었습니다.");
+			mv.addObject("subMsg","로그인이 해제 됩니다. 다시 로그인해주세요.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/");
+		}else {
+			mv.addObject("msg", "이메일 수신 동의 변경 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/emailAgree.do");
+		}
+			mv.setViewName("common/sweetMsg");
+		
+		return mv;
+
+	}
+	
+	//회원탈퇴 페이지 전환 
+	@RequestMapping("/member/withdraw.do")
+	public String memberWithdraw() {
+		return"member/withdraw";
+	}
+	
+	//memberStatus 전환하기
+	@RequestMapping("/member/withdrawEnd.do")
+	public ModelAndView withdrawEnd(@RequestParam Map<String,Object> map,ModelAndView mv, SessionStatus status) {
+//		for(String key : map.keySet()) { 
+//			String value = (String) map.get(key); 
+//			System.out.println(key + " : " + value); 
+//		}
+		//체크 안하고 넘기면 
+		if(map.get("withdrawChk")==null) {
+			mv.addObject("msg", "회원탈퇴에 동의하지않으셨습니다.");
+			mv.addObject("subMsg","탈퇴하시려면 회원탈퇴 유의사항을 모두 확인하시고, 메종 회원탈퇴에 동의해주세요.");
+			mv.addObject("status","info");
+			mv.addObject("loc", "/member/withdraw.do");
+			mv.setViewName("common/sweetMsg");			
+		}else {
+			//확인 버튼을 누르면 일단 스왈을 띄워줍니다. 
+			mv.addObject("memberId",(String)map.get("memberId"));
+			if(map.get("withdrawCom")==null) {
+				mv.addObject("withdrawCom","");		
+			}else {
+				mv.addObject("withdrawCom",(String)map.get("withdrawCom"));				
+			}
+			mv.setViewName("member/memberStatusMsg");
+		}
+		
+		return mv;
+
+	}
+	
+	//탈퇴 진행용 메소드
+	@RequestMapping("member/memberStatusNo")
+	public ModelAndView memberStatusNo(@RequestParam Map<String,Object> map, SessionStatus status, ModelAndView mv) {
+		Map<String,Object> target = new HashMap<String,Object>();
+		target.put("memberId", (String)map.get("memberId"));
+		if(map.get("withdrawCom")==null) {
+			target.put("withdrawCom", "");
+		}else {
+			target.put("withdrawCom", map.get("withdrawCom"));
+		}	
+		target.put("withdrawChk", "N");
+		
+		//회원테이블에 업데이트 해주고
+		int result = service.updateMemberStatus(target);
+		if(result>0) {
+			//멤버 무덤 테이블에 insert해주기
+			result = service.updateMemberWithdraw(target);
+			if(result>0) {
+				if(!status.isComplete()) {
+					status.setComplete();
+				}
+				mv.setViewName("redirect:/");
+			}else {
+				mv.addObject("msg", "회원 탈퇴 실패!");
+				mv.addObject("subMsg","관리자에게 문의해주세요.");
+				mv.addObject("status","error");
+				mv.addObject("loc", "/member/withdraw.do");
+				mv.setViewName("common/sweetMsg");			
+			}
+		}else {
+			mv.addObject("msg", "회원 탈퇴 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/withdraw.do");
+			mv.setViewName("common/sweetMsg");			
+		}
+		
+		return mv;
+	}
+
 	@RequestMapping("/auth/kakao/callback")
 	public String kakaoCallback(String code,Model m,ModelAndView mv,HttpServletRequest request) throws Exception {
-	
 		//post방식으로 key=value 데이터를 요청(카카오쪽으로)
 		RestTemplate rt=new RestTemplate();
 		HttpHeaders headers=new HttpHeaders();

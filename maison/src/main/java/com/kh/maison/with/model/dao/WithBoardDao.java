@@ -45,4 +45,21 @@ public interface WithBoardDao {
 	int inserWithAsk(SqlSessionTemplate session,WithAsk wa);
 	
 	Member selectEmailAndPhone(SqlSessionTemplate session,int no);
+	
+	//여기부터 마이페이지에 함께해요 관련
+	List<WithBoard> bringAllWithBoard(SqlSessionTemplate session,String memberId,int cPage,int numPerPage);
+
+	int bringAllWithBoardCount(SqlSessionTemplate session,String memberId);
+	
+	int deleteBringAllWith(SqlSessionTemplate session,int checkfordelete);
+
+	List<WithComment> bringAllWithComment(SqlSessionTemplate session,String memberId,int cPage,int numPerPage);
+
+	int bringAllWithCommentCount(SqlSessionTemplate session,String memberId);
+	
+	List<WithBoard> bringCommentedWith(SqlSessionTemplate session,String memberId,int cPage,int numPerPage);
+	
+	int bringCommentedWithCount(SqlSessionTemplate session,String memberId);
+	
+	int deleteBringAllWithComment(SqlSessionTemplate session,int checkStatus);
 }

@@ -28,7 +28,17 @@
 		<typeAlias type="com.kh.maison.shop.model.vo.AdminReply" alias="adminReply"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleProduct" alias="cycleProduct"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CountCycle" alias="countCycle"/>
+		<typeAlias type="com.kh.maison.mileage.model.vo.Mileage" alias="mileage"/>
+		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleAdmin" alias="cycleAdmin"/>
+		<typeAlias type="com.kh.maison.admin.model.vo.MemberSearch" alias="memberSearch"/>
+		<typeAlias type="com.kh.maison.admin.model.vo.MemberWithdraw" alias="memberWithdraw"/>
+		<typeAlias type="com.kh.maison.member.model.vo.Grade" alias="grade"/>
 
 	</typeAliases>
+	
+	
+
+
+
 
 </configuration>

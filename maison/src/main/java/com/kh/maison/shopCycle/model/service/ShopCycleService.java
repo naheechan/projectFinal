@@ -8,8 +8,14 @@ import com.kh.maison.shopCycle.model.vo.CycleProduct;
 
 public interface ShopCycleService {
 	
-	List<CycleProduct> selectCycleList(Map<String,String> cateMap);
+	List<CycleProduct> selectCycleList(Map<String,String> cateMap, int cPage, int numPerPage);
 	CycleProduct selectCycleOne(Map<String,String> cycleMap);
 	int updateCycle(Map map);
 	List<CountCycle> selectCountCycle(String id);
+	int selectCycleExist(Map map);
+	int insertCycle(Map map);
+	List<Map<String,String>> selectRecentCycle(Map<String,String> map);
+	int updateOnCycle(Map<String,String> map);
+	int selectProductNo(Map<String,String> map);
+	int updateAlertStatus(Map<String,String> map);
 }

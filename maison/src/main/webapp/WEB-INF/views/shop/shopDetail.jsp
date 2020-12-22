@@ -152,9 +152,9 @@ select::-ms-expand { /* for IE 11 */
         </div>
     </div> -->
     <!-- End All Title Box -->
-	
-	
+		
     <!-- Start Shop Detail  -->
+   <div>
     <div class="shop-detail-box-main">
         <div class="container">
             <div class="row">
@@ -162,7 +162,7 @@ select::-ms-expand { /* for IE 11 */
                 <div class="col-xl-5 col-lg-5 col-md-6">
                 	<!-- 상품 상세 이미지 넣기 -->
                 	
-                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide" style="width:470px;height:550px;">
+                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide">
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
                 

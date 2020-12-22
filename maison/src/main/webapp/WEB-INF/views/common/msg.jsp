@@ -3,17 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="path" value="${pageContext.request.contextPath }"/>    
+<c:set var="path" value="${pageContext.request.contextPath }"/>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>시스템 메세지</title>
-
 </head>
 <body>
-
 	<script>
 
     swal("${msg }")
