@@ -636,6 +636,7 @@ $(function(){
 			swal("","수정할 분류명을 입력해주세요.");
 			return;
 		}
+///수정할분류명 return이 계속됨 수정하기//////////////////////////		
 		var id=	$("#chkId").val();
 		var large =$("#ajaxlargeCate").val();
 		var mcName = $("[name=modiCate]").val();

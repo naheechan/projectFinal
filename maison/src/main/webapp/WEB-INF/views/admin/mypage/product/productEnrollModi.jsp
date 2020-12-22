@@ -185,7 +185,7 @@
                             <th><small>가격</small></th>
                             <th><small>주기</small></th>
                             <th><small>상품<br>등록일</small></th>
-                            <th><small>상품<br>수정</small></th>
+                            <th><small>상품<br>편집</small></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -235,14 +235,16 @@ $(document).ready(function(){
 	     $('html').animate({scrollTop : offset.top}, 1000);
 		});
 });
+	function productView(){
+		var tr = $("#recent-purchases-listing tbody tr");
+		tr.click(function(e){
+			var no = $(this).find("[type=hidden]").val();
+			console.log(no);
+			location.href="${ path }/admin/product/productView.do?no="+no;
+		});
+	};
 $(function(){
-	var tr = $("#recent-purchases-listing tbody tr");
-	
-	tr.click(function(e){
-		var no = $(this).find("[type=hidden]").val();
-		console.log(no);
-		location.href="${ path }/admin/product/productView.do?no="+no;
-	});
+	productView();
 	
 	//searchType change
 	$("#searchType").change(function(e){
@@ -283,6 +285,7 @@ $(function(){
 	
 	//all show stock today
 	$("#all").click(function(){
+		
 		var table=$("[name=searchList]");
 		table.children('tbody').empty();
 			$.ajax({
@@ -307,11 +310,12 @@ $(function(){
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
 	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
 					table.append(str);
+					productView();
 			},
 			error:function(){
 				console.log("AllProductList ajax 통신실패");
@@ -344,11 +348,12 @@ $(function(){
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
 	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
 					table.append(str);
+					productView();
 			},
 			error:function(){
 				console.log("today ajax 통신실패");
@@ -381,11 +386,12 @@ $(function(){
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
 	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
 					table.append(str);
+					productView();
 			},
 			error:function(){
 				console.log("today ajax 통신실패");
@@ -417,11 +423,12 @@ $(function(){
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
 	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
 					table.append(str);
+					productView();
 			},
 			error:function(){
 				console.log("today ajax 통신실패");
@@ -436,7 +443,8 @@ $(function(){
 		var frm = $(e.target).parent();
 		var searchfrm= frm.serializeArray();
 		console.log(searchfrm);
-		
+		var offset = $("[name=searchList").offset(); 
+	     $('html').animate({scrollTop : offset.top}, 1000);
 		$.ajax({
 			url:"${path}/admin/mypage/product/Enrollsearch.do",
 			data:searchfrm,
@@ -460,13 +468,15 @@ $(function(){
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
 	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movebtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>'
+	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
 					table.append(str);
 				$("#searchName").val("");
 				$("[name=searchKeyword]").val("");
+				productView();
+				
 			},
 			error:function(){
 				console.log("search ajax통신 실패");

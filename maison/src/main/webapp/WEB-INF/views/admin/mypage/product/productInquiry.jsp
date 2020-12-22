@@ -203,7 +203,7 @@
                             <th><small>존재<br>여부</small></th>
                             <th><small>문의<br>등록일</small></th>
                             <th><small>회원<br>탈퇴여부</small></th>
-                            <th><small>문의<br>수정</small></th>
+                            <th><small>문의<br>편집</small></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -221,8 +221,8 @@
                             <td>${list.memberStatus}</td>
                             <td onclick="event.cancelBubble=true">
                             	<input type="hidden" name="pino" id="pino" value="${list.piNo}">
-                            	<a class="btn hvr-hover" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">문의<br>삭제</a>
-                            	<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no=${list.productNo}">문의<br>이동</a>
+                            	<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">삭제</a>
+                            	<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no=${list.productNo}">이동</a>
                            	</td>
                         </tr>
                         </c:forEach>
@@ -277,7 +277,7 @@
                             <th><small>답글<br>내용</small></th>
                             <th><small>답글<br>등록일</small></th>
                             <th><small>회원<br>탈퇴여부</small></th>
-                            <th><small>답글<br>수정</small></th>
+                            <th><small>답글<br>편집</small></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -298,8 +298,8 @@
                             <td>${list.memberStatus}</td>
                             <td onclick="event.cancelBubble=true">
                             	<input type="hidden" name="pino" id="piNo" value="${list.piNo}">
-                            	<a class="btn hvr-hover" data-fancybox-close=""  id="repbtn" href="${ path }/admin/product/update.do?no=${list.piNo}">답글<br>달기</a>
-                            	<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no=${list.piNo}">수정<br>하기</a>
+                            	<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="repbtn" href="${ path }/admin/product/update.do?no=${list.piNo}">답글<br>달기</a>
+                            	<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no=${list.piNo}">수정<br>하기</a>
                            	</td>
                         </tr>
                         </c:forEach>
@@ -388,8 +388,8 @@
 	                str+='<td>'+data[i].memberStatus+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pino" id="pino" value="'+data[i].piNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">문의삭제</a>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">문의이동</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">삭제</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -425,8 +425,8 @@
 	                str+='<td>'+data[i].memberStatus+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pino" id="pino" value="'+data[i].piNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">문의삭제</a>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">문의이동</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">삭제</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -466,8 +466,8 @@
 	                str+='<td>'+data[i].memberStatus+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pino" id="pino" value="'+data[i].piNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">문의삭제</a>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">문의이동</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">삭제</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -507,8 +507,8 @@
 	                str+='<td>'+data[i].memberStatus+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pino" id="pino" value="'+data[i].piNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">문의삭제</a>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">문의이동</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">삭제</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -546,9 +546,9 @@
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pino" id="pino" value="'+data[i].piNo+'">'
 	                if(data[i].piDel=='Y'){
-		                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">문의삭제</a>'
+		                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">삭제</a>'
 	                }
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">문의이동</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -596,14 +596,15 @@
 	                str+='<td>'+data[i].memberStatus+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pino" id="pino" value="'+data[i].piNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">문의삭제</a>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">문의이동</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="delbtn" href="javascript:void(0)">삭제</a>'
+	                str+='<a class="btn hvr-hover rowbtn" data-fancybox-close=""  id="modibtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
 					table.append(str);
 				$("#searchName").val("");
 				$("[name=searchKeyword]").val("");
+				$("#cateInq").find('option:eq(0)').prop("selected",true);
 			},
 			error:function(){
 				console.log("search ajax통신 실패");
@@ -618,6 +619,10 @@
 	#reply-list{display:none;}
 	.color{
 		color:#000000;
+	}
+	.rowbtn{
+    	color:#F2BB9C;
+    	text-align:center;
 	}
 	#moveInq{
    		background:#F2BB9C;

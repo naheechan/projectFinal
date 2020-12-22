@@ -135,6 +135,7 @@
       <!-- form-footer -->
       <div class="form-footer">
         <span>* required</span>
+        <button type="button" class="btn" id="enrollView" onclick="fn_back();">돌아가기</button>
         <button type="button" class="btn" id="viewSubmit">수정</button>
       </div>
     </c:forEach>
@@ -144,6 +145,11 @@
 
     <!-- Script for range input label -->
     <script>
+    function fn_back(){
+    	if(confirm("마이페이지로 이동하시겠습니까?")){
+	    	location.href="${path}/admin/mypage/product/enrollView.do";
+    	}
+    };
     $(function(){
     	$("#createbtn").click(function(){
     		alert("관리자 마이페이지-상품 분류 관리 페이지에서 이용가능합니다.");

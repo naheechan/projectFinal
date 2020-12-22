@@ -139,7 +139,7 @@ public class ProductMyAdminController {
 		//m.addAttribute("new",newCate);
 		return "admin/mypage/product/productCategory";
 	}
-	
+	//카테고리 분류에서 카테고리 검색
 	@ResponseBody
 	@RequestMapping("/selectListInMedi.do")
 	public String selectListInMedi(Model m, @RequestParam(value="medi", required=false)String medi,
@@ -153,7 +153,7 @@ public class ProductMyAdminController {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			c=service.selectListInMedi(param);
-			System.out.println("ajax리스트"+c);
+			System.out.println("list in medi.do :ajax리스트"+c);
 			str=mapper.writeValueAsString(c);
 		}catch(Exception e) {
 			e.printStackTrace();

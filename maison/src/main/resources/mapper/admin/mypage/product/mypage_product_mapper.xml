@@ -246,10 +246,10 @@ SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHE
 
 <sql id="search">
 	<choose>
-		<when test="searchType == 'name' and keyword!=''">
+		<when test="searchType == 'name' and keyword!='' and selectCate==''">
 			I.MEMBERID LIKE '%'||#{keyword}||'%'
 		</when>
-		<when test="searchType=='name' and selectCate!=''">
+		<when test="searchType=='name' and selectCate!='' and keyword==''">
 			 I.PICATE LIKE #{selectCate}
 		</when>
 		<when test="searchType=='name' and keyword!='' and selectCate!=''">
