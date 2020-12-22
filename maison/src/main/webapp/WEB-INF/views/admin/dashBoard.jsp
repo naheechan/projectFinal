@@ -167,13 +167,13 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
         <!-- content-wrapper ends -->
 		<jsp:include page="/WEB-INF/views/admin/footer.jsp"/>
       </div>
 		<!-- End MainPanel 페이지별로 바뀌는 부분 끝 -->
 	</div>
+</div>
+</div>
 </div>
 <jsp:include page="/WEB-INF/views/admin/jses.jsp"/>
 </body>

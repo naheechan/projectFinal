@@ -9,7 +9,7 @@
 	
 	<select id="selectMediumCategory" resultType="category"
 		parameterType="java.lang.String">
-		SELECT LARGECATE, MCNAME 
+		SELECT MEDIUMCATE, LARGECATE, MCNAME 
 		FROM 
 				MEDIUMCATE 
 		WHERE

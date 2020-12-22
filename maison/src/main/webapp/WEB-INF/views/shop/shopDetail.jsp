@@ -199,15 +199,6 @@ select::-ms-expand { /* for IE 11 */
 									
 									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	
 									
-								
-
-								
-
-								
-								<c:if test="${loginMember.memberId!=null && loginMember.memberId=='admin' }">
-								<a class="btn hvr-hover" data-fancybox-close="" href="${path}/admin/product/productView.do?no=${product.productNo }">상품수정하기</a>
-								</c:if>
-
 								<a class="btn hvr-hover" id="basketA" data-fancybox-close="" href="#">장바구니</a>
 
 							</div>
@@ -599,7 +590,7 @@ function inquiryList(){
 									str+="<a name='user_Ydel' id='user_Ydel' style='float:right;'>문의 삭제</a>";
 								}
 							}else{
-								str+="<tr class='replaceDel' style='color:lightgrey;'><td style='text-align:left;'>"+data[i].piNo+"</td><td colspan='2'>삭제된 문의글 입니다.</td><td style='text-align:left'>"+data[i].memberId+"</td><td colspan='2'></td></tr>";
+								str+="<tr class='replaceDel' style='color:lightgrey;'><td style='text-align:left;'>"+data[i].piNo+"</td><td></td><td>삭제된 문의글 입니다.</td><td style='text-align:left'>"+data[i].memberId+"</td><td colspan='2'></td></tr>";
 							}
 							//답글row추가
 							if(data[i].piStatus=='Y'){
@@ -638,8 +629,6 @@ function inquiryList(){
 							str+="<br>";
 							str+="</td></tr>";
 						}
-					}else{
-						str +="<td colspan='6'>해당 상품의 문의내역을 올려주세요.</td></tr>";
 					}
 				})
 					$("#pdInquiryList").append(str);
@@ -1138,9 +1127,7 @@ function delUserInquiry(no){
 	  		$.ajax({
 	  			url: "${path}/shop/selectReviewList.do",
 	    		cache: false,
-	    		data : {
-				productNo : ${product.productNo}
-		    		},
+	    		data : {productNo : ${product.productNo}},
 	    		dataType : "html",
 	    		success : function(data){
 	   			$("#review-container").html('');

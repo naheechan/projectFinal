@@ -11,7 +11,7 @@
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="상품수정" />
 </jsp:include>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Start -->
 <div class="shop-list-box">
 	<div class="container">
@@ -22,11 +22,11 @@
 </div>
 <!-- End -->
 <c:forEach var="list" items="${list }">
-    <form class="signup-form" action="${path}/admin/product/updateEnroll.do?no=${list.productNo}" method="post" enctype="multipart/form-data">
+    <form class="signup-form" id="Frm" action="${path}/admin/product/updateEnroll.do?no=${list.productNo}" method="post" enctype="multipart/form-data">
 </c:forEach>
       <!-- form header -->
       <div class="form-header">
-        <h1>상품등록</h1>
+        <h1>상품수정</h1>
       </div>
 
       <!-- form body -->
@@ -61,24 +61,26 @@
 			<a id="createbtn">카테고리등록</a>
           </div>
         </div>
-        
+        <c:forEach var="list" items="${list }">
 		<!-- Name -->
         <div class="form-group">
           <label for="productName" class="label-title">상품이름 *</label>
-          <input type="text" name="productName" id="productName" class="form-input" placeholder="enter product name" required="required">
+          <input type="text" name="productName" id="productName" class="form-input" placeholder="enter product name" required="required"
+          value="${list.productName }">
         </div>
 		
 		<!-- Summary -->
         <div class="form-group">
           <label for="text" class="label-title">상품요약설명 *</label>
-          <input type="text" name="productSummary" id="productSummary" class="form-input" placeholder="enter product summary" required="required">
+          <input type="text" name="productSummary" id="productSummary" class="form-input" placeholder="enter product summary" required="required"
+          value="${list.productSummary}">
         </div>
         
         <!--editor  -->
         	<div class="form-group">
         	<label for="productContent" class="label-title">상품상세페이지 *</label>
         	<textarea id="productContent" name="productContent" rows="10" cols="80" 
-        	placeholder="내용을 입력하세요" required="required"></textarea>
+        	placeholder="내용을 입력하세요" required="required">${list.productContent}</textarea>
         	<script>
         	$(function(){
         		CKEDITOR.replace("productContent",{
@@ -95,7 +97,7 @@
         <div class="horizontal-group">
           <div class="form-group left" >
             <label for="productImg" class="label-title">상품이미지 *</label>
-            <input type="file" name="imageFile" id="productImg" size="80" accept=".jpg, .jpeg, .png, .bmp" data-width="300" data-height="300">
+            <input type="file" name="imageFile" id="productImg" size="80" accept=".jpg, .jpeg, .png, .bmp" data-width="300" data-height="300" required="required">
           </div>
           </div>
           
@@ -103,14 +105,15 @@
         <div class="horizontal-group">
           <div class="form-group left" >
              <label for="price" class="label-title">상품가격 *</label>
-            <input type="number" name="price" id="price" class="form-input" placeholder="원" required="required">
+            <input type="number" name="price" id="price" class="form-input" placeholder="원" required="required"
+            value="${list.price}">
           </div>
           <div class="form-group right">
             <label for="productStock" class="label-title">재고수량 *</label>
             <input type="range" min="0" max="1000" step="10"  value="0" name="productStock" id="productStock" class="form-input" 
             required="required" onChange="change();" style="height:28px;width:78%;padding:0;">
             <br>
-            <span id="range-label">0</span>
+            <span id="range-label">${list.productStock }</span>
           </div>
         </div>	
         
@@ -118,15 +121,15 @@
         <div class="horizontal-group">
           <div class="form-group left">
             <label for="productStatus" class="label-title">판매상태 *</label><br>
-            <input type="radio" id="productStatusY" name="productStatus" value="Y" checked>예
-            <input type="radio" id="productStatusN" name="productStatus" value="N">아니오
+            <input type="radio" id="productStatusY" name="productStatus" value="Y" <c:if test="${list.productStatus eq 'Y'}">checked="checked"</c:if>>예
+            <input type="radio" id="productStatusN" name="productStatus" value="N" <c:if test="${list.productStatus eq 'N'}">checked="checked"</c:if>>아니오
           </div>
           <!-- DefCycle -->
           <div class="form-group left">
           <label for="defCycle" class="label-title">주기일 *</label><br>
-            <input type="number" name="defCycle" id="defCycle" class="form-input" required="required">
+            <input type="number" name="defCycle" id="defCycle" class="form-input" required="required" value="${list.defCycle}">
           </div>
-
+		</c:forEach>
 		<!-- mediumCate -->
         <div class="form-group right">
           <input type="hidden" name="mediumCate" id="mediHidden" class="form-input" value="">
@@ -135,7 +138,7 @@
       <!-- form-footer -->
       <div class="form-footer">
         <span>* required</span>
-        <button type="submit" class="btn">수정</button>
+        <button type="button" id="updatebtn" class="btn">수정</button>
       </div>
       </div>
     </form>
@@ -157,7 +160,7 @@
     		$("#createbtn").click(function(){
     			alert("카테고리를 추가로 등록하시겠습니까?");
     		
-    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=500, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=550, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=no");
     			
     		})
    
@@ -179,6 +182,8 @@
     			//list로받음
     			console.log(data);
     			
+    			console.log(data[0].mediumCate);
+	    		$("#mediHidden").attr("value",data[0].mediumCate);
     			
     			if(data.length>0){
     				mc.empty();
@@ -243,6 +248,36 @@
   				})
     	});
     	
+    	$("#updatebtn").click(function(){
+			var pName=$("#productName");
+			var pSummary = $("#productSummary");
+			var price = $("#price");
+			var img=$("#productImg");
+			var defCycle=$("#defCycle");
+    		var option= $("#largeCate option:selected").val();
+    		if(option==""){
+    			swal("Are you sure?","카테고리를 선택해주세요.","info");
+    		}else{
+	    		if(!pName.val()==""&&!pSummary.val()==""&&!img.val()==""&&!price.val()==""&&!defCycle.val()==""){
+    				$("#Frm").submit();
+	    		}else{
+	    			swal("Are you sure?","빈칸이 있으면 수정하실 수 없습니다.","info");
+	    		}
+    		}
+    	})
+    	
+   		$("#productName").click(function(){
+   			$(this).attr("value","");
+   		});
+    	$("#productSummary").click(function(){
+   			$(this).attr("value","");
+   		});
+    	$("#price").click(function(){
+   			$(this).attr("value","");
+   		});
+    	$("#defCycle").click(function(){
+   			$(this).attr("value","");
+   		});
     	
 });
     </script>

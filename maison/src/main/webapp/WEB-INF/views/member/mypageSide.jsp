@@ -49,8 +49,8 @@
 		                        		<h4>리뷰관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>
-		                        	<a href="#" class="list-group-item list-group-item-action">
-		                        		<h4>질문관리 </h4>
+		                        	<a href="${ path }/member/mypage/inquiry/viewList.do" class="list-group-item list-group-item-action">
+		                        		<h4>문의관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>		
 		                        	<a href="${path }/member/withList.do?memberId=${loginMember.memberId}" class="list-group-item list-group-item-action">

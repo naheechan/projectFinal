@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
-import com.kh.maison.shop.model.vo.CateProduct;
+import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
@@ -58,7 +58,7 @@ public class ShopDaoImpl implements ShopDao {
 
 
 	@Override
-	public List<Product> searchCate(SqlSession session, String category) {
+	public List<ProductCate> searchCate(SqlSession session, String category) {
 		System.out.println("shop dao category"+category);
 		return session.selectList("shop.searchCate",category);
 	}
@@ -140,6 +140,12 @@ public class ShopDaoImpl implements ShopDao {
 	@Override
 	public List<Category> searchMediCate(SqlSession session, String category) {
 	return session.selectList("shop.searchMediCate", category);
+	}
+
+
+	@Override
+	public int deleteRep(SqlSession session, int no) {
+		return session.delete("shop.deleteRep",no);
 	}
 	
 	

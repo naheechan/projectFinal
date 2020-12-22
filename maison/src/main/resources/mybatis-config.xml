@@ -17,22 +17,24 @@
 		<typeAlias type="com.kh.maison.shop.model.vo.Request" alias="Request"/>
 		<typeAlias type="com.kh.maison.admin.product.model.vo.Category" alias="category"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.CateProduct" alias="cateProduct"/>
+		<typeAlias type="com.kh.maison.admin.product.model.vo.ProductCate" alias="productCate"/>
 		<typeAlias type="com.kh.maison.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.maison.shop.vo.WishList" alias="wishList"/>
 		<typeAlias type="com.kh.maison.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.maison.review.model.vo.ReviewReply" alias="reviewReply"/>
 		<typeAlias type="com.kh.maison.order.model.vo.Order" alias="order"/>
-
 		<typeAlias type="com.kh.maison.shop.model.vo.PdInquiry" alias="pdInquiry"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.TotalInquiry" alias="totalInquiry"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.InquiryReply" alias="reply"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.AdminReply" alias="adminReply"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleProduct" alias="cycleProduct"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CountCycle" alias="countCycle"/>
-
+		<typeAlias type="com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList" alias="totalInquiryList"/>
+		<typeAlias type="com.kh.maison.adminMypage.product.model.vo.MyAdminCate" alias="adminCate"/>
+		<typeAlias type="com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry" alias="adminIQ"/>
+		<typeAlias type="com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll" alias="adminEnroll"/>
 		<typeAlias type="com.kh.maison.order.model.vo.OrderDetail" alias="orderDetail"/>
 		<typeAlias type="com.kh.maison.order.model.vo.ShippingDestination" alias="shippingDestination"/>
-
 		<typeAlias type="com.kh.maison.mileage.model.vo.Mileage" alias="mileage"/>
 		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleAdmin" alias="cycleAdmin"/>
 		<typeAlias type="com.kh.maison.admin.model.vo.MemberSearch" alias="memberSearch"/>
