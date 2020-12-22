@@ -114,7 +114,7 @@
 			<tr>
 				<td>
 					<!-- 소셜 로그인 -->
-					<a href="${path}/member/naver/login"><img height="50" width="200px;" src="${path}/resources/images/naver.PNG"></a><br><br>
+					<a href="${path}/member/naver/login"><img height="50" width="200px;" src="${path}/resources/images/naverBtn.PNG"></a><br><br>
 					<a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://localhost:9090/maison/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>
 
  
