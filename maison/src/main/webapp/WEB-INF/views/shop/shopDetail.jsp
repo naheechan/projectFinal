@@ -96,6 +96,7 @@ select::-ms-expand { /* for IE 11 */
 </style>
  <script>
       $(document).ready(function(){
+    	
 		/* 상품 상세로 스크롤이동 */
  		$('.menu1').click(function(){
 
@@ -152,23 +153,24 @@ select::-ms-expand { /* for IE 11 */
         </div>
     </div> -->
     <!-- End All Title Box -->
-	
-	
+		
     <!-- Start Shop Detail  -->
+   <div>
     <div class="shop-detail-box-main">
+    
         <div class="container">
             <div class="row">
             <form action="${path }/order/buy.do" id="buyFrm">
                 <div class="col-xl-5 col-lg-5 col-md-6">
                 	<!-- 상품 상세 이미지 넣기 -->
                 	
-                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide" style="width:470px;height:550px;">
+                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }" alt="First slide">
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
                 
                     <div class="single-product-details">
                         <h2>${product.productName }</h2>
-                        <input type="hidden" id="productNo" value="${product.productNo }"/>
+                        
                         <h5><fmt:formatNumber type="currency" value="${product.price }"/></h5>
                         
 						<h2>상품 안내:</h2>
@@ -209,6 +211,7 @@ select::-ms-expand { /* for IE 11 */
 								<a class="btn hvr-hover" id="basketA" data-fancybox-close="" href="#">장바구니</a>
 
 							</div>
+							
 							</form>
 						</div>
 						

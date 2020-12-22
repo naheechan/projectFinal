@@ -1,9 +1,9 @@
 package com.kh.maison.order.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
@@ -22,4 +22,14 @@ public interface OrderDao {
 	int bupdateStock(SqlSession session, Basket b);
 	
 	OrderDetail selectOdOne(SqlSession session, int orderDetailNo );
+	
+	int insertBuyOrderDetail(SqlSession session, Map<String,Object> map4);
+	
+	List<OrderDetail> selectOrderDetail(SqlSession session,String memberId);
+	
+	List<Order> selectShippingDestination(SqlSession session,String memberId);
+	
+	int insertShippingDestination(SqlSession session,Order o);
+	
+	
 }

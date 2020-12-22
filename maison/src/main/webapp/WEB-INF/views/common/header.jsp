@@ -26,6 +26,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
 <script src="${path }/resources/js/jquery-ui.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <title><c:out value="${param.title }"/></title>
 </head>
@@ -40,7 +41,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-                <a class="navbar-brand" href="${path }/"><img src="${path }/resources/images/logo2.png" class="logo" alt="" style="width:94px;"></a>
+                <a class="navbar-brand" href="${path }/"><img src="${path }/resources/images/logo2.png" class="logo" alt="" style="width:94px;"/></a>
             </div>
             <!-- End Header Navigation -->
 

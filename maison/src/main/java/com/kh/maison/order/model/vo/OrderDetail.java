@@ -9,4 +9,9 @@ public class OrderDetail {
 	private int productNo;
 	private int odAmount;
 	private int odPriceSum;
+	
+	//조인
+	private String productImg;
+	private int price;
+	private String productName;
 }

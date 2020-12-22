@@ -20,8 +20,8 @@ public class ShopCycleServiceImpl implements ShopCycleService {
 	private SqlSessionTemplate session;
 	
 	@Override
-	public List<CycleProduct> selectCycleList(Map<String,String> cateMap) {
-		return dao.selectCycleList(session, cateMap);
+	public List<CycleProduct> selectCycleList(Map<String,String> cateMap, int cPage, int numPerPage) {
+		return dao.selectCycleList(session, cateMap, cPage, numPerPage);
 	}
 
 	@Override
@@ -38,6 +38,37 @@ public class ShopCycleServiceImpl implements ShopCycleService {
 	public List<CountCycle> selectCountCycle(String id) {
 		return dao.selectCountCycle(session, id);
 	}
+
+	@Override
+	public int selectCycleExist(Map map) {
+		return dao.selectCycleExist(session, map);
+	}
+
+	@Override
+	public int insertCycle(Map map) {
+		return dao.insertCycle(session, map);
+	}
+
+	@Override
+	public List<Map<String, String>> selectRecentCycle(Map<String, String> map) {
+		return dao.selectRecentCycle(session, map);
+	}
+
+	@Override
+	public int updateOnCycle(Map<String, String> map) {
+		return dao.updateOnCycle(session, map);
+	}
+
+	@Override
+	public int selectProductNo(Map<String, String> map) {
+		return dao.selectProductNo(session, map);
+	}
+
+	@Override
+	public int updateAlertStatus(Map<String, String> map) {
+		return dao.updateAlertStatus(session, map);
+	}
+	
 	
 	
 	
