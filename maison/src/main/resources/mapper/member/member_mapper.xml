@@ -73,4 +73,18 @@
   				WHERE MEMBERID = #{id}
   </update>
 
+  <update id="updateEmailStatus" parameterType="map">
+  	UPDATE MEMBER SET EMAILSTATUS=#{emailStatus}
+  	WHERE MEMBERID=#{memberId}
+  </update>
+  
+    <update id="updateMemberStatus" parameterType="map">
+  	UPDATE MEMBER SET MEMBERSTATUS = #{withdrawChk}
+  	WHERE MEMBERID=#{memberId}
+  </update>
+  
+  <insert id="updateMemberWithdraw" parameterType="map">
+  	INSERT INTO MEMBERWITHDRAW VALUES(#{memberId},#{withdrawCom},default)
+  </insert>
+
 </mapper>

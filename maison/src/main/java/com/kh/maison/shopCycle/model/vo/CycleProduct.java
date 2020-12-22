@@ -25,6 +25,7 @@ public class CycleProduct {
 	private int mediumCate;
 	private String mcName;
 	private String largeCate;
+	private int odAmount;
 	
 
 }

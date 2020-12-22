@@ -31,8 +31,8 @@
 							</a>
 		                    <div class="collapse" id="sub-men2" data-parent="#list-group-men">
 		                    	<div class="list-group">
-		                        	<a href="#" class="list-group-item list-group-item-action">
-		                        		<h4>적립금 </h4>
+		                        	<a href="${path }/member/mileage.do" class="list-group-item list-group-item-action">
+		                        		<h4>적립금 관리</h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>
 		                        </div>
@@ -45,7 +45,7 @@
 							</a>
 		                    <div class="collapse" id="sub-men3" data-parent="#list-group-men">
 		                    	<div class="list-group">
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/review/reviewList.do" class="list-group-item list-group-item-action">
 		                        		<h4>리뷰관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>
@@ -53,7 +53,7 @@
 		                        		<h4>문의관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>		
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/withList.do?memberId=${loginMember.memberId}" class="list-group-item list-group-item-action">
 		                        		<h4>함께해요 관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>                        	
@@ -89,19 +89,19 @@
 			                        		<small class="text-muted"></small>
 			                        	</a>	
 		                        	</c:if>
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/order/shippingDestination.do" class="list-group-item list-group-item-action">
 		                        		<h4>배송지/환불계좌 관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>
-		                        	<a href="#" class="list-group-item list-group-item-action">
+<!-- 		                        	<a href="#" class="list-group-item list-group-item-action">
 		                        		<h4>결제수단 관리 </h4>
 		                        		<small class="text-muted"></small>
-		                        	</a>
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	</a> -->
+		                        	<a href="${path }/member/emailAgree.do" class="list-group-item list-group-item-action">
 		                        		<h4>이메일 수신 동의 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/withdraw.do" class="list-group-item list-group-item-action">
 		                        		<h4>회원탈퇴 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>		                        			                        			                        			                        		                        	

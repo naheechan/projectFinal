@@ -29,7 +29,7 @@
 	SELECT DISTINCT MEDIUMCATE ,MCNAME, LARGECATE FROM MEDIUMCATE
 </select>
 <insert id="insertRequestProduct" parameterType="Request">
-	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,#{memberId},#{requestContent},'요청하기',SYSDATE)
+	INSERT INTO REQUEST VALUES(SEQ_REQUESTNO.NEXTVAL,#{memberId},#{requestContent},'N',SYSDATE)
 </insert>
 
 <select id="selectOneMediCate" resultType="product" parameterType="String">
@@ -100,6 +100,7 @@
 	<!-- UPDATE PDINQUIRY SET PIDEL='N' WHERE PINO=#{no} -->
 	UPDATE PDINQUIRY SET PIDEL='N', PISTATUS='N' WHERE PINO=#{no}
 </update>
+
 <delete id="deleteRep" parameterType="_int">
 	DELETE FROM INQUIRYREPLY WHERE PINO=#{no}
 </delete>
@@ -118,5 +119,10 @@
 		PRODUCTSTOCK=(SELECT PRODUCTSTOCK FROM PRODUCT WHERE PRODUCTNO=(SELECT PRODUCTNO FROM BASKET WHERE BASKETNO=#{basketNo}))
 			-(SELECT AMOUNT FROM BASKET WHERE BASKETNO=#{basketNo}) WHERE PRODUCTNO=(SELECT PRODUCTNO FROM BASKET WHERE BASKETNO=#{basketNo})
 </update>
+
+<select id="selectOdOne" parameterType="_int" resultType="orderDetail">
+	SELECT * FROM ORDERDETAIL WHERE ORDERDETAILNO=#{orderDetailNo}
+</select>
+
 
 </mapper>

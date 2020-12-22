@@ -7,14 +7,14 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="로그인"/>
 </jsp:include>
-
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
 	//아이디랑 비밀번호 적었나 확인
 	function checkSubmit() {
 		if($("#memberId").val().trim().length==0) {
-			alert("아아디를 입력하세요");
+			swal("아아디를 입력하세요");
 		}else if($("#memberPw").val().trim().length==0) {
-			alert("비밀번호를 입력하세요");
+			swal("비밀번호를 입력하세요");
 		}else {
 			return true;
 		}
@@ -114,11 +114,58 @@
 			<tr>
 				<td>
 					<!-- 소셜 로그인 -->
-					<a href="${path}/member/naver/login"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"></a>
+					<a href="${path}/member/naver/login"><img height="50" width="200px;" src="${path}/resources/images/naverBtn.PNG"></a><br><br>
+					<a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://localhost:9090/maison/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>
+
+ 
+  
+  
+  <p id="token-result"></p>
 				</td>
 			</tr>
 		</table>
 	</div>	
 </section>
+<script type="text/javascript">
+	function loginWithKakao() {
+	    $.ajax({
+	        url: '${path}/member/getKakaoAuthUrl',
+	        type: 'get',
+	        async: false,
+	        dataType: 'text',
+	        success: function (res) {
+	            location.href = res;
+	        }
+	    });
+	
+	}
+      Kakao.init( "098b7d9a74ac05ea06aeef5f825ec6ae" );
+        // @breif 카카오 로그인 버튼을 생성합니다.
+
+	 Kakao.Auth.createLoginButton({
+	    container: '#kakao-login-btn',
+	    success: function(authObj) {
+	      Kakao.API.request({
+	        url: '/v2/user/me',
+	        success: function(res) {
+	          alert(JSON.stringify(res)+"성공");
+	        },
+	        fail: function(error) {
+	          alert(
+	            'login success, but failed to request user information: ' +
+	              JSON.stringify(error)
+	          )
+	        },
+	      })
+	    },
+	    fail: function(err) {
+	      alert('failed to login: ' + JSON.stringify(err))
+	    },
+	  });
+ 
+
+
+    
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		

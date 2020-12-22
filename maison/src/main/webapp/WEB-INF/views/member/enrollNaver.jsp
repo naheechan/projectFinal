@@ -14,8 +14,8 @@
 <script>
 	//submit할때 유효성검사
 	function checkSubmit() {
-		if($("#brithCheck").val()=="0") alert("생년월일을 정확히 입력해주세요");
-		else if($("#phoneCheck").val()=="0") alert("전화번호를 정확히 입력해주세요");
+		if($("#brithCheck").val()=="0") swal("생년월일을 정확히 입력해주세요");
+		else if($("#phoneCheck").val()=="0") swal("전화번호를 정확히 입력해주세요");
 		else return true;
 		
 		return false; 
@@ -76,7 +76,7 @@
 		$("#datepicker").change(function(e) {
 			$("#brithCheck").val("0");
 			let checkBirth = $(e.target).val().trim();
-			let regBirth = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+			let regBirth = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
 			if(regBirth.test(checkBirth)) {
 				$("#checkBrith-container").children().css("display","none");
 				$("#brithCheck").val("1");
@@ -167,7 +167,14 @@
 	 .checked {
 	 	width: 20px;
 	 }
-
+	#submit-container {
+		display: flex;
+		justify-content: center;
+	}
+	#submit-container button {
+		padding: 2vh;
+		margin: 5vh;
+	}
 </style>
 <section>
 	<div class="jumbotron jumbotron-fluid">
@@ -197,7 +204,7 @@
 		 	
 		 	<div class="form-group">
 			    <label for="datepicker">생년월일</label><br>
-			    <input type="text" class="form-control" id="datepicker" name="birth" required>
+			    <input type="text" class="form-control" id="datepicker" name="birth" autocomplete="off" required>
 			    <div id="checkBrith-container">
 				    <p class="text-danger" id="notRegBrith" style="display:none">달력에서 생년월일을 선택해주세요</p>
 			    </div>

@@ -23,3 +23,5 @@
   <script src="${path }/resources/admin/js/jquery.dataTables.js"></script>
   <script src="${path }/resources/admin/js/dataTables.bootstrap4.js"></script>
   <!-- End custom js for this page-->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>

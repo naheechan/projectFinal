@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
-	<settings>
+	 <settings>
         <setting name="jdbcTypeForNull" value="NULL" />
     </settings>
 	<!-- typealias -->
@@ -20,6 +20,8 @@
 		<typeAlias type="com.kh.maison.admin.product.model.vo.ProductCate" alias="productCate"/>
 		<typeAlias type="com.kh.maison.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.maison.shop.vo.WishList" alias="wishList"/>
+		<typeAlias type="com.kh.maison.review.model.vo.Review" alias="review"/>
+		<typeAlias type="com.kh.maison.review.model.vo.ReviewReply" alias="reviewReply"/>
 		<typeAlias type="com.kh.maison.order.model.vo.Order" alias="order"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.PdInquiry" alias="pdInquiry"/>
 		<typeAlias type="com.kh.maison.shop.model.vo.TotalInquiry" alias="totalInquiry"/>
@@ -31,6 +33,14 @@
 		<typeAlias type="com.kh.maison.adminMypage.product.model.vo.MyAdminCate" alias="adminCate"/>
 		<typeAlias type="com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry" alias="adminIQ"/>
 		<typeAlias type="com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll" alias="adminEnroll"/>
-	</typeAliases>
+		<typeAlias type="com.kh.maison.order.model.vo.OrderDetail" alias="orderDetail"/>
+		<typeAlias type="com.kh.maison.order.model.vo.ShippingDestination" alias="shippingDestination"/>
+		<typeAlias type="com.kh.maison.mileage.model.vo.Mileage" alias="mileage"/>
+		<typeAlias type="com.kh.maison.shopCycle.model.vo.CycleAdmin" alias="cycleAdmin"/>
+		<typeAlias type="com.kh.maison.admin.model.vo.MemberSearch" alias="memberSearch"/>
+		<typeAlias type="com.kh.maison.admin.model.vo.MemberWithdraw" alias="memberWithdraw"/>
+		<typeAlias type="com.kh.maison.member.model.vo.Grade" alias="grade"/>
 
+	</typeAliases>
+	
 </configuration>

@@ -25,5 +25,9 @@ public interface MemberDao {
 	
 	int updateMemberPw(SqlSessionTemplate session,Map<String,String> map);
 
+	int updateEmailStatus(SqlSessionTemplate session,Map<String,Object> target);
 
+	int updateMemberStatus(SqlSessionTemplate session, Map<String,Object> target);
+
+	int updateMemberWithdraw(SqlSessionTemplate session,Map<String,Object> target);
 }
