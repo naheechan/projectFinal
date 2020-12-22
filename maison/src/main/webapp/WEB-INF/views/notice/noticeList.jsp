@@ -15,7 +15,7 @@
 </jsp:include>
 
 <%
-	Member logginMember = (Member)session.getAttribute("logginedMember");
+	Member loginMember = (Member)session.getAttribute("loginMember");
 
 %>
 

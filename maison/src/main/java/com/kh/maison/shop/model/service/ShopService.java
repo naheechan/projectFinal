@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
-import com.kh.maison.shop.model.vo.CateProduct;
+import com.kh.maison.admin.product.model.vo.ProductCate;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
@@ -22,7 +22,7 @@ public interface ShopService {
 	
 	List<Product> selectOneMediCate(String keyword);
 	
-	List<Product> searchCate(String category);
+	List<ProductCate> searchCate(String category);
 	
 	List<TotalInquiry> selectInquiryList(int cPage, int numPerPage);
 	int selectCountInquiry();
@@ -46,6 +46,7 @@ public interface ShopService {
 	int modiReply(Map<String,Object> param);
 	
 	int deleteInquiry(int no);
+	int deleteRep(int no);
 	
 	List<Category> searchMediCate(String category);
 }

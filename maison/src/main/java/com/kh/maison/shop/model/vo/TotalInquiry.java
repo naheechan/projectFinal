@@ -21,6 +21,7 @@ public class TotalInquiry {
 	private int pirNo;
 	private String pirContent;
 	private int ipiNo;
+	private String memberStatus;
 	
 	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	private Date piDate;

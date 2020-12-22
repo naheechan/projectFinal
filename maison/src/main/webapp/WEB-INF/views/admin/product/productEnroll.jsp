@@ -156,7 +156,7 @@
     		$("#createbtn").click(function(){
     			alert("카테고리를 추가로 등록하시겠습니까?");
     		
-    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=600, height=350, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=550, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=no");
     			
     		})
    
@@ -178,14 +178,14 @@
     			//list로받음
     			console.log(data);
     			
+	    		console.log(data[0].mediumCate);
+	    		$("#mediHidden").attr("value",data[0].mediumCate);
     			
     			if(data.length>0){
     				mc.empty();
     				for(var i=0;i<data.length;i++){
     					 var option = $("<option value = '"+data[i].mcName + "'>"+data[i].mcName +"</option>");
-    					
     		               mc.append(option); 
-    		               
     				}
     			}else{
     				mc.empty();

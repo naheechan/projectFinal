@@ -13,4 +13,7 @@ public class Review {
 	private String memberId;
 	private int orderDetailNo;
 	private int productNo;
+	private String productName;
+	private String productImg;
+	private Date orderDate;
 }

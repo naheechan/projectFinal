@@ -45,12 +45,12 @@
 							</a>
 		                    <div class="collapse" id="sub-men3" data-parent="#list-group-men">
 		                    	<div class="list-group">
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/review/reviewList.do" class="list-group-item list-group-item-action">
 		                        		<h4>리뷰관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>
-		                        	<a href="#" class="list-group-item list-group-item-action">
-		                        		<h4>질문관리 </h4>
+		                        	<a href="${ path }/member/mypage/inquiry/viewList.do" class="list-group-item list-group-item-action">
+		                        		<h4>문의관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>		
 		                        	<a href="${path }/member/withList.do?memberId=${loginMember.memberId}" class="list-group-item list-group-item-action">
@@ -89,7 +89,7 @@
 			                        		<small class="text-muted"></small>
 			                        	</a>	
 		                        	</c:if>
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/order/shippingDestination.do" class="list-group-item list-group-item-action">
 		                        		<h4>배송지/환불계좌 관리 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>

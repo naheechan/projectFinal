@@ -26,7 +26,7 @@
 		<!-- classpath 사실상 전체 resource 컴파일 위치. src가 들어가는 위치  -->
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
 		<!-- 몇개든 상관없어 classpath밑에 mapper폴더 밑에 있는 xml은 다 mapper야 -->
-		<property name="mapperLocations" value="classpath:mapper/**/*.xml"/>
+		<property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
 	</bean>
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<!-- 디폴트 생성자가 없어서 에러가 남. 

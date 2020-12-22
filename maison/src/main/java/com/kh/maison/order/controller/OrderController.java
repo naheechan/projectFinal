@@ -1,12 +1,15 @@
 package com.kh.maison.order.controller;
 
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +23,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.maison.basket.model.service.BasketService;
 import com.kh.maison.basket.model.service.BasketServiceImpl;
 import com.kh.maison.basket.model.vo.Basket;
+import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.order.model.service.OrderService;
 import com.kh.maison.order.model.service.OrderServiceImpl;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.service.ProductService;
 import com.kh.maison.shop.service.ProductServiceImpl;
 import com.kh.maison.shop.vo.Product;
@@ -69,10 +74,7 @@ public class OrderController {
 							@RequestParam String totalPrice,
 							 String[] basketNo
 							) {
-		
-		
-		
-		
+
 		Order o=new Order();
 		o.setReceiver(receiver);
 		o.setOrPhone(orPhone);
@@ -83,36 +85,31 @@ public class OrderController {
 		o.setSellRequest(sellRequest);
 		o.setDeliRequest(deliRequest);
 		o.setOrderPrice(Integer.parseInt(orderPrice));
-		if(useMile.equals("")) {
+
+		if(useMile=="") {
 			o.setUseMile(0);
+			
 		}else {
-			o.setUseMile(Integer.parseInt(useMile));		
+			o.setUseMile(Integer.parseInt(useMile));
 		}
+
 		o.setStackMile(Integer.parseInt(stackMile));
-		if(totalPrice.equals("")) {
-			o.setTotalPrice(Integer.parseInt(orderPrice));
-		}else {
-			o.setTotalPrice(Integer.parseInt(totalPrice));			
-		}
+
+		o.setTotalPrice(Integer.parseInt(totalPrice));
+		
+		System.out.println(o);
+	
 
 		//마일리지 계산
 		int result=0;
-		int memberMileage=0;
-		if(useMile.equals("")) {
-			memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-0;
-		}else {
-			memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-Integer.parseInt(useMile);
-		}
-		
-		
-		
 
+		int memberMileage=Integer.parseInt(mileage)+o.getStackMile()-o.getUseMile();
 
 		
+
 		result=service.insertOrder(o);
+		
 		Map<String,Object> map=new HashMap<String,Object>();
-		
-		
 		
 		Map<String,Object> map2=new HashMap<String, Object>();
 		map2.put("memberMileage", memberMileage);
@@ -153,6 +150,10 @@ public class OrderController {
 			//마일리지 업데이트
 			int result2=service.updateMileage(map2);
 			
+
+			//배송지 insert
+			int result5=service.insertShippingDestination(o);
+
 			
 			//쇼핑시계에 상품추가하는 부분
 			Map<String,String> cycleMap = new HashMap<>();
@@ -217,14 +218,12 @@ public class OrderController {
 			
 			
 
+
 		}
-		
-		
-		
-		
-		
+
 		return result;
 	}
+
 	//바로구매
 	@RequestMapping("/order/buy.do")
 	public ModelAndView buy(ModelAndView mv, int productNo, int amount) {
@@ -252,8 +251,9 @@ public class OrderController {
 			@RequestParam String stackMile,
 			@RequestParam String totalPrice,
 			@RequestParam String amount,
-			String productName,
-			String productNo) {
+
+			String productName, String productNo) {
+
 		
 		Order o=new Order();
 		o.setReceiver(receiver);
@@ -265,11 +265,14 @@ public class OrderController {
 		o.setSellRequest(sellRequest);
 		o.setDeliRequest(deliRequest);
 		o.setOrderPrice(Integer.parseInt(orderPrice));
-		if(useMile.equals("")) {
+
+		if(useMile=="") {
 			o.setUseMile(0);
 		}else {
-			o.setUseMile(Integer.parseInt(useMile));		
+			o.setUseMile(Integer.parseInt(useMile));
 		}
+			
+
 		o.setStackMile(Integer.parseInt(stackMile));
 		if(totalPrice.equals("")) {
 			o.setTotalPrice(Integer.parseInt(orderPrice));
@@ -279,14 +282,16 @@ public class OrderController {
 		
 		//마일리지 계산
 		int result=0;
+
 		int memberMileage=0;
 		if(useMile.equals("")) {
 			memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-0;
 		}else {
 			memberMileage=Integer.parseInt(mileage)+Integer.parseInt(stackMile)-Integer.parseInt(useMile);
 		}
+
 		
-		
+		//order_tb insert
 		result=service.insertOrder(o);
 		
 		Map<String,Object> map2=new HashMap<String, Object>();
@@ -316,8 +321,16 @@ public class OrderController {
 		map3.put("amount", amount);
 		map3.put("productName", productName);
 		
+
+		//바로구매 orderDetail insert
+		Map<String,Object> map4=new HashMap<String, Object>();
+		map4.put("amount", amount);
+		map4.put("productNo", productNo);
+
 		
 		if(result>0) {
+			int result5=service.insertShippingDestination(o);
+			int result4=service.insertBuyOrderDetail(map4);
 			int result2=service.updateMileage(map2);
 			int result3=service.updateStock(map3);
 		}
@@ -382,6 +395,43 @@ public class OrderController {
 		return result;
 	}
 	
+	@RequestMapping("/order/orderEnd.do")
+	public ModelAndView orderEnd(ModelAndView mv,HttpServletRequest request) {
+		
+		HttpSession session=request.getSession();
+		Member loginMember=(Member)session.getAttribute("loginMember");
+		String memberId=loginMember.getMemberId();
+		
+		List<OrderDetail> list=service.selectOrderDetail(memberId);
+		
+		mv.addObject("list",list);
+		mv.setViewName("order/orderEnd");
+		return mv;
+	}
+	
+	@RequestMapping("/order/shippingDestination.do")
+	public ModelAndView shippingDestination(ModelAndView mv,HttpServletRequest request) {
+		HttpSession session=request.getSession();
+		Member loginMember=(Member)session.getAttribute("loginMember");
+		String memberId=loginMember.getMemberId();
+		
+		List<Order> list=service.selectShippingDestination(memberId);
+		
+	
+		
+		mv.addObject("list",list);
+		mv.setViewName("order/shippingDestination");
+		return mv;
+	}
+	
+	
+	
+	@RequestMapping("/order/deleteShippingDestination.do")
+	public ModelAndView insertShippingEnrollEnd(ModelAndView mv,String no) {
+		System.out.println(no);
+		
+		return mv;
+	}
 	
 	
 	

@@ -73,6 +73,18 @@ public class NoticeServiceImpl implements NoticeService {
 		return dao.updateNotice(session,param);
 	}
 
+	@Override
+	public List<Notice> selectNoticeListSearch(int cPage, int numPerPage, Map param) {
+		// TODO Auto-generated method stub
+		return dao.selectNoticeListSearch(session,cPage,numPerPage,param);
+	}
+
+	@Override
+	public int countSearch(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countSearch(session,param);
+	}
+
 	
 	
 	

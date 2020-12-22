@@ -42,7 +42,9 @@
 			</tr>
 			<tr>
 				<th colspan="2">
-					&nbsp&nbsp&nbsp&nbsp 작성일 <span class="light">${n.noticeDate }</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 조회수 <span class="light">${n.noticeCount }</span>
+				<fmt:formatDate value="${n.noticeDate }" pattern="yyyy-MM-dd" var="fmdate"/>
+						
+					&nbsp&nbsp&nbsp&nbsp 작성일 <span class="light"><c:out value="${fmdate}"/></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 조회수 <span class="light">${n.noticeCount }</span>
 				</th>
 			</tr>
 			<tr>
@@ -62,7 +64,7 @@
 	</div>	
 
 </div>
-<c:if test="${loginMember eq 'admin' }">
+<c:if test="${loginMember.memberId eq 'admin' }">
 	<div class="row justify-content-end">
 		<button class="btn btn-info" onclick="location.href='${path}/notice/noticeUpdate.do?noticeNo=${n.noticeNo }'"><i class="far fa-edit"></i> 수정</button>
 		&nbsp&nbsp

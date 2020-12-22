@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -176,11 +177,17 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/notice/noticeDelete.do")
-	public ModelAndView noticeDelete(int noticeNo,ModelAndView mv) {
+	public ModelAndView noticeDelete(int noticeNo,ModelAndView mv,
+			@RequestParam(value="admin",required=false)String admin) {
 		int result=service.deleteNotice(noticeNo);
-		
+		System.out.println("admin: "+admin);
 		mv.addObject("msg", result>0?"공지가 삭제되었습니다.":"공지삭제에 실패하였습니다.");
-		mv.addObject("loc", "/notice/noticeList.do");
+		if(admin.equals("yes")) {
+			mv.addObject("loc", "/admin/adminNoticeList.do");
+		}else {
+			mv.addObject("loc", "/notice/noticeList.do");
+			
+		}
 		
 		mv.setViewName("common/msg");
 		
@@ -189,7 +196,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/notice/noticeUpdateEnd.do")
-	public ModelAndView noticaUpdateEnd(@RequestParam Map<String,String> param,ModelAndView mv) {
+	public ModelAndView noticeUpdateEnd(@RequestParam Map<String,String> param,ModelAndView mv) {
 		
 		int result=service.updateNotice(param);
 		int noticeNo=Integer.parseInt(param.get("noticeNo"));
@@ -201,17 +208,41 @@ public class NoticeController {
 		return mv;
 	}
 	
-	@RequestMapping("/notice/noticeLogin.do")
-	public String noticeLogin(HttpSession session) {
-		session.setAttribute("loginMember", "admin");
+	@RequestMapping("/admin/adminNoticeList.do")
+	public ModelAndView adminNoticeList(ModelAndView mv,
+			@RequestParam(value="cPage",required=false,defaultValue="1")int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="select", required=false)String select,
+			@RequestParam(value="keyword", required=false)String keyword) {
+		List<Notice> list=null;
+		int totalData=0;
+		System.out.println("keyword:"+keyword+"select"+select);
+		if(select!=null&&keyword!=null) {
+			Map<String,String> param=new HashMap();
+			
+			param.put("select", select);
+			param.put("keyword", keyword);
+			list=service.selectNoticeListSearch(cPage, numPerPage,param);
+			totalData=service.countSearch(param);
+			mv.addObject("select",select);
+			mv.addObject("keyword",keyword);
+		}else {
+			
+			list=service.selectNoticeList(cPage, numPerPage);
+			totalData=service.selectCount();
+			
+		}
 		
-		return "redirect:/notice/noticeList.do";
+		
+		
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "adminNoticeList.do"));
+		mv.addObject("totalData",totalData);
+		mv.addObject("list",list);
+		mv.setViewName("admin/notice/noticeList");
+		return mv;
 	}
 	
-	@RequestMapping("/notice/noticeLogout.do")
-	public String logout(HttpSession session) {
-		session.removeAttribute("loginMember");
-		return "redirect:/notice/noticeList.do";
-				
-	}
+	
+	
+	
 }

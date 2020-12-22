@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="myAdminProduct">
+
+<select id="selectTotalList" resultType="productCate">
+	SELECT P.*, M.MCNAME, M.LARGECATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE ORDER BY P.PRODUCTDATE DESC
+</select>
+
+<select id="selectTotalCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT
+</select>
+<!--노출여부 -->
+<select id="selectShowCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT WHERE PRODUCTSTATUS='Y'
+</select>
+<!-- 재고 -->
+<select id="selectStockCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT WHERE  PRODUCTSTOCK <![CDATA[<]]>6
+</select>
+<!-- 주기 -->
+<!-- <select id="selectDefCount" resultType="_int">
+	SELECT COUNT(*) FROM (SELECT P.PRODUCTDATE, P.DEFCYCLE, (TO_DATE(TO_CHAR(TRUNC(PRODUCTDATE,'dd'),'yyyymmdd'))+DEFCYCLE)-TO_DATE(SYSDATE) Cal FROM PRODUCT P, DUAL) 
+	WHERE
+	(TO_DATE(TO_CHAR(TRUNC(PRODUCTDATE,'dd'),'yyyymmdd'))+DEFCYCLE)-TO_DATE(SYSDATE)  <![CDATA[<]]>7
+</select> -->
+
+<select id="selectTodayCount" resultType="_int">
+	SELECT COUNT(*) FROM PRODUCT WHERE  TO_CHAR(PRODUCTDATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+</select>
+
+<!-- 검색 보류
+<select id="searchNameProduct" resultType="productCate" parameterType="map">
+	SELECT P.*, M.MCNAME, M.LARGECATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE 
+	AND 
+	<choose>
+	<if test="keyword!=null">
+		<when test="type=='name'.toString()">
+		 P.PRODUCTNAME LIKE CONCAT('%',#{keyword},'%')
+		 </when>
+		 <when test="type=='cate'.toString()">
+		 M.MCNAME LIKE CONCAT('%',#{keyword},'%')
+		 </when>
+		 <when test="type=='popular'.toString()">
+		 O.ODAMOUNT LIKE CONCAT('%',#{keyword},'%')
+		 </when>
+	 </if>
+	</choose>
+</select> -->
+
+<!-- 카테고리 -->
+<select id="selectCateList" resultType="adminCate">
+	SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE
+</select>
+
+<select id="selectTotalCateCount" resultType="_int">
+	SELECT COUNT(*) FROM MEDIUMCATE
+</select>
+
+<select id="largeCateCount" resultType="_int">
+	SELECT COUNT(DISTINCT LARGECATE) FROM MEDIUMCATE
+</select>
+
+<select id="mediCateCount" resultType="_int">
+	SELECT COUNT(DISTINCT MCNAME) FROM MEDIUMCATE
+</select>
+
+<select id="todayEnrollCount" resultType="_int">
+	SELECT COUNT(*) FROM MEDIUMCATE WHERE TO_CHAR(ENROLLCATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+</select>
+
+<select id="selectLargeCateList" resultType="category">
+	SELECT DISTINCT LARGECATE FROM MEDIUMCATE
+</select>
+
+<select id="selectMediCateList" resultType="category">
+	SELECT DISTINCT MEDIUMCATE ,MCNAME, LARGECATE FROM MEDIUMCATE
+</select>
+
+<select id="selectNewOneCate" resultType="category">
+	SELECT MCNAME FROM MEDIUMCATE WHERE TO_CHAR(ENROLLCATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+</select>
+
+<select id="selectListInMedi" resultType="adminCate" parameterType="map">
+SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE
+<choose>
+<when test='largeCate!=null and largeCate!=""'>
+	 AND LARGECATE LIKE #{largeCate}
+</when>
+<otherwise>
+	AND MCNAME LIKE #{mcName}
+</otherwise>
+</choose>
+</select>
+
+<select id="cateView" resultType="category" parameterType="String">
+	SELECT * FROM MEDIUMCATE WHERE MEDIUMCATE=#{value}
+</select>
+
+<update id="updateCate" parameterType="map">
+	UPDATE MEDIUMCATE SET MCNAME=#{mcName}, LARGECATE=#{largeCate} WHERE MEDIUMCATE=#{mediumCate}
+</update>
+
+<select id="cateNameCheck" resultType="category" parameterType="String">
+	SELECT MCNAME FROM MEDIUMCATE WHERE MCNAME=#{name}
+</select>
+
+<insert id="insertCate" parameterType="map">
+	INSERT INTO MEDIUMCATE VALUES((SELECT NVL(MAX(MEDIUMCATE)+1,0) FROM MEDIUMCATE),#{mcName},#{largeCate},SYSDATE)
+</insert>
+
+<delete id="deleteCate" parameterType="String">
+	DELETE FROM MEDIUMCATE WHERE MEDIUMCATE=TO_NUMBER(#{id})
+</delete>
+
+<select id="searchDate" resultType="adminCate" parameterType="map">
+	SELECT P.*, M.MCNAME, M.LARGECATE, M.ENROLLCATE FROM PRODUCT P, MEDIUMCATE M WHERE P.MEDIUMCATE=M.MEDIUMCATE
+	AND M.ENROLLCATE BETWEEN #{one} AND #{two} ORDER BY M.ENROLLCATE DESC
+</select>
+
+<!-- 문의 -->
+<select id="selectInquiryList" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M 
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="selectInquiryCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY I, MEMBER M WHERE I.MEMBERID=M.MEMBERID AND M.MEMBERSTATUS='Y'
+</select>
+
+<select id="selectnoRepCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='N' AND PIDEL='Y'
+</select>
+
+<select id="selectYRepCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='Y' AND PIDEL='Y'
+</select>
+
+<select id="selectDelRepCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE PISTATUS='N' AND PIDEL='N'
+</select>
+
+<select id="selectTodayIQCount" resultType="_int">
+	SELECT COUNT(*) FROM PDINQUIRY WHERE TO_CHAR(PIDATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+</select>
+
+<select id="selectReplyList" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	R.PIRNO, R.PIRCONTENT, R.PIRDATE,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M, INQUIRYREPLY R 
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND R.PINO=I.PINO
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="selectReplyCount" resultType="_int">
+	SELECT COUNT(*) FROM INQUIRYREPLY
+</select>
+
+<select id="noreply" resultType="adminIQ"><!-- 문의가 존재하고 답변이 없는거 -->
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND I.PISTATUS='N' AND I.PIDEL='Y'
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="yesreply" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	R.PIRNO, R.PIRCONTENT, R.PIRDATE,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M, INQUIRYREPLY R
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND R.PINO=I.PINO
+	AND I.PISTATUS='Y' AND I.PIDEL='Y'
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="delreply" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND I.PIDEL='N' AND I.PISTATUS='N'
+	ORDER BY I.PINO DESC
+</select>
+
+
+<select id="allList" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M 
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	ORDER BY I.PINO DESC
+</select>
+<select id="todayEnroll" resultType="adminIQ">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M 
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+	AND I.MEMBERID=M.MEMBERID
+	AND M.MEMBERSTATUS='Y'
+	AND TO_CHAR(I.PIDATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+	ORDER BY I.PINO DESC
+</select>
+
+<!-- 고객문의만 검색 관리자관련은 상단박스에서 검색하게끔-->
+<select id="selectsearch" resultType="adminIQ" parameterType="map">
+	SELECT P.PRODUCTNO,P.PRODUCTIMG, P.PRODUCTNAME, I.PINO,I.PICATE,I.PITITLE,I.PICONTENT,I.MEMBERID,I.PISTATUS,I.PIDATE,I.PIDEL,
+	M.MEMBERSTATUS  
+	FROM PRODUCT P, PDINQUIRY I, MEMBER M
+	WHERE P.PRODUCTNO=I.PRODUCTNO
+			AND I.MEMBERID=M.MEMBERID
+			AND M.MEMBERSTATUS='Y'  AND
+	<include refid="search"></include>
+	
+	ORDER BY I.PINO DESC
+</select>
+
+<select id="searchCountInq" resultType="_int" parameterType="map">
+	SELECT COUNT(*) FROM PDINQUIRY I, PRODUCT P, MEMBER M
+	<where>
+	I.PRODUCTNO=P.PRODUCTNO AND
+	M.MEMBERID=I.MEMBERID AND
+	<include refid="search"></include>
+	</where>
+</select>
+
+
+
+<sql id="search">
+	<choose>
+		<when test="searchType == 'name' and keyword!='' and selectCate==''">
+			I.MEMBERID LIKE '%'||#{keyword}||'%'
+		</when>
+		<when test="searchType=='name' and selectCate!='' and keyword==''">
+			 I.PICATE LIKE #{selectCate}
+		</when>
+		<when test="searchType=='name' and keyword!='' and selectCate!=''">
+			I.MEMBERID LIKE '%'||#{keyword}||'%' AND I.PICATE LIKE #{selectCate}
+		</when>
+		<when test="searchType == 'piDate'">
+			I.PIDATE BETWEEN #{datepicker} AND #{datepicker2}
+		</when>
+		<otherwise>
+		<if test="searchType=='productName'">
+			P.
+		</if>
+		<if test=" searchType!=name and searchType!='productName'">
+			I.
+		</if>
+			${searchType} LIKE '%'||#{keyword}||'%'
+		</otherwise>
+	</choose>
+</sql>
+
+<!-- 등록 -->
+<select id="todayPdEnroll" resultType="adminEnroll">
+	SELECT
+	P.PRODUCTNO, P.PRODUCTIMG, P.PRODUCTNAME,
+	M.LARGECATE, M.MCNAME, P.PRODUCTSUMMARY, P.PRODUCTSTATUS, P.PRODUCTSTOCK, P.PRICE, P.DEFCYCLE, P.PRODUCTDATE
+	FROM PRODUCT P,MEDIUMCATE M
+	WHERE 
+	P.MEDIUMCATE=M.MEDIUMCATE
+	AND TO_CHAR(P.PRODUCTDATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+	ORDER BY P.PRODUCTDATE DESC
+</select>
+
+<select id="pdStatus" resultType="adminEnroll">
+	SELECT
+	P.PRODUCTNO, P.PRODUCTIMG, P.PRODUCTNAME,
+	M.LARGECATE, M.MCNAME, P.PRODUCTSUMMARY, P.PRODUCTSTATUS, P.PRODUCTSTOCK, P.PRICE, P.DEFCYCLE, P.PRODUCTDATE
+	FROM PRODUCT P,MEDIUMCATE M
+	WHERE 
+	P.MEDIUMCATE=M.MEDIUMCATE
+	AND P.PRODUCTSTATUS='Y'
+	ORDER BY P.PRODUCTDATE DESC
+</select>
+
+<select id="pdStock" resultType="adminEnroll">
+	SELECT
+	P.PRODUCTNO, P.PRODUCTIMG, P.PRODUCTNAME,
+	M.LARGECATE, M.MCNAME, P.PRODUCTSUMMARY, P.PRODUCTSTATUS, P.PRODUCTSTOCK, P.PRICE, P.DEFCYCLE, P.PRODUCTDATE
+	FROM PRODUCT P,MEDIUMCATE M
+	WHERE 
+	P.MEDIUMCATE=M.MEDIUMCATE
+	AND PRODUCTSTOCK <![CDATA[<]]>6
+	ORDER BY P.PRODUCTDATE DESC
+</select>
+
+<select id="selectPopularList" resultType="adminEnroll">
+	SELECT O.ORDERNO, O.ODAMOUNT,
+	ROW_NUMBER() OVER(ORDER BY O.ODAMOUNT DESC, P.PRODUCTDATE DESC),
+	P.PRODUCTNO, P.PRODUCTIMG, P.PRODUCTNAME,
+	M.LARGECATE, M.MCNAME, P.PRODUCTSUMMARY, P.PRODUCTSTATUS, P.PRODUCTSTOCK, P.PRICE, P.DEFCYCLE, P.PRODUCTDATE
+	FROM ORDERDETAIL O, PRODUCT P,MEDIUMCATE M
+	WHERE 
+	O.PRODUCTNO=P.PRODUCTNO AND
+	P.MEDIUMCATE=M.MEDIUMCATE
+</select>
+
+<select id="Enrollsearch" resultType="adminEnroll" parameterType="map">
+	SELECT
+	P.PRODUCTNO, P.PRODUCTIMG, P.PRODUCTNAME,
+	M.LARGECATE, M.MCNAME, P.PRODUCTSUMMARY, P.PRODUCTSTATUS, P.PRODUCTSTOCK, P.PRICE, P.DEFCYCLE, P.PRODUCTDATE
+	FROM PRODUCT P,MEDIUMCATE M
+	WHERE 
+	P.MEDIUMCATE=M.MEDIUMCATE  AND
+	<include refid="searchEnroll"></include>
+	
+	ORDER BY P.PRODUCTDATE DESC
+</select>
+
+<select id="EnrollsearchCount" resultType="_int" parameterType="map">
+	SELECT COUNT(*) FROM PRODUCT P,MEDIUMCATE M
+	<where>
+	P.MEDIUMCATE=M.MEDIUMCATE  AND
+	<include refid="searchEnroll"></include>
+	</where>
+</select>
+
+
+
+<sql id="searchEnroll">
+	<choose>
+		<when test="searchType == 'productDate' and productDate!=''">
+			P.PRODUCTDATE BETWEEN #{datepicker} AND #{datepicker2}
+		</when>
+		<otherwise>
+			P.${searchType} LIKE '%'||#{keyword}||'%'
+		</otherwise>
+	</choose>
+</sql>
+</mapper>

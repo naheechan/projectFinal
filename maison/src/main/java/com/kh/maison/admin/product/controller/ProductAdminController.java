@@ -68,7 +68,6 @@ public class ProductAdminController {
 	      }catch(Exception e) {
 	         e.printStackTrace();
 	      }
-		 
 	      return str;//=success data
 	   }
 	   
@@ -270,8 +269,10 @@ public class ProductAdminController {
 					pd.setProductImg(renamedFileName);
 				}
 				int result = service.updateEnroll(pd);
+				System.out.println(pd);
+				System.out.println("결과가ㅓㅄ:"+result);
 				mv.addObject("msg",result>0?"수정성공":"수정실패");
-				mv.addObject("loc","/shop/shopView.do");
+				mv.addObject("loc","/admin/mypage/product/enrollView.do");
 				mv.setViewName("/common/msg");
 				return mv;
 	}

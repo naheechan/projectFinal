@@ -6,15 +6,30 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <style>
+	body{
+		background:#D9C8A9;
+	}
 	.form-control{
 		width:90%;
 	}
+	h2{
+		color:#ffffff;
+	}
 	#Catecontainer{
 		padding:10%;
-		margin-bottom:15%;
+		margin-bottom:10%;
+		margin:auto;
+        width: 450px;
+        height: 250px;
+        border: 1px solid #F2BB9C;
+        padding-left:10px;
+        position:relative;
+        background:#FCF7E1;
 	}
 	#btn{
 		float:right;
+		position:relative;
+		top:50px;
 		color:#F2BB9C;
 	}
 	input{
@@ -23,7 +38,7 @@
 	}
 	select[name='largeCate']{
 		font-size:15px;
-		margin-right:5%;
+		height:30px;
 	}
 	select[name='mediumCate']{
 		font-size:15px;
@@ -38,10 +53,40 @@
 	}
 	label{
 		float:left;
-		margin-right:2%;
+		margin:0 0 0 3%;
 	}
 	i{
 		color:red;
+	}
+	#CateArea{
+		position:relative;
+		top:50px
+		left:80px;
+	}
+	#largeCate{
+		position:absolute;
+		left:130px;
+	}
+	label[name='mediumCate']{
+		position:absolute;
+		left:240px;	
+	}
+	#mediumCate{
+		position:absolute;
+		left:370px;
+	}
+	label[name='mcName']{
+		position:relative;
+		top:30px;
+	}
+	#mcName{
+		position:relative;
+		top:50px;
+		left:20px;
+	}
+	#checkText{
+		display:inline-block;
+		margin:15% 0 0 5%;
 	}
 </style>
 <!-- Start -->
@@ -52,7 +97,7 @@
 <form action="${ path }/admin/product/enrollCate.do" name="submitForm" method="post">
 <div id="CateArea" class="form-group required">
 <label for="category" class="label-title">카테고리 [대]<i>*</i></label>
-            <select class="form-group left" id="largeCate" name="largeCate"  style='float:left;'>
+            <select class="form-group left" id="largeCate" name="largeCate"  style='float:left;' readonly>
             	<option value="">선택하세요</option>
             	<option value="주방">주방</option>	
             	<option value="욕실">욕실</option>
@@ -61,18 +106,18 @@
             	<option value="창고">창고</option>
             </select>
             
-<label for="category" class="label-title">카테고리 [중]<i>*</i></label>
-<select class="form-group right" id="mediumCate" name="mediumCate" size="5" style='float:right;'>
+<label for="category" class="label-title" name="mediumCate">카테고리 [중]<i>*</i></label>
+<select class="form-group right" id="mediumCate" name="mediumCate" size="5" style='float:right;' readonly>
 	<option value="">선택하세요</option>
 </select>
 </div>
 <br><br><br><br>
-<label for="mcName" class="label-title">추가할 카테고리<i>*</i></label>
-<input type="text"  name="mcName" id="mcName" size="45" required>
+<label for="mcName" class="label-title" name="mcName">추가할 카테고리<i>*</i></label>
+<input type="text"  name="mcName" id="mcName" size="54" required>
 <br>
-<span style="color:tomato;"></span>
-<br><br><br>
-<a  class="btn" id="btn">등록</button>
+<span id="checkText"></span>
+<br>
+<a  class="btn" id="btn" name="addCate">등록</button>
 </div>
 </form>
 </div>
@@ -103,7 +148,8 @@ $(function(){
 				return;
 		}else{
 			if($("#mcName").val()==""){
-				alert("추가할 카테고리를 입력하세요");			
+				alert("추가할 카테고리를 입력하세요");
+				return;
 			}
 		}
 		enrollCate(insertCate);
@@ -158,6 +204,31 @@ $(function(){
 		})
 
 	};
+	
+	//update 시 중복된 값 있으면 span에 띄우고 없으면 update시키기
+	$(document).on("keyup","[name=mcName]",function(e){
+		var name = $("#mcName").val();
+		console.log(name);
+		$.ajax({
+			url:"${path}/admin/mypage/product/cateCheck.do",
+			data:{name:name},
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				console.log("check ajax통신성공"+data);
+				if(data!=null){
+					$("#checkText").text("해당 카테고리는 현재 존재합니다.");
+					$("#checkText").css('color','tomato');
+				}
+			},
+			error:function(data){
+				console.log("check ajax통신실패");
+				$("#checkText").text("현재 카테고리는 사용가능합니다.");
+				$("#checkText").css('color','green');
+			}
+		});
+	});
+	
 	
 })	
 
