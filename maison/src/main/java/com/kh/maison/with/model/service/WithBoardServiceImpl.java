@@ -140,4 +140,61 @@ public class WithBoardServiceImpl implements WithBoardService {
 		Member m = dao.selectEmailAndPhone(session,no);
 		return m;
 	}
+	
+	//여기부터 마이페이지 함께해요 관련.
+	@Override
+	public List<WithBoard> bringAllWithBoard(String memberId, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		List<WithBoard> list = dao.bringAllWithBoard(session,memberId,cPage,numPerPage);
+		return list;
+	}
+
+	@Override
+	public int bringAllWithBoardCount(String memberId) {
+		// TODO Auto-generated method stub
+		int result = dao.bringAllWithBoardCount(session,memberId);
+		return result;
+	}
+
+	@Override
+	public List<WithComment> bringAllWithComment(String memberId, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		List<WithComment> list = dao.bringAllWithComment(session,memberId,cPage,numPerPage);
+		return list;
+	}
+
+	@Override
+	public int bringAllWithCommentCount(String memberId) {
+		// TODO Auto-generated method stub
+		int result = dao.bringAllWithCommentCount(session,memberId);
+		return result;
+	}
+
+	@Override
+	public List<WithBoard> bringCommentedWith(String memberId, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		List<WithBoard> list = dao.bringCommentedWith(session,memberId,cPage,numPerPage);
+		return list;
+	}
+
+	@Override
+	public int bringCommentedWithCount(String memberId) {
+		// TODO Auto-generated method stub
+		int result = dao.bringCommentedWithCount(session,memberId);
+		return result;
+	}
+
+	@Override
+	public int deleteBringAllWith(int checkfordelete) {
+		// TODO Auto-generated method stub
+		int result = dao.deleteBringAllWith(session,checkfordelete);
+		return result;
+	}
+
+	@Override
+	public int deleteBringAllWithComment(int checkStatus) {
+		// TODO Auto-generated method stub
+		int result = dao.deleteBringAllWithComment(session,checkStatus);
+		return result;
+	}
 }

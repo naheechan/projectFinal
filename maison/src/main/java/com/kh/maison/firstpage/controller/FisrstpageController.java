@@ -75,10 +75,10 @@ public class FisrstpageController {
 									@RequestParam String email,
 									@RequestParam String title,
 									@RequestParam String content) {
-		System.out.println(nickname);
-		System.out.println(email);
-		System.out.println(title);
-		System.out.println(content);
+//		System.out.println(nickname);
+//		System.out.println(email);
+//		System.out.println(title);
+//		System.out.println(content);
 		try {
 			MailUtils sendMail = new MailUtils(mailSender);
 			sendMail.setSubject(nickname+"님으로부터의 문의 메일");
