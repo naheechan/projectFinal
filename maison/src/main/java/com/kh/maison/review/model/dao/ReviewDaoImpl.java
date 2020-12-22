@@ -110,6 +110,30 @@ public class ReviewDaoImpl implements ReviewDao {
 		return session.selectOne("review.countReviewWithRR",param);
 	}
 
+	@Override
+	public List<Review> selectPeriodReviewAdmin(SqlSessionTemplate session, Map param, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("review.selectPeriodReviewAdmin",param,new RowBounds((cPage-1)*numPerPage, numPerPage));
+	}
+
+	@Override
+	public int countPeriodReviewAdmin(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("review.countPeriodReviewAdmin",param);
+	}
+
+	@Override
+	public List<Review> selectReviewAdminWithRR(SqlSessionTemplate session, Map param, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("review.selectReviewAdminWithRR",param,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int countReviewAdminWithRR(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("review.countReviewAdminWithRR",param);
+	}
+
 	
 
 	

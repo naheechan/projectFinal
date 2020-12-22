@@ -40,7 +40,6 @@
         <div class="card">
         <div class="card-body">
           <div class="container">
-	
 		<br>
 		<br>
 	<div id="notice-container" class="row justify-content-center">
@@ -104,6 +103,13 @@
 
 	<div class="offset-md-7" id="search">
 	<form action="${path }/admin/adminNoticeList.do">
+	<c:if test="${select eq null }">
+		<select name="select">
+			<option value="title" selected>제목</option>
+			<option value="content" >내용</option>
+			<option value="both">제목+내용</option>
+		</select>
+	</c:if>
 	<c:if test="${select eq 'title' }">
 		<select name="select">
 			<option value="title" selected>제목</option>
@@ -157,6 +163,8 @@
 </body>
 <script>
 	$(function(){
+		
+		$("#datepicker").datepicker();
 		
 		$(".update").click(function(){
 			var noticeNo=$(this).prev().val();

@@ -23,4 +23,8 @@ public interface ReviewService {
 	int countPeriodReview(Map param);
 	List<Review> selectReviewWithRR(Map param,int cPage,int numPerPage);
 	int countReviewWithRR(Map param);
+	List<Review> selectPeriodReviewAdmin(Map param, int cPage, int numPerPage);
+	int countPeriodReviewAdmin(Map param);
+	List<Review> selectReviewAdminWithRR(Map param,int cPage,int numPerPage);
+	int countReviewAdminWithRR(Map param);
 }

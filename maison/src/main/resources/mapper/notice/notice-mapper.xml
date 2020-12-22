@@ -35,12 +35,13 @@
 		<if test="select!=null and select.equals('content')">
 			AND NOTICECONTENT LIKE '%'||#{keyword}||'%'
 		</if>
-		<if test="select!=null and select.equals('title')">
+		<if test="select!=null and select.equals('both')">
 			AND (NOTICETITLE LIKE '%'||#{keyword}||'%' OR
 				NOTICECONTENT LIKE '%'||#{keyword}||'%')
 		</if>
 		ORDER BY NOTICEDATE DESC
 	</select>
+	
 	<select id="countSearch" parameterType="map" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE
 		WHERE 1=1

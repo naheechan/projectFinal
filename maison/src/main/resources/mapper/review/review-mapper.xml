@@ -132,5 +132,77 @@
 		ORDER BY R.REVIEWDATE
 
 	</select>
-	
+	<select id="selectPeriodReviewAdmin" parameterType="map" resultType="review">
+		SELECT S1.*
+		FROM   (
+        SELECT ROW_NUMBER() OVER (PARTITION BY REVIEWNO ORDER BY REVIEWDATE desc)  AS RNUM
+              ,T1.*
+        FROM   (
+                SELECT *
+                FROM   REVIEW R
+
+                       JOIN PRODUCT P ON R.PRODUCTNO = P.PRODUCTNO
+
+                       JOIN ORDERDETAIL OD ON R.ORDERDETAILNO=OD.ORDERDETAILNO
+
+                       JOIN ORDER_TB O ON OD.ORDERNO=O.ORDERNO
+
+                WHERE 1=1 
+                <if test="end!=null and start!=null">
+                AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
+             	AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
+                </if>
+                ORDER BY r.reviewno DESC
+
+               ) T1
+
+       ) S1
+
+	WHERE  S1.RNUM = 1
+	ORDER BY REVIEWDATE DESC
+	</select>
+	<select id="countPeriodReviewAdmin" parameterType="map" resultType="_int">
+		SELECT count(*) FROM REVIEW WHERE 1=1 
+		<if test="end!=null and start!=null">
+		AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
+              AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
+        </if>
+	</select>
+	<select id="selectReviewAdminWithRR" parameterType="map" resultType="review">
+		 SELECT R.REVIEWNO, R.REVIEWCONTENT, R.REVIEWDATE,
+		R.REVIEWSCORE, R.MEMBERID, R.ORDERDETAILNO,
+		A.ORDERDATE, A.PRODUCTNO, A.PRODUCTNAME,
+		A.PRODUCTIMG
+		FROM REVIEW R
+		JOIN (SELECT DISTINCT D.ORDERDETAILNO, O.ORDERDATE,
+		P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG
+		FROM ORDERDETAIL D, ORDER_TB O, PRODUCT P
+		WHERE D.ORDERNO = O.ORDERNO
+		AND D.PRODUCTNO = P.PRODUCTNO) A
+		ON R.ORDERDETAILNO=A.ORDERDETAILNO
+		WHERE R.REVIEWNO NOT IN (
+		SELECT REVIEWNO
+		FROM REVIEWREPLY
+		) AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
+              AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
+		ORDER BY R.REVIEWDATE
+
+	</select>
+	<select id="countReviewAdminWithRR" parameterType="map" resultType="_int">
+		 SELECT COUNT(*)
+		FROM REVIEW R
+		JOIN (SELECT DISTINCT D.ORDERDETAILNO, O.ORDERDATE,
+		P.PRODUCTNO, P.PRODUCTNAME, P.PRODUCTIMG
+		FROM ORDERDETAIL D, ORDER_TB O, PRODUCT P
+		WHERE D.ORDERNO = O.ORDERNO
+		AND D.PRODUCTNO = P.PRODUCTNO) A
+		ON R.ORDERDETAILNO=A.ORDERDETAILNO
+		WHERE R.REVIEWNO NOT IN (
+		SELECT REVIEWNO
+		FROM REVIEWREPLY
+		) AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
+              AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
+		ORDER BY R.REVIEWDATE
+
+	</select>
 </mapper>

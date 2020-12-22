@@ -27,4 +27,8 @@ public interface ReviewDao {
 	int countPeriodReview(SqlSessionTemplate session, Map param);
 	List<Review> selectReviewWithRR(SqlSessionTemplate session,Map param,int cPage, int numPerPage);
 	int countReviewWithRR(SqlSessionTemplate session,Map param);
+	List<Review> selectPeriodReviewAdmin(SqlSessionTemplate session,Map param, int cPage, int numPerPage);
+	int countPeriodReviewAdmin(SqlSessionTemplate session,Map param);
+	List<Review> selectReviewAdminWithRR(SqlSessionTemplate session,Map param,int cPage,int numPerPage);
+	int countReviewAdminWithRR(SqlSessionTemplate session,Map param);
 }

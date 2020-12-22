@@ -229,7 +229,7 @@ public class ReviewController {
 		}
 		
 		
-		mv.addObject("pageBar",PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "selectPeriodReview.do?select="+select+"start="+param.get("start")+"&end="+param.get("end")));
+		mv.addObject("pageBar",PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "selectPeriodReview.do?select="+select+"&start="+param.get("start")+"&end="+param.get("end")));
 		mv.addObject("list",list);
 		mv.addObject("start",param.get("start"));
 		mv.addObject("end",param.get("end"));
@@ -237,6 +237,43 @@ public class ReviewController {
 		mv.setViewName("member/review/reviewList");
 		return mv;
 	}
+	@RequestMapping("admin/review/reviewList.do")
+	public ModelAndView adminReviewList(ModelAndView mv) {
+		
+		
+		mv.setViewName("admin/review/reviewList");
+		return mv;
+	}
 	
+	@RequestMapping("admin/review/selectPeriodReview.do")
+	public ModelAndView adminselectPeriodReview(@RequestParam Map param ,ModelAndView mv,
+			@RequestParam(value="cPage",required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage) {
+		
+		int select=1;
+		if(param.get("select")!=null) {
+			select=Integer.parseInt((String)(param.get("select")));
+			
+		}
+		List <Review> list=null;
+		int totalData=0;
+		if(select==1) {
+			//전체보기
+			list=service.selectPeriodReviewAdmin(param, cPage, numPerPage);
+			totalData=service.countPeriodReviewAdmin(param);
+		}else if(select==2) {
+			//답변안단 리뷰만 보기
+			list=service.selectReviewAdminWithRR(param, cPage, numPerPage);
+			totalData=service.countReviewAdminWithRR(param);
+		}
+		
+		mv.addObject("list",list);
+		mv.addObject("pageBar",PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "selectPeriodReview.do?select="+select+"&start="+param.get("start")+"&end="+param.get("end")));
+		mv.addObject("start",param.get("start"));
+		mv.addObject("end",param.get("end"));
+		mv.addObject("select",select);
+		mv.setViewName("admin/review/reviewList");
+		return mv;
+	}
 	
 }

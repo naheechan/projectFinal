@@ -115,6 +115,30 @@ public class ReviewServiceImpl implements ReviewService {
 		return dao.countReviewWithRR(session, param);
 	}
 
+	@Override
+	public List<Review> selectPeriodReviewAdmin(Map param, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectPeriodReviewAdmin(session, param, cPage, numPerPage);
+	}
+
+	@Override
+	public int countPeriodReviewAdmin(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countPeriodReviewAdmin(session, param);
+	}
+
+	@Override
+	public List<Review> selectReviewAdminWithRR(Map param, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectReviewAdminWithRR(session,param,cPage,numPerPage);
+	}
+
+	@Override
+	public int countReviewAdminWithRR(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countReviewAdminWithRR(session, param);
+	}
+
 	
 	
 }

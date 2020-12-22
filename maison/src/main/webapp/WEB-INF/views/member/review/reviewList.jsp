@@ -162,7 +162,7 @@
 
 <!-- End With -->
 <script>
-$(document).ready(function() {
+/* $(document).ready(function() {
     //라디오 요소처럼 동작시킬 체크박스 그룹 셀렉터
     $('input[type="checkbox"][name="revradio"]').click(function(){
     	console.log("클릭함");
@@ -173,10 +173,7 @@ $(document).ready(function() {
             $(this).prop('checked', true);
         }
     });
-});
-
-
-
+}); */
 
 $(function(){
 	
