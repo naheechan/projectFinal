@@ -11,6 +11,7 @@ import com.kh.maison.admin.scheduler.dao.AdminSchedulerDao;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.vo.Product;
+import com.kh.maison.shopCycle.model.vo.CycleAdmin;
 
 @Component
 public class AdminSchedulerServiceImpl implements AdminSchedulerService {
@@ -26,6 +27,11 @@ public class AdminSchedulerServiceImpl implements AdminSchedulerService {
 		// TODO Auto-generated method stub
 		List<Product> list = dao.selectProductList(session);
 		return list;
+	}
+
+	@Override
+	public List<CycleAdmin> selectAllCycleList() {
+		return dao.selectAllCycleList(session);
 	}
 
 	@Override

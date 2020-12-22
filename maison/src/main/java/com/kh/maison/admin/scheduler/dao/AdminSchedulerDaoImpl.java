@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.vo.Product;
+import com.kh.maison.shopCycle.model.vo.CycleAdmin;
 
 @Repository
 public class AdminSchedulerDaoImpl implements AdminSchedulerDao {
@@ -19,6 +20,12 @@ public class AdminSchedulerDaoImpl implements AdminSchedulerDao {
 		return session.selectList("admin.selectProductList");
 	}
 
+	@Override
+	public List<CycleAdmin> selectAllCycleList(SqlSessionTemplate session) {
+		return session.selectList("admin.selectAllCycleList");
+		
+	}
+	
 	@Override
 	public List<Member> selectMemberList(SqlSessionTemplate session) {
 		// TODO Auto-generated method stub

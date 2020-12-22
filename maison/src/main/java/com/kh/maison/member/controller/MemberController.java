@@ -17,6 +17,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +29,15 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,15 +45,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.common.captcha.CaptchaUtil;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.common.email.MailSendService;
 import com.kh.maison.member.model.service.MemberService;
+import com.kh.maison.member.model.vo.KakaoProfile;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.member.model.vo.OAuthToken;
 import com.kh.maison.member.recaptcha.VerifyRecaptcha;
 import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
@@ -55,11 +69,12 @@ import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.spring.common.PageBarFactory;
 
+
 import nl.captcha.Captcha;
 
 
 @Controller
-@SessionAttributes({"loginMember", "state", "res", "memNaver"})
+@SessionAttributes({"loginMember", "state", "res", "memNaver","memKakao"})
 public class MemberController {
 
 	//마일리지 관련
@@ -110,8 +125,9 @@ public class MemberController {
 		
 		Member mem = service.selectMemberOne(String.valueOf(map.get("memberId")));
 		logger.debug(mem==null?"null":mem.toString());
-		//비밀번호 다 소문자로 바꿔서 암호화된 비번이랑 비교
-		if(mem!=null && encoder.matches(String.valueOf(map.get("memberPw")).toLowerCase(), mem.getMemberPw())) {
+		
+		//비밀번호 다 소문자로 바꿔서 암호화된 비번이랑 비교 + 탈퇴여부도 확인
+		if(mem!=null && encoder.matches(String.valueOf(map.get("memberPw")).toLowerCase(), mem.getMemberPw()) && "Y".equals(mem.getMemberStatus())) {
 			//이메일 인증 여부
 			if("Y".equals(mem.getAuthStatus())) {
 				logger.debug("로그인 성공");
@@ -239,7 +255,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/member/naver/checkStatus")
-	public String naverCheckStatus(@SessionAttribute("state") String state, @RequestParam Map map, Model m) throws UnsupportedEncodingException {
+	public String naverCheckStatus(@SessionAttribute("state") String state, @RequestParam Map map, Model m, SessionStatus status) throws UnsupportedEncodingException {
 		String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";
 		logger.debug("체크 스테이터스!");
 		//세션의 state와 콜백으로 받은 state값이 일치하는지 확인
@@ -249,7 +265,7 @@ public class MemberController {
 			String clientId = "ox1UH2H5tD1qdFjz7mFS";
 			String clientSecret = "BSJvDH8Kk8";
 			String code = String.valueOf(map.get("code"));
-			String redirectURI = URLEncoder.encode("http://localhost:9090/maison/member/naver/loginEnd", "UTF-8");
+			//String redirectURI = URLEncoder.encode("http://localhost:9090/maison/member/naver/loginEnd", "UTF-8");
 			apiURL += "&client_id="+clientId;
 			apiURL += "&client_secret="+clientSecret;
 			//apiURL += "&redirect_uri="+redirectURI;
@@ -277,6 +293,10 @@ public class MemberController {
 					res.append(inputLine);
 				}
 				br.close();
+				//세션 삭제(state세션 삭제용)
+				if(!status.isComplete()) {
+					status.setComplete();
+				}
 				if(responseCode==200) {
 					m.addAttribute("res",res.toString());
 				}else {
@@ -293,16 +313,19 @@ public class MemberController {
 			return "common/msg";
 		}
 	
-		return "redirect:/member/naver/loginEnd";
+		return "member/naverLoginHidden";
 	}
 	
 	
 	@RequestMapping(value="/member/naver/loginEnd")
-	public String naverLoginEnd(@SessionAttribute("res") String res, SessionStatus status, Model m) throws ParseException {
+//	public String naverLoginEnd(@SessionAttribute("res") String res, SessionStatus status, Model m) throws ParseException {
+	public String naverLoginEnd(HttpServletRequest request, SessionStatus status, Model m) throws ParseException {
 		
 		logger.debug("loginEnd 도착");
+
+		String res = request.getParameter("res");
 		
-		logger.debug(res);
+		logger.debug("res : "+res);
 		String loc = "";
 		
 		if(res!=null || !"".equals(res)) {
@@ -341,8 +364,15 @@ public class MemberController {
 			if(mem!=null) {
 				//로그인
 				
-				//이메일 인증 여부
-				if("Y".equals(mem.getAuthStatus())) {
+				//회원탈퇴 여부
+				if(!"Y".equals(mem.getMemberStatus())) {
+					logger.debug("탈퇴회원 로그인 시도");
+					m.addAttribute("msg", "탈퇴한 회원입니다.홈페이지 자체 회원가입을 해주세요.");
+					m.addAttribute("loc", "/member/login");
+					loc = "common/msg";
+					
+				 //이메일 인증 여부
+				}else if("Y".equals(mem.getAuthStatus())) {
 					logger.debug("로그인 성공");
 					//세션처리
 					m.addAttribute("loginMember", mem);
@@ -696,8 +726,8 @@ public class MemberController {
 
 	 @ResponseBody
 		@RequestMapping(value = "/member/VerifyRecaptcha", method = RequestMethod.POST)
-		public int VerifyRecaptcha(HttpServletRequest request) {
-		    VerifyRecaptcha.setSecretKey("6LdmOf4ZAAAAANb1RZhYfscOrxGJ0JxhkoaZ5Ncy");
+		public int VerifyRecaptcha(HttpServletRequest request) {		    
+		 	VerifyRecaptcha.setSecretKey("6LdmOf4ZAAAAANb1RZhYfscOrxGJ0JxhkoaZ5Ncy");
 		    String gRecaptchaResponse = request.getParameter("recaptcha");
 		    try {
 		       if(VerifyRecaptcha.verify(gRecaptchaResponse))
@@ -776,6 +806,7 @@ public class MemberController {
 	}
 	
 	
+
 	//마이페이지에서 마일리지 관리로 화면전환
 	@RequestMapping("/member/mileage.do")
 	public String selectMileageList(Model m,
@@ -1047,8 +1078,125 @@ public class MemberController {
 		
 		return mv;
 	}
+
+	@RequestMapping("/auth/kakao/callback")
+	public String kakaoCallback(String code,Model m,ModelAndView mv,HttpServletRequest request) throws Exception {
+		//post방식으로 key=value 데이터를 요청(카카오쪽으로)
+		RestTemplate rt=new RestTemplate();
+		HttpHeaders headers=new HttpHeaders();
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String,String> params=new LinkedMultiValueMap<>();
+		params.add("grant_type","authorization_code");
+		params.add("client_id", "818a08c8e17c0dda3c071f31ea989c44");
+		params.add("redirect_uri", "http://localhost:9090/maison/auth/kakao/callback");
+		params.add("code", code);
+		
+		HttpEntity<MultiValueMap<String,String>> kakaoTokenRequest=
+				new HttpEntity<>(params,headers);
+		
+		ResponseEntity<String> response=rt.exchange(
+					"https://kauth.kakao.com/oauth/token",
+					HttpMethod.POST,
+					kakaoTokenRequest,
+					String.class
+		);
+		
+		
+		ObjectMapper objectMapper=new ObjectMapper();
+		OAuthToken oauthToken=null;
+		try {
+			oauthToken=objectMapper.readValue(response.getBody(), OAuthToken.class);
+		}catch(JsonMappingException e){
+			e.printStackTrace();
+		}catch(JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("카카오 엑세스 토큰 : "+oauthToken.getAccess_token());
+		
+		RestTemplate rt2=new RestTemplate();
+		HttpHeaders headers2=new HttpHeaders();
+		headers2.add("Authorization", "Bearer "+oauthToken.getAccess_token());
+		headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		HttpEntity<MultiValueMap<String,String>> kakaoProfileRequest2=
+				new HttpEntity<>(headers2);
+		
+		ResponseEntity<String> response2=rt2.exchange(
+					"https://kapi.kakao.com/v2/user/me",
+					HttpMethod.POST,
+					kakaoProfileRequest2,
+					String.class
+		);
+		
+		ObjectMapper objectMapper2=new ObjectMapper();
+		KakaoProfile kakaoProfile=null;
+		try {
+			kakaoProfile=objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
+		}catch(JsonMappingException e){
+			e.printStackTrace();
+		}catch(JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		UUID garbagePassword=UUID.randomUUID();
+		
+		System.out.println("카카오 아이디 :"+kakaoProfile.getId());
+		
+		System.out.println("카카오 이메일 :"+kakaoProfile.getKakao_account().getEmail());
+		System.out.println("카카오 이름 :"+kakaoProfile.getKakao_account().getProfile().getNickname());
+		System.out.println("서버 패스워드 :"+garbagePassword);
+		
+		Member mem=service.selectMemberOne(Integer.toString(kakaoProfile.getId()));
+		String loc="";
+		System.out.println(mem);
+		
+		
+		if(mem!=null) {
+			if("Y".equals(mem.getAuthStatus())) {
+				logger.debug("로그인 성공");
+				//세션처리
+				m.addAttribute("loginMember", mem);
+				m.addAttribute("msg", "로그인 성공");
+				m.addAttribute("loc", "/");
+				loc = "redirect:/";
+			}else {
+				logger.debug("이메일 인증 미완료");
+				m.addAttribute("msg", "이메일이 아직 인증되지 않았습니다.");
+				m.addAttribute("loc", "/member/login");
+				loc = "common/msg";
+			}
+			
+		}else {
+			Member memKakao = new Member();
+			memKakao.setMemberId(Integer.toString(kakaoProfile.getId()));
+			memKakao.setEmail(kakaoProfile.getKakao_account().getEmail());
+			memKakao.setMemberName(kakaoProfile.getKakao_account().getProfile().getNickname());
+			memKakao.setMemberPw(garbagePassword.toString());
+			//memKakaor을 세션에 넣음
+			m.addAttribute("memKakao", memKakao);
+			loc= "redirect:/member/kakao/enroll";
+		
+		}
+		
+		return loc;
+	}
 	
+	@RequestMapping("/member/kakao/enroll")
+	public ModelAndView enrollKakao(@SessionAttribute("memKakao") Member memKakao, SessionStatus status, ModelAndView mv) {
+
+
+		
+
+		mv.addObject("memKakao",memKakao);
+		mv.setViewName("member/kakaoLogin");
+		
+		if(!status.isComplete()) {
+			status.setComplete();
+		}
+		
+		return mv;
+	}
 	
-	
-	
+
 }

@@ -7,6 +7,8 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="회원가입"/>
 </jsp:include>
+<!-- spinner용 -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
 <!-- 다음지도 api -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- datepicker -->
@@ -14,12 +16,12 @@
 <script>
 	//submit할때 유효성검사
 	function checkSubmit() {
-		if($("#idCheck").val()=="0") alert("아이디를 정확히 입력해주세요");
-		else if($("#nameCheck").val()=="0") alert("이름을 정확히 입력해주세요");
-		else if($("#pwCheck").val()=="0") alert("비밀번호를 정확히 입력해주세요");
-		else if($("#rePwCheck").val()=="0") alert("비밀번호 확인을 해주세요");
-		else if($("#brithCheck").val()=="0") alert("생년월일을 정확히 입력해주세요");
-		else if($("#phoneCheck").val()=="0") alert("전화번호를 정확히 입력해주세요");
+		if($("#idCheck").val()=="0") swal("아이디를 정확히 입력해주세요");
+		else if($("#nameCheck").val()=="0") swal("이름을 정확히 입력해주세요");
+		else if($("#pwCheck").val()=="0") swal("비밀번호를 정확히 입력해주세요");
+		else if($("#rePwCheck").val()=="0") swal("비밀번호 확인을 해주세요");
+		else if($("#brithCheck").val()=="0") swal("생년월일을 정확히 입력해주세요");
+		else if($("#phoneCheck").val()=="0") swal("전화번호를 정확히 입력해주세요");
 		else return true;
 		
 		return false; 
@@ -90,13 +92,21 @@
 		return (reg1.test(str) && reg2.test(str) && reg3.test(str) && reg4.test(str));
 	}
 	
+	//딜레이 함수
+	function delay(ms) {
+		var start = new Date().getTime();
+		while(new Date().getTime() < start + ms);
+	}
+	
     $(function() {
     	
     	//아이디 유효성+중복체크
     	$("#memberId").keyup(function(e) {
+    		$("#idSpinner").show();
     		$("#idCheck").val("0");
     		let checkId = $(e.target).val().trim();
     		if(checkId.length<4 || checkId.length>10) {
+    			$("#idSpinner").hide();
     			$("#checkId-container").children().css("display","none");
     			$("#notEnoughId").css("display","block");
     		}else {
@@ -106,6 +116,8 @@
     	    			type:"post",
     	    			data:{"checkId":checkId},
     	    			success:function(data){
+    	    				delay(500);
+    	    				$("#idSpinner").hide();
     	    				if(data.result==1) {
     	    					//아이디 사용가능
     	    					$("#checkId-container").children().css("display","none");
@@ -119,10 +131,11 @@
     	    				}
     	    			},
     	    			error:function(error) {
-    	    				alert(error);
+    	    				swal(error);
     	    			}
     	    		}); 
     			}else {
+    				$("#idSpinner").hide();
     				$("#checkId-container").children().css("display","none");
     				$("#notRegId").css("display","block");
     			}
@@ -185,7 +198,7 @@
     	$("#datepicker").change(function(e) {
     		$("#brithCheck").val("0");
     		let checkBirth = $(e.target).val().trim();
-    		let regBirth = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+    		let regBirth = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
     		if(regBirth.test(checkBirth)) {
     			$("#checkBrith-container").children().css("display","none");
     			$("#brithCheck").val("1");
@@ -229,6 +242,9 @@
 </script>
 
 <style>
+	#enroll-container{
+		margin-bottom: 15vh;
+	}
 	.jumbotron .container{
 		text-align: center;
 	}
@@ -251,10 +267,6 @@
 		width: 50vh;
 		display: inline-block;
 	}
-	#submit-container {
-		display: flex;
-		justify-content: center;
-	}
 	#agreeEmail {
 		display: flex;
 		flex-direction: column;
@@ -276,6 +288,26 @@
 	 .checked {
 	 	width: 20px;
 	 }
+	 .loader {
+	  border: 10px solid #f3f3f3;
+	  border-radius: 50%;
+	  border-top: 10px solid #3498db;
+	  width: 50px;
+	  height: 50px;
+	  animation: spin 2s linear infinite;
+	}
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+	#submit-container {
+		display: flex;
+		justify-content: center;
+	}
+	#submit-container button {
+		padding: 2vh;
+		margin: 5vh;
+	}
 </style>
 <section>
 	<div class="jumbotron jumbotron-fluid">
@@ -289,6 +321,7 @@
 			<div class="form-group">
 			    <label for="memberId">아이디</label>
 			    <input type="text" class="form-control" placeholder="영문,숫자 조합 4~10자리" id="memberId" name="memberId" required>
+			    <div id="idSpinner" class="loader" style="display:none"></div>
 			    <div id="checkId-container">
 				    <p class="text-danger" id="notEnoughId" style="display:none">아이디를 4~10글자로 입력해주세요.</p>
 				    <p class="text-danger" id="notRegId" style="display:none">영어+숫자 조합만 가능합니다.</p>
@@ -361,7 +394,7 @@
 			
 			<div class="form-group">
 			    <label for="datepicker">생년월일</label><br>
-			    <input type="text" class="form-control" id="datepicker" name="birth" required>
+			    <input type="text" class="form-control" id="datepicker" name="birth" autocomplete="off" required>
 			    <div id="checkBrith-container">
 				    <p class="text-danger" id="notRegBrith" style="display:none">달력에서 생년월일을 선택해주세요</p>
 			    </div>

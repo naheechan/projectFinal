@@ -35,7 +35,7 @@
 	}
 	.cycle {
 		width: 40vh;
-		height: 40vh;
+		height: 45vh;
 		font-size: 3vh;
 		text-align: center;
 		color: white;
@@ -70,6 +70,8 @@
 
 
 <!-- 각 주기별 다음 구매예상 날짜 구하기 -->
+<!-- 직전에 구매한 상품 갯수 -->
+<c:set var="odAmount" value="${product.odAmount}" />
 <!-- startDate를 밀리세컨드로 변환 -->
 <fmt:parseNumber var="startDate_M" value="${product.startDate.time}"/>
 <!-- 변수를 스크립틀릿에서 사용하기 위해서 c:set으로 저장 -->
@@ -78,6 +80,9 @@
 <c:set var="onCycleDay" value="${product.onCycle}" />
 <c:set var="offCycleDay" value="${product.offCycle}" />
 <%
+	//직전에 구매한 상품의 갯수
+	int amount = Integer.parseInt(String.valueOf(pageContext.getAttribute("odAmount")));
+
 	//주기(day)를 int변수에 넣어줌
 	int onCycleDay = Integer.parseInt(String.valueOf(pageContext.getAttribute("onCycleDay")));
 	int offCycleDay = Integer.parseInt(String.valueOf(pageContext.getAttribute("offCycleDay")));
@@ -91,11 +96,11 @@
 	Calendar calToday = Calendar.getInstance(); //지금 현재 날짜
 	//오늘보다 다음구매예상일이 더 커질때까지 더함.
 	do{
-		onCal.add(Calendar.DATE, onCycleDay);
+		onCal.add(Calendar.DATE, onCycleDay*amount);
 	}while(onCal.getTimeInMillis() < calToday.getTimeInMillis());
 	
 	do{
-		offCal.add(Calendar.DATE, offCycleDay);
+		offCal.add(Calendar.DATE, offCycleDay*amount);
 	}while(offCal.getTimeInMillis() < calToday.getTimeInMillis());
 
 	Date onStartDa = new Date(onCal.getTimeInMillis());
@@ -120,7 +125,7 @@
 		                          	
 							<div class="list-group-collapse sub-men">
 								<a class="list-group-item list-group-item-action " href="${path }/shopCycle/cycleList?tab=all">
-									<b>한번에 보기</b>
+									<b>한번에 보기(<c:out value="${countCycleMap.total}"/>)</b>
 								</a>
 							</div>
 								
@@ -132,7 +137,17 @@
 		                    <div class="show" id="sub-men1" data-parent="#list-group-men">
 		                    	<div class="list-group">
 		                     		<c:forEach var="largeCate" items="${category }" varStatus="i">
-										<a href="${path }/shopCycle/cycleList?tab=${largeCate.largeCate }" id="cateSearch" class="list-group-item list-group-item-action <c:if test="${product.largeCate eq largeCate.largeCate}">active</c:if>">${largeCate.largeCate}</a>
+										<a href="${path }/shopCycle/cycleList?tab=${largeCate.largeCate }" id="cateSearch" class="list-group-item list-group-item-action <c:if test="${product.largeCate eq largeCate.largeCate}">active</c:if>">
+											<c:set var="cate" value="${largeCate.largeCate}"/>
+											<c:out value="${cate}" />
+											<c:choose>
+												<c:when test="${cate eq '주방'}"><c:out value="${countCycleMap.kitchen ne null?'('+=countCycleMap.kitchen+=')':''}"/></c:when>
+												<c:when test="${cate eq '세탁실'}"><c:out value="${countCycleMap.laundry ne null?'('+=countCycleMap.laundry+=')':''}"/></c:when>
+												<c:when test="${cate eq '현관'}"><c:out value="${countCycleMap.front ne null?'('+=countCycleMap.front+=')':''}"/></c:when>
+												<c:when test="${cate eq '창고'}"><c:out value="${countCycleMap.warehouse ne null?'('+=countCycleMap.warehouse+=')':''}"/></c:when>
+												<c:when test="${cate eq '욕실'}"><c:out value="${countCycleMap.bathroom ne null?'('+=countCycleMap.bathroom+=')':''}"/></c:when>
+											</c:choose> 
+										</a>
 		                     		</c:forEach>
 		                    	</div>
 		                    </div>
@@ -149,7 +164,7 @@
 				<div class="announce-text rounded">
 					<span>현재 '</span>
 					<span>${product.productName}</span>
-					<span>'의 현재주기는 </span>
+					<span>'의 현재상태는 자동주기계산</span>
 					<span style="color:#FFBB00"><c:out value="${selectedCycle eq 'onCycle'?'ON':'OFF'}"/></span>
 					<span>입니다.</span>
 				</div>
@@ -182,15 +197,19 @@
 						<div class="cycle" id="on-cycle">
 							<!-- text부분 -->
 							<div class="cycleTitle">
-								<span>ON</span>
+								<img class="checkImg" src="${path}/resources/images/cycleChecked.png" width="25px" alt="checkImg">
+								<span>자동주기계산 ON</span>
 							</div>
 							
 							<!-- 해당 주기내용 부분 -->
 							<div class="cycle-content">
 								<!-- 설정된 주기가 몇일인지 -->
 								<div class="marginBottom">
-									<span class="display-3 font-weight-bold underLine">${product.onCycle}</span>
-									<span>일</span>
+									<p>
+										<span class="display-3 font-weight-bold underLine">${product.onCycle}</span>
+										<span>일</span>
+									</p>
+									<span>(상품 1개(set) 기준)</span>
 								</div>
 								<div class="">
 									<span>다음 예상 구매일 :</span>	
@@ -205,15 +224,19 @@
 						<div class="cycle" id="off-cycle">
 							<!-- text부분 -->
 							<div class="cycleTitle">
-								<span>OFF</span>
+								<img class="checkImg" src="${path}/resources/images/cycleChecked.png" width="25px" alt="checkImg">
+								<span>자동주기계산 OFF</span>
 							</div>
 							
 							<!-- 해당 주기내용 부분 -->
 							<div class="cycle-content">
 								<!-- 설정된 주기가 몇일인지 -->
 								<div class="marginBottom">
-									<span class="display-3 font-weight-bold underLine">${product.offCycle}</span>
-									<span>일</span>
+									<p>
+										<span class="display-3 font-weight-bold underLine">${product.offCycle}</span>
+										<span>일</span>
+									</p>
+									<span>(상품 1개(set) 기준)</span>
 								</div>
 								<div class="">
 									<span>다음 예상 구매일 :</span>	
@@ -247,15 +270,15 @@
 								<div class="modal-body">
 									<!-- 필수 부분(주기 선택) -->
 									<div class="marginBottom">
-										<h4>&bull; 주기를 선택하세요(필수사항)</h4>
+										<h4>&bull; 자동주기계산 ON/OFF를 선택하세요(필수사항)</h4>
 										<div class="form-check">
 										 	<label class="form-check-label">
-										   		<input type="radio" class="form-check-input" name="chooseCycle" id="onRadio" value="onCycle" required ${selectedCycle eq 'onCycle'?'checked':''}>ON
+										   		<input type="radio" class="form-check-input" name="chooseCycle" id="onRadio" value="onCycle" required ${selectedCycle eq 'onCycle'?'checked':''}>자동주기계산 ON
 										 	</label>
 										</div>
 										<div class="form-check">
 										 	<label class="form-check-label">
-										   		<input type="radio" class="form-check-input" name="chooseCycle" id="offRadio" value="offCycle" ${selectedCycle eq 'offCycle'?'checked':''}>OFF
+										   		<input type="radio" class="form-check-input" name="chooseCycle" id="offRadio" value="offCycle" ${selectedCycle eq 'offCycle'?'checked':''}>자동주기계산 OFF
 										 	</label>
 										</div>
 										<div class="form-group">
@@ -302,8 +325,27 @@
 				
 				
 				<!-- 구매이력 -->
-				<div class="">
-					<p>구매이력</p>
+				<div class=""> 											<!-- 더보기 버튼은 마이페이지의 구매내역으로 갈거임 -->
+					<h3>&bull; 구매이력(최근 5개) <button class="btn btn-info" >더보기</button></h3>
+					<table class="table table-bordered">
+					    <thead class="thead-light">
+					      <tr>
+					        <th>상품 이름</th>
+					        <th>구매 수량</th>
+					        <th>구매 날짜</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <c:forEach var="rc" items="${recentCycleList}" >
+					      	<tr>
+					      		<td>${product.productName }</td>
+					      		<td>${rc.ODAMOUNT}개</td>
+					      		<td><fmt:formatDate value="${rc.ORDERDATE}" pattern="yyyy년 MM월 dd일"/></td>
+					      		<%-- <td>${rc.ORDERDATE}</td> --%>
+					      	</tr>
+					      </c:forEach>
+					    </tbody>
+				  	</table>
 				</div>
 				
 				
@@ -327,7 +369,7 @@
 			$("#dateDiv").show();
 			$("#datepicker").attr("required","true");
 			if($("#startCheck").val()=="0") {
-				alert("시작일을 정확히 입력해주세요");
+				swal("시작일을 정확히 입력해주세요");
 				return false;
 			}
 		}
@@ -342,10 +384,13 @@
 			/* 현재 주기가 ON일때 */
 			$("#on-cycle").addClass('selected');
 			$("#off-cycle").removeClass('selected');
+			$("#off-cycle").find(".checkImg").hide();
 		}else {
 			/* 현재 주기가 OFF일때 */
 			$("#on-cycle").removeClass('selected');
 			$("#off-cycle").addClass('selected');
+			$("#on-cycle").find(".checkImg").hide();
+			/* $("#on-cycle").find(".checkImg").attr("display","none"); */
 		}
 		
 		/* offRadio버튼이 선택되어 있을때만 offInput에 입력가능 */
@@ -364,7 +409,7 @@
 			var currentVal = $(this).val();
 			var reg = /^[0-9]/g;
 			if(!reg.test(currentVal)) {
-				alert('숫자만 입력하시기 바랍니다.');
+				swal('숫자만 입력하시기 바랍니다.');
 				$(this).val('');
 			}
 		});
@@ -387,7 +432,7 @@
     	$("#datepicker").change(function(e) {
     		$("#startCheck").val("0");
     		let checkStart = $(e.target).val().trim();
-    		let regStart = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+    		let regStart = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
     		if(regStart.test(checkStart)) {
     			$("#checkStart-container").children().css("display","none");
     			$("#startCheck").val("1");

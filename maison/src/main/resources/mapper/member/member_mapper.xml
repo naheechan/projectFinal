@@ -29,7 +29,6 @@
   
 
 
-
   <update id="updateMileage" parameterType="map">
   	UPDATE MEMBER SET MEILEAGE=#{memberMileage} WHERE MEMBERID=#{memberId}
   </update>
@@ -73,7 +72,7 @@
   	UPDATE MEMBER SET MEMBERPW = #{pw}
   				WHERE MEMBERID = #{id}
   </update>
-  
+
   <update id="updateEmailStatus" parameterType="map">
   	UPDATE MEMBER SET EMAILSTATUS=#{emailStatus}
   	WHERE MEMBERID=#{memberId}

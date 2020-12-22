@@ -15,4 +15,6 @@ public class Basket {
 	private String productImg;
 	private int price;
 	private int meileage;
+	
+	private int orderNo;
 }

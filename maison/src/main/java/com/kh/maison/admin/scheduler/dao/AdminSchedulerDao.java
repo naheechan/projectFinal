@@ -7,10 +7,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.shop.vo.Product;
+import com.kh.maison.shopCycle.model.vo.CycleAdmin;
 
 public interface AdminSchedulerDao {
 	
 	List<Product> selectProductList(SqlSessionTemplate session);
+	List<CycleAdmin> selectAllCycleList(SqlSessionTemplate session);
 	
 	List<Member> selectMemberList(SqlSessionTemplate session);
 	

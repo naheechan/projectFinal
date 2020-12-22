@@ -26,6 +26,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
 <script src="https://kit.fontawesome.com/27fabf8f47.js" crossorigin="anonymous"></script>
 <script src="${path }/resources/js/jquery-ui.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <title><c:out value="${param.title }"/></title>
 </head>
