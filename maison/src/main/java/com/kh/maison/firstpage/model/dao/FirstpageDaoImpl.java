@@ -18,9 +18,16 @@ public class FirstpageDaoImpl implements FirstpageDao {
 	}
 
 	@Override
+	public List<Product> selectBestSeller(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectList("firstpage.selectBestSeller");
+	}
+	
+	@Override
 	public Member selectAdmin(SqlSessionTemplate session) {
 		// TODO Auto-generated method stub
 		return session.selectOne("firstpage.selectAdmin");
 	}
+
 
 }

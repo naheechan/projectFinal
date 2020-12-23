@@ -40,6 +40,13 @@ public class FisrstpageController {
 		return list;	
 	}
 	
+	@RequestMapping("/firstpage/bestSeller.do")
+	@ResponseBody
+	public List<Product> selectBestSeller(){
+		List<Product> list = service.selectBestSeller();
+		return list;
+	}
+	
 	@RequestMapping("/firstpage/about.do")
 	public ModelAndView about(ModelAndView mv) {
 		mv.setViewName("common/about");

@@ -27,10 +27,18 @@ public class FirstpageServiceImpl implements FirstpageService {
 	}
 
 	@Override
+	public List<Product> selectBestSeller() {
+		// TODO Auto-generated method stub
+		List<Product> list = dao.selectBestSeller(session);
+		return list;
+	}
+	
+	@Override
 	public Member selectAdmin() {
 		// TODO Auto-generated method stub
 		Member m = dao.selectAdmin(session);
 		return m;
 	}
+
 
 }

@@ -10,6 +10,7 @@ import com.kh.maison.shop.vo.Product;
 public interface FirstpageDao {
 	
 	List<Product> selectBestWish(SqlSessionTemplate session);
-
+	List<Product> selectBestSeller(SqlSessionTemplate session);
+	
 	Member selectAdmin(SqlSessionTemplate session);
 }

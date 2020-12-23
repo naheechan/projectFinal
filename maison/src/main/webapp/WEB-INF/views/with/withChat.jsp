@@ -84,6 +84,9 @@
 		$(document).ready(function(){
 			//웹 소켓 연결해주는 함수 호출 
 			connect();
+			var nick = $("#nickname").val();
+			var wri = $("#writer").val();
+			
 			$.ajax({
 				url:'${path }/with/msgData.do',
 				type:'post',
@@ -113,7 +116,7 @@
 		var websocket;
 		//입장버튼 눌렀을때 호출되는 함수. 
 		function connect(){
-			websocket = new WebSocket("ws://localhost:9090/maison/chat-ws");
+			websocket = new WebSocket("ws://rclass.iptime.org:9999/20AM_MAISON_final/chat-ws");
 			//웹 소켓에 이벤트가 발생했을 때 호출될 함수 등록
 			websocket.onopen = onOpen;
 			websocket.onmessage = onMessage;

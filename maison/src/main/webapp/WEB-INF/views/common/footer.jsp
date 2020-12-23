@@ -4,90 +4,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+
 <!-- 우리 기준 추천상품 보이는 곳 -->
 <!-- Start Instagram Feed  -->
 <div class="instagram-box">
     <div class="main-instagram owl-carousel owl-theme">
+        <!-- 이런애가 총 10개 있었음  -->
         <div class="item">
             <div class="ins-inner-box">
                 <img src="<%=request.getContextPath() %>/resources/images/instagram-img-01.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
+          <div class="type-lb">
+              <p class="sale">NEW</p><!-- 일주일 지나면 buy now! -->
+          </div>
             </div>
         </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-02.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-03.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-04.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-05.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-06.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-07.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-08.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-09.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/images/instagram-img-05.jpg" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
+		<!-- item div들 들어오는 곳 -->
     </div>
 </div>
 <!-- End Instagram Feed  -->
