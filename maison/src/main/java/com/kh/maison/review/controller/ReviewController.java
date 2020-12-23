@@ -53,7 +53,7 @@ public class ReviewController {
 		}else {
 			//있으면 작성 불가능
 			mv.addObject("msg","이미 작성한 리뷰가 있습니다 !");
-			mv.addObject("loc","/member/mypage.do");
+			mv.addObject("loc","/member/order/orderList.do");
 			mv.setViewName("common/msg");
 			return mv;
 		}

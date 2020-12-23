@@ -148,7 +148,7 @@
 
 
 	$(function(){
-	//리뷰쓰는 팝띄우기		
+		//리뷰쓰는 팝띄우기		
 		$(".addreview").click(function(){
 			var productNo=$(this).prev().prev().val();
 			var orderDetailNo=$(this).prev().val();

@@ -30,7 +30,11 @@ public interface OrderService {
 	
 	int insertShippingDestination(Order o);
 	
+	List<Order> selectMyOrderList(Map param,int cPage,int numPerPage);
 	
+	List<Order> selectMyOrderListAll(Map param);
+	
+	int countMyOrderList(Map param);
 	
 
 }

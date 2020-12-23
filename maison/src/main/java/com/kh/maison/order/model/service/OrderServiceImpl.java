@@ -82,6 +82,26 @@ public class OrderServiceImpl implements OrderService {
 		return dao.insertShippingDestination(session,o);
 	}
 
+	@Override
+	public List<Order> selectMyOrderList(Map param, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectMyOrderList(session,param,cPage,numPerPage);
+	}
+
+	@Override
+	public int countMyOrderList(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countMyOrderList(session,param);
+	}
+
+	@Override
+	public List<Order> selectMyOrderListAll(Map param) {
+		// TODO Auto-generated method stub
+		return dao.selectMyOrderListAll(session,param);
+	}
+
+	
+	
 	
 	
 
