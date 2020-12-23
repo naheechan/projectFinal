@@ -34,4 +34,8 @@
 		SELECT * FROM MEMBER 
 		WHERE MEMBERID = 'admin'
 	</select>
+	
+	<select id="selectRecentlyBuy" resultType="com.kh.maison.shop.vo.Product">
+	
+	</select>
 </mapper>

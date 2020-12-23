@@ -9,16 +9,54 @@
 <!-- Start Instagram Feed  -->
 <div class="instagram-box">
     <div class="main-instagram owl-carousel owl-theme">
-        <!-- 이런애가 총 10개 있었음  -->
-        <div class="item">
+<%--         <div class="item">
             <div class="ins-inner-box">
                 <img src="<%=request.getContextPath() %>/resources/images/instagram-img-01.jpg" alt="" />
           <div class="type-lb">
               <p class="sale">NEW</p><!-- 일주일 지나면 buy now! -->
           </div>
             </div>
+        </div> --%>
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_02_093321816_865.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=1"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
         </div>
-		<!-- item div들 들어오는 곳 -->
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_17_114623855_432.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=3"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_22_033232305_825.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=19"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_18_100230583_15.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=8"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
+        </div>        
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_08_232902839_101.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=7"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
+        </div> 
     </div>
 </div>
 <!-- End Instagram Feed  -->
@@ -134,5 +172,18 @@
     <script src="<%=request.getContextPath() %>/resources/js/form-validator.min.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/contact-form-script.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/custom.js"></script>
+<script>
+function recentlyBuy(){
+	$.ajax({
+		url:'${path }/firstpage/recentlyBuy.do',
+		type:'get',
+		success:function(data){
+			var d='';
+			console.log(data);
+		}
+	})
+}
+</script>
+
 </body>
 </html>

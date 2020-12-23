@@ -13,4 +13,6 @@ public interface FirstpageDao {
 	List<Product> selectBestSeller(SqlSessionTemplate session);
 	
 	Member selectAdmin(SqlSessionTemplate session);
+	
+	List<Product> selectrecentlyBuy(SqlSessionTemplate session);
 }

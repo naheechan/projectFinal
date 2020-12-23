@@ -40,5 +40,12 @@ public class FirstpageServiceImpl implements FirstpageService {
 		return m;
 	}
 
+	@Override
+	public List<Product> selectrecentlyBuy() {
+		// TODO Auto-generated method stub
+		List<Product> list = dao.selectrecentlyBuy(session);
+		return list;
+	}
+
 
 }

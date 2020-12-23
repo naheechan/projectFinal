@@ -12,5 +12,7 @@ public interface FirstpageService {
 	List<Product> selectBestSeller();
 	
 	Member selectAdmin();
+	
+	List<Product> selectrecentlyBuy();
 
 }

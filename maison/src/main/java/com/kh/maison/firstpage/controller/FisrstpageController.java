@@ -112,5 +112,16 @@ public class FisrstpageController {
 		return mv;
 		
 	}
-
+	
+	//footer에 신상품 이미지 꽂아주기 
+	//신상품을 할지, 조회수가 높은 상품을 할지
+	//만약에 조회수 높은걸 하려면 product에 column을 추가해서 해야함. 
+	//진짜 진짜 마지막에 하자. 
+	///firstpage/recentlyBuy.do
+	@RequestMapping("/firstpage/recentlyBuy.do")
+	@ResponseBody
+	public List<Product> recentlyBuy(){
+		List<Product> list = service.selectrecentlyBuy();
+		return list;
+	}
 }

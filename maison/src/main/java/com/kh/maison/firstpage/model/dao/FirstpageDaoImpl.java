@@ -29,5 +29,11 @@ public class FirstpageDaoImpl implements FirstpageDao {
 		return session.selectOne("firstpage.selectAdmin");
 	}
 
+	@Override
+	public List<Product> selectrecentlyBuy(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectList("firstpage.selectRecentlyBuy");
+	}
+
 
 }
