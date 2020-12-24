@@ -8,7 +8,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
 
 public interface AdminDao {
@@ -49,5 +51,11 @@ public interface AdminDao {
 	
 	//admin/member/membership.jsp
 	List<Map<String,Object>> selectAllMemberShip(SqlSessionTemplate session, int cPage, int numPerPage);
+	int selectAllMemberShipCount(SqlSessionTemplate session);
 	int selectDefaultMileage(SqlSessionTemplate session);
+	int updateDefaultMileage1(SqlSessionTemplate session,Mileage mi);
+	int updateDefaultMileage2(SqlSessionTemplate session,Mileage mi);
+
+	Grade selectOneMembership(SqlSessionTemplate session,String gradecode);
+	int updateMembership(SqlSessionTemplate session,Grade g);
 }

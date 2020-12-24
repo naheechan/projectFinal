@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
 
 @Repository
@@ -181,6 +183,36 @@ public class AdminDaoImpl implements AdminDao {
 	public int selectDefaultMileage(SqlSessionTemplate session) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectDefaultMileage");
+	}
+
+	@Override
+	public int selectAllMemberShipCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllMembershipCount");
+	}
+
+	@Override
+	public int updateDefaultMileage1(SqlSessionTemplate session, Mileage mi) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateDefaultMileageOne",mi);
+	}
+
+	@Override
+	public int updateDefaultMileage2(SqlSessionTemplate session, Mileage mi) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateDefaultMileageTwo",mi);
+	}
+
+	@Override
+	public Grade selectOneMembership(SqlSessionTemplate session, String gradecode) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectOneMembership",gradecode);
+	}
+
+	@Override
+	public int updateMembership(SqlSessionTemplate session, Grade g) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateMembership",g);
 	}
 
 }

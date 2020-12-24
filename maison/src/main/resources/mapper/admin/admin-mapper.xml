@@ -255,6 +255,10 @@
         WHERE G.GRADECODE = A.GRADECODE
 	</select>
 	
+	<select id="selectAllMembershipCount" resultType="Integer">
+		SELECT COUNT(*) FROM GRADE
+	</select>
+	
 	<insert id="insertMemberWithdraw" parameterType="String">
 		INSERT INTO MEMBERWITHDRAW VALUES(#{memberId},'관리자 탈퇴',SYSDATE)
 	</insert>
@@ -265,4 +269,24 @@
         WHERE TABLE_NAME='MILEAGE'
         AND COLUMN_NAME='MILE'
 	</select>
+	
+	<update id="updateDefaultMileageOne" parameterType="mileage">
+		ALTER TABLE MEMBER MODIFY MEILEAGE NUMBER DEFAULT ${mile}
+	</update>
+	
+	<update id="updateDefaultMileageTwo" parameterType="mileage">
+		ALTER TABLE MILEAGE MODIFY MILE NUMBER DEFAULT ${mile}
+	</update>
+	
+	<select id="selectOneMembership" parameterType="String" resultType="grade">
+		SELECT * FROM GRADE
+		WHERE GRADECODE=#{gradecode}
+	</select>
+	
+	<update id="updateMembership" parameterType="grade">
+		UPDATE GRADE
+        SET ACCRATE=#{accRate},
+                GRADEBASE=#{gradeBase}
+        WHERE GRADECODE=#{gradeCode}
+	</update>
 </mapper>

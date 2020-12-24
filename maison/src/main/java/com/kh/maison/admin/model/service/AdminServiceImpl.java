@@ -11,7 +11,9 @@ import com.kh.maison.admin.model.dao.AdminDao;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
 
 @Service
@@ -166,6 +168,36 @@ public class AdminServiceImpl implements AdminService {
 	public int selectDefaultMileage() {
 		// TODO Auto-generated method stub
 		return dao.selectDefaultMileage(session);
+	}
+
+	@Override
+	public int selectAllMemberShipCount() {
+		// TODO Auto-generated method stub
+		return dao.selectAllMemberShipCount(session);
+	}
+
+	@Override
+	public int updateDefaultMileage1(Mileage mi) {
+		// TODO Auto-generated method stub
+		return dao.updateDefaultMileage1(session,mi);
+	}
+
+	@Override
+	public int updateDefaultMileage2(Mileage mi) {
+		// TODO Auto-generated method stub
+		return dao.updateDefaultMileage2(session,mi);
+	}
+
+	@Override
+	public Grade selectOneMembership(String gradecode) {
+		// TODO Auto-generated method stub
+		return dao.selectOneMembership(session,gradecode);
+	}
+
+	@Override
+	public int updateMemership(Grade g) {
+		// TODO Auto-generated method stub
+		return dao.updateMembership(session,g);
 	}
 	
 }

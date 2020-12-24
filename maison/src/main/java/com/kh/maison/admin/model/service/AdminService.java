@@ -6,7 +6,9 @@ import java.util.Map;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
 
 public interface AdminService {
@@ -47,6 +49,16 @@ public interface AdminService {
 	
 	//admin>member>memberShip.jsp 에 들어갈거
 	List<Map<String,Object>> selectAllMemberShip(int cPage, int numPerPage);
+	int selectAllMemberShipCount();
 	//마일리지 기본값 가져오기
 	int selectDefaultMileage();
+	//마일리지 기본값 업데이트하기 2개
+	int updateDefaultMileage1(Mileage mi);
+	int updateDefaultMileage2(Mileage mi);
+	
+	//마일리지 업데이트 하기 
+	Grade selectOneMembership(String gradecode);
+	
+	//grade내용 업데이트 하기 
+	int updateMemership(Grade g);
 }

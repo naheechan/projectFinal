@@ -42,7 +42,7 @@
 		              <div class="d-flex justify-content-between flex-wrap">
 		                <div class="d-flex align-items-end flex-wrap">
 		                  <div class="mr-md-3 mr-xl-5">
-		                    <h2>회원 등급 관리</h2>
+		                    <h2>등급 혜택 관리</h2>
 		                    <br>
 		                    <p class="mb-md-0">쇼핑몰 회원의 등급 조건/혜택을 관리할 수 있습니다.</p>
 		                  </div>
@@ -73,7 +73,7 @@
 								  		<th>웰컴적립금</th>
 								  		<td>
 								  			<div>
-									  			<input type="text" name="keyword" class="form-control" value="${defaultMileage }"/>								  			
+									  			<input type="text" name="welcomeMileage" class="form-control" value="${defaultMileage }"/>								  			
 								  			</div>
 								  		</td>								  		
 								  	</tr>
@@ -130,7 +130,7 @@
 		                      				<td>지난 3개월 간, <c:out value="${l.GRADEBASE }"/>이상 구매</td>
 		                      				<td><c:out value="${l.ACCRATE }"/></td>		                      				
 											<td>
-												<button class="btn btn-lignt">수정</button>
+												<button class="btn btn-lignt" onclick="membershipUpdate('${l.GRADECODE}')">수정</button>
 							
 											</td>
 		                      			</tr>
@@ -140,6 +140,9 @@
 		                    </table>
 		                  </div>
 		                  <br>
+		                 <div id="pageBar">
+		                  	${pageBar }
+		                  </div>
 		                </div>
 		              </div>
 		            </div>
@@ -151,5 +154,10 @@
 	</div>	
 </div>
 <jsp:include page="/WEB-INF/views/admin/jses.jsp"/>
+<script>
+	function membershipUpdate(str){
+		location.href='${path }/admin/membership/update.do?gradecode='+str;
+	}
+</script>
 </body>
 </html>

@@ -5,7 +5,6 @@ import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,9 @@ import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.common.crypto.AES256Util;
+import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
 import com.kh.spring.common.PageBarFactory;
 
@@ -286,6 +287,8 @@ public class AdminController {
 			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage) {
 		//회원등급 데이터 꽂기
 		List<Map<String,Object>> list = service.selectAllMemberShip(cPage,numPerPage);
+		int totalContents = service.selectAllMemberShipCount();
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "membership.do");
 //		System.out.println(list);
 //		for(int i=0;i<list.size();i++) {
 //			Iterator<String> keys = list.get(i).keySet().iterator();
@@ -299,6 +302,8 @@ public class AdminController {
 //			System.out.println("AMOUNT"+list.get(i).get("AMOUNT"));
 //		}
 		mv.addObject("list", list);
+		mv.addObject("totalContents",totalContents);
+		mv.addObject("pageBar",pageBar);
 		//마일리지 DEFAULT값 가져오기 
 //        SELECT DATA_DEFAULT
 //        FROM USER_TAB_COLUMNS
@@ -307,6 +312,55 @@ public class AdminController {
 		int defaultMileage = service.selectDefaultMileage();
 		mv.addObject("defaultMileage",defaultMileage);
 		mv.setViewName("admin/member/membership");
+		return mv;
+	}
+	
+	//신규회원 혜택 업데이트
+	//DB를 잘못만들어서 member테이블에 메일리지랑
+	//마일리지 테이블에 마일이랑 둘다 디폴트값 업데이트 해줘야 함. 
+	@RequestMapping("/admin/membership/default.do")
+	public ModelAndView updateDefaultMileage(ModelAndView mv,@RequestParam String welcomeMileage) {
+		
+		Mileage mi = new Mileage();
+		mi.setMile(Integer.parseInt(welcomeMileage));
+		
+		service.updateDefaultMileage1(mi);
+		service.updateDefaultMileage2(mi);
+
+		mv.addObject("msg", "신규회원 혜택이 변경되었습니다.");
+		mv.addObject("subMsg","회원 등급/혜택 관리 페이지를 다시 로드합니다.");
+		mv.addObject("status","success");
+		mv.addObject("loc", "/admin/membership.do");
+
+		
+		mv.setViewName("common/sweetMsg");
+		return mv;
+	}
+	
+	//회원 혜택 수정하기 
+	@RequestMapping("/admin/membership/update.do")
+	public ModelAndView updateMembership(ModelAndView mv,@RequestParam String gradecode) {
+		Grade g= service.selectOneMembership(gradecode);
+		mv.addObject("grade",g);
+		mv.setViewName("admin/member/updateMembership");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/membership/updateEnd.do")
+	public ModelAndView updateMembershipEnd(ModelAndView mv,Grade g) {
+		int result = service.updateMemership(g);
+		if(result>0) {
+			mv.addObject("msg", g.getGradeCode()+"의 혜택이 변경되었습니다.");
+			mv.addObject("subMsg","회원 등급/혜택 관리 페이지를 다시 로드합니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/admin/membership.do");
+		}else {
+			mv.addObject("msg", g.getGradeCode()+"의 혜택이 변경 실패!");
+			mv.addObject("subMsg","회원 등급/혜택 관리 페이지를 다시 로드합니다.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/admin/membership.do");
+		}
+		mv.setViewName("common/sweetMsg");
 		return mv;
 	}
 	
