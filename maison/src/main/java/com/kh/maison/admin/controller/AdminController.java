@@ -238,10 +238,14 @@ public class AdminController {
 	public ModelAndView memberDelete(ModelAndView mv, @RequestParam String memberId) {
 		int result = service.updateMemberStatus(memberId);
 		if(result>0) {
-			mv.addObject("msg", memberId+"님이 탈퇴되었습니다.");
-			mv.addObject("subMsg","관리자 > 멤버 목록 화면을 리로드합니다.");
-			mv.addObject("status","success");
-			mv.addObject("loc", "/admin/memberList.do");			
+			//회원무덤 테이블에 insert하기
+			result = service.insertMemberWithdraw(memberId);
+			if(result>0) {
+				mv.addObject("msg", memberId+"님이 탈퇴되었습니다.");
+				mv.addObject("subMsg","관리자 > 멤버 목록 화면을 리로드합니다.");
+				mv.addObject("status","success");
+				mv.addObject("loc", "/admin/memberList.do");							
+			}
 		}else {
 			mv.addObject("msg", "탈퇴시도가 실패했습니다.");
 			mv.addObject("subMsg","다시시도하신 후 관리자에게 문의해주세요.");
@@ -282,14 +286,27 @@ public class AdminController {
 			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage) {
 		//회원등급 데이터 꽂기
 		List<Map<String,Object>> list = service.selectAllMemberShip(cPage,numPerPage);
-		System.out.println(list);
-		for(int i=0;i<list.size();i++) {
-			Iterator<String> keys = list.get(i).keySet().iterator();
-			while(keys.hasNext()) {
-				String key = keys.next();
-				System.out.println("key값 :::"+key+"::::");
-			}
-		}
+//		System.out.println(list);
+//		for(int i=0;i<list.size();i++) {
+//			Iterator<String> keys = list.get(i).keySet().iterator();
+//			while(keys.hasNext()) {
+//				String key = keys.next();
+//				System.out.println("key값 :::"+key+"::::");
+//			}
+//			System.out.println("GRADECODE"+list.get(i).get("GRADECODE"));
+//			System.out.println("ACCRATE"+list.get(i).get("ACCRATE"));
+//			System.out.println("GRADEBASE"+list.get(i).get("GRADEBASE"));
+//			System.out.println("AMOUNT"+list.get(i).get("AMOUNT"));
+//		}
+		mv.addObject("list", list);
+		//마일리지 DEFAULT값 가져오기 
+//        SELECT DATA_DEFAULT
+//        FROM USER_TAB_COLUMNS
+//        WHERE TABLE_NAME='MILEAGE'
+//        AND COLUMN_NAME='MILE'
+		int defaultMileage = service.selectDefaultMileage();
+		mv.addObject("defaultMileage",defaultMileage);
+		mv.setViewName("admin/member/membership");
 		return mv;
 	}
 	

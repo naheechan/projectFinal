@@ -171,4 +171,16 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectList("admin.selectAllMemberShip",null,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
+	@Override
+	public int insertMemberWithdraw(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.insertMemberWithdraw",memberId);
+	}
+
+	@Override
+	public int selectDefaultMileage(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectDefaultMileage");
+	}
+
 }

@@ -154,5 +154,18 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectAllMemberShip(session,cPage,numPerPage);
 	}
+
+	@Override
+	public int insertMemberWithdraw(String memberId) {
+		// TODO Auto-generated method stub
+		int result = dao.insertMemberWithdraw(session,memberId);
+		return result;
+	}
+
+	@Override
+	public int selectDefaultMileage() {
+		// TODO Auto-generated method stub
+		return dao.selectDefaultMileage(session);
+	}
 	
 }

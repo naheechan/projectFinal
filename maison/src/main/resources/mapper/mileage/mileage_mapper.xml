@@ -24,7 +24,7 @@
 	</insert>
 	
 	<update id="updateMemberMileage" parameterType="String">
-		UPDATE MEMBER SET MEILEAGE=1000
+		UPDATE MEMBER SET MEILEAGE=DEFAULT
 		WHERE MEMBERID=#{memberId}
 	</update>
 	

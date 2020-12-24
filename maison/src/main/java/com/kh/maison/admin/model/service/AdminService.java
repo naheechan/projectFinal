@@ -42,7 +42,11 @@ public interface AdminService {
 	//admin > member > deletedMemberList.jsp에 들어갈거
 	List<MemberWithdraw> deletedMemberList(int cPage,int numPerPage,MemberSearch ms);
 	int deletedMemberListCount(MemberSearch ms);
+	//회원무덤테이블에 insert하기
+	int insertMemberWithdraw(String memberId);
 	
 	//admin>member>memberShip.jsp 에 들어갈거
 	List<Map<String,Object>> selectAllMemberShip(int cPage, int numPerPage);
+	//마일리지 기본값 가져오기
+	int selectDefaultMileage();
 }

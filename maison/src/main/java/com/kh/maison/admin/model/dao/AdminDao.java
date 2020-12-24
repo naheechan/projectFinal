@@ -44,7 +44,10 @@ public interface AdminDao {
 	//admin/member/deletedMemberList.jsp
 	List<MemberWithdraw> deletedMemberList(SqlSessionTemplate session,int cPage,int numPerPage,MemberSearch ms);
 	int deletedMemberListCount(SqlSessionTemplate session,MemberSearch ms);
+	//회원무덤 테이블에 insert하기 
+	int insertMemberWithdraw(SqlSessionTemplate session,String memberId);
 	
 	//admin/member/membership.jsp
 	List<Map<String,Object>> selectAllMemberShip(SqlSessionTemplate session, int cPage, int numPerPage);
+	int selectDefaultMileage(SqlSessionTemplate session);
 }

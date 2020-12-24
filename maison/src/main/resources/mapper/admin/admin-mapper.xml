@@ -248,11 +248,21 @@
 
 	
 	<select id="selectAllMemberShip" resultType="HashMap">
-		SELECT MAX(G.GRADECODE), MAX(G.ACCRATE), MAX(G.GRADEBASE),
-                    COUNT(1)
-        FROM GRADE G
-        INNER JOIN MEMBER M
-        ON G.GRADECODE = M.GRADECODE
-        GROUP BY G.GRADECODE
+        SELECT G.GRADECODE, G.ACCRATE, G.GRADEBASE, A.AMOUNT
+        FROM GRADE G,(SELECT COUNT(*) AS AMOUNT, GRADECODE
+                                  FROM MEMBER
+                                  GROUP BY GRADECODE) A
+        WHERE G.GRADECODE = A.GRADECODE
+	</select>
+	
+	<insert id="insertMemberWithdraw" parameterType="String">
+		INSERT INTO MEMBERWITHDRAW VALUES(#{memberId},'관리자 탈퇴',SYSDATE)
+	</insert>
+	
+	<select id="selectDefaultMileage" resultType="Integer">
+		SELECT DATA_DEFAULT
+        FROM USER_TAB_COLUMNS
+        WHERE TABLE_NAME='MILEAGE'
+        AND COLUMN_NAME='MILE'
 	</select>
 </mapper>

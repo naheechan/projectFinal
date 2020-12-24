@@ -44,7 +44,7 @@ public class MailSendService {
 					.append("<p>저희 MAISON을 이용해주셔서 감사합니다.</p>")
 					.append("<p>아래 링크를 클릭하셔서 이메일 인증을 해주세요.</p>")
 					
-					.append("<a href='http://localhost:9090/maison/?authId=")
+					.append("<a href='http://rclass.iptime.org:9999/20AM_MAISON_final/?authId=")
 					.append(memberId)
 					.append("&authKey=")
 					.append(authKey)
