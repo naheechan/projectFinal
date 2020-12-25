@@ -388,7 +388,7 @@
 	</select>
 	
 	<select id="selectAllWithComment" parameterType="memberSearch" resultType="withComment">
-		SELECT WCNO,
+      		SELECT WCNO,
 				WBNO,
 				WCLEVEL,
 				WCPARENT,
@@ -400,6 +400,11 @@
 				WCDELDATE,
 				WCDEL
 		FROM WITHCOMMENT
+        WHERE WBNO IN (
+                       SELECT WBNO 
+                       FROM WITHBOARD
+                       WHERE WBDEL='Y'
+                       )
 		START WITH WCPARENT=0
 		CONNECT BY PRIOR WCNO=WCPARENT
 		ORDER SIBLINGS BY MEMBERID		
@@ -407,6 +412,11 @@
 	
 	<select id="selectAllWithCommentCount" parameterType="memberSearch" resultType="_int">
 		SELECT COUNT(*) FROM WITHCOMMENT
+        WHERE WBNO IN (
+                       SELECT WBNO 
+                       FROM WITHBOARD
+                       WHERE WBDEL='Y'
+                       )		
 	</select>
 	
 	<select id="selectAllWithReport" parameterType="memberSearch" resultType="withReport">

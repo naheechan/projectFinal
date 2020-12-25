@@ -25,6 +25,7 @@ import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.maison.with.model.vo.WithReport;
@@ -35,6 +36,9 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
+	
+	@Autowired
+	private WithBoardService withBoardService;
 	
 	@Autowired
 	private AES256Util aes;
@@ -409,6 +413,7 @@ public class AdminController {
 		ms.setKeyword(keyword);
 		ms.setStartDate(startDate);
 		ms.setEndDate(endDate);
+		//list 불러올때 wbNo로 del체크해서 게시글 있는것만 띄우자
 		List<WithComment> list = service.selectAllWithComment(ms);
 		int totalContents=service.selectAllWithCommentCount(ms);
 		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "comment.do");
@@ -440,6 +445,78 @@ public class AdminController {
 		mv.addObject("pageBar",pageBar);
 		mv.setViewName("admin/with/withReport");
 		return mv;
+	}
+	
+	@RequestMapping("/admin/withUpdate.do")
+	public ModelAndView updateWith(int wbNo,ModelAndView mv) {
+		mv.addObject("withBoard",withBoardService.selectOneWith(wbNo));
+		mv.setViewName("admin/with/withUpdate");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/withUpdateEnd.do")
+	public ModelAndView updateWithEnd(WithBoard wb, ModelAndView mv) {
+		int result = withBoardService.updateWith(wb);
+		if(result>0) {
+			mv.addObject("msg", "게시글이 수정되었습니다.");
+			mv.addObject("subMsg","함께해요 게시글 관리 페이지를 다시 로드합니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/admin/with/board.do");
+		}else {
+			mv.addObject("msg", "게시글 수정 실패!");
+			mv.addObject("subMsg","다시한번 시도해 보신 후 관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/admin/with/board.do");			
+		}
+		mv.setViewName("common/sweetMsg");
+		return mv;	
+	}
+	
+	@RequestMapping("/admin/withRemove")
+	public ModelAndView removeWith(int wbNo, ModelAndView mv) {
+		int result = withBoardService.removeWith(wbNo);
+		if(result>0) {
+			mv.addObject("msg", wbNo+"번 게시글이 삭제되었습니다.");
+			mv.addObject("subMsg","함께해요 게시글 관리 페이지를 다시 로드합니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/admin/with/board.do");
+		}else {
+			mv.addObject("msg", "게시글 삭제 실패!");
+			mv.addObject("subMsg","다시한번 시도해 보신 후 관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/admin/with/board.do");			
+		}
+		mv.setViewName("common/sweetMsg");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/withCommentUpdate.do")
+	public ModelAndView withCommentUpdate(ModelAndView mv,@RequestParam int num) {
+		WithComment wc = withBoardService.selectOneWithReply(num);
+		System.out.println("num"+num);
+		System.out.println("wc"+wc);
+		mv.addObject("withComment",withBoardService.selectOneWithReply(num));
+		mv.setViewName("admin/with/commentUpdate");		
+		return mv;
+		
+	}
+	
+	@RequestMapping("/admin/withCommentRemove.do")
+	public ModelAndView withCommentRemove(ModelAndView mv, @RequestParam int wcNo) {
+		int result = withBoardService.deleteWithReply(wcNo);
+		if(result>0) {
+			mv.addObject("msg", "해당 댓글이 삭제되었습니다.");
+			mv.addObject("subMsg","함께해요 댓글 관리 페이지를 다시 로드합니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/admin/with/comment.do");
+		}else {
+			mv.addObject("msg", "댓글 삭제 실패!");
+			mv.addObject("subMsg","다시한번 시도해 보신 후 관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/admin/with/comment.do");			
+		}
+		mv.setViewName("common/sweetMsg");
+		return mv;		
 	}
 	
 }

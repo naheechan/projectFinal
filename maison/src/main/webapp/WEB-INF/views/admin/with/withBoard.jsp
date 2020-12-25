@@ -171,6 +171,7 @@
 									<th>작성자</th>		                         
 		                          	<th>상태</th>
 		                          	<th>조회수</th>
+		                          	<th>등록일</th>
 		                          	<th>관리</th>
 		                        </tr>
 		                      </thead>
@@ -202,9 +203,11 @@
 		                      					</c:choose>
 		                      				</td>          			
 		                      				<td><c:out value="${l.wbCount }"/></td>
+		                      				<c:set var="dateTempParse"><fmt:formatDate pattern="yyyy-MM-dd" value="${l.wbDate }"/></c:set>
+		                      				<td><c:out value="${dateTempParse }"/></td>
 											<td>
-												<button class="btn btn-lignt" onclick="location.href='${path }/with/withUpdate.do?wbNo=${l.wbNo }'">수정</button>
-												<button class="btn btn-secondary" onclick="location.href='${path }/with/withRemove.do?wbNo=${withBoard.wbNo }'">삭제</button>
+												<button class="btn btn-lignt" onclick="location.href='${path }/admin/withUpdate.do?wbNo=${l.wbNo }'">수정</button>
+												<button class="btn btn-secondary" onclick="location.href='${path }/admin/withRemove.do?wbNo=${l.wbNo }'">삭제</button>
 											</td>
 		                      			</tr>
 		                      		</c:forEach>
@@ -220,13 +223,12 @@
 		              </div>
 		            </div>
 		          </div>
-		          <!-- 네번째 row div 끝 -->		          	          		
+		          <!-- 세번째 row div 끝 -->		          	          		
 			</div>
 			<jsp:include page="/WEB-INF/views/admin/footer.jsp"/>			
 		</div>	
 	</div>
 </div>
-
 <jsp:include page="/WEB-INF/views/admin/jses.jsp"/>	
 </body>
 </html>
