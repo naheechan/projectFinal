@@ -491,11 +491,9 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/withCommentUpdate.do")
-	public ModelAndView withCommentUpdate(ModelAndView mv,@RequestParam int num) {
-		WithComment wc = withBoardService.selectOneWithReply(num);
-		System.out.println("num"+num);
-		System.out.println("wc"+wc);
-		mv.addObject("withComment",withBoardService.selectOneWithReply(num));
+	public ModelAndView withCommentUpdate(ModelAndView mv,@RequestParam int wcNo) {
+		WithComment wc = withBoardService.selectOneWithReply(wcNo);
+		mv.addObject("withComment",withBoardService.selectOneWithReply(wcNo));
 		mv.setViewName("admin/with/commentUpdate");		
 		return mv;
 		

@@ -59,8 +59,8 @@
 		                <div class="d-flex justify-content-between align-items-end flex-wrap">
 		                  <div class="d-flex">
 		                    <i class="mdi mdi-home text-muted hover-cursor"></i>
-		                    <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;대시보드&nbsp;/&nbsp;</p>
-		                    <p class="text-primary mb-0 hover-cursor">함께해요 게시판 관리</p>
+		                    <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;대시보드&nbsp;/&nbsp;함께해요 게시판/&nbsp;</p>
+		                    <p class="text-primary mb-0 hover-cursor">게시글 관리</p>
 		                  </div>
 		                </div>
 		              </div>
