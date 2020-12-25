@@ -6,10 +6,14 @@ import java.util.Map;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 public interface AdminService {
 	
@@ -61,4 +65,15 @@ public interface AdminService {
 	
 	//grade내용 업데이트 하기 
 	int updateMemership(Grade g);
+	
+	//함께해요 관련된 애들 
+	List<WithBoard> selectAllWithBoard(WithSearch ws);
+	int selectAllWithBoardCount(WithSearch ws);
+	
+	List<WithComment> selectAllWithComment(MemberSearch ms);
+	int selectAllWithCommentCount(MemberSearch ms);
+	
+	List<WithReport> selectAllWithReport(MemberSearch ms);
+	int selectAllWithReportCount(MemberSearch ms);
+	
 }

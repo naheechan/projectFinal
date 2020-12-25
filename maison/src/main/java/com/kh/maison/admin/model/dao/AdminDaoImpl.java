@@ -10,10 +10,14 @@ import org.springframework.stereotype.Repository;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -213,6 +217,42 @@ public class AdminDaoImpl implements AdminDao {
 	public int updateMembership(SqlSessionTemplate session, Grade g) {
 		// TODO Auto-generated method stub
 		return session.update("admin.updateMembership",g);
+	}
+
+	@Override
+	public List<WithBoard> selectAllWithBoard(SqlSessionTemplate session, WithSearch ws) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllWithBoard",ws);
+	}
+
+	@Override
+	public int selectAllWithBoardCount(SqlSessionTemplate session, WithSearch ws) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllWithBoardCount",ws);
+	}
+
+	@Override
+	public List<WithComment> selectAllWithComment(SqlSessionTemplate session, MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllWithComment",ms);
+	}
+
+	@Override
+	public int selectAllWithCommentCount(SqlSessionTemplate session, MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllWithCommentCount",ms);
+	}
+
+	@Override
+	public List<WithReport> selectAllWithReport(SqlSessionTemplate session, MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllWithReport",ms);
+	}
+
+	@Override
+	public int selectAllWithReportCount(SqlSessionTemplate session, MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllWithReportCount",ms);
 	}
 
 }

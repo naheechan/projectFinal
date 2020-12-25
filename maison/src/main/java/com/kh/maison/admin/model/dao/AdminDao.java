@@ -8,10 +8,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 public interface AdminDao {
 	
@@ -58,4 +62,13 @@ public interface AdminDao {
 
 	Grade selectOneMembership(SqlSessionTemplate session,String gradecode);
 	int updateMembership(SqlSessionTemplate session,Grade g);
+	
+	List<WithBoard> selectAllWithBoard(SqlSessionTemplate session,WithSearch ws);
+	int selectAllWithBoardCount(SqlSessionTemplate session, WithSearch ws);
+	
+	List<WithComment> selectAllWithComment(SqlSessionTemplate session,MemberSearch ms);
+	int selectAllWithCommentCount(SqlSessionTemplate session, MemberSearch ms);
+	
+	List<WithReport> selectAllWithReport(SqlSessionTemplate session,MemberSearch ms);
+	int selectAllWithReportCount(SqlSessionTemplate session, MemberSearch ms);
 }

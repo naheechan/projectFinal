@@ -11,10 +11,14 @@ import com.kh.maison.admin.model.dao.AdminDao;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -198,6 +202,42 @@ public class AdminServiceImpl implements AdminService {
 	public int updateMemership(Grade g) {
 		// TODO Auto-generated method stub
 		return dao.updateMembership(session,g);
+	}
+
+	@Override
+	public List<WithBoard> selectAllWithBoard(WithSearch ws) {
+		// TODO Auto-generated method stub
+		return dao.selectAllWithBoard(session,ws);
+	}
+
+	@Override
+	public int selectAllWithBoardCount(WithSearch ws) {
+		// TODO Auto-generated method stub
+		return dao.selectAllWithBoardCount(session,ws);
+	}
+
+	@Override
+	public List<WithComment> selectAllWithComment(MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return dao.selectAllWithComment(session,ms);
+	}
+
+	@Override
+	public int selectAllWithCommentCount(MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return dao.selectAllWithCommentCount(session,ms);
+	}
+
+	@Override
+	public List<WithReport> selectAllWithReport(MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return dao.selectAllWithReport(session,ms);
+	}
+
+	@Override
+	public int selectAllWithReportCount(MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return dao.selectAllWithReportCount(session,ms);
 	}
 	
 }

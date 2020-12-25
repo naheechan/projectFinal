@@ -19,11 +19,15 @@ import com.kh.maison.admin.model.service.AdminService;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 import com.kh.spring.common.PageBarFactory;
 
 @Controller
@@ -361,6 +365,80 @@ public class AdminController {
 			mv.addObject("loc", "/admin/membership.do");
 		}
 		mv.setViewName("common/sweetMsg");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/with/board.do")
+	public ModelAndView selectAllWithBoard(ModelAndView mv,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="type",required=false,defaultValue="")String type,
+			@RequestParam(value="keyword",required=false,defaultValue="")String keyword,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate,
+			@RequestParam(value="wbType",required=false,defaultValue="")String wbType,
+			@RequestParam(value="wbStatus",required=false,defaultValue="")String wbStatus) {
+		WithSearch ws = new WithSearch();
+		ws.setType(type);
+		ws.setKeyword(keyword);
+		ws.setStartDate(startDate);
+		ws.setEndDate(endDate);
+		ws.setWbType(wbType);
+		ws.setWbStatus(wbStatus);		
+		
+		List<WithBoard> list = service.selectAllWithBoard(ws);
+		int totalContents=service.selectAllWithBoardCount(ws);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "board.do");
+		mv.addObject("list",list);
+		mv.addObject("totalContents",totalContents);
+		mv.addObject("pageBar",pageBar);
+		mv.setViewName("admin/with/withBoard");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/with/comment.do")
+	public ModelAndView selectAllWithComment(ModelAndView mv,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="type",required=false,defaultValue="")String type,
+			@RequestParam(value="keyword",required=false,defaultValue="")String keyword,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate) {
+		MemberSearch ms = new MemberSearch();
+		ms.setType(type);
+		ms.setKeyword(keyword);
+		ms.setStartDate(startDate);
+		ms.setEndDate(endDate);
+		List<WithComment> list = service.selectAllWithComment(ms);
+		int totalContents=service.selectAllWithCommentCount(ms);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "comment.do");
+		mv.addObject("list",list);
+		mv.addObject("totalContents",totalContents);
+		mv.addObject("pageBar",pageBar);
+		mv.setViewName("admin/with/withComment");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/with/report.do")
+	public ModelAndView selectAllWithReport(ModelAndView mv,
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="type",required=false,defaultValue="")String type,
+			@RequestParam(value="keyword",required=false,defaultValue="")String keyword,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate) {
+		MemberSearch ms = new MemberSearch();
+		ms.setType(type);
+		ms.setKeyword(keyword);
+		ms.setStartDate(startDate);
+		ms.setEndDate(endDate);
+		List<WithReport> list = service.selectAllWithReport(ms);
+		int totalContents=service.selectAllWithReportCount(ms);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "report.do");
+		mv.addObject("list",list);
+		mv.addObject("totalContents",totalContents);
+		mv.addObject("pageBar",pageBar);
+		mv.setViewName("admin/with/withReport");
 		return mv;
 	}
 	

@@ -78,8 +78,9 @@
             </a>
             <div class="collapse" id="ui-with">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">게시글 관리</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">신고 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/with/board.do">게시글 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/with/comment.do">댓글 관리</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/with/report.do">신고 관리</a></li>
               </ul>
             </div>
           </li>                     
