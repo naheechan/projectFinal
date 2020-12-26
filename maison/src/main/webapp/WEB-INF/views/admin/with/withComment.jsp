@@ -52,7 +52,7 @@
 		                    <h2>함께해요 댓글 관리</h2>
 		                    <br>
 		                    <p class="mb-md-0">함께해요 게시판 댓글을 검색/수정/삭제 등의 관리를 할 수 있으며,</p>
-		                    <p class="mb-md-0">댓글 목록에서 [게시글 바로가기]버튼을 클릭하면 해당 게시글로 바로 이동합니다. </p> 
+		                    <p class="mb-md-0">댓글 목록에서 [ 게시글 바로가기 ] 버튼을 클릭하면 해당 게시글로 바로 이동합니다. </p> 
 		                  </div>
 
 		                </div>
@@ -178,7 +178,7 @@
 <script>
 function updateBtn(num){
 	window.name="parentForm";
-	openWin= window.open('${path }/admin/withCommentUpdate.do?wcNo='+num,'댓글 수정하기','width=440,height=320,scrollbars=no,left=200,top=50,resizable=no');	
+	openWin= window.open('${path }/admin/withCommentUpdate.do?wcNo='+num,'댓글 수정하기','width=440,height=270,scrollbars=no,left=200,top=50,resizable=no');	
 }
 </script>
 </body>

@@ -517,4 +517,15 @@ public class AdminController {
 		return mv;		
 	}
 	
+	//comment updateEnd
+	@RequestMapping("/admin/with/commentUpdateEnd.do")
+	@ResponseBody
+	public int withCommentUpdateEnd(@RequestParam int wcNo,@RequestParam String wcContent) {
+		WithComment wc = new WithComment();
+		wc.setWcNo(wcNo);
+		wc.setWcContent(wcContent);
+		int result = withBoardService.updateWithReply(wc);
+		return result;
+	}
+	
 }

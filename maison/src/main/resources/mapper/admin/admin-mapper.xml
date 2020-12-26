@@ -405,6 +405,20 @@
                        FROM WITHBOARD
                        WHERE WBDEL='Y'
                        )
+       <if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wcContent')">
+				AND WCCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>   
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND WCADDDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>		            
 		START WITH WCPARENT=0
 		CONNECT BY PRIOR WCNO=WCPARENT
 		ORDER SIBLINGS BY MEMBERID		
@@ -416,7 +430,21 @@
                        SELECT WBNO 
                        FROM WITHBOARD
                        WHERE WBDEL='Y'
-                       )		
+                       )
+       <if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wcContent')">
+				AND WCCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>   
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND WCADDDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>	
 	</select>
 	
 	<select id="selectAllWithReport" parameterType="memberSearch" resultType="withReport">
