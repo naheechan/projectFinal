@@ -69,6 +69,6 @@ public interface AdminDao {
 	List<WithComment> selectAllWithComment(SqlSessionTemplate session,MemberSearch ms);
 	int selectAllWithCommentCount(SqlSessionTemplate session, MemberSearch ms);
 	
-	List<WithReport> selectAllWithReport(SqlSessionTemplate session,MemberSearch ms);
-	int selectAllWithReportCount(SqlSessionTemplate session, MemberSearch ms);
+	List<Map<String,Object>> selectAllWithReport(SqlSessionTemplate session,WithSearch ws);
+	int selectAllWithReportCount(SqlSessionTemplate session, WithSearch ws);
 }

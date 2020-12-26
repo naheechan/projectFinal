@@ -430,15 +430,13 @@ public class AdminController {
 			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
 			@RequestParam(value="type",required=false,defaultValue="")String type,
 			@RequestParam(value="keyword",required=false,defaultValue="")String keyword,
-			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
-			@RequestParam(value="endDate",required=false,defaultValue="")String endDate) {
-		MemberSearch ms = new MemberSearch();
-		ms.setType(type);
-		ms.setKeyword(keyword);
-		ms.setStartDate(startDate);
-		ms.setEndDate(endDate);
-		List<WithReport> list = service.selectAllWithReport(ms);
-		int totalContents=service.selectAllWithReportCount(ms);
+			@RequestParam(value="wrStatus",required=false,defaultValue="")String wrStatus) {
+		WithSearch ws = new WithSearch();
+		ws.setType(type);
+		ws.setKeyword(keyword);
+		ws.setWrStatus(wrStatus);
+		List<Map<String,Object>> list = service.selectAllWithReport(ws);
+		int totalContents=service.selectAllWithReportCount(ws);
 		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "report.do");
 		mv.addObject("list",list);
 		mv.addObject("totalContents",totalContents);

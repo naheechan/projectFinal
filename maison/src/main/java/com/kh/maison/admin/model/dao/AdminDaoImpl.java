@@ -244,15 +244,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<WithReport> selectAllWithReport(SqlSessionTemplate session, MemberSearch ms) {
+	public List<Map<String,Object>> selectAllWithReport(SqlSessionTemplate session, WithSearch ws) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.selectAllWithReport",ms);
+		return session.selectList("admin.selectAllWithReport",ws);
 	}
 
 	@Override
-	public int selectAllWithReportCount(SqlSessionTemplate session, MemberSearch ms) {
+	public int selectAllWithReportCount(SqlSessionTemplate session, WithSearch ws) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.selectAllWithReportCount",ms);
+		return session.selectOne("admin.selectAllWithReportCount",ws);
 	}
 
 }

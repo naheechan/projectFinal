@@ -447,12 +447,53 @@
 		</if>	
 	</select>
 	
-	<select id="selectAllWithReport" parameterType="memberSearch" resultType="withReport">
-		SELECT * FROM WITHREPORT
+	<select id="selectAllWithReport" parameterType="withSearch" resultType="Map">
+        SELECT R.*, B.MEMBERID AS REPORTED
+        FROM WITHREPORT R, WITHBOARD B
+        WHERE R.WBNO = B.WBNO
+		<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND R.MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wrContent')">
+				AND R.WRCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>
+		<if test="!wrStatus.equals('')">
+			<if test="wrStatus.equals('N')">
+				AND R.WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+			<if test="wrStatus.equals('P')">
+				AND R.WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+			<if test="wrStatus.equals('Y')">
+				AND R.WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+		</if>		
 	</select>
 	
-	<select id="selectAllWithReportCount" parameterType="memberSearch" resultType="_int">
+	<select id="selectAllWithReportCount" parameterType="withSearch" resultType="_int">
 		SELECT COUNT(*) FROM WITHREPORT
+		WHERE 1=1
+		<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wrContent')">
+				AND WRCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>
+		<if test="!wrStatus.equals('')">
+			<if test="wrStatus.equals('N')">
+				AND WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+			<if test="wrStatus.equals('P')">
+				AND WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+			<if test="wrStatus.equals('Y')">
+				AND WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+		</if>	
 	</select>
 	
 </mapper>

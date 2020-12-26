@@ -229,15 +229,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<WithReport> selectAllWithReport(MemberSearch ms) {
+	public List<Map<String,Object>> selectAllWithReport(WithSearch ws) {
 		// TODO Auto-generated method stub
-		return dao.selectAllWithReport(session,ms);
+		return dao.selectAllWithReport(session,ws);
 	}
 
 	@Override
-	public int selectAllWithReportCount(MemberSearch ms) {
+	public int selectAllWithReportCount(WithSearch ws) {
 		// TODO Auto-generated method stub
-		return dao.selectAllWithReportCount(session,ms);
+		return dao.selectAllWithReportCount(session,ws);
 	}
 	
 }

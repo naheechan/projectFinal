@@ -11,6 +11,6 @@ public class WithSearch {
 	private String endDate;
 	private String wbType;
 	private String wbStatus;
-
+	private String wrStatus;
 	
 }

@@ -73,7 +73,7 @@ public interface AdminService {
 	List<WithComment> selectAllWithComment(MemberSearch ms);
 	int selectAllWithCommentCount(MemberSearch ms);
 	
-	List<WithReport> selectAllWithReport(MemberSearch ms);
-	int selectAllWithReportCount(MemberSearch ms);
+	List<Map<String,Object>> selectAllWithReport(WithSearch ws);
+	int selectAllWithReportCount(WithSearch ws);
 	
 }
