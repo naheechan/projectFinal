@@ -64,6 +64,12 @@ public class ShopCycleDaoImpl implements ShopCycleDao {
 	public int updateAlertStatus(SqlSessionTemplate session, Map<String, String> map) {
 		return session.update("cycle.updateAlertStatus", map);
 	}
+
+	@Override
+	public int checkCycleExist(SqlSessionTemplate session, String id) {
+		// TODO Auto-generated method stub
+		return session.delete("cycle.checkCycleExist",id);
+	}
 	
 	
 	

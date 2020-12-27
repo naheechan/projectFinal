@@ -68,6 +68,12 @@ public class ShopCycleServiceImpl implements ShopCycleService {
 	public int updateAlertStatus(Map<String, String> map) {
 		return dao.updateAlertStatus(session, map);
 	}
+
+	@Override
+	public int checkCycleExist(String id) {
+		// TODO Auto-generated method stub
+		return dao.checkCycleExist(session,id);
+	}
 	
 	
 	

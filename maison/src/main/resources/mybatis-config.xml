@@ -41,6 +41,7 @@
 		<typeAlias type="com.kh.maison.admin.model.vo.MemberWithdraw" alias="memberWithdraw"/>
 		<typeAlias type="com.kh.maison.member.model.vo.Grade" alias="grade"/>
 		<typeAlias type="com.kh.maison.admin.model.vo.WithSearch" alias="withSearch"/>
+		<typeAlias type="com.kh.maison.admin.model.vo.CancelSearch" alias="cancelSearch"/>
 
 	</typeAliases>
 	

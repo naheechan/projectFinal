@@ -1214,18 +1214,17 @@ public class MemberController {
 	public ModelAndView memberOrderCancelEnd(ModelAndView mv, @RequestParam int orderNo) {
 		int result = orderService.updateOrderStatus(orderNo);
 		if(result>0) {
-			List<Map<String,Object>> list = orderService.selectCancelList(orderNo);
-			for(int i=0;i<list.size();i++) {
-				System.out.println("ORDERNO"+list.get(i).get("ORDERNO"));
-				System.out.println("CANCELDATE"+list.get(i).get("CANCELDATE"));
-			}
+			mv.addObject("msg", "주문 취소 신청이 완료되었습니다.");
+			mv.addObject("subMsg","관리자가 취소완료할때까지는 2-3일이 소요됩니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/member/mypage.do");	
 		}else {
 			mv.addObject("msg", "주문취소 신청 실패!");
 			mv.addObject("subMsg","다시한번 시도해보시고 관리자에게 문의해주세요.");
 			mv.addObject("status","error");
-			mv.addObject("loc", "/member/order/cancel.do?orderNo="+orderNo);	
-			mv.setViewName("common/sweetMsg");
+			mv.addObject("loc", "/member/mypage.do");	
 		}
+		mv.setViewName("common/sweetMsg");
 		return mv;
 	}
 	

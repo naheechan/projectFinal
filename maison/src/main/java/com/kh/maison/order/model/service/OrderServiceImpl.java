@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.maison.admin.model.vo.CancelSearch;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.dao.OrderDao;
 import com.kh.maison.order.model.vo.Order;
@@ -96,17 +97,37 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectCancelList(int orderNo) {
+	public List<Map<String, Object>> selectCancelList(int cPage,int numPerPage,CancelSearch cs) {
 		// TODO Auto-generated method stub
-		return dao.selectCancelList(session,orderNo);
+		return dao.selectCancelList(session,cPage,numPerPage,cs);
 	}
 
-	
-	
+	@Override
+	public int selectCancelListCount(CancelSearch cs) {
+		// TODO Auto-generated method stub
+		return dao.selectCanCelListCount(session,cs);
+	}
 
-	
-	
-	
+	@Override
+	public List<Map<String, Object>> selectCancelOne(int orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectCancelOne(session,orderNo);
+	}
+
+	@Override
+	public int updateOrderStatusSecond(int orderNo) {
+		// TODO Auto-generated method stub
+		return dao.updateOrderStatusSecond(session,orderNo);
+	}
+
+	@Override
+	public int deleteOrderDetail(int orderNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteOrderDetail(session,orderNo);
+	}
+
+
+
 	
 
 }

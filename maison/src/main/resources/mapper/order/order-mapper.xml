@@ -73,8 +73,66 @@
 		WHERE ORDERNO=#{orderNo}
 	</update>
 	
-	<select id="selectCancelList" parameterType="_int" resultType="Map">
-	    SELECT O.ORDERNO,O.CANCELDATE,O.MEMBERID, O.ORDERSTATUS,
+	<select id="selectCancelList" parameterType="cancelSearch" resultType="Map">
+	    SELECT O.*
+        FROM ORDER_TB O
+        WHERE (O.ORDERSTATUS='c'
+        		OR O.ORDERSTATUS='d')
+       	<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND O.MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('orderNo')">
+				AND O.ORDERNO LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND O.CANCELDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>
+		<if test="!orderStatus.equals('')">
+			<if test="orderStatus.equals('c')">
+				AND O.ORDERSTATUS='c'
+			</if>
+			<if test="orderStatus.equals('d')">
+				AND O.ORDERSTATUS='d'
+			</if>			
+		</if>		
+	</select>
+	
+	<select id="selectCancelListCount" parameterType="cancelSearch" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_TB O
+        WHERE (O.ORDERSTATUS='c'
+        		OR O.ORDERSTATUS='d')
+       	<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND O.MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('orderNo')">
+				AND O.ORDERNO LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND O.CANCELDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>
+		<if test="!orderStatus.equals('')">
+			<if test="orderStatus.equals('c')">
+				AND O.ORDERSTATUS='c'
+			</if>
+			<if test="orderStatus.equals('d')">
+				AND O.ORDERSTATUS='d'
+			</if>			
+		</if>        
+	</select>
+	
+	<select id="selectCancelOne" parameterType="_int" resultType="Map">
+		SELECT O.*,
                P.PRODUCTNO,P.PRODUCTNAME, P.PRODUCTIMG, P.PRICE, 
                D.ODAMOUNT
         FROM ORDER_TB O, ORDERDETAIL D, PRODUCT P
@@ -82,5 +140,16 @@
         AND O.ORDERNO = D.ORDERNO
         AND D.PRODUCTNO = P.PRODUCTNO
 	</select>
+	
+	<update id="updateOrderStatusSecond" parameterType="_int">
+		UPDATE ORDER_TB 
+		SET ORDERSTATUS='d', CANCELDATE=SYSDATE
+		WHERE ORDERNO=#{orderNo}
+	</update>
+	
+	<delete id="deleteOrderDetail" parameterType="_int">
+        DELETE FROM ORDERDETAIL 
+        WHERE ORDERNO=#{orderNo}
+	</delete>
   
 </mapper>

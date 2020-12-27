@@ -18,4 +18,6 @@ public interface ShopCycleService {
 	int updateOnCycle(Map<String,String> map);
 	int selectProductNo(Map<String,String> map);
 	int updateAlertStatus(Map<String,String> map);
+	
+	int checkCycleExist(String id);
 }

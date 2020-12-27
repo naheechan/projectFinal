@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.kh.maison.admin.model.vo.CancelSearch;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.order.model.vo.OrderDetail;
@@ -33,5 +34,9 @@ public interface OrderDao {
 	
 	Order selectOneOrder(SqlSession session,int orderNo);
 	int updateOrderStatus(SqlSession session,int orderNo);
-	List<Map<String,Object>> selectCancelList(SqlSession session,int orderNo);
+	List<Map<String,Object>> selectCancelList(SqlSession session,int cPage,int numPerPage,CancelSearch cs);
+	int selectCanCelListCount(SqlSession session,CancelSearch cs);
+	List<Map<String,Object>> selectCancelOne(SqlSession session,int orderNo);
+	int updateOrderStatusSecond(SqlSession session,int orderNo);
+	int deleteOrderDetail(SqlSession session,int orderNo);
 }

@@ -114,7 +114,19 @@
   		WHERE MEMBERID=#{id} AND PRODUCTNO=#{no}
   	</update>
   	
-  	
+  	<delete id="checkCycleExist" parameterType="String">
+  	    DELETE FROM CYCLE
+        WHERE PRODUCTNO IN (
+                            SELECT PRODUCTNO
+                            FROM ORDERDETAIL  
+                            WHERE ORDERNO IN (SELECT ORDERNO 
+                                              FROM ORDER_TB
+                                              WHERE MEMBERID=#{id})
+                            GROUP BY PRODUCTNO
+                            HAVING COUNT(PRODUCTNO)<2
+                                            )
+        AND MEMBERID=#{id}
+  	</delete>
   	
   
 </mapper>

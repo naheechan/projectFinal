@@ -39,7 +39,7 @@
             <div class="collapse" id="ui-order">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="#">결제관리</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">취소관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/order/cancelList.do">취소관리</a></li>
               </ul>
             </div>
           </li>     

@@ -20,4 +20,6 @@ public interface ShopCycleDao {
 	int updateOnCycle(SqlSessionTemplate session, Map<String,String> map);
 	int selectProductNo(SqlSessionTemplate session, Map<String,String> map);
 	int updateAlertStatus(SqlSessionTemplate session, Map<String,String> map);
+
+	int checkCycleExist(SqlSessionTemplate session,String id);
 }

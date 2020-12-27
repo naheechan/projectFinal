@@ -3,9 +3,11 @@ package com.kh.maison.order.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.maison.admin.model.vo.CancelSearch;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.order.model.vo.OrderDetail;
@@ -88,13 +90,34 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectCancelList(SqlSession session, int orderNo) {
+	public List<Map<String, Object>> selectCancelList(SqlSession session,int cPage,int numPerPage,CancelSearch cs) {
 		// TODO Auto-generated method stub
-		return session.selectList("order.selectCancelList",orderNo);
+		return session.selectList("order.selectCancelList",cs,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
+	@Override
+	public int selectCanCelListCount(SqlSession session, CancelSearch cs) {
+		// TODO Auto-generated method stub
+		return session.selectOne("order.selectCancelListCount",cs);
+	}
 
+	@Override
+	public List<Map<String, Object>> selectCancelOne(SqlSession session, int orderNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("order.selectCancelOne",orderNo);
+	}
 
-	
+	@Override
+	public int updateOrderStatusSecond(SqlSession session, int orderNo) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateOrderStatusSecond",orderNo);
+	}
+
+	@Override
+	public int deleteOrderDetail(SqlSession session, int orderNo) {
+		// TODO Auto-generated method stub
+		return session.delete("order.deleteOrderDetail",orderNo);
+	}
+
 
 }

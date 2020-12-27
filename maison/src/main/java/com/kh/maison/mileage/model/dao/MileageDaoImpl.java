@@ -64,4 +64,16 @@ public class MileageDaoImpl implements MileageDao {
 		return session.selectOne("mileage.selectConditionMileageCount",condition);
 	}
 
+	@Override
+	public int insertCancelMileageFirst(SqlSessionTemplate session, Mileage mil) {
+		// TODO Auto-generated method stub
+		return session.insert("mileage.insertCancelMileageFirst",mil);
+	}
+
+	@Override
+	public int insertCancelMileageSecond(SqlSessionTemplate session, Mileage mil2) {
+		// TODO Auto-generated method stub
+		return session.insert("mileage.insertCancelMileageSecond",mil2);
+	}
+
 }

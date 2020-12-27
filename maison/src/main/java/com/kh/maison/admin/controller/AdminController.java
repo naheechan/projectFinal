@@ -16,19 +16,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.maison.admin.model.service.AdminService;
+import com.kh.maison.admin.model.vo.CancelSearch;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.common.crypto.AES256Util;
+import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.maison.order.model.service.OrderService;
+import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.shopCycle.model.service.ShopCycleService;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
-import com.kh.maison.with.model.vo.WithReport;
 import com.kh.spring.common.PageBarFactory;
 
 @Controller
@@ -39,6 +44,17 @@ public class AdminController {
 	
 	@Autowired
 	private WithBoardService withBoardService;
+	//주문관련
+	@Autowired
+	private OrderService orderService;
+	//멤버관련
+	@Autowired
+	private MemberService memberService;
+	//주기관련
+	@Autowired
+	private ShopCycleService cycleService;
+	//마일리지관련
+	@Autowired MileageService mileageService;
 	
 	@Autowired
 	private AES256Util aes;
@@ -389,7 +405,6 @@ public class AdminController {
 		ws.setEndDate(endDate);
 		ws.setWbType(wbType);
 		ws.setWbStatus(wbStatus);		
-		
 		List<WithBoard> list = service.selectAllWithBoard(ws);
 		int totalContents=service.selectAllWithBoardCount(ws);
 		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "board.do");
@@ -435,6 +450,7 @@ public class AdminController {
 		ws.setType(type);
 		ws.setKeyword(keyword);
 		ws.setWrStatus(wrStatus);
+
 		List<Map<String,Object>> list = service.selectAllWithReport(ws);
 		int totalContents=service.selectAllWithReportCount(ws);
 		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "report.do");
@@ -525,5 +541,113 @@ public class AdminController {
 		int result = withBoardService.updateWithReply(wc);
 		return result;
 	}
+	
+	//주문관리 > 취소관리 페이지 전환 
+	@RequestMapping("/admin/order/cancelList.do")
+	public ModelAndView selectCancelList(ModelAndView mv,			
+			@RequestParam(value="cPage",required=false,defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="10")int numPerPage,
+			@RequestParam(value="type",required=false,defaultValue="")String type,
+			@RequestParam(value="keyword",required=false,defaultValue="")String keyword,
+			@RequestParam(value="startDate",required=false,defaultValue="")String startDate,
+			@RequestParam(value="endDate",required=false,defaultValue="")String endDate,
+			@RequestParam(value="orderStatus",required=false,defaultValue="")String orderStatus) {
+		
+		CancelSearch cs = new CancelSearch();
+		cs.setType(type);
+		cs.setKeyword(keyword);
+		cs.setStartDate(startDate);
+		cs.setEndDate(endDate);
+		cs.setOrderStatus(orderStatus);
+		List<Map<String,Object>> list = orderService.selectCancelList(cPage,numPerPage, cs);
+		int totalContents=orderService.selectCancelListCount(cs);
+		String pageBar = PageBarFactory.getPageBar(totalContents, cPage, numPerPage, "cancelList.do");
+		mv.addObject("list",list);
+		mv.addObject("totalContents",totalContents);
+		mv.addObject("pageBar",pageBar);
+		mv.setViewName("admin/order/cancelList");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/order/cancelDetail.do")
+	public ModelAndView selectCancelOne(ModelAndView mv, @RequestParam int orderNo) {
+		List<Map<String,Object>> orderMap = orderService.selectCancelOne(orderNo);
+		mv.addObject("orderMap",orderMap);
+		Order o = orderService.selectOneOrder(orderNo);
+		mv.addObject("order",o);
+		mv.setViewName("admin/order/cancelDetail");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/order/cancelDetailEnd.do")
+	public ModelAndView cancelOrder(ModelAndView mv, @RequestParam int orderNo) {
+		int result = orderService.updateOrderStatusSecond(orderNo);
+		if(result>0) {
+			Order o = orderService.selectOneOrder(orderNo);
+			String id = o.getMemberId();
+			Member m = memberService.selectMemberOne(id);
+			int newMileage = m.getMeileage()-o.getStackMile()+o.getUseMile();
+			m.setMeileage(newMileage);
+			result = memberService.updateMileage(m);
+			if(result>0) {
+				//쌓았던 적립금 마일리지에서 빼기
+				Mileage mil = new Mileage();
+				mil.setMemberId(id);
+				mil.setOrderNo(o.getOrderNo());
+				mil.setMile((o.getStackMile())*-1);
+				mil.setMileType("C");
+				result = mileageService.insertCancelMileageFirst(mil);
+				if(result>0) {
+					//뺐던 적립금 다시 쌓기
+					Mileage mil2 = new Mileage();
+					mil2.setMemberId(id);
+					mil2.setOrderNo(o.getOrderNo());
+					mil2.setMile(o.getUseMile());
+					mil2.setMileType("R");
+					result=mileageService.insertCancelMileageSecond(mil2);
+				}if(result>0) {
+					//할거 다했으면 orderDetail에서 delete때리기
+					result = orderService.deleteOrderDetail(orderNo);
+					if(result>0) {
+						result = cycleService.checkCycleExist(id);
+						if(result>0) {
+							mv.addObject("msg", "취소 처리가 완료되었습니다.");
+							mv.addObject("subMsg","주문 취소 관리 페이지를 다시 로드합니다.");
+							mv.addObject("status","success");
+							mv.addObject("loc", "/admin/order/cancelList.do");
+						}else {
+							mv.addObject("msg", "취소 처리 실패!");
+							mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");
+							mv.addObject("status","error");
+							mv.addObject("loc", "/admin/order/cancelList.do");
+						}
+					}else {
+						mv.addObject("msg", "취소 처리 실패!");
+						mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");
+						mv.addObject("status","error");
+						mv.addObject("loc", "/admin/order/cancelList.do");						
+					}
+				}else {
+					mv.addObject("msg", "취소 처리 실패!");
+					mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");
+					mv.addObject("status","error");
+					mv.addObject("loc", "/admin/order/cancelList.do");
+				}
+			}else {
+				mv.addObject("msg", "취소 처리 실패!");
+				mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");
+				mv.addObject("status","error");
+				mv.addObject("loc", "/admin/order/cancelList.do");
+			}
+		}else {
+			mv.addObject("msg", "취소 처리 실패!");
+			mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/admin/order/cancelList.do");
+		}
+		mv.setViewName("common/sweetMsg");
+		return mv;
+	}
+	
 	
 }

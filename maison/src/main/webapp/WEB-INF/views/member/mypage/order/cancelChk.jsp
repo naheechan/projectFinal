@@ -26,10 +26,7 @@ swal({
 })
 .then((willDelete)=>{
 	if(willDelete){
-		swal("주문 취소 신청이 완료되었습니다.","관리자가 취소완료할때까지는 2-3일이 소요됩니다.","success")
-		.then((value)=>{
 			location.replace('${path}/member/order/cancelEnd.do?orderNo='+origin);
-		});
 	}else{
 		swal("주문취소가 유보되었습니다.","주문 배송 조회 화면으로 돌아갑니다.","info")
 		.then((value)=>{		
