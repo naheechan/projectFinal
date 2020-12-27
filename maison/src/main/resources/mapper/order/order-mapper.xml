@@ -61,7 +61,26 @@
 	</insert>
 	
 	
+	<select id="selectOneOrder" parameterType="_int" resultType="order">
+		SELECT * FROM ORDER_TB 
+		WHERE ORDERNO=#{orderNo}
+	</select>
 	
+	<update id="updateOrderStatus" parameterType="_int">
+		UPDATE ORDER_TB
+		SET ORDERSTATUS = 'c',
+			CANCELDATE=SYSDATE
+		WHERE ORDERNO=#{orderNo}
+	</update>
 	
+	<select id="selectCancelList" parameterType="_int" resultType="Map">
+	    SELECT O.ORDERNO,O.CANCELDATE,O.MEMBERID, O.ORDERSTATUS,
+               P.PRODUCTNO,P.PRODUCTNAME, P.PRODUCTIMG, P.PRICE, 
+               D.ODAMOUNT
+        FROM ORDER_TB O, ORDERDETAIL D, PRODUCT P
+        WHERE O.ORDERNO=#{orderNo}
+        AND O.ORDERNO = D.ORDERNO
+        AND D.PRODUCTNO = P.PRODUCTNO
+	</select>
   
 </mapper>

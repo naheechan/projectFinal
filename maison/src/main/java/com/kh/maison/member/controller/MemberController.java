@@ -47,8 +47,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -64,11 +62,12 @@ import com.kh.maison.member.model.vo.OAuthToken;
 import com.kh.maison.member.recaptcha.VerifyRecaptcha;
 import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.maison.order.model.service.OrderService;
+import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.spring.common.PageBarFactory;
-
 
 import nl.captcha.Captcha;
 
@@ -83,7 +82,9 @@ public class MemberController {
 	//함께해요 관련
 	@Autowired
 	private WithBoardService withService;
-	
+	//주문관련
+	@Autowired
+	private OrderService orderService;
 	@Autowired
 	private MemberService service;
 	//단방향 암호화
@@ -1195,6 +1196,36 @@ public class MemberController {
 			status.setComplete();
 		}
 		
+		return mv;
+	}
+	
+	
+	//주문취소 버튼 눌렀을때
+	@RequestMapping("/member/order/cancel.do")
+	public ModelAndView memberOrderCancel(ModelAndView mv, @RequestParam int orderNo) {
+		Order o = orderService.selectOneOrder(orderNo);
+		mv.addObject("order",o);
+		mv.setViewName("member/mypage/order/cancelChk");
+		return mv;
+	}
+	
+	//주문취소 sweet alert에서 확인을 눌렀을때
+	@RequestMapping("/member/order/cancelEnd.do")
+	public ModelAndView memberOrderCancelEnd(ModelAndView mv, @RequestParam int orderNo) {
+		int result = orderService.updateOrderStatus(orderNo);
+		if(result>0) {
+			List<Map<String,Object>> list = orderService.selectCancelList(orderNo);
+			for(int i=0;i<list.size();i++) {
+				System.out.println("ORDERNO"+list.get(i).get("ORDERNO"));
+				System.out.println("CANCELDATE"+list.get(i).get("CANCELDATE"));
+			}
+		}else {
+			mv.addObject("msg", "주문취소 신청 실패!");
+			mv.addObject("subMsg","다시한번 시도해보시고 관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/order/cancel.do?orderNo="+orderNo);	
+			mv.setViewName("common/sweetMsg");
+		}
 		return mv;
 	}
 	

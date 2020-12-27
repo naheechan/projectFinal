@@ -31,5 +31,7 @@ public interface OrderDao {
 	
 	int insertShippingDestination(SqlSession session,Order o);
 	
-	
+	Order selectOneOrder(SqlSession session,int orderNo);
+	int updateOrderStatus(SqlSession session,int orderNo);
+	List<Map<String,Object>> selectCancelList(SqlSession session,int orderNo);
 }

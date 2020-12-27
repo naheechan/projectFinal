@@ -75,6 +75,24 @@ public class OrderDaoImpl implements OrderDao {
 		return session.insert("order.insertShippingDestination",o);
 	}
 
+	@Override
+	public Order selectOneOrder(SqlSession session, int orderNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("order.selectOneOrder",orderNo);
+	}
+
+	@Override
+	public int updateOrderStatus(SqlSession session, int orderNo) {
+		// TODO Auto-generated method stub
+		return session.update("order.updateOrderStatus",orderNo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectCancelList(SqlSession session, int orderNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("order.selectCancelList",orderNo);
+	}
+
 
 
 	

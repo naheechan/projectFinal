@@ -82,6 +82,25 @@ public class OrderServiceImpl implements OrderService {
 		return dao.insertShippingDestination(session,o);
 	}
 
+	//마이페이지 주문취소 관련
+	@Override
+	public Order selectOneOrder(int orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOneOrder(session,orderNo);
+	}
+
+	@Override
+	public int updateOrderStatus(int orderNo) {
+		// TODO Auto-generated method stub
+		return dao.updateOrderStatus(session,orderNo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectCancelList(int orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectCancelList(session,orderNo);
+	}
+
 	
 	
 

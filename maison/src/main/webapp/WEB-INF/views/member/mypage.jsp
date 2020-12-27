@@ -137,6 +137,7 @@
 						</tbody>
 					</table>	
 				</div>
+				<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;" onclick="location.href='${path }/member/order/cancel.do?orderNo=40'">취소요청</button>
 			</div>
 		</div>
 	 </div> 

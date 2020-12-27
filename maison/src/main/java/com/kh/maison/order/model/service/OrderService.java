@@ -30,7 +30,9 @@ public interface OrderService {
 	
 	int insertShippingDestination(Order o);
 	
-	
-	
+	//마이페이지 주문취소 관련
+	Order selectOneOrder(int orderNo);
+	int updateOrderStatus(int orderNo);
+	List<Map<String,Object>> selectCancelList(int orderNo);
 
 }
