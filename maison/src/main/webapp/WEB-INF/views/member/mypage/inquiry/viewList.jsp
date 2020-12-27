@@ -58,7 +58,7 @@
 						 <form action="${path }/member/mypage/inquiry/search.do" method="post" name="submitFrm">
 							 <select id="searchType" name="searchType">
 							 	<option value="name" <c:if test="${map.searchType eq 'name'}">selected</c:if>>상품별검색</option><!-- 상품이름별검색 -->
-							 	<option value="title" <c:if test="${map.searchType eq 'title'}">selected</c:if>>제목별검색</option><!--내용별검색-->
+							 	<option value="title" <c:if test="${map.searchType eq 'title'}">selected</c:if>>내용별검색</option><!--내용별검색-->
 							 	<%-- <option value="date" <c:if test="${map.searchType eq name}">selected</c:if>>기간별검색</option> --%>
 							 	<%-- <option value="cate" <c:if test="${map.searchType eq cate}">selected</c:if>>분류별검색</option><!-- 문의분류별검색 --> --%>
 							 </select>
@@ -105,9 +105,9 @@
 					<table class="table table-hover" style="table-layout:fixed; text-align:center;" id="resultTable">
 					<colgroup>
 						<col width="10%">
+						<col width="13%">
 						<col width="10%">
-						<col width="10%">
-						<col width="30%">
+						<col width="27%">
 						<col width="10%">
 						<col width="10%">
 					</colgroup>
@@ -125,9 +125,9 @@
 								<td>
 									<img src="${path}/resources/upload/product/${list.productImg}" style="width:60px;"/>
 								</td>
-								<td>${list.productName}</td>
+								<td class="ellipsis">${list.productName}</td>
 								<td>${list.piCate}</td>
-								<td  width="10" style="text-overflow:ellipsis; overflow: hidden;"><span>${list.piContent}</span></td>
+								<td class="ellipsis"><span>${list.piContent}</span></td>
 								<c:if test="${list.piStatus eq 'Y'}">
 								<td>
 									<span style="color:#66CC00;border:1px solid rgba(102,204,000,0.9);padding:1px;">답변완료</span>
@@ -147,27 +147,28 @@
 								<td onclick="event.cancelBubble=true">
 								<c:if test="${list.piDel eq 'Y'}">
 									<div class="form-group col-md-12">
-										<a href = "javascript:void(0)" onclick ="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">
-										수정</a>
-										<a class="btn" type="button" style="height:45%;background:#F2BB9C;" onclick="if(!confirm('삭제하시겠습니까?')){return false;}" href="${path}/member/mypage/inquiry/deleteIq.do?no=${list.piNo }&id=${loginMember.memberId}">삭제</a>
+										<a class="rowbtn" href = "javascript:void(0)" name="modibtn" onclick ="document.getElementById('light').style.display='block'">
+										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>수정</a>
+										<a class="rowbtn" onclick="if(!confirm('삭제하시겠습니까?')){return false;}" href="${path}/member/mypage/inquiry/deleteIq.do?no=${list.piNo }&id=${loginMember.memberId}"><i class="fa fa-trash-o" aria-hidden="true"></i>삭제</a>
+										<c:if test="${list.piStatus eq 'Y' }">
+										<br><a class="repbtn" href = "javascript:void(0)" name="reply" onclick ="document.getElementById('reply').style.display='block'"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+										</c:if>
 									</div>
 								</c:if>
 								<c:if test="${list.piDel eq 'N'}">
 									<span style="color:lightgray;">삭제된글입니다.</span>
 								</c:if>
 								</td>
-							</tr>
 							<input type="hidden" id="pdNo" value="${list.productNo}">
-							</c:forEach>
-						</tbody>
-					</table>	
-				</div>
+							<input type="hidden" id="piNo" value="${list.piNo}">
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 				<div id="light" class="white_content">
 				<div class="pi-list-box">
 				<div class="container">
-					<form action="${path }/shop/user/inquiryEnd.do" method="post" id="inquiryForm">
-						<input type="hidden" value="" name="productNo">
-						<div id="data-div">
+					<form action="${path }/member/mypage/inquiry/update.do" method="post" name="inquiryForm">
 							<div class="form-group required">
 								<label for="piTitle" style="font-weight:bold;" class="control-label">상품제목</label>
 								<input type="text" id="piTitle" class="form-control" name="piTitle" value="상품문의입니다:)" style="text-align:right;" readonly>
@@ -178,7 +179,6 @@
 								value="${loginMember.memberId}" required readonly>	
 							</div>
 							<div class="form-group required">
-								<div class="form-group required">
 									<label for="piCate" style="font-weight:bold;" class="control-label">분류선택</label>
 									<select id="piCate" class="form-control" name="piCate" required>
 										<option value="" selected>선택하기</option>
@@ -190,24 +190,72 @@
 									<label for="piContent" style="font-weight:bold;" class="control-label">문의내역</label>
 									<textarea cols="100%" rows="10"  id="piContent" class="form-control" name="piContent" required></textarea>
 								</div>
-								<input type="hidden" name="pirContent" id="pirContent" value="">
-								</div>
-							</div>
-							<button type="submit" class="btn" style="float:right;background-color:#F2BB9C; margin-right:2%;">수정하기</button>
+								<input type="hidden" name="piNo" id="inputval" value="">
 							<button type="reset" class="btn" style="float:right;background-color:#FCF7E1; margin-right:2%;">
-							<a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">&#88;</a></div>
+							<a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';">닫기</a></div>
 							</button>
-							<div id="fade" class="black_overlay"></div>
-			       			 </div></div>
-			       			<div id="pageBar">
-				        		${pageBar }	        
-				        	</div>
+							<button type="submit" id="submitbtn" class="btn" style="float:right;background-color:#FCF7E1;margin-right:2%;">수정하기</button>
+							</form>
+							<!-- <div id="fade" class="black_overlay"></div> -->
+		       			 </div>
+	       			 </div>	
+				</div>
+      			<div id="pageBar">
+        		${pageBar }	        
+		</div>
+		<div id="reply" class="reply_content">
+				<div class="pi-list-box">
+				<div class="container">
+					<form action="" method="post" name="replyForm">
+						<div class="form-group required">
+							<label for="memberId" style="font-weight:bold;" class="control-label">작성자</label>		
+							<input type="text" id="memberId" class="form-control" name="memberId" style="text-align:right;" 
+							value="MAISON" required readonly>	
 						</div>
-						</div>
-					 </div>
-	 
+						<div class="form-group required">
+							<label for="piContent" style="font-weight:bold;" class="control-label">답글내역</label>
+							<textarea cols="100%" rows="10"  id="pirContent" class="form-control" name="pirContent" required></textarea>
+						</div><br>
+						<button type="reset" class="btn" style="float:right;background-color:#FCF7E1; margin-right:2%;">
+						<a href ="javascript:void(0)" onclick ="document.getElementById('reply').style.display='none';">닫기</a></div>
+						</button>
+					</form>
+							<!-- <div id="fade" class="black_overlay"></div> -->
+		       		</div>
+	       		 </div>	
+			</div>
+		</div>
+	 </div>
+	</div>
 	 <script>
 	 $(function(){
+		 $(document).ready(function(){
+			 $("[name=reply]").click(function(){
+			 var no = $(this).parents().parents().next().next().val();
+			 $.ajax({
+				 url:"${path}/member/mypage/inquiry/reply.do",
+				 data:{no:no},
+				 type:"post",
+				 dataType:"json",
+				 success:function(data){
+					 console.log("ajax통신성공");
+					 $.each(data,function(i){
+						 var str = '<textarea cols="100%" rows="5"  id="pirContent" class="form-control" name="pirContent" required>'+data[i].pirContent+'</textarea>'
+						 $("#pirContent").replaceWith(str);
+					 })
+				 },
+				 error:function(){
+					 consol.log("ajax통신실패");
+				 }
+			 })
+		 });
+	 });
+		 $("[name=modibtn]").click(function(e){
+			 var no=$(this).parents().next().next().val();
+			 $("#inputval").attr('value',no);
+			 
+		 })
+		 $("#keyword").val("");
 	 	$("#search").click(function(){
 	 		$("[name=submitFrm]").submit();
 	 	})
@@ -216,51 +264,10 @@
 		 var no = $("#pdNo").val();//pdno
 		location.href="${path}/shop/shopDetail.do?no="+no;
 	 });
-	 /* $("#1").click(function(){
-		 var id=$("#memberId").val();
-		 $.ajax({
-			 url:"${path}/member/mypage/inquiry/myWrite.do",
-			data:{id:id},
-			type:"post",
-			dataType:"json",
-			success:function(data){
-				$("#resultTable").empty();
-				console.log("1ajax통신성공");
-				var str="";
-				$.each(data,function(i){
-					str+='<tr>'
-					str+='<td>'
-					str+='<img src="${path}/resources/upload/product/'+data[i].productImg+'" style="width:60px;"/>'
-					str+='</td>'
-					str+='<td>'+data[i].productName+'</td>'
-					str+='<td>'+data[i].piCate+'</td>'
-					str+='<td  width="200" style="text-overflow:ellipsis; overflow: hidden;"><span>'+data[i].piContent+'</span></td>'
-					str+='<td>'
-					str+='<span style="color:#66CC00;border:1px solid rgba(102,204,000,0.9);padding:1px;">답변완료</span>'
-					str+='</td>'
-					str+='<td>'
-					str+='<span style="color:#FF6633;border:1px solid rgba(255,102,051,0.9);padding:1px;">답변대기</span>'
-					str+='</td>'
-					str+='<td>${list.piDate}</td>'
-					str+='<td>'
-					str+='<div class="form-group col-md-12">'
-					str+='<button class="btn" type="button" style="height:45%;background:#FCF7E1;">수정</button>'
-					str+='<button class="btn" type="button" style="height:45%;background:#F2BB9C;">삭제</button>'
-					str+='</div>'
-					str+='<span style="color:lightgray;">삭제된글입니다.</span>'
-					str+='</td>'
-					str+='</tr>'
-					$("#resultTable").append(str);
-				})
-			},
-			error:function(){
-				console.log("1ajax통신실패");
-			}
-		 })
-	 }) */
+	
 	 $("#1").click(function(){
 		  var id=$("#memberId").val();
-		 location.href="${path}/member/mypage/inquiry/myWrite.do?id="+id;
+		 location.href="${path}/member/mypage/inquiry/viewList.do";
 	 })
 	  $("#2").click(function(){
 		  var id=$("#memberId").val();
@@ -277,17 +284,23 @@
 	 </script>
 	 
 <style>
-.black_overlay{
-	display: none;
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	width: 100%;
-	height: 100%;
-	z-index:1001;
-	-moz-opacity: 0.8;
-	opacity:.80;
-	filter: alpha(opacity=80);
+#submitbtn{color:black;}
+#submitbtn:hover{color:#F2BB9C;}
+.rowbtn{
+    	color:#F2BB9C;
+    	text-align:center;
+	}
+.ellipsis{
+    width:100px;
+    padding:0 5px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.repbtn{color:#D9C8A9;}
+.btn{
+	color:#F2BB9C;
+    text-align:center;
 }
 
 .white_content {
@@ -296,13 +309,26 @@
 	top: 25%;
 	left: 25%;
 	width: 50%;
-	height: 50%;
+	height: 500px;
 	padding: 16px;
 	border: 2px solid #F2BB9C;
 	background-color: white;
 	z-index:1002;
 	overflow: auto;
-
+}
+.reply_content {
+	display: none;
+	position: absolute;
+	top: 25%;
+	left: 25%;
+	width: 50%;
+	height: 400px;
+	padding: 16px;
+	border: 2px solid #F2BB9C;
+	background-color: white;
+	z-index:1002;
+	overflow: auto;
+}
 
  #status-list td:hover{
     	background-color:#FCF7E1;
@@ -320,6 +346,32 @@
     width:100px;
     white-space:nowrap;
 }
+
+element.style {
+}
+.page-link:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.page-link{
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #f2bb9c;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+.pagination-sm .page-link {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+}
+
 </style>
 </section>
 

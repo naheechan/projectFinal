@@ -108,4 +108,15 @@ public interface ProductMyAdminDao {
 	
 	int EnrollsearchCount(SqlSession session, String searchType,String searchKeyword,String datepicker,String datepicker2);
 	
+	int selectPdCateCount(SqlSession session);
+	
+	int deleteInq(SqlSession session,int no);
+	
+	int deleteRep(SqlSession session, int no);
+	
+	int updateRep(SqlSession session, int no);
+	
+	List<MyAdminEnroll> searchTop(SqlSession session,String searchType,String val,int cPage,int numPerPage);
+	
+	List<MyAdminEnroll> searchTopAll(SqlSession session,String name,int cPage,int numPerPage);
 }

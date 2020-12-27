@@ -14,6 +14,7 @@
 	P.PRODUCTNO=I.PRODUCTNO
 	AND
 	P.MEDIUMCATE=M.MEDIUMCATE
+	ORDER BY I.PIDATE DESC
 </select>
 
 <select id="selectTotalCount" resultType="_int" parameterType="String">
@@ -63,7 +64,15 @@
 	</choose>
 </sql>
 <select id="selectListCount" resultType="_int" parameterType="String">
-	SELECT COUNT(*) FROM PDINQUIRY WHERE MEMBERID=#{memberId}
+	SELECT 
+	COUNT(*)
+	FROM PRODUCT P, MEDIUMCATE M, PDINQUIRY I
+	WHERE 
+	I.MEMBERID=#{id}
+	AND 
+	P.PRODUCTNO=I.PRODUCTNO
+	AND
+	P.MEDIUMCATE=M.MEDIUMCATE
 </select>
 <select id="searchCount" resultType="_int" parameterType="map">
 	SELECT COUNT(*) FROM PDINQUIRY I, PRODUCT P
@@ -147,4 +156,12 @@
 <delete id="deleteRep" parameterType="String">
 	DELETE FROM INQUIRYREPLY WHERE PINO=#{no}
 </delete>
+
+<update id="updateInq" parameterType="map">
+	UPDATE PDINQUIRY SET PICONTENT=#{piContent}, PICATE=#{piCate} WHERE PINO=#{piNo}
+</update>
+
+<select id="selectReplyOne" resultType="reply" parameterType="String">
+	SELECT * FROM INQUIRYREPLY WHERE PINO=#{no}
+</select>
 </mapper>

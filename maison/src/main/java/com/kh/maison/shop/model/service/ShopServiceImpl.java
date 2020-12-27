@@ -68,14 +68,14 @@ public class ShopServiceImpl implements ShopService {
 
 
 	@Override
-	public List<TotalInquiry> selectInquiryList(int cPage, int numPerPage) {
-		return dao.selectInquiryList(session,cPage, numPerPage);
+	public List<TotalInquiry> selectInquiryList(int cPage, int numPerPage,Map<String,Object> map) {
+		return dao.selectInquiryList(session,cPage, numPerPage,map);
 	}
 
 
 	@Override
-	public int selectCountInquiry() {
-		return dao.selectCountInquiry(session);
+	public int selectCountInquiry(Map<String,Object> map) {
+		return dao.selectCountInquiry(session,map);
 	}
 
 

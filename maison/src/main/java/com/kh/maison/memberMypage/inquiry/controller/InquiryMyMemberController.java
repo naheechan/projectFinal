@@ -9,12 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.maison.common.PageBarFactory2;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.memberMypage.inquiry.service.InquiryMyMemberService;
 import com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList;
+import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.spring.common.PageBarFactory;
 
 @Controller
@@ -28,7 +32,7 @@ public class InquiryMyMemberController {
 	@RequestMapping("/viewList.do")
 	public ModelAndView moveViewList(Model m, @SessionAttribute("loginMember") Member id,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
-			@RequestParam(value="numPerPage", required=false, defaultValue="10")int numPerPage,ModelAndView mv) {
+			@RequestParam(value="numPerPage", required=false, defaultValue="7")int numPerPage,ModelAndView mv) {
 		List<TotalInquiryList> list = service.selectTotalList(cPage, numPerPage,id);
 		
 		int totalData = service.selectTotalCount(id);
@@ -80,7 +84,7 @@ public class InquiryMyMemberController {
 	@RequestMapping("/myWrite.do")
 	public ModelAndView myWrite(Model m,String id,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
-			@RequestParam(value="numPerPage", required=false, defaultValue="10")int numPerPage,ModelAndView mv) {
+			@RequestParam(value="numPerPage", required=false, defaultValue="7")int numPerPage,ModelAndView mv) {
 		List<TotalInquiryList> list = service.selectMyList(id,cPage,numPerPage);
 		int count = service.selectListCount(id);
 		Map<String,Object> map = new HashMap<>();
@@ -123,7 +127,7 @@ public class InquiryMyMemberController {
 	@RequestMapping("replySuccess.do")
 	public ModelAndView replySuccess(ModelAndView mv,String id,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
-			@RequestParam(value="numPerPage", required=false, defaultValue="10")int numPerPage) {
+			@RequestParam(value="numPerPage", required=false, defaultValue="7")int numPerPage) {
 			List<TotalInquiryList> list = service.replySuccess(id,cPage,numPerPage);
 			int count = service.selectSuccessCount(id);
 			Map<String,Object> map = new HashMap<>();
@@ -131,7 +135,7 @@ public class InquiryMyMemberController {
 			map.put("success",count);
 			map.put("map",map);
 			mv.addObject("map",map);
-			mv.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage, "replySuccess.do"));
+			mv.addObject("pageBar",PageBarFactory2.getPageBar2(count, cPage, numPerPage, "replySuccess.do?id="+id));
 			mv.setViewName("member/mypage/inquiry/viewList");
 			return mv;
 	}
@@ -139,7 +143,7 @@ public class InquiryMyMemberController {
 	@RequestMapping("replyYet.do")
 	public ModelAndView replyYet(ModelAndView mv,String id,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
-			@RequestParam(value="numPerPage", required=false, defaultValue="10")int numPerPage) {
+			@RequestParam(value="numPerPage", required=false, defaultValue="7")int numPerPage) {
 			List<TotalInquiryList> list = service.replyYet(id,cPage,numPerPage);
 			int count = service.selectYetCount(id);
 			Map<String,Object> map = new HashMap<>();
@@ -147,14 +151,14 @@ public class InquiryMyMemberController {
 			map.put("yet",count);
 			map.put("map",map);
 			mv.addObject("map",map);
-			mv.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage, "replySuccess.do"));
+			mv.addObject("pageBar",PageBarFactory2.getPageBar2(count, cPage, numPerPage, "replyYet.do?id="+id));
 			mv.setViewName("member/mypage/inquiry/viewList");
 			return mv;
 	}
 	@RequestMapping("replydel.do")
 	public ModelAndView replydel(ModelAndView mv,String id,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
-			@RequestParam(value="numPerPage", required=false, defaultValue="10")int numPerPage) {
+			@RequestParam(value="numPerPage", required=false, defaultValue="7")int numPerPage) {
 			List<TotalInquiryList> list = service.replydel(id,cPage,numPerPage);
 			int count = service.selectDelCount(id);
 			Map<String,Object> map = new HashMap<>();
@@ -162,7 +166,7 @@ public class InquiryMyMemberController {
 			map.put("del",count);
 			map.put("map",map);
 			mv.addObject("map",map);
-			mv.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage, "replySuccess.do"));
+			mv.addObject("pageBar",PageBarFactory2.getPageBar2(count, cPage, numPerPage, "replydel.do?id="+id));
 			mv.setViewName("member/mypage/inquiry/viewList");
 			return mv;
 	}
@@ -179,5 +183,40 @@ public class InquiryMyMemberController {
 			mv.addObject("loc","/member/mypage/inquiry/viewList.do");
 			mv.setViewName("common/msg");
 			return mv;
+	}
+	
+	@RequestMapping("/update.do")
+	public ModelAndView update(ModelAndView mv,
+			@RequestParam(value="piNo") int no,
+			@RequestParam(value="piContent") String piContent,
+			@RequestParam(value="piCate") String piCate) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("piNo",no);
+		map.put("piContent",piContent);
+		map.put("piCate",piCate);
+		
+		int result = service.updateInq(map);
+		System.out.println(map);
+		
+			mv.addObject("msg",result>0?"문의수정이 성공적으로 완료되었습니다.":"문의수정을 실패하였습니다.");
+			mv.addObject("loc","/member/mypage/inquiry/viewList.do");
+			mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/reply.do")
+	public String selectreply(ModelAndView mv,@RequestParam(value="no")String no) {
+		List<InquiryReply> reply=null;
+		String str=null;
+		ObjectMapper mapper= new ObjectMapper();
+		try {
+			reply = service.selectReplyOne(no);
+			System.out.println(reply);
+			str=mapper.writeValueAsString(reply);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return str;
 	}
 }

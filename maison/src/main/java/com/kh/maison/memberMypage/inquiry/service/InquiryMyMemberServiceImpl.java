@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.memberMypage.inquiry.dao.InquiryMyMemberDao;
 import com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList;
-import com.kh.maison.shop.model.vo.TotalInquiry;
+import com.kh.maison.shop.model.vo.InquiryReply;
 
 @Service
 public class InquiryMyMemberServiceImpl implements InquiryMyMemberService {
@@ -109,6 +109,16 @@ public class InquiryMyMemberServiceImpl implements InquiryMyMemberService {
 	@Override
 	public int deleteRep(String no) {
 		return dao.deleteRep(session,no);
+	}
+
+	@Override
+	public int updateInq(Map<String, Object> map) {
+		return dao.updateInq(session,map);
+	}
+
+	@Override
+	public List<InquiryReply> selectReplyOne(String no) {
+		return dao.selectReplyOne(session,no);
 	}
 
 	

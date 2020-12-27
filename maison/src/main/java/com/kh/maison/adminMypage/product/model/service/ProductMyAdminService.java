@@ -108,5 +108,15 @@ public interface ProductMyAdminService {
 	
 	int EnrollsearchCount(String searchType,String searchKeyword,String datepicker,String datepicker2);
 	
+	int selectPdCateCount();
 	
+	int deleteInq(int no);
+	
+	int deleteRep(int no);
+	
+	int updateRep(int no);
+	
+	List<MyAdminEnroll> searchTop(String searchType,String val, int cPage,int numPerPage);
+	
+	List<MyAdminEnroll> searchTopAll(String name, int cPage,int numPerPage);
 }

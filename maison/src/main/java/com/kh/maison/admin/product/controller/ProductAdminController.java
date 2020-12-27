@@ -205,12 +205,12 @@ public class ProductAdminController {
 	//카테고리등록
 	@ResponseBody
 	@RequestMapping("/enrollCate.do")
-	public int enrollCate(@RequestParam String largeCate,@RequestParam String mcName, Model md) {
+	public int enrollCate(@RequestParam(value="largeCate") String largeCate,@RequestParam(value="mcName") String mcName, Model md) {
 		
 		Category c = new Category();
 		c.setLargeCate(largeCate);
 		c.setMcName(mcName);
-		
+		System.out.println("enrollCate"+c);
 		int result = service.enrollCate(c);
 		
 		

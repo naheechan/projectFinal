@@ -34,7 +34,7 @@ public class ProductMyAdminController {
 			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
 		
 		List<ProductCate> list = service.selectTotalList(cPage,numPerPage);
-//		List<MyAdminEnroll> popular = service.selectPopularList();
+		List<MyAdminEnroll> popular = service.selectPopularList();
 		
 		int totalData = service.selectTotalCount();
 		int showProduct = service.selectShowCount();
@@ -46,8 +46,8 @@ public class ProductMyAdminController {
 		m.addAttribute("todayCount",todayData);
 		m.addAttribute("totalCount",totalData);
 		m.addAttribute("product",list);
-//		m.addAttribute("popular",popular);
-//		System.out.println("인기리스트"+popular);
+		m.addAttribute("popular",popular);
+		System.out.println("인기리스트"+popular);
 		System.out.println("상품카테 리스트"+list);
 		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "enrollView.do"));
 		
@@ -128,6 +128,8 @@ public class ProductMyAdminController {
 		int largeCate = service.largeCateCount();
 		int mediumCate = service.mediCateCount();
 		int todayCount = service.todayEnrollCount();
+		
+		int pdData=service.selectPdCateCount();
 		m.addAttribute("list",list);
 		m.addAttribute("largeCate",largeClist);
 		m.addAttribute("mediCate",mediClist);
@@ -136,6 +138,7 @@ public class ProductMyAdminController {
 		m.addAttribute("largeCount",largeCate);
 		m.addAttribute("mediCount",mediumCate);
 		m.addAttribute("todayCount",todayCount);
+		m.addAttribute("pageBar",PageBarFactory.getPageBar(pdData, cPage, numPerPage, "categoryView.do"));
 		//m.addAttribute("new",newCate);
 		return "admin/mypage/product/productCategory";
 	}
@@ -350,6 +353,19 @@ public class ProductMyAdminController {
 //		mv.setViewName("admin/mypage/product/productInquiry");
 		return str;
 	}
+	//답글있을시에만 삭제
+	@RequestMapping("/deleteInq.do")
+	public ModelAndView deleteInq(@RequestParam(value="no")int no,ModelAndView mv) {
+		int repResult=0;
+		int result=service.deleteInq(no);
+		if(result>0) {
+			repResult=service.deleteRep(no);
+		}
+		mv.addObject("msg",result>0?"삭제완료":"삭제실패");
+		mv.addObject("loc","/admin/mypage/product/inquiryView.do");
+		mv.setViewName("common/msg");
+		return mv;
+	}
 	
 //상품등록관리
 //	int totalData = service.selectTotalCount();
@@ -465,6 +481,59 @@ public class ProductMyAdminController {
 		mv.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage, "search"));
 		System.out.println("컨트롤러search리스트"+list);
 		System.out.println(map);
+		return str;
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteReply.do")
+	public int deleteReply(@RequestParam(value="no")int no) {
+		int result = service.deleteRep(no);
+		if(result>0) {
+			int update=service.updateRep(no);
+		}
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/searchTop3.do")
+	public String searchTop(@RequestParam(defaultValue="popular")String searchType,
+			@RequestParam(value="val")String val,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		List<MyAdminEnroll> list = null;
+		int count =0;
+		ObjectMapper mapper = new ObjectMapper();
+		String str=null;
+		try {
+			list=service.searchTop(searchType,val,cPage,numPerPage);
+			/* count = service.searchTopCount(searchType,val); */
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		Map<String,Object> map = new HashMap<>();
+		System.out.println("Top3list"+list);
+		return str;
+	}
+		
+	@ResponseBody
+	@RequestMapping("/searchTopAll.do")
+	public String searchTopAll(
+			@RequestParam(value="name")String name,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		List<MyAdminEnroll> list = null;
+		int count =0;
+		ObjectMapper mapper = new ObjectMapper();
+		String str=null;
+		try {
+			list=service.searchTopAll(name,cPage,numPerPage);
+			/* count = service.searchTopCount(searchType,val); */
+			str=mapper.writeValueAsString(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Top3list"+list);
 		return str;
 	}
 }

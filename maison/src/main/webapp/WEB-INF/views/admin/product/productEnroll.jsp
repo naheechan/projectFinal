@@ -7,6 +7,8 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="상품등록" />
 </jsp:include>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <script src="${ path }/ckeditor/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="상품등록" />
@@ -154,7 +156,7 @@
     <script>
    
     		$("#createbtn").click(function(){
-    			alert("카테고리를 추가로 등록하시겠습니까?");
+    			swal('',"카테고리를 추가로 등록하시겠습니까?");
     		
     			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=550, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=no");
     			
@@ -206,7 +208,7 @@
     		}
     		 ,error:function(request,error){
     			console.log("ajax통신 실패");
-    			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    			/* alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); */
     		} 
     	});
     
@@ -271,7 +273,7 @@
     				let img=new Image();
     				img.onload=function(e){
         				if(e.target.width != $width && e.target.height != $height){          
-        					alert('파일사이즈는 ('+$width+'x'+$height+')입니다.');
+        					swal('','파일사이즈는 ('+$width+'x'+$height+')입니다.');
         					$target.val('');
         					$('#temp_img').remove();
         					return;

@@ -7,7 +7,8 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="쇼핑해요"/>
 </jsp:include>
-
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="쇼핑해요"/>
 </jsp:include>
@@ -231,7 +232,7 @@
 	                		+"<script>"
 	                		+"$('#reqBtn').click(function(){"
 	            			+"console.log('여기오니');"
-	            			+"alert('로그인 후 이용해 주세요.');"
+	            			+"swal('','로그인 후 이용해 주세요.');"
 	            			+"});//reqBtn"
 	            			+"<script>";
 	                		requestContainer.append(html);
@@ -334,7 +335,7 @@
 				                		+"<script>"
 				                		+"$('#reqBtn').click(function(){"
 				            			+"console.log('여기오니');"
-				            			+"alert('로그인 후 이용해 주세요.');"
+				            			+"swal('','로그인 후 이용해 주세요.');"
 				            			+"});//reqBtn"
 				            			+"<script>";
 				                		requestContainer.append(html);
