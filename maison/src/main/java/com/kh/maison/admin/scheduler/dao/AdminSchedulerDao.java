@@ -1,6 +1,7 @@
 package com.kh.maison.admin.scheduler.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -23,4 +24,6 @@ public interface AdminSchedulerDao {
 	int updateToGold(SqlSessionTemplate session,String memberId);
 	int updateToVip(SqlSessionTemplate session,String memberId);
 	int updateToMvg(SqlSessionTemplate session,String memberId);
+	
+	List<Product> selectRecommendList(SqlSessionTemplate session, Map<String,String> map);
 }

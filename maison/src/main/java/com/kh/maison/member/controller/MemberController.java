@@ -183,7 +183,7 @@ public class MemberController {
 			milService.updateMemberMileage(mem.getMemberId());
 			
 			mv.addObject("email",email);
-			String authKey = mss.sendAuthMail(email, mem.getMemberId());
+			String authKey = mss.sendAuthMail(email, mem.getMemberId(), mem.getMemberName());
 			Map<String,String> map = new HashMap<>();
 			map.put("id",mem.getMemberId());
 			map.put("key",authKey);
@@ -639,7 +639,7 @@ public class MemberController {
 			// 이메일을 변경했고, 이메일 인증을 발송해야하는 경우.
 			if(mem.getAuthStatus().equals("N")) {
 				mv.addObject("email",email);
-				String authKey = mss.sendAuthMail(email, mem.getMemberId());
+				String authKey = mss.sendAuthMail(email, mem.getMemberId(), mem.getMemberName());
 				Map<String,String> map = new HashMap<>();
 				map.put("id",mem.getMemberId());
 				map.put("key",authKey);

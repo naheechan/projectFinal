@@ -9,8 +9,8 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value=""/>
 </jsp:include>
-<link href="//cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">  
-<script src="//cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="${path}/resources/js/bootstrap4-toggle.min.js"></script>
 <style>
 	#detailTab-container{
 		padding: 3vh;
@@ -28,10 +28,13 @@
 	.noList button {
 		margin-top: 5vh;
 	}
-	.custom-control{-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center}
-	.custom-switch{padding-left:2.25rem}
-	.custom-control-input{position:absolute;left:0;z-index:-1;width:1rem;height:1.25rem;opacity:0}
-	.custom-control-label{position:relative;margin-bottom:0;vertical-align:top}
+	.text-area {
+		background-color: #F2BB9C;
+		color: white;
+		font-size: 16px;
+		font-weight: bold;
+		padding: 5px;
+	}
 </style>
 <section>
 <div class="shop-box-inner">
@@ -122,26 +125,16 @@
                         <div class="product-item-filter row">
                             <div class="col-12 col-sm-8 text-center text-sm-left">
                                 <div class="toolbar-sorter-right">
-                                    <span>Sort by </span>
-                                    <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
-									<option data-display="Select">Nothing</option>
-									<option value="1">Popularity</option>
-									<option value="2">High Price → High Price</option>
-									<option value="3">Low Price → High Price</option>
-									<option value="4">Best Selling</option>
-								</select>
+                                    <span>필터</span>
+                                    <select id="sort" class="selectpicker show-tick form-control" data-placeholder="$ USD">
+										<option value="sortRecentOrder" ${param.sortOption eq null or param.sortOption eq 'sortRecentOrder'?'selected':''}>최근구매한 상품순</option>
+										<option value="sortCycleDay" ${param.sortOption eq 'sortCycleDay'?'selected':''}>구매주기 순</option>
+										<option value="sortNearDate" ${param.sortOption eq 'sortNearDate'?'selected':''}>다음 구매예상일순</option>
+									</select>
                                 </div> 
-                                <p>총 제품의 개수 ${fn:length(cycleList)}개</p>
                             </div>
                             <div class="col-12 col-sm-4 text-center text-sm-right">
-                                <ul class="nav nav-tabs ml-auto">
-                                    <li>
-                                        <a class="nav-link active" href="#grid-view" data-toggle="tab"> <i class="fa fa-th"></i> </a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link" href="#list-view" data-toggle="tab"> <i class="fa fa-list-ul"></i> </a>
-                                    </li>
-                                </ul>
+                            	<p>총 제품의 개수 ${fn:length(cycleList)}개</p>
                             </div>
                         </div>
 				<!-- 상품 -->
@@ -162,9 +155,6 @@
 	                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4 eachItem">
 	                                            <div class="products-single fix">
 	                                            	<c:set var="toggleId" value="toggle${i.index}"/>
-										     		<%-- <input type="checkbox" class="custom-control-input" id="${toggleId}" name="alertCheck" ${list.alertStatus eq 'Y'?'checked':''}>
-										     		<label class="custom-control-label" for="${toggleId}">알림 서비스 수신</label>
-										     		 --%>
 										     		<input type="hidden" name="no" value="${list.productNo}"/>
 											     	<input type="checkbox" id="${toggleId}" class="alertToggle" name="alertCheck" data-toggle="toggle" data-size="xs" ${list.alertStatus eq 'Y'?'checked':''}><c:out value=" 알림 서비스 수신"/>
 	                                                <div class="box-img-hover">
@@ -181,11 +171,9 @@
 	                                                    <button class="btn btn-outline-info pSetting" onclick="location.href='${path }/shopCycle/cycleDetail?no=${list.productNo}'">주기 설정하기</button>
 	                                                    <c:if test="${list.cycleMode eq 'onCycle' }">
 	                                                  		<c:set var="cycleDay" value="${list.onCycle}" />
-		                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>
 	                                                    </c:if>
 	                                                    <c:if test="${list.cycleMode eq 'offCycle' }">  
 		                                                    <c:set var="cycleDay" value="${list.offCycle}" />
-		                                                    <h5>구매주기(1개 기준) : <c:out value="${cycleDay}" />일</h5>                                               
 	                                                    </c:if>
 	                                                    
 	                                                    <!-- 직전에 구매한 상품 갯수 -->
@@ -214,8 +202,20 @@
 	                                                    	startDa = new Date(cal.getTimeInMillis());
 	                                                    	pageContext.setAttribute("startDate", startDa);
 	                                                   	%>
-	                                                    <h5>다음 구매예상일 : </h5>
-	                                                    <h5><fmt:formatDate value="${startDate}" pattern="yyyy년 MM월 dd일" /></h5>
+	                                                    
+	                                                    <div class="text-area">
+		                                                    <ul>
+		                                                    	<li>구매주기(1개 기준) </li>
+		                                                    	<ul>
+		                                                    		<li>&nbsp;&nbsp;&nbsp;&nbsp;- <c:out value="${cycleDay}" />일</li>
+		                                                    	</ul>
+		                                                    	<li>다음 구매예상일 </li>
+		                                                    	<ul>
+		                                                    		<li>&nbsp;&nbsp;&nbsp;&nbsp;- <fmt:formatDate value="${startDate}" pattern="yyyy년 MM월 dd일" /></li>
+		                                                    	</ul>
+		                                                    </ul>
+	                                                    </div>
+	                                                    
 	                                                </div>
 	                                            </div>
 	                                        </div>
@@ -296,13 +296,18 @@ $(function() {
 				}
 			}
 		});
-		
-		
 	}); 
 	
+	
+	//정렬하는 부분
+	$("#sort").on('change',function(e) {
+		var sortOption = $("#sort option:selected").val();
+		location.href="${path}/shopCycle/cycleList?tab=${tab}&detailTab=${detailTab}&sortOption="+sortOption;
+	});
+	
+	
+	
 });
-
-
 
 </script>
 

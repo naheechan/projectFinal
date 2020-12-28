@@ -7,7 +7,11 @@
   </select> -->
   
   <select id="selectProductOne" resultType="com.kh.maison.shop.vo.Product" parameterType="_int">
-  	SELECT * FROM PRODUCT WHERE PRODUCTNO=#{no}
+  	SELECT * 
+	FROM PRODUCT P
+	JOIN MEDIUMCATE M
+	ON P.MEDIUMCATE=M.MEDIUMCATE
+	WHERE PRODUCTNO=#{no}
   </select>
   
 
