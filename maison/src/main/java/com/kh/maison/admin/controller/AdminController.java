@@ -20,8 +20,10 @@ import com.kh.maison.admin.model.service.AdminService;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.admin.order.model.service.OrderAdminService;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.model.vo.Request;
 import com.kh.spring.common.PageBarFactory;
 
@@ -30,6 +32,10 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
+	
+	@Autowired
+	private OrderAdminService oaservice;
+
 	
 	@Autowired
 	private AES256Util aes;
@@ -292,5 +298,79 @@ public class AdminController {
 		}
 		return mv;
 	}
+	
+	@RequestMapping("/admin/salesSum.do")
+	public ModelAndView selectSalesList(ModelAndView mv,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="5") int numPerPage) {
+		
+		
+		List<OrderDetail> list=service.selectSalesList(cPage,numPerPage);
+		int totalData=service.selectTotalCount();
+		
+		
+		mv.addObject("list",list);
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "salesSum.do"));
+		
+		mv.setViewName("admin/sales/salesSum");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/bringFirstData.do")
+	@ResponseBody
+	public Map<String,Object> bringFirstData(@RequestParam int numDate){
+		//현재 총 재고, 재고변동, 입고량, 출고량 가져와야 함. 
+		//가져와서 map에 담아야 함. 
+		//그때 numDate를 넘겨줘가지고 계산해야함. 
+		int total = service.selectTotalPrice(numDate);
+		int change = service.selectPriceChange(numDate);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(total==0) {
+			map.put("total", 0);
+		}else {
+			map.put("total", total);
+		}
+		if(change==0) {
+			map.put("change", 0);
+		}else {
+			map.put("change", change);
+		}
+
+		return map;
+	}
+	
+	@RequestMapping("/admin/bringSecondData.do")
+	@ResponseBody
+	public Map<String,Object> bringSecondData(@RequestParam int sendNum){
+		//재고변동, 입고량, 출고량을 가져와야 하는데 sendNum에서 0,1,2,3,4,5,6을 보낼거임
+		//얘가 무슨의미냐면, 0이면 오늘, 1이면 어제 즉, 몇일 전의 데이터인지를 sendNum으로 전송
+		int total = service.selectDayTotal(sendNum);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(total==0) {
+			map.put("change", 0);
+		}else {
+			map.put("change", total);
+		}
+//		if(in==0) {
+//			map.put("in",0);
+//		}else {
+//			map.put("in",in);
+//		}
+//		if(out==0) {
+//			map.put("out", 0);
+//		}else {
+//			if(out<0) {
+//				map.put("out", out*-1);
+//			}else {
+//				map.put("out", out);
+//			}
+//		}
+		return map;
+	}
+	
+	
+	
 	
 }

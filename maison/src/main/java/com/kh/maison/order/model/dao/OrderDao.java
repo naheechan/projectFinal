@@ -31,5 +31,7 @@ public interface OrderDao {
 	
 	int insertShippingDestination(SqlSession session,Order o);
 	
+	int deleteBasket(SqlSession session, Basket b);
+	
 	
 }

@@ -12,6 +12,7 @@ import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.model.vo.Request;
 
 @Service
@@ -154,5 +155,44 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectAllMemberShip(session,cPage,numPerPage);
 	}
+
+	@Override
+	public int selectTotalPrice(int numDate) {
+		// TODO Auto-generated method stub
+		return dao.selectTotalPrice(session,numDate);
+	}
+
+	@Override
+	public int selectPriceChange(int numDate) {
+		// TODO Auto-generated method stub
+		return dao.selectPriceChange(session,numDate);
+	}
+
+	@Override
+	public int selectDayTotal(int sendNum) {
+		// TODO Auto-generated method stub
+		return dao.selectDayTotal(session,sendNum);
+	}
+
+	@Override
+	public List<OrderDetail> selectSalesList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectSalesList(session,cPage,numPerPage);
+	}
+
+	@Override
+	public int selectTotalCount() {
+		// TODO Auto-generated method stub
+		return dao.selectTotalCount(session);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

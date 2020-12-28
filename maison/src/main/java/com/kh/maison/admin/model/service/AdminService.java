@@ -7,6 +7,7 @@ import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.model.vo.Request;
 
 public interface AdminService {
@@ -45,4 +46,11 @@ public interface AdminService {
 	
 	//admin>member>memberShip.jsp 에 들어갈거
 	List<Map<String,Object>> selectAllMemberShip(int cPage, int numPerPage);
+	
+	int selectTotalPrice(int numDate);
+	int selectPriceChange(int numDate);
+	int selectDayTotal(int sendNum);
+	
+	List<OrderDetail> selectSalesList(int cPage,int numPerPage);
+	int selectTotalCount();
 }

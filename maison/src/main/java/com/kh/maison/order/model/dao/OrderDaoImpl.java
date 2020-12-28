@@ -75,6 +75,14 @@ public class OrderDaoImpl implements OrderDao {
 		return session.insert("order.insertShippingDestination",o);
 	}
 
+	@Override
+	public int deleteBasket(SqlSession session, Basket b) {
+		// TODO Auto-generated method stub
+		return session.delete("order.deleteBasket",b);
+	}
+	
+	
+
 
 
 	

@@ -9,6 +9,7 @@ import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.model.vo.Request;
 
 public interface AdminDao {
@@ -47,4 +48,10 @@ public interface AdminDao {
 	
 	//admin/member/membership.jsp
 	List<Map<String,Object>> selectAllMemberShip(SqlSessionTemplate session, int cPage, int numPerPage);
+	
+	int selectTotalPrice(SqlSessionTemplate session, int numDate);
+	int selectPriceChange(SqlSessionTemplate session, int numDate);
+	int selectDayTotal(SqlSessionTemplate session, int sendNum);
+	List<OrderDetail> selectSalesList(SqlSessionTemplate session,int cPage, int numPerPage);
+	int selectTotalCount(SqlSessionTemplate session);
 }

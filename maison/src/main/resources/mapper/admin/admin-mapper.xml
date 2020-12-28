@@ -255,4 +255,29 @@
         ON G.GRADECODE = M.GRADECODE
         GROUP BY G.GRADECODE
 	</select>
+	
+	<select id="selectTotalPrice" parameterType="Integer" resultType="Integer">
+		SELECT SUM(ORDERPRICE) FROM ORDER_TB
+	</select>
+	
+	<select id="selectPriceChange" parameterType="Integer" resultType="Integer">
+		SELECT SUM(ORDERPRICE) FROM ORDER_TB
+			WHERE ORDERDATE&gt;(SYSDATE-#{numDate})
+	</select>
+	
+	<select id="selectDayTotal" parameterType="Integer" resultType="Integer">
+		SELECT SUM(ORDERPRICE)
+		FROM ORDER_TB
+		WHERE TO_DATE(ORDERDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
+	</select>
+	
+	<select id="selectSalesList" resultType="orderDetail">
+		SELECT * FROM ORDERDETAIL OD JOIN PRODUCT P ON OD.PRODUCTNO=P.PRODUCTNO
+			JOIN ORDER_TB O ON O.ORDERNO=OD.ORDERNO ORDER BY O.ORDERDATE DESC
+	</select>
+	
+	<select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM ORDERDETAIL
+	</select>
+	
 </mapper>

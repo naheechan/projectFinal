@@ -30,6 +30,8 @@ public interface OrderService {
 	
 	int insertShippingDestination(Order o);
 	
+	int deleteBasket(Basket b);
+	
 	
 	
 

@@ -82,6 +82,14 @@ public class OrderServiceImpl implements OrderService {
 		return dao.insertShippingDestination(session,o);
 	}
 
+	@Override
+	public int deleteBasket(Basket b) {
+		// TODO Auto-generated method stub
+		return dao.deleteBasket(session,b);
+	}
+	
+	
+
 	
 	
 
