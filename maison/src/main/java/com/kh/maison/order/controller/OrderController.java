@@ -160,7 +160,6 @@ public class OrderController {
 			//쇼핑시계에 상품추가하는 부분
 			Map<String,String> cycleMap = new HashMap<>();
 			cycleMap.put("id",memberId);
-			
 			for(String basketno : basketNo) {
 				cycleMap.put("basketno",basketno);
 				//basket번호를 이용해서 productNo를 가져옴

@@ -110,7 +110,7 @@
 		<if test="start!=null and end!=null">
 		AND O.ORDERDATE BETWEEN #{start} AND #{end}
 		</if>
-		ORDER BY O.ORDERDATE , O.ORDERNO DESC
+		ORDER BY O.ORDERNO DESC
 	</select>
 
   	<select id="countMyOrderList" resultType="_int" parameterType="map">

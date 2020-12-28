@@ -256,7 +256,6 @@
         GROUP BY G.GRADECODE
 	</select>
 	
-<<<<<<< HEAD
 	<select id="selectTotalPrice" parameterType="Integer" resultType="Integer">
 		SELECT SUM(ORDERPRICE) FROM ORDER_TB
 	</select>

@@ -78,20 +78,16 @@
 							<td>${od.odAmount }</td>
 							<td><c:out value="${od.price*od.odAmount }"/></td>
 							<td>${o.orderStatus }</td>
-							<c:if test="${o.orderStatus eq '취소신청' or o.orderStatus eq '취소완료'}">
-								<td>
-									
-								</td>
-							</c:if>
-							<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
+						
 							<td>
+							<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
 								<input type="hidden" value="${od.productNo }" >
 								<input type="hidden" value="${od.orderDetailNo }">
 								<button class="btn btn-sm addreview" style="background:#F2BB9C">리뷰작성</button>
 								<br>
 								<button class="btn btn-sm " style="background:#FCF7E1">취소신청</button>
-							</td>
 							</c:if>
+							</td>
 						</tr>
 							<c:forEach var="ods" items="${o.ods }" begin="1">
 							<tr>
@@ -101,12 +97,14 @@
 								<td>${ods.price*od.odAmount }</td>
 								<td>${o.orderStatus }</td>
 								<td>
+								<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
 								<input type="hidden" value="${o.orderNo }"
 								<input type="hidden" value="${ods.productNo }" >
 								<input type="hidden" value="${ods.orderDetailNo }">
 									<button class="btn btn-sm addreview" style="background:#F2BB9C">리뷰작성</button>
 									<br>
 									<button class="btn btn-sm " style="background:#FCF7E1">취소신청</button>
+								</c:if>
 								</td>
 							</tr>
 							</c:forEach>

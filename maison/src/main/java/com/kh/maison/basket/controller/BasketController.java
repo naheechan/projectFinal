@@ -81,11 +81,12 @@ public class BasketController {
 
 	
 	  @RequestMapping("basket/orderBasket.do") 
-	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request) {
+	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request,
+			  @RequestParam(value="soldout",required=false,defaultValue="false")Boolean soldout,
+			  @RequestParam Map param) {
 	  
 			String msg = "";
 			String loc = "";
-			boolean soldout=false;
 			String[] basketNos = request.getParameterValues("basketChecked");
 			
 			
@@ -109,9 +110,6 @@ public class BasketController {
 				// 1.일단 장바구니를 다 받아옴
 				for (String basketNo : basketNos) {
 					
-					//mapf.put(basketNo, service.selectBasketOne(Integer.parseInt(basketNo)));
-					// list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
-					
 					// 2. basketNos에 담긴 장바구니의 상품을 product테이블에서 불러와서 stock과 amount를 비교
 					Basket b=service.selectBasketOne(Integer.parseInt(basketNo));
 					Product p=pservice.selectProductOne(b.getProductno());
@@ -127,10 +125,10 @@ public class BasketController {
 				}
 				
 				mv.addObject("list",list);
-				
+				mv.addObject("soldout",soldout);
 				if(soldout) {
-					msg = "수량이 부족한 상품은 결제화면에서 제외됩니다 !";
-					loc = "/basket/payment";
+					msg = "수량이 부족한 상품은 목록에서 제외됩니다 ! !";
+					loc = "/basket/orderBasketRe.do";
 					mv.addObject("msg", msg);
 					mv.addObject("loc", loc);
 					mv.setViewName("common/msg");
@@ -144,18 +142,27 @@ public class BasketController {
 				
 				
 			}
+			
+			
 
 			return mv;
 		}
 	  
-//	  @RequestMapping("/basket/buy.do")
-//	  public ModelAndView productBuy(ModelAndView mv ) {
-//		  
-//		  mv.addObject("msg","결제페이지로 이동합니다.");
-//		  mv.addObject("loc","/basket/payment");
-//		  mv.setViewName("basket/payment");
-//		  return mv;
-//	  }
+	  @RequestMapping("basket/orderBasketRe.do")
+	  public ModelAndView orderBasketRe(ModelAndView mv,@RequestParam Map param) {
+		  
+		  List<Basket> list=(List)param.get("list");
+		  
+		  if(list!=null && list.size()!=0) {
+			 mv.addObject("list",list);
+			 mv.setViewName("basket/payment");
+		  }else {
+			  
+		  }
+				  
+		  
+		  return mv;
+	  }
 	 
 
 	  @RequestMapping("basket/insertBasket.do")
