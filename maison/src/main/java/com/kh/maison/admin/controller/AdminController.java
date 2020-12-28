@@ -617,17 +617,11 @@ public class AdminController {
 					result = orderService.deleteOrderDetail(orderNo);
 					if(result>0) {
 						result = cycleService.checkCycleExist(o);
-						if(result>0) {
-							mv.addObject("msg", "취소 처리가 완료되었습니다.");
-							mv.addObject("subMsg","주문 취소 관리 페이지를 다시 로드합니다.");
-							mv.addObject("status","success");
-							mv.addObject("loc", "/admin/order/cancelList.do");
-						}else {
-							mv.addObject("msg", "취소 처리 실패!");
-							mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");
-							mv.addObject("status","error");
-							mv.addObject("loc", "/admin/order/cancelList.do");
-						}
+						mv.addObject("msg", "취소 처리가 완료되었습니다.");
+						mv.addObject("subMsg","주문 취소 관리 페이지를 다시 로드합니다.");
+						mv.addObject("status","success");
+						mv.addObject("loc", "/admin/order/cancelList.do");
+
 					}else {
 						mv.addObject("msg", "취소 처리 실패!");
 						mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");

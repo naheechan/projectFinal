@@ -110,7 +110,7 @@
   		WHERE MEMBERID=#{id} AND PRODUCTNO=#{no}
   	</update>
   	
-  	<delete id="checkCycleExist" parameterType="String">
+  	<delete id="checkCycleExist" parameterType="order">
   	    DELETE FROM CYCLE
         WHERE PRODUCTNO IN (
                             SELECT PRODUCTNO
@@ -122,7 +122,7 @@
                             GROUP BY PRODUCTNO
                             HAVING COUNT(PRODUCTNO)&lt;2
                                             )
-        AND MEMBERID=#{id}
+        AND MEMBERID=#{memberId}
   	</delete>
   	
   

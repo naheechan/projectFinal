@@ -30,7 +30,7 @@ swal({
 	}else{
 		swal("주문취소가 유보되었습니다.","주문 배송 조회 화면으로 돌아갑니다.","info")
 		.then((value)=>{		
-			location.replace('${path }');
+			location.replace('${path }/member/order/orderList.do');
 		});		
 	}
 })

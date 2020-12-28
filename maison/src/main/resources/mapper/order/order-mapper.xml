@@ -138,6 +138,7 @@
 	<select id="selectOneOrder" parameterType="_int" resultType="order">
 		SELECT * FROM ORDER_TB 
 		WHERE ORDERNO=#{orderNo}
+	</select>
 
 	<select id="selectOrderList" resultType="order">
 		SELECT * FROM ORDER_TB ORDER BY ORDERDATE DESC

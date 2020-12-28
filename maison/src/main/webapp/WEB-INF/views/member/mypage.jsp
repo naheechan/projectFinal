@@ -127,7 +127,7 @@
 								<!-- status에 따라서 보이는 버튼이 달라야함. 
 									결제완료일 경우에는 취소와 리뷰작성 모두 가능해야하고, 배송완료일때는 리뷰쓰기만 가능 -->
 									<div class="form-group col-md-12">
-										<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;">취소요청</button>
+										<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;" onclick="location.href='${path }/member/order/cancel.do?orderNo=${o.orderNo }'">취소요청</button>
 										<br>
 										<input type="hidden" name="productNo" value="${od.productNo }">
 										<input type="hidden" name="orderDetailNo" value="${od.orderDetailNo }">
@@ -140,7 +140,6 @@
 						</tbody>
 					</table>	
 				</div>
-				<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;" onclick="location.href='${path }/member/order/cancel.do?orderNo=40'">취소요청</button>
 			</div>
 		</div>
 	 </div> 
