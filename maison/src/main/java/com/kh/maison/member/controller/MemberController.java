@@ -493,7 +493,6 @@ public class MemberController {
 			param.put("memberId", m.getMemberId());
 			List<Order> list=oservice.selectMyOrderList(param,1,10);
 			mv.addObject("o",list.get(0));
-		
 			mv.setViewName("member/mypage");
 		}
 		return mv;
