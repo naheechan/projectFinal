@@ -124,7 +124,7 @@
                                               WHERE MEMBERID=#{memberId}
                                               AND ORDERNO=#{orderNo})
                             GROUP BY PRODUCTNO
-                            HAVING COUNT(PRODUCTNO)<2
+                            HAVING COUNT(PRODUCTNO)&lt;2
                                             )
         AND MEMBERID=#{id}
   	</delete>
