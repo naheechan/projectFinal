@@ -193,7 +193,6 @@
 		                      				<td><c:out value="${l.email }"/></td>		                      				
 		                      				<td><c:out value="${l.phone }"/></td>
 											<td>
-												<button class="btn btn-lignt">수정</button>
 												<button class="btn btn-secondary" onclick="memberDelete('${l.memberId}')">탈퇴</button>
 											</td>
 		                      			</tr>
