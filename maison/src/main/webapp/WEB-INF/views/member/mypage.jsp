@@ -85,7 +85,7 @@
 				</div>
 				<br/>
 				<div id="shipment-div" class="table-main table-responsive">
-				<h2>최근 주문 정보</h2>
+				<h2>최근 주문 정보 </h2>
 					<table class="table table-hover" style="text-align:center;">
 						<thead>
 							<th colspan="2">상품정보</th>
@@ -100,23 +100,25 @@
 								orderNo자릿수 채크해서 8자리에서 자릿수 뺀만큼 앞에 0붙이고 
 									orderDate fmt로 앞에 잘라서 2020120400000001 이런식으로 만들기
 								 -->
+							<c:forEach var="od" items="${o.ods }">
 							<tr>
 								<td>
-									<img src="${path }/resources/upload/product/product.jpg" style="width:60px;"/>
+									<img src="${path }/resources/upload/product/${od.productImg}" style="width:60px;"/>
 								</td>
 								<td>
-									옵티프리	
+									${od.productName }	
 								</td>
 								<td>
-									2020.12.04
+									<fmt:formatDate value="${o.orderDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 									
 								</td>
 								<td>
-									<a href="#">2020120400000001</a>
+									<a href="#">${o.orderNo }</a>
 								</td>
 								<td>
-									<p>2,000원</p>
-									<p>1개</p>
+									<p>${od.price }</p>
+									<p>(${od.odAmount })</p>
+									
 								</td>
 								<td>
 									결제완료
@@ -127,12 +129,13 @@
 									<div class="form-group col-md-12">
 										<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;">취소요청</button>
 										<br>
-										<input type="hidden" name="productNo" value="4">
-										<input type="hidden" name="orderDetailNo" value="13">
+										<input type="hidden" name="productNo" value="${od.productNo }">
+										<input type="hidden" name="orderDetailNo" value="${od.orderDetailNo }">
 										<button class="btn addreview" type="button" style="width:100%;height:45%;background:#F2BB9C;">리뷰쓰기</button>
 									</div>
 								</td>
 							</tr>
+							</c:forEach>
 						
 						</tbody>
 					</table>	

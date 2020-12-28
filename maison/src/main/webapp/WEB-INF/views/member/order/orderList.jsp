@@ -13,7 +13,10 @@
 </jsp:include>
 
 <!-- Start With -->
-
+<c:if test="${start eq null }">
+	<c:set var="start" value="-1M"/>
+	<c:set var="end" value="today"/>
+</c:if>
 <section>
 	<div class="container">
 		<div class="row">
@@ -23,6 +26,7 @@
 			</div>
 			<!-- Right Data page  -->
 			<div class="col-lg-9 col-md-7">
+			
 				<div id="summary" style="margin-top:50px; background-color:#EAEAEA; ">
 					<table class="col-lg-8 table table-bordered text-center" style="padding:15px;">
 						<tr>
@@ -39,8 +43,15 @@
 						</tr>
 					</table>
 				</div>
-				
-				<div id="orderList">
+				<div id="date-container">
+				<form action="${path }/member/order/orderList.do" >
+					<input type="text" class="datepicker" id="start" name="start" style="width:100px;">
+						~
+					<input type="text" class="datepicker" id="end" name="end" style="width:100px;">
+					<input type="submit" value="조회">
+				</form>
+			</div>
+				<div id="orderList" >
 					<table class="table table-bordered" style=" vertical-align: middle" align="center">
 						<tr>
 							<th>[주문번호]<br>주문일자</th>
@@ -55,7 +66,7 @@
 						<tr>
 							 <br>
 							<td rowspan="${o.odCount }" style=" vertical-align: middle">
-								<a href="${path }/member/order/detailOrder?orderNo=${o.orderNo }">
+								<a href="${path }/member/order/orderDetail.do?orderNo=${o.orderNo }">
 								[${o.orderNo }]
 								<br>
 								<fmt:formatDate value="${o.orderDate}" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -67,13 +78,20 @@
 							<td>${od.odAmount }</td>
 							<td><c:out value="${od.price*od.odAmount }"/></td>
 							<td>${o.orderStatus }</td>
+							<c:if test="${o.orderStatus eq '취소신청' or o.orderStatus eq '취소완료'}">
+								<td>
+									
+								</td>
+							</c:if>
+							<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
 							<td>
 								<input type="hidden" value="${od.productNo }" >
 								<input type="hidden" value="${od.orderDetailNo }">
-								<button class="btn btn-sm addreview">리뷰작성</button>
+								<button class="btn btn-sm addreview" style="background:#F2BB9C">리뷰작성</button>
 								<br>
-								<button class="btn btn-sm btn-danger">취소신청</button>
+								<button class="btn btn-sm " style="background:#FCF7E1">취소신청</button>
 							</td>
+							</c:if>
 						</tr>
 							<c:forEach var="ods" items="${o.ods }" begin="1">
 							<tr>
@@ -83,15 +101,23 @@
 								<td>${ods.price*od.odAmount }</td>
 								<td>${o.orderStatus }</td>
 								<td>
+								<input type="hidden" value="${o.orderNo }"
 								<input type="hidden" value="${ods.productNo }" >
 								<input type="hidden" value="${ods.orderDetailNo }">
-									<button class="btn btn-sm addreview">리뷰작성</button>
+									<button class="btn btn-sm addreview" style="background:#F2BB9C">리뷰작성</button>
 									<br>
-									<button class="btn btn-sm btn-danger">취소신청</button>
+									<button class="btn btn-sm " style="background:#FCF7E1">취소신청</button>
 								</td>
 							</tr>
 							</c:forEach>
 						</c:forEach>
+						<c:if test="${empty list }">
+							<tr>
+								<td colspan="7" class="text-center">
+									조회된 주문 내역이 없습니다 !
+								</td>
+							</tr>
+						</c:if>
 					</table>
 				</div>
 				<div>
@@ -105,7 +131,9 @@
 	 </div>
 </section>
 <script>
+
 $(function(){
+	
 	//리뷰쓰는 팝띄우기		
 		$(".addreview").click(function(){
 			
@@ -217,6 +245,59 @@ $(function(){
 		});
 
 
+		
+		
+		
+		 $("#start").datepicker({
+	         dateFormat: 'yy-mm-dd' //Input Display Format 변경
+	         ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+	         ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+	         ,changeYear: true //콤보박스에서 년 선택 가능
+	         ,changeMonth: true //콤보박스에서 월 선택 가능                
+	         ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+	         ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+	         ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+	         ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+	         ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+	         ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+	         ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+	         ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+	         ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+	         ,minDate: "-1Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+	         ,maxDate: "+0" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+	       	 ,onClose: function( selectedDate ) {    
+	                 // 시작일(fromDate) datepicker가 닫힐때
+	                 // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+	                 $("#end").datepicker( "option", "minDate", selectedDate );
+	             }     
+	     });                    
+	     
+		 $("#end").datepicker({
+	         dateFormat: 'yy-mm-dd' //Input Display Format 변경
+	         ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+	         ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+	         ,changeYear: true //콤보박스에서 년 선택 가능
+	         ,changeMonth: true //콤보박스에서 월 선택 가능                
+	         ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+	         ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+	         ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+	         ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+	         ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+	         ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+	         ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+	         ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+	         ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+	         ,minDate: "-1Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+	         ,maxDate: "+0" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+	       	 ,onClose: function( selectedDate ) {
+	             // 종료일(toDate) datepicker가 닫힐때
+	             // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+	             $("#start").datepicker( "option", "maxDate", selectedDate );
+	         }                
+	     });     
+	     //초기값을 오늘 날짜로 설정
+	     $('#start').datepicker('setDate', '${start}'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)   
+		$("#end").datepicker('setDate','${end}');
 
 });
 </script>

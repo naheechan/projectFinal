@@ -36,4 +36,6 @@ public interface OrderDao {
 	int countMyOrderList(SqlSession session,Map param);
 	
 	List<Order> selectMyOrderListAll(SqlSession session,Map param);	
+	
+	Order selectOrderOne(SqlSession session,int orderNo);
 }

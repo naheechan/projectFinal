@@ -22,6 +22,7 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -47,8 +48,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -64,11 +63,12 @@ import com.kh.maison.member.model.vo.OAuthToken;
 import com.kh.maison.member.recaptcha.VerifyRecaptcha;
 import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.maison.order.model.service.OrderService;
+import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.spring.common.PageBarFactory;
-
 
 import nl.captcha.Captcha;
 
@@ -98,6 +98,8 @@ public class MemberController {
 //	private Logger logger;
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
+	@Autowired
+	private OrderService oservice;
 	
 	
 	@RequestMapping(value="/member/login")
@@ -476,8 +478,23 @@ public class MemberController {
 	
 	//마이페이지 화면전환용
 	@RequestMapping("/member/mypage.do")
-	public String mypage() {
-		return "member/mypage";
+	public ModelAndView mypage(HttpSession session,ModelAndView mv) {
+		
+		Member m=(Member)session.getAttribute("loginMember");
+		if(m==null) {
+			mv.addObject("msg","로그인이 필요합니다 !");
+			mv.addObject("loc","/member/login");
+			mv.setViewName("common/msg");
+		}else {
+			
+			Map param=new HashMap<String,String>();
+			param.put("memberId", m.getMemberId());
+			List<Order> list=oservice.selectMyOrderList(param,1,10);
+			mv.addObject("o",list.get(0));
+		
+			mv.setViewName("member/mypage");
+		}
+		return mv;
 	}
 	
 	//회원정보수정 화면전환용 (memberPw가 null이 아닌 경우)

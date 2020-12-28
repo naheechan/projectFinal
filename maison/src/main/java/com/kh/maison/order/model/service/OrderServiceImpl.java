@@ -100,6 +100,13 @@ public class OrderServiceImpl implements OrderService {
 		return dao.selectMyOrderListAll(session,param);
 	}
 
+	@Override
+	public Order selectOrderOne(int orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderOne(session,orderNo);
+	}
+
+	
 	
 	
 	

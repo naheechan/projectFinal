@@ -94,6 +94,12 @@ public class OrderDaoImpl implements OrderDao {
 		return session.selectList("order.selectMyOrderListAll",param);
 	}
 
+	@Override
+	public Order selectOrderOne(SqlSession session, int orderNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("order.selectOrderOne",orderNo);
+	}
+
 	
 
 	

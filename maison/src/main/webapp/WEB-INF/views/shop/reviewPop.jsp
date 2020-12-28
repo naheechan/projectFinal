@@ -157,6 +157,12 @@
 
 <script>
 $(function(){
+	$("#pop").css({
+        "top": (($(window).height()-$("#pop").outerHeight())/2+$(window).scrollTop())+"px",
+        "left": (($(window).width()-$("#pop").outerWidth())/2+$(window).scrollLeft())+"px"
+        //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+     
+     }); 
 	//닫기누르면 없애기
 	$(".closebtn").click(function(){
 		$("#pop").hide();

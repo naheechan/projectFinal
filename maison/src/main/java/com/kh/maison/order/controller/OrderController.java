@@ -467,8 +467,16 @@ public class OrderController {
 			}
 			
 		}
+		
 		for(Order o : list) {
 			
+			switch (o.getOrderStatus()) {
+			case "a": o.setOrderStatus("주문완료"); break;
+			case "b": o.setOrderStatus("배송완료"); break;
+			case "c": o.setOrderStatus("취소신청"); break;
+			case "d": o.setOrderStatus("취소완료"); break;
+		
+			}
 			o.setOdCount(o.getOds().size());
 		}
 		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "/orderList.do"));
@@ -477,12 +485,32 @@ public class OrderController {
 		mv.addObject("c",c);
 		mv.addObject("d",d);
 		mv.addObject("list",list);
-		
+		mv.addObject("start",param.get("start"));
+		mv.addObject("end",param.get("end"));
 		
 		mv.setViewName("member/order/orderList");
 		return mv;
 	}
 	
+	@RequestMapping("/member/order/orderDetail.do")
+	ModelAndView orderDetail(ModelAndView mv,int orderNo,HttpSession session) {
+		
+		Order o=service.selectOrderOne(orderNo);
+		System.out.println(o);
+		
+		switch (o.getOrderStatus()) {
+		case "a": o.setOrderStatus("주문완료"); break;
+		case "b": o.setOrderStatus("배송완료"); break;
+		case "c": o.setOrderStatus("취소신청"); break;
+		case "d": o.setOrderStatus("취소완료"); break;
+	
+	}
+		
+		
+		mv.addObject("o",o);
+		mv.setViewName("/member/order/orderDetail");
+		return mv;
+	}
 	
 	
 	

@@ -36,5 +36,5 @@ public interface OrderService {
 	
 	int countMyOrderList(Map param);
 	
-
+	Order selectOrderOne(int orderNo);
 }
