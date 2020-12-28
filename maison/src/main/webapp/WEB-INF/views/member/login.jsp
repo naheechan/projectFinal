@@ -118,7 +118,7 @@
 					<%--로컬 
 					<a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://localhost:9090/maison/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>
                                                서버--%>
-                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://http://rclass.iptime.org:9999/20AM_MAISON_final/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>			
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://rclass.iptime.org:9999/20AM_MAISON_final/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>			
  
   
   
