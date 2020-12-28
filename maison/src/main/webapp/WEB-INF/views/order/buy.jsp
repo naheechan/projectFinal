@@ -340,6 +340,17 @@
 			$("[name='orPhone']").focus();
 			return false;
 		}
+		if($.trim($("[name='orZipcode']").val())==''){
+			alert("우편번호를 입력하세요!");
+			$("[name='orZipcode']").focus();
+			return false;
+		}
+		if($.trim($("[name='orDetailAddress']").val())=='없음' || $.trim($("[name='orDetailAddress']").val())==''){
+			alert("상세주소를 입력하세요!");
+			$("[name='orDetailAddress']").focus();
+			return false;
+		}
+		
 		
    	 	 var IMP = window.IMP; // 생략가능
         IMP.init('imp09698115'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
