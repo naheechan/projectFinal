@@ -10,9 +10,17 @@ import org.springframework.stereotype.Repository;
 import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
+import com.kh.maison.admin.model.vo.WithSearch;
+import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
+
+import com.kh.maison.mileage.model.vo.Mileage;
+
 import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.model.vo.Request;
+import com.kh.maison.with.model.vo.WithBoard;
+import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -173,6 +181,83 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
+	public int insertMemberWithdraw(SqlSessionTemplate session, String memberId) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.insertMemberWithdraw",memberId);
+	}
+
+	@Override
+	public int selectDefaultMileage(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectDefaultMileage");
+	}
+
+	@Override
+	public int selectAllMemberShipCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllMembershipCount");
+	}
+
+	@Override
+	public int updateDefaultMileage1(SqlSessionTemplate session, Mileage mi) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateDefaultMileageOne",mi);
+	}
+
+	@Override
+	public int updateDefaultMileage2(SqlSessionTemplate session, Mileage mi) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateDefaultMileageTwo",mi);
+	}
+
+	@Override
+	public Grade selectOneMembership(SqlSessionTemplate session, String gradecode) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectOneMembership",gradecode);
+	}
+
+	@Override
+	public int updateMembership(SqlSessionTemplate session, Grade g) {
+		// TODO Auto-generated method stub
+		return session.update("admin.updateMembership",g);
+	}
+
+	@Override
+	public List<WithBoard> selectAllWithBoard(SqlSessionTemplate session, WithSearch ws) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllWithBoard",ws);
+	}
+
+	@Override
+	public int selectAllWithBoardCount(SqlSessionTemplate session, WithSearch ws) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllWithBoardCount",ws);
+	}
+
+	@Override
+	public List<WithComment> selectAllWithComment(SqlSessionTemplate session, MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllWithComment",ms);
+	}
+
+	@Override
+	public int selectAllWithCommentCount(SqlSessionTemplate session, MemberSearch ms) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllWithCommentCount",ms);
+	}
+
+	@Override
+	public List<Map<String,Object>> selectAllWithReport(SqlSessionTemplate session, WithSearch ws) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectAllWithReport",ws);
+	}
+
+	@Override
+	public int selectAllWithReportCount(SqlSessionTemplate session, WithSearch ws) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectAllWithReportCount",ws);
+	}
+
 	public int selectTotalPrice(SqlSessionTemplate session, int numDate) {
 		// TODO Auto-generated method stub
 		Integer result = session.selectOne("admin.selectTotalPrice",numDate);
@@ -215,13 +300,6 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectTotalCount");
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.shopCycle.model.vo.CountCycle;
 import com.kh.maison.shopCycle.model.vo.CycleProduct;
 
@@ -20,4 +21,6 @@ public interface ShopCycleDao {
 	int updateOnCycle(SqlSessionTemplate session, Map<String,String> map);
 	int selectProductNo(SqlSessionTemplate session, Map<String,String> map);
 	int updateAlertStatus(SqlSessionTemplate session, Map<String,String> map);
+
+	int checkCycleExist(SqlSessionTemplate session,Order o);
 }

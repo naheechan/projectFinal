@@ -39,7 +39,7 @@
             <div class="collapse" id="ui-order">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="${path }/admin/order/orderManagement.do">결제관리</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">취소관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/order/cancelList.do">취소관리</a></li>
               </ul>
             </div>
           </li>     
@@ -53,7 +53,7 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="${path }/admin/memberList.do">회원 목록</a></li>
                 <li class="nav-item"> <a class="nav-link" href="${path }/admin/deletedMemberList.do">회원 탈퇴 관리</a></li>
-                <li class="nav-item"> <a class="nav-link" href="${path }/admin/membership.do">회원 등급 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/membership.do">등급 혜택 관리</a></li>
               </ul>
             </div>
           </li>      
@@ -78,8 +78,9 @@
             </a>
             <div class="collapse" id="ui-with">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">게시글 관리</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">신고 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/with/board.do">게시글 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/with/comment.do">댓글 관리</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/with/report.do">신고 관리</a></li>
               </ul>
             </div>
           </li>                     

@@ -9,6 +9,10 @@ public interface FirstpageService {
 	
 	List<Product> selectBestWish();
 	
+	List<Product> selectBestSeller();
+	
 	Member selectAdmin();
+	
+	List<Product> selectrecentlyBuy();
 
 }

@@ -8,6 +8,6 @@ import lombok.Data;
 public class MemberWithdraw {
 	
 	private String memberId;
-	private String mvReason;
+	private String mwReason;
 	private Date mvDate;
 }

@@ -20,7 +20,7 @@
 		                        	<a href="${path }/member/order/orderList.do" class="list-group-item list-group-item-action">
 		                        		<h4>주문/배송 조회 </h4>
 		                        		<small class="text-muted"></small>
-		                        	</a>
+		                        	</a>		                        	
 		                        </div>
 		                     </div>
 		                </div>

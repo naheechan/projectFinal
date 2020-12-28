@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>  
 <%@ page import="com.kh.maison.with.model.vo.WithBoard, java.util.*" %>
 <%
 	String[] shipment = ((WithBoard)request.getAttribute("withBoard")).getWbShip();
@@ -7,18 +11,28 @@
 	if(shipment!=null){
 		shipments = Arrays.asList(shipment);
 	}
-%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="path" value="${pageContext.request.contextPath }"/>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="함께해요 수정"/>
-</jsp:include>
-<script src = "${path }/resources/ckeditor/ckeditor.js"></script>
-<jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
-	<jsp:param name="menuTitle" value="함께해요"/>
-</jsp:include>
+%>      
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>함께해요 게시판 관리 > 게시글 수정</title>
+<!-- plugins:css -->
+<link rel="stylesheet" href="${path }/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="${path }/resources/admin/vendors/base/vendor.bundle.base.css">
+<!-- endinject -->
+<!-- plugin css for this page -->
+<link rel="stylesheet" href="${path }/resources/admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<!-- End plugin css for this page -->
+<!-- inject:css -->
+<link rel="stylesheet" href="${path }/resources/admin/css/style.css">
+<!-- endinject -->
+<link rel="shortcut icon" href="${path }/resources/admin/images/favicon.png" />
+<!-- sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src = "${path }/ckeditor/ckeditor.js"></script>
 <style>
 	#update-div{
 		border:1px solid lightgray;
@@ -37,10 +51,49 @@
 		background-color:#F9F9FA;
 	}
 </style>
-<!-- Start With Update -->
-<div class="with-list-box">
-	<div class="container">
-		<form action="${path }/with/withUpdateEnd.do" method="post">
+</head>
+<body>
+<div class="container-scroller">
+	<!-- Start nav -->
+	<jsp:include page="/WEB-INF/views/admin/navbar.jsp"/>
+	<!-- End nav -->
+	<div class="container-fluid page-body-wrapper">
+		<!-- Start sidebar -->
+		<jsp:include page="/WEB-INF/views/admin/sidebar.jsp"/>
+		<!-- End sidebar -->	
+		<div class="main-panel">
+			<div class="content-wrapper">
+				<!-- 첫번째 row div 시작 -->
+				<div class="row">
+		            <div class="col-md-12 grid-margin">
+		              <div class="d-flex justify-content-between flex-wrap">
+		                <div class="d-flex align-items-end flex-wrap">
+		                  <div class="mr-md-3 mr-xl-5">
+		                    <h2>함께해요 게시글 수정</h2>
+		                    <br>
+		                    <p class="mb-md-0">${withBoard.wbTitle }</p>
+		                  </div>
+
+		                </div>
+		                <div class="d-flex justify-content-between align-items-end flex-wrap">
+		                  <div class="d-flex">
+		                    <i class="mdi mdi-home text-muted hover-cursor"></i>
+		                    <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;대시보드&nbsp;/&nbsp;</p>
+		                    <p class="text-primary mb-0 hover-cursor">함께해요 게시글 수정</p>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+		          <!-- 첫번째 row div 끝 -->	
+		         <!-- 두번째 row div 시작 -->
+		          <div class="row">
+		          	<div class="col-lg-12 grid-margin stretch-card">
+		              <div class="card">
+		                <div class="card-body">
+		                  <h4 class="card-title">함께해요 게시판 검색</h4>
+		                  <div class="table-responsive pt-3">
+										<form action="${path }/admin/withUpdateEnd.do" method="post">
 			<!-- 희찬이랑 합치게 되면 여기 value에 ${loginMember.memberId }들어가야함. -->
 			<input type="hidden" value="user01" name="memberId">
 			<input type="hidden" value="${withBoard.wbNo }" name="wbNo">
@@ -163,19 +216,27 @@
 					$("#withForm").submit(function(e){
 						 var messageLength = CKEDITOR.instances['wbContent'].getData().replace(/<[^>]*>/gi, '').length;
 	                     if( !messageLength ) {
-	                         alert( '내용을 반드시 입력해주세요.' );
+	                         swal( '내용을 반드시 입력해주세요.' );
 	                         e.preventDefault();
 	                     }
 					})
 				</script>
 			</div>	
-			<button type="button" class="btn btn-light" style="float:right;" onclick="location.href='${path}/with/withList.do';">돌아가기</button>
+			<button type="button" class="btn btn-light" style="float:right;" onclick="location.href='${path}/admin/with/board.do';">돌아가기</button>
 			<button type="submit" class="btn" style="float:right;background-color:#F2BB9C; margin-right:2%;">수정하기</button>
 		</form>
+		                  </div>
+		                </div>
+		              </div>
+			      	</div>
+		          </div>
+		          <!-- 두번째 row div 끝 -->		
+			</div>
+			<jsp:include page="/WEB-INF/views/admin/footer.jsp"/>
+		</div>
 	</div>
 </div>
-
-<!-- End With Update -->
+<jsp:include page="/WEB-INF/views/admin/jses.jsp"/>
 <script>
 	$(document).ready(function(){
 		/* 상품상태 체크박스 셋중에서 하나만 선택 */
@@ -210,10 +271,11 @@
 			let price = $(e.target).val();
 			let regPrice = /^[0-9]*$/;
 			if(!regPrice.test(price)){
-				alert("판매 가격은 숫자만 입력하실 수 있습니다.");
+				swal("판매 가격은 숫자만 입력하실 수 있습니다.");
 				$(e.target).val('');
 			}
 		})
 	});
-</script>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>	
+</script>	
+</body>
+</html>

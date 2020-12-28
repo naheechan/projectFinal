@@ -83,7 +83,9 @@ public class MemberController {
 	//함께해요 관련
 	@Autowired
 	private WithBoardService withService;
-	
+	//주문관련
+	@Autowired
+	private OrderService orderService;
 	@Autowired
 	private MemberService service;
 	//단방향 암호화
@@ -1215,6 +1217,35 @@ public class MemberController {
 			status.setComplete();
 		}
 		
+		return mv;
+	}
+	
+	
+	//주문취소 버튼 눌렀을때
+	@RequestMapping("/member/order/cancel.do")
+	public ModelAndView memberOrderCancel(ModelAndView mv, @RequestParam int orderNo) {
+		Order o = orderService.selectOneOrder(orderNo);
+		mv.addObject("order",o);
+		mv.setViewName("member/mypage/order/cancelChk");
+		return mv;
+	}
+	
+	//주문취소 sweet alert에서 확인을 눌렀을때
+	@RequestMapping("/member/order/cancelEnd.do")
+	public ModelAndView memberOrderCancelEnd(ModelAndView mv, @RequestParam int orderNo) {
+		int result = orderService.updateOrderStatus(orderNo);
+		if(result>0) {
+			mv.addObject("msg", "주문 취소 신청이 완료되었습니다.");
+			mv.addObject("subMsg","관리자가 취소완료할때까지는 2-3일이 소요됩니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/member/mypage.do");	
+		}else {
+			mv.addObject("msg", "주문취소 신청 실패!");
+			mv.addObject("subMsg","다시한번 시도해보시고 관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/mypage.do");	
+		}
+		mv.setViewName("common/sweetMsg");
 		return mv;
 	}
 	

@@ -3,14 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="path" value="${pageContext.request.contextPath }"/>  
+<%@page import="java.util.Date,java.util.Calendar"%>
+<%
+	//한달전 날짜 구하기
+		Calendar mon = Calendar.getInstance();
+		mon.add(Calendar.MONTH , -1);
+		String beforeMonth = new java.text.SimpleDateFormat("yyyy-MM-dd").format(mon.getTime());
+%>  
 <!DOCTYPE html>
 <html>
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>회원목록</title>
+<title>취소관리</title>
 <!-- plugins:css -->
 <link rel="stylesheet" href="${path }/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="${path }/resources/admin/vendors/base/vendor.bundle.base.css">
@@ -42,33 +49,32 @@
 		              <div class="d-flex justify-content-between flex-wrap">
 		                <div class="d-flex align-items-end flex-wrap">
 		                  <div class="mr-md-3 mr-xl-5">
-		                    <h2>회원 목록</h2>
+		                    <h2>취소 관리</h2>
 		                    <br>
-		                    <p class="mb-md-0">가입한 회원의 연락처, 가입일 등의 정보를 확인, 수정, 관리할 수 있으며, </p>
-		                    <p class="mb-md-0">특정회원을 검색하시려면 상단의 검색박스에서 검색어를 입력하고 회원구분/이메일 수신 여부/회원등급 중</p> 
-							<p class="mb-md-0">하나 혹은 다중으로 정보를 선택한 후 하단의 검색버튼을 클릭하시면 됩니다.</p>
+		                    <p class="mb-md-0">회원이 취소 신청한 주문을 검색,취소 완료 처리하여 관리할 수 있으며, </p>
+		                    <p class="mb-md-0">취소 처리가 완료된 주문을 확인하실 수 있습니다. </p> 
 		                  </div>
 
 		                </div>
 		                <div class="d-flex justify-content-between align-items-end flex-wrap">
 		                  <div class="d-flex">
 		                    <i class="mdi mdi-home text-muted hover-cursor"></i>
-		                    <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;대시보드&nbsp;/&nbsp;</p>
-		                    <p class="text-primary mb-0 hover-cursor">회원 목록</p>
+		                    <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;대시보드&nbsp;/&nbsp;주문관리/&nbsp;</p>
+		                    <p class="text-primary mb-0 hover-cursor">취소 관리</p>
 		                  </div>
 		                </div>
 		              </div>
 		            </div>
 		          </div>
-		          <!-- 첫번째 row div 끝 -->
+		          <!-- 첫번째 row div 끝 -->	
 		          <!-- 두번째 row div 시작 -->
 		          <div class="row">
 		          	<div class="col-lg-12 grid-margin stretch-card">
 		              <div class="card">
 		                <div class="card-body">
-		                  <h4 class="card-title">회원검색</h4>
+		                  <h4 class="card-title">취소 검색</h4>
 		                  <div class="table-responsive pt-3">
-		                  	<form action="${path }/admin/memberList.do">
+		                  	<form action="${path }/admin/order/cancelList.do">
 			                    <table class="table table-bordered">
 			                      <tbody>
 								  	<tr>
@@ -78,9 +84,8 @@
 	    									<div class="col">		
 									  			<select class="form-control" name="type">
 									  				<option value="" selected>선택하기</option>
-									  				<option value="memberId">아이디</option>
-									  				<option value="memberName">이름</option>
-									  				<option value="both">아이디+이름</option>
+									  				<option value="memberId">주문자</option>
+									  				<option value="orderNo">주문번호</option>
 									  			</select>
 								  			</div>
 								  			<div class="col">
@@ -88,59 +93,46 @@
 								  			</div>
 								  			</div>
 								  		</td>
-								  		<th>회원구분</th>
+								  		<th>진행상태</th>
 								  		<td>
 								  			<div class="form-check-inline">
 											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="">전체
+											    <input type="radio" class="form-check-input" name="orderStatus" value="">전체
 											  </label>
 											</div>							  		
 								  			<div class="form-check-inline">
 											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="normal">일반 회원
+											    <input type="radio" class="form-check-input" name="orderStatus" value="c">취소신청
 											  </label>
 											</div>
 						  					<div class="form-check-inline">
 											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="social">소셜 회원
+											    <input type="radio" class="form-check-input" name="orderStatus" value="d">취소완료
 											  </label>
 											</div>										
 								  		</td>
 								  	</tr>
-								  	<tr>
-								  		<th>이메일 수신 여부</th>
-								  		<td>
-								  			<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="">전체
-											  </label>
-											</div>
-						  					<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="accept">수신허용
-											  </label>
-											</div>	
-						  					<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="deny">수신거부
-											  </label>
-											</div>																			
-								  		</td>
-								  		<th>회원등급</th>
-								  		<td>
-								  			<select class="form-control" name="memberLevel">
-								  				<option value="" selected>선택하기</option>
-								  				<option value="ace">ACE</option>
-								  				<option value="gold">GOLD</option>
-								  				<option value="vip">VIP</option>
-								  				<option value="mvg">MVG</option>
-								  			</select>							  		
+								  	<tr >
+								  		<th>취소신청일(취소접수일)</th>
+								  		<td colspan="3">
+											<div class="form-row">
+												<div class="form-group" style="margin:0;">
+													<c:set var="today" value="<%=new Date()%>"/>									
+													<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" var="today"/>
+													<input class="form-control" type="date" id="startDate" name="startDate" value="<%=beforeMonth%>">
+													&nbsp;
+												</div>	
+												&nbsp;~&nbsp;
+												<div class="form-group" style="margin:0;">
+													<input class="form-control" type="date" id="endDate" name="endDate" value="${today }">																								
+												</div>
+											</div>								  		
 								  		</td>
 								  	</tr>
 			                      </tbody>
 			                    </table>
 			                    <br>
-		                  	<button class="btn btn-primary mt-2 mt-xl-0" style="float:right;">검색하기</button>
+		                  	<button class="btn btn-primary mt-2 mt-xl-0" type="submit" style="float:right;">검색하기</button>
 		                    </form>
 		                  </div>
 		                </div>
@@ -154,47 +146,48 @@
 		            <div class="col-md-12 stretch-card">
 		              <div class="card">
 		                <div class="card-body">
-		                  <p class="card-title">회원정보</p>
+		                  <p class="card-title">취소내역</p>
 			              <br/>
 		                  <div class="table-responsive">
 		                    <table id="recent-purchases-listing" class="table">
 		                      <thead>
 		                        <tr>
-		                        	<th>회원등급</th>
-									<th>아이디</th>
-		                          	<th>성명</th>
-		                          	<th>이메일</th>
-		                          	<th>전화번호</th>
-		                          	<th>관리</th>
+		                        	<th>취소일자</th>
+									<th>주문번호</th>
+		                          	<th>주문자</th>
+		                          	<th>주문액</th>
+		                          	<th>주문상태</th>
+		                          	<th>취소처리</th>
 		                        </tr>
 		                      </thead>
 		                      <tbody id="recent-purchases-tbody">
 		                      	<c:if test="${not empty list }">
 		                      		<c:forEach items="${list }" var="l" varStatus="vs">
 		                      			<tr>
+		                      			<fmt:formatDate value="${l.CANCELDATE}" pattern="yyyy-MM-dd" var="fmtDate"/>
+		                      				<td><c:out value="${fmtDate }"/></td>
+		                      				<td><c:out value="${l.ORDERNO }"/></td>
+		                      				<td><c:out value="${l.MEMBERID }"/></td>
+											<td><c:out value="${l.TOTALPRICE }"/></td>
 		                      				<td>
 		                      					<c:choose>
-		                      						<c:when test="${l.gradeCode eq 'ace' }">
-		                      							<label class="badge badge-success">ACE</label>
+		                      						<c:when test="${l.ORDERSTATUS eq 'c' }">
+		                      							<label class="badge badge-warning">취소신청</label>
 		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'gold' }">
-		                      							<label class="badge badge-warning">GOLD</label>
-		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'vip' }">
-		                      							<label class="badge badge-danger">VIP</label>
-		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'mvg' }">
-		                      							<label class="badge badge-primary">MVG</label>
-		                      						</c:when>		                      						
+		                      						<c:when test="${l.ORDERSTATUS eq 'd' }">
+		                      							<label class="badge badge-danger">취소완료</label>
+		                      						</c:when>                      						
 		                      					</c:choose>
 		                      				</td>
-		                      				<td><c:out value="${l.memberId }"/></td>
-		                      				<td><c:out value="${l.memberName }"/></td>
-		                      				<td><c:out value="${l.email }"/></td>		                      				
-		                      				<td><c:out value="${l.phone }"/></td>
 											<td>
-												<button class="btn btn-lignt">수정</button>
-												<button class="btn btn-secondary" onclick="memberDelete('${l.memberId}')">탈퇴</button>
+												<c:choose>
+													<c:when test="${l.ORDERSTATUS eq 'c' }">
+														<button class="btn btn-secondary" onclick="location.href='${path }/admin/order/cancelDetail.do?orderNo=${l.ORDERNO }'" type="button">처리</button>
+													</c:when>
+													<c:when test="${l.ORDERSTATUS eq 'd'}">
+														처리완료
+													</c:when>
+												</c:choose>
 											</td>
 		                      			</tr>
 		                      		</c:forEach>
@@ -210,17 +203,13 @@
 		              </div>
 		            </div>
 		          </div>
-		          <!-- 네번째 row div 끝 -->
+		          <!-- 네번째 row div 끝 -->		          
+		          		          		
 			</div>
 			<jsp:include page="/WEB-INF/views/admin/footer.jsp"/>
-		</div>
+		</div>	
 	</div>
 </div>
 <jsp:include page="/WEB-INF/views/admin/jses.jsp"/>
-<script>
-	function memberDelete(str){
-		location.href='${path }/admin/memberDelete.do?memberId='+str;
-	}
-</script>
 </body>
 </html>

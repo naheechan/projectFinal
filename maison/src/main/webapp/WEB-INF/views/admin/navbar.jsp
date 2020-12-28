@@ -19,18 +19,18 @@
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <ul class="navbar-nav mr-lg-4 w-100">
           <li class="nav-item nav-search d-none d-lg-block w-100">
-            <div class="input-group">
+<!--             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="search">
                   <i class="mdi mdi-magnify"></i>
                 </span>
               </div>
               <input type="text" class="form-control" placeholder="검색하기" aria-label="search" aria-describedby="search">
-            </div>
+            </div> -->
           </li>
         </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown mr-1">
+        <ul class="navbar-nav navbar-nav-right">        
+<%--           <li class="nav-item dropdown mr-1">
             <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
               <i class="mdi mdi-message-text mx-0"></i>
               <span class="count"></span>
@@ -74,8 +74,8 @@
                 </div>
               </a>
             </div>
-          </li>
-          <li class="nav-item dropdown mr-4">
+          </li> --%>
+<!--           <li class="nav-item dropdown mr-4">
             <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-toggle="dropdown">
               <i class="mdi mdi-bell mx-0"></i>
               <span class="count"></span>
@@ -122,19 +122,17 @@
                 </div>
               </a>
             </div>
-          </li>
+          </li> -->
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="${path }/resources/images/logo2.png" alt="profile"/>
               <span class="nav-profile-name">메종 관리자</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="mdi mdi-settings text-primary"></i>환경설정
-              </a>
-              <a class="dropdown-item">
+
+              <a class="dropdown-item" href="${path}/member/logout">
                 <i class="mdi mdi-logout text-primary"></i>
-                로그아웃
+               	 로그아웃
               </a>
             </div>
           </li>

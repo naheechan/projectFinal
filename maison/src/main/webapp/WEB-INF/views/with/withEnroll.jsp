@@ -27,7 +27,7 @@
 	4. 샘플용 fileUpload controller는 com.kh.maison.with.controller.WithController에 있습니다.
 	cf) ckeditor관련 파일들은 views 밑에 있어요!!
 -->
-<script src = "${path}/ckeditor/ckeditor.js"></script>
+<script src = "${path}/resources/ckeditor/ckeditor.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="함께해요"/>

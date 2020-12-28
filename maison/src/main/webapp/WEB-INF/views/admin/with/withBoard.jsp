@@ -3,14 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="path" value="${pageContext.request.contextPath }"/>    
+<%@page import="java.util.Date,java.util.Calendar"%>
+<%
+	//한달전 날짜 구하기
+		Calendar mon = Calendar.getInstance();
+		mon.add(Calendar.MONTH , -1);
+		String beforeMonth = new java.text.SimpleDateFormat("yyyy-MM-dd").format(mon.getTime());
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>회원목록</title>
+<title>함께해요 게시판 관리</title>
 <!-- plugins:css -->
 <link rel="stylesheet" href="${path }/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="${path }/resources/admin/vendors/base/vendor.bundle.base.css">
@@ -42,33 +49,32 @@
 		              <div class="d-flex justify-content-between flex-wrap">
 		                <div class="d-flex align-items-end flex-wrap">
 		                  <div class="mr-md-3 mr-xl-5">
-		                    <h2>회원 목록</h2>
+		                    <h2>함께해요 게시판 관리</h2>
 		                    <br>
-		                    <p class="mb-md-0">가입한 회원의 연락처, 가입일 등의 정보를 확인, 수정, 관리할 수 있으며, </p>
-		                    <p class="mb-md-0">특정회원을 검색하시려면 상단의 검색박스에서 검색어를 입력하고 회원구분/이메일 수신 여부/회원등급 중</p> 
-							<p class="mb-md-0">하나 혹은 다중으로 정보를 선택한 후 하단의 검색버튼을 클릭하시면 됩니다.</p>
+		                    <p class="mb-md-0">함께해요 게시판을 검색/수정/삭제 등의 관리를 할 수 있으며,</p>
+		                    <p class="mb-md-0">게시판 목록에서 [바로가기]버튼을 클릭하면 함께해요 게시판으로 바로 이동합니다. </p> 
 		                  </div>
 
 		                </div>
 		                <div class="d-flex justify-content-between align-items-end flex-wrap">
 		                  <div class="d-flex">
 		                    <i class="mdi mdi-home text-muted hover-cursor"></i>
-		                    <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;대시보드&nbsp;/&nbsp;</p>
-		                    <p class="text-primary mb-0 hover-cursor">회원 목록</p>
+		                    <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;대시보드&nbsp;/&nbsp;함께해요 게시판/&nbsp;</p>
+		                    <p class="text-primary mb-0 hover-cursor">게시글 관리</p>
 		                  </div>
 		                </div>
 		              </div>
 		            </div>
 		          </div>
-		          <!-- 첫번째 row div 끝 -->
+		          <!-- 첫번째 row div 끝 -->	
 		          <!-- 두번째 row div 시작 -->
 		          <div class="row">
 		          	<div class="col-lg-12 grid-margin stretch-card">
 		              <div class="card">
 		                <div class="card-body">
-		                  <h4 class="card-title">회원검색</h4>
+		                  <h4 class="card-title">함께해요 게시판 검색</h4>
 		                  <div class="table-responsive pt-3">
-		                  	<form action="${path }/admin/memberList.do">
+		                  	<form action="${path }/admin/with/board.do">
 			                    <table class="table table-bordered">
 			                      <tbody>
 								  	<tr>
@@ -78,9 +84,10 @@
 	    									<div class="col">		
 									  			<select class="form-control" name="type">
 									  				<option value="" selected>선택하기</option>
-									  				<option value="memberId">아이디</option>
-									  				<option value="memberName">이름</option>
-									  				<option value="both">아이디+이름</option>
+									  				<option value="memberId">작성자</option>
+									  				<option value="wbTitle">제목</option>
+									  				<option value="wbContent">내용</option>
+									  				<option value="both">제목+내용</option>
 									  			</select>
 								  			</div>
 								  			<div class="col">
@@ -88,67 +95,66 @@
 								  			</div>
 								  			</div>
 								  		</td>
-								  		<th>회원구분</th>
+								  		<th>분류</th>
 								  		<td>
-								  			<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="">전체
-											  </label>
-											</div>							  		
-								  			<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="normal">일반 회원
-											  </label>
-											</div>
-						  					<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="social">소셜 회원
-											  </label>
-											</div>										
+								  			<select class="form-control" name="wbType">
+								  				<option value="" selected>선택하기</option>
+								  				<option value="free">나눔하기</option>
+								  				<option value="sell">중고거래</option>
+								  			</select>								  												
 								  		</td>
 								  	</tr>
 								  	<tr>
-								  		<th>이메일 수신 여부</th>
+								  		<th>진행상태</th>
 								  		<td>
 								  			<div class="form-check-inline">
 											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="">전체
+											    <input type="radio" class="form-check-input" name="wbStatus" value="">전체
 											  </label>
 											</div>
 						  					<div class="form-check-inline">
 											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="accept">수신허용
+											    <input type="radio" class="form-check-input" name="wbStatus" value="N">판매중
 											  </label>
 											</div>	
 						  					<div class="form-check-inline">
 											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="deny">수신거부
+											    <input type="radio" class="form-check-input" name="wbStatus" value="P">예약중
 											  </label>
-											</div>																			
+											</div>	
+						  					<div class="form-check-inline">
+											  <label class="form-check-label">
+											    <input type="radio" class="form-check-input" name="wbStatus" value="Y">판매완료
+											  </label>
+											</div>																														
 								  		</td>
-								  		<th>회원등급</th>
-								  		<td>
-								  			<select class="form-control" name="memberLevel">
-								  				<option value="" selected>선택하기</option>
-								  				<option value="ace">ACE</option>
-								  				<option value="gold">GOLD</option>
-								  				<option value="vip">VIP</option>
-								  				<option value="mvg">MVG</option>
-								  			</select>							  		
-								  		</td>
+									  		<th>작성일</th>
+									  		<td>
+												<div class="form-row">
+													<div class="form-group" style="margin:0;">
+														<c:set var="today" value="<%=new Date()%>"/>									
+														<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" var="today"/>
+														<input class="form-control" type="date" id="startDate" name="startDate" value="">
+														&nbsp;
+													</div>	
+													&nbsp;~&nbsp;
+													<div class="form-group" style="margin:0;">
+														<input class="form-control" type="date" id="endDate" name="endDate" value="">																								
+													</div>
+												</div>										
+									  		</td>						  		
 								  	</tr>
 			                      </tbody>
 			                    </table>
 			                    <br>
-		                  	<button class="btn btn-primary mt-2 mt-xl-0" style="float:right;">검색하기</button>
+		                  	<button class="btn btn-primary mt-2 mt-xl-0" style="float:right;" type="submit">검색하기</button>
 		                    </form>
 		                  </div>
 		                </div>
 		              </div>
 			      	</div>
-			      	
 		          </div>
-		          <!-- 두번째 row div 끝 -->
+		          <!-- 두번째 row div 끝 -->	
 		         <!-- 세번째 row div 시작 -->
 				  <div class="row">
 		            <div class="col-md-12 stretch-card">
@@ -160,11 +166,12 @@
 		                    <table id="recent-purchases-listing" class="table">
 		                      <thead>
 		                        <tr>
-		                        	<th>회원등급</th>
-									<th>아이디</th>
-		                          	<th>성명</th>
-		                          	<th>이메일</th>
-		                          	<th>전화번호</th>
+		                       		<th>분류</th>
+		                        	<th>제목</th>
+									<th>작성자</th>		                         
+		                          	<th>상태</th>
+		                          	<th>조회수</th>
+		                          	<th>등록일</th>
 		                          	<th>관리</th>
 		                        </tr>
 		                      </thead>
@@ -173,28 +180,34 @@
 		                      		<c:forEach items="${list }" var="l" varStatus="vs">
 		                      			<tr>
 		                      				<td>
-		                      					<c:choose>
-		                      						<c:when test="${l.gradeCode eq 'ace' }">
-		                      							<label class="badge badge-success">ACE</label>
-		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'gold' }">
-		                      							<label class="badge badge-warning">GOLD</label>
-		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'vip' }">
-		                      							<label class="badge badge-danger">VIP</label>
-		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'mvg' }">
-		                      							<label class="badge badge-primary">MVG</label>
-		                      						</c:when>		                      						
-		                      					</c:choose>
+		                      					<c:if test="${l.wbType eq 'sell' }">
+		                      						[ 중고 ]
+		                      					</c:if>
+		                      					<c:if test="${l.wbType eq 'free' }">
+		                      						[ 나눔 ]
+		                      					</c:if>
 		                      				</td>
-		                      				<td><c:out value="${l.memberId }"/></td>
-		                      				<td><c:out value="${l.memberName }"/></td>
-		                      				<td><c:out value="${l.email }"/></td>		                      				
-		                      				<td><c:out value="${l.phone }"/></td>
+		                      				<td><c:out value="${l.wbTitle }"/></td>
+		                      				<td><c:out value="${l.memberId }"/></td>		                      				
+		                      				<td>		                
+		                      					<c:choose>
+		                      						<c:when test="${l.wbStatus eq 'N' }">
+		                      							<label class="badge badge-success">&nbsp;판매중&nbsp;</label>
+		                      						</c:when>
+		                      						<c:when test="${l.wbStatus eq 'P' }">
+		                      							<label class="badge badge-warning">&nbsp;예약중&nbsp;</label>
+		                      						</c:when>
+		                      						<c:when test="${l.wbStatus eq 'Y' }">
+		                      							<label class="badge badge-danger">&nbsp;판매완료&nbsp;</label>
+		                      						</c:when>
+		                      					</c:choose>
+		                      				</td>          			
+		                      				<td><c:out value="${l.wbCount }"/></td>
+		                      				<c:set var="dateTempParse"><fmt:formatDate pattern="yyyy-MM-dd" value="${l.wbDate }"/></c:set>
+		                      				<td><c:out value="${dateTempParse }"/></td>
 											<td>
-												<button class="btn btn-lignt">수정</button>
-												<button class="btn btn-secondary" onclick="memberDelete('${l.memberId}')">탈퇴</button>
+												<button class="btn btn-lignt" onclick="location.href='${path }/admin/withUpdate.do?wbNo=${l.wbNo }'">수정</button>
+												<button class="btn btn-secondary" onclick="location.href='${path }/admin/withRemove.do?wbNo=${l.wbNo }'">삭제</button>
 											</td>
 		                      			</tr>
 		                      		</c:forEach>
@@ -210,17 +223,12 @@
 		              </div>
 		            </div>
 		          </div>
-		          <!-- 네번째 row div 끝 -->
+		          <!-- 세번째 row div 끝 -->		          	          		
 			</div>
-			<jsp:include page="/WEB-INF/views/admin/footer.jsp"/>
-		</div>
+			<jsp:include page="/WEB-INF/views/admin/footer.jsp"/>			
+		</div>	
 	</div>
 </div>
-<jsp:include page="/WEB-INF/views/admin/jses.jsp"/>
-<script>
-	function memberDelete(str){
-		location.href='${path }/admin/memberDelete.do?memberId='+str;
-	}
-</script>
+<jsp:include page="/WEB-INF/views/admin/jses.jsp"/>	
 </body>
 </html>

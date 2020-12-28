@@ -7,9 +7,11 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="상품등록" />
 </jsp:include>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <script src="${ path }/ckeditor/ckeditor.js"></script>
+
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="상품등록" />
 </jsp:include>
@@ -294,19 +296,7 @@
     			}
     			reader.readAsDataURL($(this)[0].files[0]);//파일을 img태그에 보여줄 수 있도록 base64로 url생성
     		}
-    		/* else{
-    			$(this)[0].select();
-    			var src = document.selection.createRange().text;
-    			$('body').append('<img src="" id="temp_img" style="display:none;"/>');
-    			$img = $('#temp_img').attr('src',src);
-    			$('#temp_img').remove();
-    			if($img.width() != $width || $img.height()!=$height){
-    				alert('지정된 크기와 맞지 않습니다.('+$width+'x'+$height+')');
-    				$(this).val('');
-    				return;
-    			}
-    		}
-    		$('#temp_img').remove(); */
+
     	});
     
     </script>
