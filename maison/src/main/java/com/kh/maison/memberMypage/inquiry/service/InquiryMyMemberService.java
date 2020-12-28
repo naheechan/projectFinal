@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList;
-import com.kh.maison.shop.model.vo.TotalInquiry;
+import com.kh.maison.shop.model.vo.InquiryReply;
 
 public interface InquiryMyMemberService {
 
@@ -43,4 +43,7 @@ public interface InquiryMyMemberService {
 	
 	int deleteRep(String no);//pir delete
 	
+	int updateInq(Map<String,Object> map);
+	
+	List<InquiryReply> selectReplyOne(String no);
 }

@@ -24,7 +24,7 @@
 	</insert>
 	
 	<update id="updateMemberMileage" parameterType="String">
-		UPDATE MEMBER SET MEILEAGE=1000
+		UPDATE MEMBER SET MEILEAGE=DEFAULT
 		WHERE MEMBERID=#{memberId}
 	</update>
 	
@@ -77,4 +77,26 @@
 		AND MILE &lt; 0
 		</if>
 	</select>
+	
+	<insert id="insertCancelMileageFirst" parameterType="mileage">
+		INSERT INTO MILEAGE VALUES(
+									SEQ_MILE_NO.NEXTVAL,
+									#{memberId},
+									#{orderNo},
+									default,
+									#{mile},
+									'C'
+		)		
+	</insert>
+	
+	<insert id="insertCancelMileageSecond" parameterType="mileage">
+		INSERT INTO MILEAGE VALUES(
+									SEQ_MILE_NO.NEXTVAL,
+									#{memberId},
+									#{orderNo},
+									default,
+									#{mile},
+									'R'
+		)		
+	</insert>
 </mapper>

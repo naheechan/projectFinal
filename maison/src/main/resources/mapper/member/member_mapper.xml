@@ -30,7 +30,8 @@
 
 
   <update id="updateMileage" parameterType="map">
-  	UPDATE MEMBER SET MEILEAGE=#{memberMileage} WHERE MEMBERID=#{memberId}
+  	UPDATE MEMBER SET MEILEAGE=#{memberMileage} 
+  	WHERE MEMBERID=#{memberId}
   </update>
   
 
@@ -86,5 +87,11 @@
   <insert id="updateMemberWithdraw" parameterType="map">
   	INSERT INTO MEMBERWITHDRAW VALUES(#{memberId},#{withdrawCom},default)
   </insert>
+  
+  <update id="updateMileageTwo" parameterType="member">
+  	UPDATE MEMBER
+  	SET MEILEAGE = #{meileage}
+  	WHERE MEMBERID = #{memberId}
+  </update>
 
 </mapper>

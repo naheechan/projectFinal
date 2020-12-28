@@ -6,9 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.shopCycle.model.vo.CountCycle;
 import com.kh.maison.shopCycle.model.vo.CycleProduct;
 
@@ -63,6 +62,12 @@ public class ShopCycleDaoImpl implements ShopCycleDao {
 	@Override
 	public int updateAlertStatus(SqlSessionTemplate session, Map<String, String> map) {
 		return session.update("cycle.updateAlertStatus", map);
+	}
+
+	@Override
+	public int checkCycleExist(SqlSessionTemplate session, Order o) {
+		// TODO Auto-generated method stub
+		return session.delete("cycle.checkCycleExist",o);
 	}
 	
 	

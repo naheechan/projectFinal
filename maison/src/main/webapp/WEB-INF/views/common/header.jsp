@@ -73,7 +73,7 @@
                 	<c:if test="${loginMember ne null}">
                 		<li><a href="${path }/wishList.do?id=${loginMember.memberId}"><i class="far fa-heart"></i></a></li>
                 	</c:if>
-                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+
                     
                     <c:if test="${loginMember eq null}">
                     	<li class="login"><a href="${path }/member/login"><i class="fas fa-user-alt"></i></a></li>

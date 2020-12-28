@@ -7,11 +7,20 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="쇼핑해요"/>
 </jsp:include>
-
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="쇼핑해요"/>
 </jsp:include>
-
+<style>
+.ellipsis{
+    width:200px;
+    padding:0 5px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    }
+</style>
 <!-- Start -->
 <div class="shop-list-box">
 	<div class="container">
@@ -79,7 +88,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="why-text">
-                                                    <h4><a href="${ path }/shop/shopDetail.do?no=${list.productNo}">${list.productName}</a></h4><br>
+                                                    <h4 class="ellipsis"><a href="${ path }/shop/shopDetail.do?no=${list.productNo}">${list.productName}</a></h4><br>
                                                     <h5><c:out value="${list.price}">${list.price}</c:out>원</h5>
                                                 </div>
                                             </div>
@@ -231,7 +240,7 @@
 	                		+"<script>"
 	                		+"$('#reqBtn').click(function(){"
 	            			+"console.log('여기오니');"
-	            			+"alert('로그인 후 이용해 주세요.');"
+	            			+"swal('','로그인 후 이용해 주세요.');"
 	            			+"});//reqBtn"
 	            			+"<script>";
 	                		requestContainer.append(html);
@@ -334,7 +343,7 @@
 				                		+"<script>"
 				                		+"$('#reqBtn').click(function(){"
 				            			+"console.log('여기오니');"
-				            			+"alert('로그인 후 이용해 주세요.');"
+				            			+"swal('','로그인 후 이용해 주세요.');"
 				            			+"});//reqBtn"
 				            			+"<script>";
 				                		requestContainer.append(html);

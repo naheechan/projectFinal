@@ -1,6 +1,7 @@
 package com.kh.maison.order.model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,8 @@ public class Order {
 	private Date orderDate;
 	private Date cancelDate;
 	
+	private List<OrderDetail> ods;
+	private int odCount;
 	
 
 }

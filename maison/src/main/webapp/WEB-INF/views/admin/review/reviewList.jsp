@@ -245,30 +245,36 @@ function deleteReviewReply(rrNo,reviewNo){
 		dataType: "json",
 		success: function(data){
 			var str='';
-			$.each(data,function(i,v){
-				var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
-				str+="<div class='row' style='margin-top:20px;'>";
-				str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
-				str+="</div>";
-				str+="<div class='row'>";
-				str+="<div class='col-8' style='background-color:#EAEAEA;'>";
-				str+="<p style='margin:10px;' id='p_"+v.rrNo+"'>";
-				str+=v.rrContent;
-				str+="</p>";
-				str+="</div>";
-				str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
-				str+="<button id='rrupdate_"+v.rrNo+"' class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReply("+v.rrNo+","+v.reviewNo+")'>"
-				str+="수정";
-				str+="</button>";
-				str+="&nbsp;&nbsp;";
-				str+="<button class='btn btn-sm delete-reply' onclick='deleteReviewReply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
-				str+="삭제";
-				str+="</button>";
-				str+="<input type='hidden' value='"+v.rrNo+"'>";
-				str+="</c:if>"
-				str+="</div>";
-			});
-			$("#open_"+reviewNo).html(str);
+			if(data.length!=0){
+				$.each(data,function(i,v){
+					var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
+					str+="<div class='row' style='margin-top:20px;'>";
+					str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
+					str+="</div>";
+					str+="<div class='row'>";
+					str+="<div class='col-8' style='background-color:#EAEAEA;'>";
+					str+="<p style='margin:10px;' id='p_"+v.rrNo+"'>";
+					str+=v.rrContent;
+					str+="</p>";
+					str+="</div>";
+					str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
+					str+="<button id='rrupdate_"+v.rrNo+"' class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReply("+v.rrNo+","+v.reviewNo+")'>"
+					str+="수정";
+					str+="</button>";
+					str+="&nbsp;&nbsp;";
+					str+="<button class='btn btn-sm delete-reply' onclick='deleteReviewReply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
+					str+="삭제";
+					str+="</button>";
+					str+="<input type='hidden' value='"+v.rrNo+"'>";
+					str+="</c:if>"
+					str+="</div>";
+				});
+				}else{
+					str+="<div style='background-color:#EAEAEA;'>";
+					str+="<p style='margin:10px;'>아직 등록된 답변이 없습니다 !</p>";
+					str+="</div>";
+				}
+				$("#open_"+reviewNo).html(str);
 		},
 		error: function(){
 			console("ajax 통신 실패");
@@ -317,30 +323,36 @@ function updateReviewReplyEnd(rrNo,reviewNo){
 		},
 		success : function(data){
 			var str='';
-			$.each(data,function(i,v){
-				var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
-				str+="<div class='row' style='margin-top:20px;'>";
-				str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
-				str+="</div>";
-				str+="<div class='row'>";
-				str+="<div class='col-8' style='background-color:#EAEAEA;'>";
-				str+="<p style='margin:10px;' id='p_"+v.rrNo+"'>";
-				str+=v.rrContent;
-				str+="</p>";
-				str+="</div>";
-				str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
-				str+="<button id='rrupdate_"+v.rrNo+"' class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReply("+v.rrNo+","+v.reviewNo+")'>"
-				str+="수정";
-				str+="</button>";
-				str+="&nbsp;&nbsp;";
-				str+="<button class='btn btn-sm delete-reply' onclick='deleteReviewReply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
-				str+="삭제";
-				str+="</button>";
-				str+="<input type='hidden' value='"+v.rrNo+"'>";
-				str+="</c:if>"
-				str+="</div>";
-			});
-			$("#open_"+reviewNo).html(str);
+			if(data.length!=0){
+				$.each(data,function(i,v){
+					var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
+					str+="<div class='row' style='margin-top:20px;'>";
+					str+="<div class='col' style='font-weight:bolder;'> Maison  </div>";
+					str+="</div>";
+					str+="<div class='row'>";
+					str+="<div class='col-8' style='background-color:#EAEAEA;'>";
+					str+="<p style='margin:10px;' id='p_"+v.rrNo+"'>";
+					str+=v.rrContent;
+					str+="</p>";
+					str+="</div>";
+					str+="<c:if test='${loginMember.memberId eq \'admin\' }'>";
+					str+="<button id='rrupdate_"+v.rrNo+"' class='offset-md-7 btn btn-sm update-reply' onclick='updateReviewReply("+v.rrNo+","+v.reviewNo+")'>"
+					str+="수정";
+					str+="</button>";
+					str+="&nbsp;&nbsp;";
+					str+="<button class='btn btn-sm delete-reply' onclick='deleteReviewReply("+v.rrNo+","+v.reviewNo+")' style='cursor:pointer'>"
+					str+="삭제";
+					str+="</button>";
+					str+="<input type='hidden' value='"+v.rrNo+"'>";
+					str+="</c:if>"
+					str+="</div>";
+				});
+				}else{
+					str+="<div style='background-color:#EAEAEA;'>";
+					str+="<p style='margin:10px;'>아직 등록된 답변이 없습니다 !</p>";
+					str+="</div>";
+				}
+				$("#open_"+reviewNo).html(str);
 		},
 	})
 	

@@ -22,6 +22,7 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -47,8 +48,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -64,11 +63,12 @@ import com.kh.maison.member.model.vo.OAuthToken;
 import com.kh.maison.member.recaptcha.VerifyRecaptcha;
 import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.maison.order.model.service.OrderService;
+import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.spring.common.PageBarFactory;
-
 
 import nl.captcha.Captcha;
 
@@ -83,7 +83,9 @@ public class MemberController {
 	//함께해요 관련
 	@Autowired
 	private WithBoardService withService;
-	
+	//주문관련
+	@Autowired
+	private OrderService orderService;
 	@Autowired
 	private MemberService service;
 	//단방향 암호화
@@ -98,6 +100,8 @@ public class MemberController {
 //	private Logger logger;
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
+	@Autowired
+	private OrderService oservice;
 	
 	
 	@RequestMapping(value="/member/login")
@@ -476,8 +480,23 @@ public class MemberController {
 	
 	//마이페이지 화면전환용
 	@RequestMapping("/member/mypage.do")
-	public String mypage() {
-		return "member/mypage";
+	public ModelAndView mypage(HttpSession session,ModelAndView mv) {
+		
+		Member m=(Member)session.getAttribute("loginMember");
+		if(m==null) {
+			mv.addObject("msg","로그인이 필요합니다 !");
+			mv.addObject("loc","/member/login");
+			mv.setViewName("common/msg");
+		}else {
+			
+			Map param=new HashMap<String,String>();
+			param.put("memberId", m.getMemberId());
+			List<Order> list=oservice.selectMyOrderList(param,1,10);
+			mv.addObject("o",list.get(0));
+		
+			mv.setViewName("member/mypage");
+		}
+		return mv;
 	}
 	
 	//회원정보수정 화면전환용 (memberPw가 null이 아닌 경우)
@@ -1198,6 +1217,35 @@ public class MemberController {
 			status.setComplete();
 		}
 		
+		return mv;
+	}
+	
+	
+	//주문취소 버튼 눌렀을때
+	@RequestMapping("/member/order/cancel.do")
+	public ModelAndView memberOrderCancel(ModelAndView mv, @RequestParam int orderNo) {
+		Order o = orderService.selectOneOrder(orderNo);
+		mv.addObject("order",o);
+		mv.setViewName("member/mypage/order/cancelChk");
+		return mv;
+	}
+	
+	//주문취소 sweet alert에서 확인을 눌렀을때
+	@RequestMapping("/member/order/cancelEnd.do")
+	public ModelAndView memberOrderCancelEnd(ModelAndView mv, @RequestParam int orderNo) {
+		int result = orderService.updateOrderStatus(orderNo);
+		if(result>0) {
+			mv.addObject("msg", "주문 취소 신청이 완료되었습니다.");
+			mv.addObject("subMsg","관리자가 취소완료할때까지는 2-3일이 소요됩니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc", "/member/mypage.do");	
+		}else {
+			mv.addObject("msg", "주문취소 신청 실패!");
+			mv.addObject("subMsg","다시한번 시도해보시고 관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc", "/member/mypage.do");	
+		}
+		mv.setViewName("common/sweetMsg");
 		return mv;
 	}
 	

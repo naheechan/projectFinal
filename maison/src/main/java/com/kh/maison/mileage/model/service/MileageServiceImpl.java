@@ -85,6 +85,20 @@ public class MileageServiceImpl implements MileageService {
 	}
 
 
+	@Override
+	public int insertCancelMileageFirst(Mileage mil) {
+		// TODO Auto-generated method stub
+		return dao.insertCancelMileageFirst(session,mil);
+	}
+
+
+	@Override
+	public int insertCancelMileageSecond(Mileage mil2) {
+		// TODO Auto-generated method stub
+		return dao.insertCancelMileageSecond(session,mil2);
+	}
+
+
 
 
 }

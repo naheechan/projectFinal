@@ -22,4 +22,5 @@ public class Product {
 	private String mediumCate;
 	private Date productDate;
 	private int defCycle;
+
 }

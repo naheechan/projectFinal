@@ -51,6 +51,7 @@
 <div class="with-view-box">
 	<div class="container">
 		<div class="row">
+
 			<div class="col-lg-12" style="text-align:left;">
 					<input type="hidden" id="pInput1" value="${withBoard.wbTitle }">
 					
@@ -369,7 +370,8 @@ function commentList(){
 }
 
 $(document).ready(function(){
-	$("#imgShow").html($("#imgContent").val());
+	var replaced = $("#imgContent").val().replace('maison','20AM_MAISON_final');
+	$("#imgShow").html(replaced);
 	commentList();
 });
 

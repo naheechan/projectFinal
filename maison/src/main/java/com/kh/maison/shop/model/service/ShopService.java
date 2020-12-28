@@ -24,8 +24,8 @@ public interface ShopService {
 	
 	List<ProductCate> searchCate(String category);
 	
-	List<TotalInquiry> selectInquiryList(int cPage, int numPerPage);
-	int selectCountInquiry();
+	List<TotalInquiry> selectInquiryList(int cPage, int numPerPage,Map<String,Object> map);
+	int selectCountInquiry(Map<String,Object> map);
 
 	Product selectPdOne(int no);
 

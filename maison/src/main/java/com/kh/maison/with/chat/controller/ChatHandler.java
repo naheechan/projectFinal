@@ -27,6 +27,7 @@ public class ChatHandler extends TextWebSocketHandler {
 	private WithBoardService service;
 	
 	private int realNo;
+
 	
 	@RequestMapping("/with/msgData.do")
 	@ResponseBody

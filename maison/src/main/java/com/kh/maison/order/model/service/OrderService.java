@@ -3,10 +3,10 @@ package com.kh.maison.order.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.maison.admin.model.vo.CancelSearch;
 import com.kh.maison.basket.model.vo.Basket;
 import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.order.model.vo.OrderDetail;
-import com.kh.maison.order.model.vo.ShippingDestination;
 
 public interface OrderService {
 	
@@ -30,9 +30,24 @@ public interface OrderService {
 	
 	int insertShippingDestination(Order o);
 	
+
+	//마이페이지 주문취소 관련
+	Order selectOneOrder(int orderNo);
+	int updateOrderStatus(int orderNo);
+	List<Map<String,Object>> selectCancelList(int cPage,int numPerPage,CancelSearch cs);
+	int selectCancelListCount(CancelSearch cs);
+	List<Map<String,Object>> selectCancelOne(int orderNo);
+	int updateOrderStatusSecond(int orderNo);
+	int deleteOrderDetail(int orderNo);
+
+	List<Order> selectMyOrderList(Map param,int cPage,int numPerPage);
+
 	int deleteBasket(Basket b);
 	
+	List<Order> selectMyOrderListAll(Map param);
 	
+	int countMyOrderList(Map param);
 	
+	Order selectOrderOne(int orderNo);
 
 }

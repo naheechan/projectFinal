@@ -15,7 +15,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="함께해요 수정"/>
 </jsp:include>
-<script src = "${path }/ckeditor/ckeditor.js"></script>
+<script src = "${path }/resources/ckeditor/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="함께해요"/>
 </jsp:include>

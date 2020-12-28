@@ -58,14 +58,133 @@
 					<td>${o.productName }</td>
 					<td>${o.odAmount }</td>
 					<td>${o.odAmount*o.price }</td>
-					<td><i class="fas fa-user-edit fa-2x"></i></td>
+					
+					<td>
+					<input type="hidden" value="${o.productNo }">
+					<input type="hidden" value="${o.orderDetailNo }">
+					<i class="fas fa-user-edit fa-2x addreview"></i>
+					</td>
 				</tr>
 				</c:forEach>
 			</table>
 		</div>
 	</div>
+	<div id="pop"></div>
 </section>
 
+<script>
+	$(function(){
+		//리뷰쓰는 팝띄우기		
+		$(".addreview").click(function(){
+			
+			var productNo=$(this).prev().prev().val();
+			var orderDetailNo=$(this).prev().val();
+			
+			$("#pop").css({
+                "top": (($(window).height()-$("#pop").outerHeight())/2+$(window).scrollTop())+"px",
+                "left": (($(window).width()-$("#pop").outerWidth())/2+$(window).scrollLeft())+"px"
+                //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+             
+             }); 
+			
+			
+			$.ajax({
+				url : "${path }/shop/insertReview.do",
+				data:{
+					orderDetailNo : orderDetailNo,
+					productNo : productNo	
+				
+				},
+				dataType : "html",
+				success : function(data){
+					$("#pop").html("");
+					$("#pop").html(data);
+					$("#pop").show();
+				}
+						
+			})
+				
+			});
+		
+		
+		
+		//닫기누르면 없애기
+		$(".closebtn").click(function(){
+			$("#pop").hide();
+		});
+		
+		
+		
+		$(":checkbox").css("display","none"); 
+		
+		$(":checkbox").click(function(){
+			var score= $(this).val();
+			console.log(score);
+			switch(score){
+			
+			case '1': 
+				$("#rating1").prop("checked",true);
+				$("#rating2").prop("checked",false);
+				$("#rating3").prop("checked",false);
+				$("#rating4").prop("checked",false);
+				$("#rating5").prop("checked",false);
+				$("#rating2").next().children("span").removeClass("starOn").addClass("starOff");
+				$("#rating3").next().children("span").removeClass("starOn").addClass("starOff");
+				$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
+				$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
+				break;
+			case '2': 
+				$("#rating1").prop("checked",false);
+				$("#rating2").prop("checked",true);
+				$("#rating3").prop("checked",false);
+				$("#rating4").prop("checked",false);
+				$("#rating5").prop("checked",false);
+				$("#rating2").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating3").next().children("span").removeClass("starOn").addClass("starOff");
+				$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
+				$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
+				break;
+			case '3': 
+				$("#rating1").prop("checked",false);
+				$("#rating2").prop("checked",false);
+				$("#rating3").prop("checked",true);
+				$("#rating4").prop("checked",false);
+				$("#rating5").prop("checked",false);
+				$("#rating2").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating3").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating4").next().children("span").removeClass("starOn").addClass("starOff");
+				$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
+				break;
+			case '4': 
+				$("#rating1").prop("checked",false);
+				$("#rating2").prop("checked",false);
+				$("#rating3").prop("checked",false);
+				$("#rating4").prop("checked",true);
+				$("#rating5").prop("checked",false);
+				$("#rating2").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating3").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating4").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating5").next().children("span").removeClass("starOn").addClass("starOff");
+				break;
+			case '5': 
+				$("#rating1").prop("checked",false);
+				$("#rating2").prop("checked",false);
+				$("#rating3").prop("checked",false);
+				$("#rating4").prop("checked",false);
+				$("#rating5").prop("checked",true);
+				$("#rating2").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating3").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating4").next().children("span").removeClass("starOff").addClass("starOn");
+				$("#rating5").next().children("span").removeClass("starOff").addClass("starOn");
+				break;
+			
+			
+			}
+		
+		
+		});
 
+	});
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>	

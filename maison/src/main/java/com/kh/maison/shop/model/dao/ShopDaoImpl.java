@@ -65,15 +65,15 @@ public class ShopDaoImpl implements ShopDao {
 
 
 	@Override
-	public List<TotalInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage) {
-		return session.selectList("shop.selectInquiryList",null,
+	public List<TotalInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage,Map<String,Object> map) {
+		return session.selectList("shop.selectInquiryList",map,
 				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
 
 	@Override
-	public int selectCountInquiry(SqlSession session) {
-		return session.selectOne("shop.selectCountInquiry");
+	public int selectCountInquiry(SqlSession session,Map<String,Object> map) {
+		return session.selectOne("shop.selectCountInquiry",map);
 	}
 
 
