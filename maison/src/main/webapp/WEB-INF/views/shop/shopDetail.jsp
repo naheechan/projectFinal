@@ -194,7 +194,7 @@ select::-ms-expand { /* for IE 11 */
 
 								<!-- <a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a> -->
 									<input type="hidden" name="productName" value="${product.productName }">
-									<input type="hidden" name="productNo" value="${product.productNo }">
+									<input type="hidden" name="productNo" id="productNo" value="${product.productNo }">
 									<input type="hidden" name="price" value="${product.price }">
 									
 									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	

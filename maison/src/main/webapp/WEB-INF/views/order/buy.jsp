@@ -60,7 +60,7 @@
                                 <label for="username">회원아이디 *</label>
                                 <div class="input-group">
                                 	
-                                    		<input type="text" class="form-control" name="memberId" id="username" placeholder="" value="${loginMember.memberId }" readonly>
+                                    		<input type="text" class="form-control" name="memberId" id="username" placeholder="" value="${loginMember.memberId }" readonly required>
                                     	
                                     <div class="invalid-feedback" style="width: 100%;"> Your username is required. </div>
                                 </div>
@@ -81,11 +81,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="address2">상세주소 *</label>
-                                <input type="text" class="form-control" name="orDetailAddress" value="<%=dDetailAddress %>" id="orDetailAddress" placeholder="상세주소"> 
+                                <input type="text" class="form-control" name="orDetailAddress" value="<%=dDetailAddress %>" id="orDetailAddress" placeholder="상세주소" required> 
                             </div>
                             <div class="mb-3">
                                 <label for="address2">구매 요청사항 *</label>
-                                <input type="text" class="form-control" name="sellRequest" id="sellRequest" placeholder=""> 
+                                <input type="text" class="form-control" name="sellRequest" id="sellRequest" placeholder="" required> 
                             </div>
                              <div class="mb-3">
                                 <label for="address2">배송 시 요청사항 *</label>
@@ -181,9 +181,10 @@
                            			</tr>
                            		</table>
                            			<input type="hidden" name="amount" value="${amount }">
-                           			<input type="hidden" name="productName" value="${product.productName }">
-                           			<input type="hidden" name="productNo" value="${product.productNo }"
-                                   			
+                           			<input type="hidden" id="productName" name="productName" value="${product.productName }">
+                           			<input type="hidden" id="productNo" name="productNo" value="${product.productNo }">
+                                   	<input type="hidden" id="price" value="${product.price }">
+                                   	<input type="hidden" id="totalPrice2" value="${amount*product.price }">
                                 
                             </div>
                         </div>
@@ -220,8 +221,8 @@
                                 <div class="d-flex">
                                     <div class="font-weight-bold">사용 마일리지</div>
                                     <div class="ml-auto font-weight-bold">
-                                    	<input type="text" id="useMile" name="useMile" value="">
-                                    	<button type="button" id="result">적용</button>
+                                    	<input type="text" id="useMile" name="useMile" value="0" required>
+                                    	
 	                                    
                                     </div>
                                     
@@ -272,18 +273,35 @@
 
 <script>
 	
-	/* $(function(){
-		var nowMeil=$("#nowMeil").val();
-		var useMeil=$("#useMeil").val();
-		//마일리지 전액사용	
-		$("#allMeil").click(function(){
-			$("#useMeil").val(nowMeil);
-			
-		})
-	}) */
 	
-	 $("#result").click(function(){
-		var price=Number($("#sumPrice").html());
+	
+	$(function(){
+		$("#totalPrice").val($("#totalPrice2").val());
+		$("[name='useMile']").keyup(function(){
+			var useMile=Number($("[name='useMile']").val());
+			var mileage=Number($("#mileage").val());	
+			var price=Number($("#sumPrice").html());
+			
+			if(useMile>mileage){
+				alert("보유중인 마일리지를 초과합니다.");
+				$("#useMile").val("");
+			}else{
+				if(useMile>price*0.05){
+					alert("마일리지 최대 사용액수는 상품구매가격의 5%입니다.");
+					$("#useMile").val("");
+				}else{
+					
+				var totalPrice=price-useMile;
+				$("#totalPrice").val(totalPrice);
+				
+				}
+				
+			}
+		})
+	});
+	
+	/*  $("#result").click(function(){
+		
 		var useMile=Number($("#useMile").val());
 		var mileage=Number($("#mileage").val());
 		
@@ -303,9 +321,25 @@
 			
 		}
 		
-	}); 
+	}); */ 
+	$(function(){
+		var amount=$("[name='amount']").val();
+		var productName=$("#productName").val();
+		var productNo=$("#productNo").val();
+		var price=$("#price").val();
 	
 	$(document).on('click',"#checkout",function(){
+		
+		if($.trim($("[name='receiver']").val())==''){
+			alert("수령인을 입력하세요!");
+			$("[name='receiver']").focus();
+			return false;
+		}
+		if($.trim($("[name='orPhone']").val())==''){
+			alert("핸드폰번호를 입력하세요!");
+			$("[name='orPhone']").focus();
+			return false;
+		}
 		
    	 	 var IMP = window.IMP; // 생략가능
         IMP.init('imp09698115'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -360,12 +394,13 @@
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="${path}/order/buy.do"; 
+                location.href="${path}/order/buy.do?amount="+amount+"&productName="+productName+"&productNo="+productNo+"&price="+price; 
                 alert(msg);
             }
         });  
    	
    });
+	});
  
 	function orderInsert(orderData){
 		$.ajax({

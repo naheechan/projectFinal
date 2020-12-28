@@ -70,7 +70,7 @@ String dDetailAddress = aes.decrypt(m.getDetailAddress());
 									<c:forEach items="${list }" var="a">
 										<c:if test="${flag eq 0 }">
 											<input type="text" class="form-control" name="memberId"
-												id="username" placeholder="" value="${a.memberId }" readonly>
+												id="username" placeholder="" value="${a.memberId }" readonly required>
 										</c:if>
 										<c:set var="flag" value="1" />
 									</c:forEach>
@@ -103,12 +103,12 @@ String dDetailAddress = aes.decrypt(m.getDetailAddress());
 								<label for="address2">상세주소 *</label> <input type="text"
 									class="form-control" name="orDetailAddress"
 									value="<%=dDetailAddress%>" id="orDetailAddress"
-									placeholder="상세주소">
+									placeholder="상세주소" required>
 							</div>
 							<div class="mb-3">
 								<label for="address2">구매 요청사항 *</label> <input type="text"
 									class="form-control" name="sellRequest" id="sellRequest"
-									placeholder="">
+									placeholder="" required>
 							</div>
 							<div class="mb-3">
 								<label for="address2">배송 시 요청사항 *</label> 
@@ -262,8 +262,8 @@ String dDetailAddress = aes.decrypt(m.getDetailAddress());
 								<div class="d-flex">
 									<div class="font-weight-bold">사용 마일리지</div>
 									<div class="ml-auto font-weight-bold">
-										<input type="text" id="useMile" name="useMile" value="">
-										<button type="button" id="result">적용</button>
+										<input type="text" id="useMile" name="useMile" value="0" required>
+										
 
 									</div>
 
@@ -293,7 +293,7 @@ String dDetailAddress = aes.decrypt(m.getDetailAddress());
 									<h5>총 주문금액</h5>
 									<div class="ml-auto h5">
 										<input type="text" name="totalPrice" id="totalPrice" value=""
-											style="border: none; text-align: right;" readonly> 원
+											style="border: none; text-align: right;" readonly required> 원
 									</div>
 
 
@@ -330,30 +330,47 @@ String dDetailAddress = aes.decrypt(m.getDetailAddress());
 		})
 	}) */
 
-	$("#result").click(function() {
-		var price = Number($("#sumPrice").html());
-		var useMile = Number($("#useMile").val());
-		var mileage = Number($("#mileage").val());
-
-		if (useMile > mileage) {
-			alert("보유중인 마일리지를 초과합니다.");
-			$("#useMile").val("");
-		} else {
-			if (useMile > price * 0.05) {
-				alert("마일리지 최대 사용액수는 상품구매가격의 5%입니다.");
+	$(function(){
+		$("#totalPrice").val($("[name='orderPrice']").val());
+		$("[name='useMile']").keyup(function(){
+			var useMile=Number($("[name='useMile']").val());
+			var mileage=Number($("#mileage").val());	
+			var price=Number($("#sumPrice").html());
+			
+			if(useMile>mileage){
+				alert("보유중인 마일리지를 초과합니다.");
 				$("#useMile").val("");
-			} else {
-
-				var totalPrice = price - useMile;
+			}else{
+				if(useMile>price*0.05){
+					alert("마일리지 최대 사용액수는 상품구매가격의 5%입니다.");
+					$("#useMile").val("");
+				}else{
+					
+				var totalPrice=price-useMile;
 				$("#totalPrice").val(totalPrice);
-				console.log(totalPrice);
+				
+				}
+				
 			}
-
-		}
-
+		})
 	});
 
 	$(document).on('click', "#checkout", function() {
+		if($.trim($("[name='receiver']").val())==''){
+			alert("수령인을 입력하세요!");
+			$("[name='receiver']").focus();
+			return false;
+		}
+		if($.trim($("[name='orPhone']").val())==''){
+			alert("핸드폰번호를 입력하세요!");
+			$("[name='orPhone']").focus();
+			return false;
+		}
+		if($.trim($("[name='orDetailAddress']").val())=='없음' || $.trim($("[name='orDetailAddress']").val())==''){
+			alert("상세주소를 입력하세요!");
+			$("[name='orPhone']").focus();
+			return false;
+		}
 
 		var IMP = window.IMP; // 생략가능
 		IMP.init('imp09698115'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
