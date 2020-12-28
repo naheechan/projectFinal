@@ -609,7 +609,7 @@ public class AdminController {
 					//할거 다했으면 orderDetail에서 delete때리기
 					result = orderService.deleteOrderDetail(orderNo);
 					if(result>0) {
-						result = cycleService.checkCycleExist(id);
+						result = cycleService.checkCycleExist(o);
 						if(result>0) {
 							mv.addObject("msg", "취소 처리가 완료되었습니다.");
 							mv.addObject("subMsg","주문 취소 관리 페이지를 다시 로드합니다.");

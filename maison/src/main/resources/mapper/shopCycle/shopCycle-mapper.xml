@@ -121,7 +121,8 @@
                             FROM ORDERDETAIL  
                             WHERE ORDERNO IN (SELECT ORDERNO 
                                               FROM ORDER_TB
-                                              WHERE MEMBERID=#{id})
+                                              WHERE MEMBERID=#{memberId}
+                                              AND ORDERNO=#{orderNo})
                             GROUP BY PRODUCTNO
                             HAVING COUNT(PRODUCTNO)<2
                                             )

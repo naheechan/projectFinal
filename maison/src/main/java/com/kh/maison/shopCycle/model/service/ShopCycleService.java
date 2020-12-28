@@ -3,6 +3,7 @@ package com.kh.maison.shopCycle.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.shopCycle.model.vo.CountCycle;
 import com.kh.maison.shopCycle.model.vo.CycleProduct;
 
@@ -19,5 +20,5 @@ public interface ShopCycleService {
 	int selectProductNo(Map<String,String> map);
 	int updateAlertStatus(Map<String,String> map);
 	
-	int checkCycleExist(String id);
-}
+	int checkCycleExist(Order o);
+}	
