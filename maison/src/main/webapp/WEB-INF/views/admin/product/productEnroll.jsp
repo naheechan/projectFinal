@@ -277,6 +277,16 @@
         					$target.val('');
         					$('#temp_img').remove();
         					return;
+        				}else if(e.target.width == $width && e.target.height != $height){          
+        					swal('','파일사이즈는 ('+$width+'x'+$height+')입니다.');
+        					$target.val('');
+        					$('#temp_img').remove();
+        					return;
+        				}else if(e.target.width != $width && e.target.height == $height){          
+        					swal('','파일사이즈는 ('+$width+'x'+$height+')입니다.');
+        					$target.val('');
+        					$('#temp_img').remove();
+        					return;
         				}
     				}
     				img.src=e.target.result;
@@ -297,7 +307,7 @@
     			}
     		}
     		$('#temp_img').remove(); */
-    	})
+    	});
     
     </script>
     
