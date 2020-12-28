@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.maison.order.model.vo.Order;
 import com.kh.maison.shopCycle.model.dao.ShopCycleDao;
 import com.kh.maison.shopCycle.model.vo.CountCycle;
 import com.kh.maison.shopCycle.model.vo.CycleProduct;
@@ -67,6 +68,12 @@ public class ShopCycleServiceImpl implements ShopCycleService {
 	@Override
 	public int updateAlertStatus(Map<String, String> map) {
 		return dao.updateAlertStatus(session, map);
+	}
+
+	@Override
+	public int checkCycleExist(Order o) {
+		// TODO Auto-generated method stub
+		return dao.checkCycleExist(session,o);
 	}
 	
 	

@@ -30,4 +30,7 @@ public interface MemberDao {
 	int updateMemberStatus(SqlSessionTemplate session, Map<String,Object> target);
 
 	int updateMemberWithdraw(SqlSessionTemplate session,Map<String,Object> target);
+	
+	int updateMileage(SqlSessionTemplate session,Member m);
+
 }

@@ -27,4 +27,6 @@ public interface MemberService {
 	int updateMemberStatus(Map<String,Object> target);
 
 	int updateMemberWithdraw(Map<String,Object> target);
+	
+	int updateMileage(Member m);
 }

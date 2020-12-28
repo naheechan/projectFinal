@@ -147,14 +147,33 @@
 // 기본값은 function mixWishBest()로 해서 꽂을거임. (wish2개 , Best seller 2개)
 $(document).ready(function(){
 	wishList();
+	bestSeller();
 })
+
+$(function(){
+	$("#WishFilter").on('click',function(){
+		$("#products-div").html('');
+		wishList();
+	});	
+	
+	$("#BestFilter").on('click',function(){
+		$("#products-div").html('');
+		bestSeller();
+	})
+	$("#NoFilter").on('click',function(){
+		$("#products-div").html('');
+		wishList();
+		bestSeller();
+	})
+})
+
 function wishList(){
 	$.ajax({
 		url : '${path}/firstpage/wishList.do',
 		type:'get',
 		success:function(data){
-			var dataLeng = Object.keys(data).length;
 			var d = '';
+			var dataLeng = Object.keys(data).length;	
 			$.each(data,function(key,value){
 				d+='<div class="col-lg-3 col-md-6 special-grid top-wish">';
 				d+='<div class="products-single fix">';
@@ -163,7 +182,7 @@ function wishList(){
 				d+='<img src="${path}/resources/upload/product/'+value.productImg+'" class="img-fluid" alt="Image">';			
 				d+='</div>';
 				d+='<div class="why-text">';
-				d+='<a href="#"><h4>'+value.productName+'</h4></a>';
+				d+='<a href="${path }/shop/shopDetail.do?no='+value.productNo+'"><h4>'+value.productName+'</h4></a>';
 				d+='<h5> '+value.price+'</h5>';
 				d+='</div></div></div>';
 			})
@@ -171,5 +190,31 @@ function wishList(){
 		}
 	})
 }
+
+function bestSeller(){
+	$.ajax({
+		url : "${path }/firstpage/bestSeller.do",
+		type:'get',
+		success:function(data){
+			var d='';
+			var dataLeg = Object.keys(data).length;
+			$.each(data,function(key,value){
+				d+='<div class="col-lg-3 col-md-6 special-grid best-seller">';
+				d+='<div class="products-single fix">';
+				d+='<div class="box-img-hover">';
+				d+='<div class="type-lb"><p class="sale">Sale</p></div>';
+				d+='<img src="${path}/resources/upload/product/'+value.productImg+'" class="img-fluid" alt="Image">';			
+				d+='</div>';
+				d+='<div class="why-text">';
+				d+='<a href="${path }/shop/shopDetail.do?no='+value.productNo+'"><h4>'+value.productName+'</h4></a>';
+				d+='<h5> '+value.price+'</h5>';
+				d+='</div></div></div>';				
+			})
+			$("#products-div").append(d);
+		}
+	})
+}
+
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		

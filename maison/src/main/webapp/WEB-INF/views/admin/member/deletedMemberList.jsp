@@ -135,11 +135,11 @@
 			                      			<tr>
 			                      				<td><c:out value="${l.memberId }"/></td>
 			                      				<td>			                   					
-			                      					<c:if test="${empty l.mvReason }">
+			                      					<c:if test="${empty l.mwReason }">
 			                      						(없음)
 			                      					</c:if>
-			                      					<c:if test="${not empty l.mvReason}">
-			                      						<c:out value="${l.mvReason }"/>
+			                      					<c:if test="${not empty l.mwReason}">
+			                      						<c:out value="${l.mwReason }"/>
 			                      					</c:if>
 			                      				</td>
 			                      				<fmt:formatDate value="${l.mvDate}" pattern="yyyy-MM-dd" var="fmtMvDate"/>

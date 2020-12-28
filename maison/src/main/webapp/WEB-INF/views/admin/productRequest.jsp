@@ -157,7 +157,6 @@ $(function(){
 	
 	$("#requestStatus").on('change',function(){
 		$(this).closest('form[name=checkStatusFrm]').submit();
-		console.log("콘솔도 하나 찍어볼까?");
 	})
 })
 </script>

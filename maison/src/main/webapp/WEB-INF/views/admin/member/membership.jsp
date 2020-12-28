@@ -10,7 +10,7 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>회원목록</title>
+<title>등급혜택관리</title>
 <!-- plugins:css -->
 <link rel="stylesheet" href="${path }/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="${path }/resources/admin/vendors/base/vendor.bundle.base.css">
@@ -42,11 +42,9 @@
 		              <div class="d-flex justify-content-between flex-wrap">
 		                <div class="d-flex align-items-end flex-wrap">
 		                  <div class="mr-md-3 mr-xl-5">
-		                    <h2>회원 목록</h2>
+		                    <h2>등급 혜택 관리</h2>
 		                    <br>
-		                    <p class="mb-md-0">가입한 회원의 연락처, 가입일 등의 정보를 확인, 수정, 관리할 수 있으며, </p>
-		                    <p class="mb-md-0">특정회원을 검색하시려면 상단의 검색박스에서 검색어를 입력하고 회원구분/이메일 수신 여부/회원등급 중</p> 
-							<p class="mb-md-0">하나 혹은 다중으로 정보를 선택한 후 하단의 검색버튼을 클릭하시면 됩니다.</p>
+		                    <p class="mb-md-0">쇼핑몰 회원의 등급 조건/혜택을 관리할 수 있습니다.</p>
 		                  </div>
 
 		                </div>
@@ -54,102 +52,43 @@
 		                  <div class="d-flex">
 		                    <i class="mdi mdi-home text-muted hover-cursor"></i>
 		                    <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;대시보드&nbsp;/&nbsp;</p>
-		                    <p class="text-primary mb-0 hover-cursor">회원 목록</p>
+		                    <p class="text-primary mb-0 hover-cursor">회원 등급 관리</p>
 		                  </div>
 		                </div>
 		              </div>
 		            </div>
 		          </div>
-		          <!-- 첫번째 row div 끝 -->
-		          <!-- 두번째 row div 시작 -->
+		          <!-- 첫번째 row div 끝 -->	
+		          		          <!-- 두번째 row div 시작 -->
 		          <div class="row">
 		          	<div class="col-lg-12 grid-margin stretch-card">
 		              <div class="card">
 		                <div class="card-body">
-		                  <h4 class="card-title">회원검색</h4>
+		                  <h4 class="card-title">신규회원 혜택</h4>
 		                  <div class="table-responsive pt-3">
-		                  	<form action="${path }/admin/memberList.do">
+		                  	<form action="${path }/admin/membership/default.do">
 			                    <table class="table table-bordered">
 			                      <tbody>
 								  	<tr>
-								  		<th>검색어</th>
+								  		<th>웰컴적립금</th>
 								  		<td>
-								  			<div class="form-row">
-	    									<div class="col">		
-									  			<select class="form-control" name="type">
-									  				<option value="" selected>선택하기</option>
-									  				<option value="memberId">아이디</option>
-									  				<option value="memberName">이름</option>
-									  				<option value="both">아이디+이름</option>
-									  			</select>
+								  			<div>
+									  			<input type="text" name="welcomeMileage" class="form-control" value="${defaultMileage }"/>								  			
 								  			</div>
-								  			<div class="col">
-									  			<input type="text" name="keyword" class="form-control"/>
-								  			</div>
-								  			</div>
-								  		</td>
-								  		<th>회원구분</th>
-								  		<td>
-								  			<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="">전체
-											  </label>
-											</div>							  		
-								  			<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="normal">일반 회원
-											  </label>
-											</div>
-						  					<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="memberSocial" value="social">소셜 회원
-											  </label>
-											</div>										
-								  		</td>
-								  	</tr>
-								  	<tr>
-								  		<th>이메일 수신 여부</th>
-								  		<td>
-								  			<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="">전체
-											  </label>
-											</div>
-						  					<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="accept">수신허용
-											  </label>
-											</div>	
-						  					<div class="form-check-inline">
-											  <label class="form-check-label">
-											    <input type="radio" class="form-check-input" name="emailStatus" value="deny">수신거부
-											  </label>
-											</div>																			
-								  		</td>
-								  		<th>회원등급</th>
-								  		<td>
-								  			<select class="form-control" name="memberLevel">
-								  				<option value="" selected>선택하기</option>
-								  				<option value="ace">ACE</option>
-								  				<option value="gold">GOLD</option>
-								  				<option value="vip">VIP</option>
-								  				<option value="mvg">MVG</option>
-								  			</select>							  		
-								  		</td>
+								  		</td>								  		
 								  	</tr>
 			                      </tbody>
 			                    </table>
 			                    <br>
-		                  	<button class="btn btn-primary mt-2 mt-xl-0" style="float:right;">검색하기</button>
+		                  	<button class="btn btn-primary mt-2 mt-xl-0" style="float:right;">수정하기 </button>
 		                    </form>
 		                  </div>
 		                </div>
 		              </div>
 			      	</div>
-			      	
 		          </div>
-		          <!-- 두번째 row div 끝 -->
-		         <!-- 세번째 row div 시작 -->
+		          <!-- 두번째 row div 끝 -->	
+		          <!-- 세번째 row div 시작 -->
 				  <div class="row">
 		            <div class="col-md-12 stretch-card">
 		              <div class="card">
@@ -160,11 +99,10 @@
 		                    <table id="recent-purchases-listing" class="table">
 		                      <thead>
 		                        <tr>
-		                        	<th>회원등급</th>
-									<th>아이디</th>
-		                          	<th>성명</th>
-		                          	<th>이메일</th>
-		                          	<th>전화번호</th>
+		                        	<th>등급명</th>
+									<th>등록된 회원 수</th>
+		                          	<th>등급조건</th>
+		                          	<th>등급혜택</th>
 		                          	<th>관리</th>
 		                        </tr>
 		                      </thead>
@@ -174,27 +112,26 @@
 		                      			<tr>
 		                      				<td>
 		                      					<c:choose>
-		                      						<c:when test="${l.gradeCode eq 'ace' }">
+		                      						<c:when test="${l.GRADECODE eq 'ace' }">
 		                      							<label class="badge badge-success">ACE</label>
 		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'gold' }">
+		                      						<c:when test="${l.GRADECODE eq 'gold' }">
 		                      							<label class="badge badge-warning">GOLD</label>
 		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'vip' }">
+		                      						<c:when test="${l.GRADECODE eq 'vip' }">
 		                      							<label class="badge badge-danger">VIP</label>
 		                      						</c:when>
-		                      						<c:when test="${l.gradeCode eq 'mvg' }">
+		                      						<c:when test="${l.GRADECODE eq 'mvg' }">
 		                      							<label class="badge badge-primary">MVG</label>
 		                      						</c:when>		                      						
 		                      					</c:choose>
 		                      				</td>
-		                      				<td><c:out value="${l.memberId }"/></td>
-		                      				<td><c:out value="${l.memberName }"/></td>
-		                      				<td><c:out value="${l.email }"/></td>		                      				
-		                      				<td><c:out value="${l.phone }"/></td>
+		                      				<td><c:out value="${l.AMOUNT }"/></td>
+		                      				<td>지난 3개월 간, <c:out value="${l.GRADEBASE }"/>이상 구매</td>
+		                      				<td><c:out value="${l.ACCRATE }"/></td>		                      				
 											<td>
-												<button class="btn btn-lignt">수정</button>
-												<button class="btn btn-secondary" onclick="memberDelete('${l.memberId}')">탈퇴</button>
+												<button class="btn btn-lignt" onclick="membershipUpdate('${l.GRADECODE}')">수정</button>
+							
 											</td>
 		                      			</tr>
 		                      		</c:forEach>
@@ -203,23 +140,23 @@
 		                    </table>
 		                  </div>
 		                  <br>
-		                  <div id="pageBar">
+		                 <div id="pageBar">
 		                  	${pageBar }
 		                  </div>
 		                </div>
 		              </div>
 		            </div>
 		          </div>
-		          <!-- 네번째 row div 끝 -->
+		          <!-- 세번째 row div 끝 -->	
 			</div>
 			<jsp:include page="/WEB-INF/views/admin/footer.jsp"/>
 		</div>
-	</div>
+	</div>	
 </div>
 <jsp:include page="/WEB-INF/views/admin/jses.jsp"/>
 <script>
-	function memberDelete(str){
-		location.href='${path }/admin/memberDelete.do?memberId='+str;
+	function membershipUpdate(str){
+		location.href='${path }/admin/membership/update.do?gradecode='+str;
 	}
 </script>
 </body>

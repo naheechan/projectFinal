@@ -119,6 +119,7 @@ public class MailSendService {
 		try {
 			MailUtils sendMail = new MailUtils(mailSender);
 			sendMail.setSubject("MAISON 회원가입 이메일 인증");
+
 			sendMail.setText(new StringBuffer()
 						//헤더
 							.append(header1)

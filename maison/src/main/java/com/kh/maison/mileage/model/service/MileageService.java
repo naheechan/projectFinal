@@ -24,4 +24,7 @@ public interface MileageService {
 	List<Mileage> selectConditionMileage(int cPage,int numPerPage,Map<String,Object> condition);
 
 	int selectConditionMileageCount(Map<String,Object> condition);
+
+	int insertCancelMileageFirst(Mileage mil);
+	int insertCancelMileageSecond(Mileage mil2);
 }
