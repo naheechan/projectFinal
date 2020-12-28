@@ -66,7 +66,7 @@
             <div class="collapse" id="ui-board">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="${path }/admin/adminNoticeList.do">공지 관리</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">질문 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/adminQnaList.do">질문 관리</a></li>
               </ul>
             </div>
           </li>

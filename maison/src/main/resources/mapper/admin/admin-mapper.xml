@@ -256,6 +256,7 @@
         GROUP BY G.GRADECODE
 	</select>
 	
+<<<<<<< HEAD
 	<select id="selectTotalPrice" parameterType="Integer" resultType="Integer">
 		SELECT SUM(ORDERPRICE) FROM ORDER_TB
 	</select>
@@ -279,5 +280,24 @@
 	<select id="selectTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM ORDERDETAIL
 	</select>
+
+	<select id="selectRecommendList" parameterType="map" resultType="com.kh.maison.shop.vo.Product">
+		SELECT *
+		FROM PRODUCT
+		WHERE PRODUCTNO IN (SELECT PRODUCTNO
+                            FROM (SELECT ROWNUM RNUM, A.*
+                                  FROM (SELECT P.PRODUCTNO, SUM(ODAMOUNT) SUMMOUNT
+                                        FROM PRODUCT P
+                                        JOIN MEDIUMCATE M
+                                        ON P.MEDIUMCATE=M.MEDIUMCATE
+                                        JOIN ORDERDETAIL O
+                                        ON P.PRODUCTNO=O.PRODUCTNO
+                                        WHERE PRODUCTSTATUS='Y' AND P.PRODUCTNO != #{no} AND LARGECATE=#{largeCate}
+                                        GROUP BY P.PRODUCTNO
+                                        ORDER BY SUMMOUNT DESC) A)
+                            WHERE RNUM BETWEEN 1 AND 3)
+	</select>
+	
+
 	
 </mapper>

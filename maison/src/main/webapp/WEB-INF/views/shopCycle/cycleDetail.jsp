@@ -299,7 +299,7 @@
 										
 										<div class="form-group" id="dateDiv" style="display:none">
 										    <label for="datepicker"></label><br>
-										    <input type="text" class="form-control" id="datepicker" name="start">
+										    <input type="text" class="form-control" id="datepicker" name="start" autocomplete="off">
 										    <div id="checkStart-container">
 											    <p class="text-danger" id="notRegStart" style="display:none">달력에서 시작일을 선택해주세요</p>
 										    </div>

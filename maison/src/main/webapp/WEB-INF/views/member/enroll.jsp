@@ -101,7 +101,7 @@
     $(function() {
     	
     	//아이디 유효성+중복체크
-    	$("#memberId").keyup(function(e) {
+    	$("#memberId").change(function(e) {
     		$("#idSpinner").show();
     		$("#idCheck").val("0");
     		let checkId = $(e.target).val().trim();
