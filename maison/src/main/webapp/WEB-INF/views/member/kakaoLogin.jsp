@@ -183,7 +183,7 @@
 			<input type="hidden" id="memberId" name="memberId" value="${memKakao.memberId }">
 			<input type="hidden" id="memberName" name="memberName" value="${memKakao.memberName}">
 			<input type="hidden" id="email" name="email" value="${memKakao.email}">
-			<input type="hidden" id="memberPw" name="memberPw" value="${memKakao.memberPw}">
+			<%-- <input type="hidden" id="memberPw" name="memberPw" value="${memKakao.memberPw}"> --%>
 	
 	
 			<!-- 주소부분 -->

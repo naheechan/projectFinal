@@ -1173,7 +1173,7 @@ public class MemberController {
 			memKakao.setMemberId(Integer.toString(kakaoProfile.getId()));
 			memKakao.setEmail(kakaoProfile.getKakao_account().getEmail());
 			memKakao.setMemberName(kakaoProfile.getKakao_account().getProfile().getNickname());
-			memKakao.setMemberPw(garbagePassword.toString());
+			//memKakao.setMemberPw(garbagePassword.toString());
 			//memKakaor을 세션에 넣음
 			m.addAttribute("memKakao", memKakao);
 			loc= "redirect:/member/kakao/enroll";
