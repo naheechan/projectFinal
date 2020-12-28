@@ -36,7 +36,7 @@
 							$("#qnaForm").submit( function(e) {
 					            var messageLength = CKEDITOR.instances['qnaContent'].getData().replace(/<[^>]*>/gi, '').length;
 					            if( !messageLength ) {
-					                alert( '질문의 내용을 입력해주세요' );
+					                swal( '질문의 내용을 입력해주세요' );
 					                e.preventDefault();
 					            }
 					        });

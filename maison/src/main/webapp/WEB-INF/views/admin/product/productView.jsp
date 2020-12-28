@@ -106,7 +106,7 @@
           </div>
           <div class="form-group left">
             <label for="productStock" class="label-title">재고수량 *</label>
-            <input type="range" min="0" max="1000" step="10"  value="0" name="productStock" id="productStock" class="form-input" value="${list.productStock }" 
+            <input type="range" min="0" max="1000" step="10"  value="${list.productStock}" name="productStock" id="productStock" class="form-input" value="${list.productStock }" 
             onChange="change();" style="height:28px;width:78%;padding:0;" disabled='true'>
             <br>
             <span id="range-label">${list.productStock }</span>
@@ -152,7 +152,7 @@
     };
     $(function(){
     	$("#createbtn").click(function(){
-    		alert("관리자 마이페이지-상품 분류 관리 페이지에서 이용가능합니다.");
+    		swal('',"관리자 마이페이지-상품 분류 관리 페이지에서 이용가능합니다.","info");
     	})
     	
 

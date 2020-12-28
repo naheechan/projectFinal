@@ -1,6 +1,7 @@
 package com.kh.maison.admin.scheduler.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
@@ -22,5 +23,6 @@ public interface AdminSchedulerService {
 	int updateToGold(String memberId);
 	int updateToVip(String memberId);
 	int updateToMvg(String memberId);
+	List<Product> selectRecommendList(Map<String,String> map);
 	
 }

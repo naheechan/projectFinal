@@ -12,6 +12,9 @@ public interface QnaBoardDao {
 	int insertQnaBoard(SqlSession session,QnaBoardVo QB);
 	
 	List<QnaBoardVo> selectList(SqlSession session,int cPage, int numPerPage);
+	List<QnaBoardVo> selectCommentList(SqlSession session,int cPage, int numPerPage,String msg);
+	List<QnaBoardVo> selectSearchList(SqlSession session,int cPage, int numPerPage,String keyword,String select);
+	
 	int selectCount(SqlSession session);
 	
 	QnaBoardVo selectQna(SqlSession session,int no);

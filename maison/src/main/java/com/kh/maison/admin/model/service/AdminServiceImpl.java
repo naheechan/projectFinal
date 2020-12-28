@@ -1,6 +1,7 @@
 package com.kh.maison.admin.model.service;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -15,6 +16,7 @@ import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.vo.Mileage;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.model.vo.Request;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
@@ -239,5 +241,37 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectAllWithReportCount(session,ws);
 	}
+
+	public int selectTotalPrice(int numDate) {
+		// TODO Auto-generated method stub
+		return dao.selectTotalPrice(session,numDate);
+	}
+
+	@Override
+	public int selectPriceChange(int numDate) {
+		// TODO Auto-generated method stub
+		return dao.selectPriceChange(session,numDate);
+	}
+
+	@Override
+	public int selectDayTotal(int sendNum) {
+		// TODO Auto-generated method stub
+		return dao.selectDayTotal(session,sendNum);
+	}
+
+	@Override
+	public List<OrderDetail> selectSalesList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectSalesList(session,cPage,numPerPage);
+	}
+
+	@Override
+	public int selectTotalCount() {
+		// TODO Auto-generated method stub
+		return dao.selectTotalCount(session);
+	}
+	
+	
+
 	
 }

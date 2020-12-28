@@ -4,7 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>    
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <style>
 	body{
 		background:#D9C8A9;
@@ -142,17 +144,22 @@ $(function(){
 		
 	
 	$("#btn").click(function(){
-		var insertCate = $('[name=submitForm]').serialize();
 		if($("#largeCate").val()==""){
-				alert("카테고리[대]를 선택하세요");
+				swal("","카테고리[대]를 선택하세요");
 				return;
 		}else{
 			if($("#mcName").val()==""){
-				alert("추가할 카테고리를 입력하세요");
+				swal("","추가할 카테고리를 입력하세요");
 				return;
 			}
 		}
-		enrollCate(insertCate);
+		if($("#checkText").attr('style').split(":")[1]==' green;'){
+		//var insertCate = $('[name=submitForm]').serialize();
+		//enrollCate(insertCate);
+			enrollCate();
+		}else{
+			swal("","같은 이름의 카테고리명이 있습니다.","info");
+		};
 	});
 	
 	function selectMediCate(){
@@ -184,18 +191,25 @@ $(function(){
 			})
 		})
 	}
-	function enrollCate(insertCate){
+	function enrollCate(){
+		var largeCate=$("#largeCate option:selected").val();
+		var mcName=$("#mcName").val();
+		console.log(largeCate);
+		console.log(mcName);
 		$.ajax({
 			url:"${ path }/admin/product/enrollCate.do",
 			type:"post",
-			data:insertCate,
+			data:{"largeCate":largeCate,"mcName":mcName},
 			success:function(data){
 				if(data==1){
 					console.log("ajax통신성공");
-					alert("카테고리 추가 등록 성공");
+					swal("","카테고리 추가 등록 성공","success");
+					setTimeout(function() {
 					self.close();
+						}, 1000);
+					
 				}else{
-					alert("카테고리 추가 등록이 실패하였습니다.")
+					swal("","카테고리 추가 등록이 실패하였습니다.","info");
 				}
 			},
 			error:function(){

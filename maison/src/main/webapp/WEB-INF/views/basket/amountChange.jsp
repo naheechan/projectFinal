@@ -10,10 +10,10 @@
 	<tr>
 		<td><input type="checkbox" name="basketChecked"
 			value="${list.BASKETNO }" checked></td>
-		<td class="thumbnail-img"><a href="#"> <img class=""
-				src='${list.PRODUCTIMG }' height="100px" alt="" />
+		<td class="thumbnail-img"><a href="${path }/shop/shopDetail.do?no=${list.PRODUCTNO}"> <img class=""
+				src='${path }/resources/upload/product/${list.PRODUCTIMG }' height="100px" alt="" />
 		</a></td>
-		<td class="name-pr"><a href="#"> ${list.PRODUCTNAME } </a></td>
+		<td class="name-pr"><a href="${path }/shop/shopDetail.do?no=${list.PRODUCTNO}"> ${list.PRODUCTNAME } </a></td>
 		<td class="price-pr">${list.PRICE }원</td>
 		<td class="quantity-box"><input type="number" name="amount"
 			size="4" value="${list.AMOUNT }" min="0" step="1"

@@ -27,5 +27,8 @@ public class CycleProduct {
 	private String largeCate;
 	private int odAmount;
 	
+	private long nextDate; //다음 예상구매날짜 ms로 들어가는곳 (정렬용)
+	private int day; //현재 설정된 주기모드(on/off)의 주기일수가 들어가는곳 (정렬용)
+	
 
 }

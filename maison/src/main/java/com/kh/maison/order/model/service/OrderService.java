@@ -30,6 +30,7 @@ public interface OrderService {
 	
 	int insertShippingDestination(Order o);
 	
+
 	//마이페이지 주문취소 관련
 	Order selectOneOrder(int orderNo);
 	int updateOrderStatus(int orderNo);
@@ -38,4 +39,15 @@ public interface OrderService {
 	List<Map<String,Object>> selectCancelOne(int orderNo);
 	int updateOrderStatusSecond(int orderNo);
 	int deleteOrderDetail(int orderNo);
+
+	List<Order> selectMyOrderList(Map param,int cPage,int numPerPage);
+
+	int deleteBasket(Basket b);
+	
+	List<Order> selectMyOrderListAll(Map param);
+	
+	int countMyOrderList(Map param);
+	
+	Order selectOrderOne(int orderNo);
+
 }

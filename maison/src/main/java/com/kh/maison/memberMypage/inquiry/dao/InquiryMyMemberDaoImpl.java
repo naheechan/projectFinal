@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList;
+import com.kh.maison.shop.model.vo.InquiryReply;
 
 @Repository
 public class InquiryMyMemberDaoImpl implements InquiryMyMemberDao {
@@ -122,6 +123,16 @@ public class InquiryMyMemberDaoImpl implements InquiryMyMemberDao {
 	@Override
 	public int deleteRep(SqlSession session, String no) {
 		return session.delete("myMemInquiry.deleteRep",no);
+	}
+
+	@Override
+	public int updateInq(SqlSession session, Map<String, Object> map) {
+		return session.update("myMemInquiry.updateInq",map);
+	}
+
+	@Override
+	public List<InquiryReply> selectReplyOne(SqlSession session,String no) {
+		return session.selectList("myMemInquiry.selectReplyOne",no);
 	}
 
 	

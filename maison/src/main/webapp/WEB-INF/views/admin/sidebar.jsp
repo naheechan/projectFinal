@@ -38,7 +38,7 @@
             </a>
             <div class="collapse" id="ui-order">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">결제관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/order/orderManagement.do">결제관리</a></li>
                 <li class="nav-item"> <a class="nav-link" href="${path }/admin/order/cancelList.do">취소관리</a></li>
               </ul>
             </div>
@@ -66,7 +66,7 @@
             <div class="collapse" id="ui-board">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="${path }/admin/adminNoticeList.do">공지 관리</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">질문 관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${path }/admin/adminQnaList.do">질문 관리</a></li>
               </ul>
             </div>
           </li>
@@ -85,7 +85,7 @@
             </div>
           </li>                     
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="${path }/admin/salesSum.do">
               <i class="mdi mdi-cash menu-icon"></i>
               <span class="menu-title">매출현황</span>
             </a>

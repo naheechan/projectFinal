@@ -28,8 +28,8 @@ public interface ShopDao {
 	
 	List<Category> searchMediCate(SqlSession session, String category);
 	
-	List<TotalInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage);
-	int selectCountInquiry(SqlSession session);
+	List<TotalInquiry> selectInquiryList(SqlSession session, int cPage, int numPerPage,Map<String,Object> map);
+	int selectCountInquiry(SqlSession session,Map<String,Object> map);
 	
 	Product selectPdOne(SqlSession session, int no);
 	

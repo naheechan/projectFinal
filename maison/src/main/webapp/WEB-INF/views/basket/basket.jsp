@@ -24,7 +24,7 @@
                         <table id="basketTable" class="table">
                             <thead>
                                 <tr>
-                                	<th style="width:3%"><input type="checkbox" id="allCheck" onclick="allChecked();"></th>
+                                	<th style="width:3%"><input type="checkbox" id="allCheck" checked onclick="allChecked();"></th>
                                     <th style="width:22%">사진</th>
                                     <th style="width:36%">상품 명</th>
                                     <th style="width:15%">판매가</th>

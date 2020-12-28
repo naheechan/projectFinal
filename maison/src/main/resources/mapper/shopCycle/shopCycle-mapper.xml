@@ -3,16 +3,13 @@
 <mapper namespace="cycle">
 	
 	<select id="selectCycleList" resultType="cycleProduct" parameterType="map">
-		<!-- SELECT * 
-		FROM CYCLE C 
-		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
-		ON C.PRODUCTNO=PM.PRODUCTNO 
-		WHERE MEMBERID=#{id}  -->
 		SELECT * 
 		FROM CYCLE C 
 		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
 		ON C.PRODUCTNO=PM.PRODUCTNO 
-		JOIN (SELECT PRODUCTNO, ODAMOUNT FROM ORDERDETAIL WHERE ORDERDETAILNO IN (
+		JOIN (SELECT PRODUCTNO, ODAMOUNT, ORDERDATE FROM ORDERDETAIL QQ
+		      JOIN ORDER_TB WW ON QQ.ORDERNO=WW.ORDERNO
+		      WHERE ORDERDETAILNO IN (
 		                SELECT MAX(OD.ORDERDETAILNO)
 		                FROM ORDER_TB OT
 		                JOIN ORDERDETAIL OD
@@ -27,14 +24,13 @@
 		<if test="detailTab != null">
 			AND MCNAME=#{detailTab}
 		</if>
+		ORDER BY ALERTSTATUS DESC
+		<if test='sortOption == null or sortOption.equals("sortRecentOrder")'>
+			, ORDERDATE DESC		
+		</if>
 	</select>
   
   	<select id="selectCycleOne" resultType="cycleProduct" parameterType="map">
-  		<!-- SELECT * 
-  		FROM CYCLE C 
-  		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 
-  		ON C.PRODUCTNO=PM.PRODUCTNO 
-  		WHERE MEMBERID=#{id} AND C.PRODUCTNO=#{no} -->
   		SELECT * 
 		FROM CYCLE C 
 		JOIN (SELECT * FROM PRODUCT P JOIN MEDIUMCATE M ON P.MEDIUMCATE=M.MEDIUMCATE) PM 

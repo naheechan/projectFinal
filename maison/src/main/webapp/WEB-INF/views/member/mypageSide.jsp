@@ -17,7 +17,7 @@
 							</a>
 		                    <div class="collapse" id="sub-men1" data-parent="#list-group-men">
 		                    	<div class="list-group">
-		                        	<a href="#" class="list-group-item list-group-item-action">
+		                        	<a href="${path }/member/order/orderList.do" class="list-group-item list-group-item-action">
 		                        		<h4>주문/배송 조회 </h4>
 		                        		<small class="text-muted"></small>
 		                        	</a>		                        	

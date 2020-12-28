@@ -60,10 +60,91 @@
 			#{orAddress},#{orDetailAddress},#{orPhone})
 	</insert>
 	
+	<resultMap id="myorderlist" type="com.kh.maison.order.model.vo.Order">
+        <result property="orderNo" column="orderNo" />
+        <result property="memberId" column="memberId" />
+        <result property="payment" column="payment" />
+        <result property="orderPrice" column="orderPrice" />
+        <result property="totalPrice" column="totalPrice" />
+        <result property="useMile" column="useMile"/>
+        <result property="stackMile" column="useMile" />
+        <result property="receiver" column="receiver" />
+        <result property="sellRequest" column="sellRequest" />
+        <result property="deliRequest" column="deliRequest" />
+        <result property="orPhone" column="orPhone" />
+        <result property="orZipcode" column="orZipcode" />
+        <result property="orAddress" column="orAddress" />
+        <result property="orDetailAddress" column="orDetailAddress" />
+        <result property="orderStatus" column="orderStatus" />
+        <result property="orderDate" column="orderDate" />
+        <result property="cancelDate" column="cancelDate" />
+        <!-- <association property="od"  javaType="orderDetail" >
+             <result property="orderDetailNo"  column="orderDetailNo" />
+             <result property="orderNo"  column="orderNo" />
+             <result property="productNo"  column="productNo" />
+             <result property="odAmount"  column="odAmount" />
+             <result property="odPriceSum" column="odPriceSum" />
+             <result property="productImg" column="productImg" />
+             <result property="price" column="price" />
+             <result property="productName" column="productName" />
+        </association> -->
+        <collection property="ods" resultMap="odsMap">
+        </collection>
+	</resultMap>
+	<resultMap type="com.kh.maison.order.model.vo.OrderDetail" id="odsMap">
+			<result property="orderDetailNo"  column="orderDetailNo" />
+             <result property="orderNo"  column="orderNo" />
+             <result property="productNo"  column="productNo" />
+             <result property="odAmount"  column="odAmount" />
+             <result property="odPriceSum" column="odPriceSum" />
+             <result property="productImg" column="productImg" />
+             <result property="price" column="price" />
+             <result property="productName" column="productName" />
+	</resultMap>
+	<select id="selectMyOrderList" resultMap="myorderlist" parameterType="map">
+		SELECT O.*,OD.*,P.PRODUCTIMG,P.PRODUCTNAME,P.PRICE,P.PRODUCTNO
+		FROM ORDER_TB O
+		JOIN ORDERDETAIL OD ON O.ORDERNO=OD.ORDERNO
+		JOIN PRODUCT P ON OD.PRODUCTNO=P.PRODUCTNO
+		WHERE O.MEMBERID=#{memberId}
+		<if test="start!=null and end!=null">
+		AND O.ORDERDATE BETWEEN #{start} AND #{end}
+		</if>
+		ORDER BY O.ORDERDATE , O.ORDERNO DESC
+	</select>
+
+  	<select id="countMyOrderList" resultType="_int" parameterType="map">
+  		SELECT COUNT(*) FROM ORDER_TB WHERE MEMBERID=#{memberId}
+  		<if test="start!=null and end!=null">
+  		AND O.ORDERDATE BETWEEN #{start} AND #{end}
+  		</if>
+  	</select>
+  	<select id="selectMyOrderListAll" resultType="order" parameterType="map">
+  		SELECT ORDERSTATUS FROM ORDER_TB WHERE MEMBERID=#{memberId}
+  	</select>
+  	<select id="selectOrderOne" resultMap="myorderlist" parameterType="_int">
+  		SELECT O.*,OD.*,P.PRODUCTIMG,P.PRODUCTNAME,P.PRICE,P.PRODUCTNO
+		FROM ORDER_TB O
+		JOIN ORDERDETAIL OD ON O.ORDERNO=OD.ORDERNO
+		JOIN PRODUCT P ON OD.PRODUCTNO=P.PRODUCTNO
+		WHERE O.ORDERNO=#{orderNo}
+  	</select>
+  	
+	<delete id="deleteBasket" parameterType="basket">
+		DELETE FROM BASKET WHERE BASKETNO=#{basketNo}
+	</delete>
 	
+
 	<select id="selectOneOrder" parameterType="_int" resultType="order">
 		SELECT * FROM ORDER_TB 
 		WHERE ORDERNO=#{orderNo}
+
+	<select id="selectOrderList" resultType="order">
+		SELECT * FROM ORDER_TB ORDER BY ORDERDATE DESC
+	</select>
+	
+	<select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM ORDER_TB
 	</select>
 	
 	<update id="updateOrderStatus" parameterType="_int">

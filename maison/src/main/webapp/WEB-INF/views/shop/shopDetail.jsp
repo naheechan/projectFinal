@@ -8,12 +8,20 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="상품상세페이지"/>
 </jsp:include>
-
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+.navbar-brand {
+    float: left;
+    height: 100px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
 	[id^='content']{
 		margin:80px 0 100px 0;
 		text-indent:70px;
@@ -194,7 +202,7 @@ select::-ms-expand { /* for IE 11 */
 
 								<!-- <a class="btn hvr-hover" data-fancybox-close="" href="#">바로구매</a> -->
 									<input type="hidden" name="productName" value="${product.productName }">
-									<input type="hidden" name="productNo" value="${product.productNo }">
+									<input type="hidden" name="productNo" id="productNo" value="${product.productNo }">
 									<input type="hidden" name="price" value="${product.price }">
 									
 									<button type="submit" class="btn hvr-hover" id="buyBtn">바로구매</button>	
@@ -417,8 +425,8 @@ select::-ms-expand { /* for IE 11 */
 									<input type="hidden" name="sessionMemberId" class="form-control"  id="sessionMemberId" value="${loginMember.memberId }">
 									</tbody>
 								</table>
-							<div class="pageBar"></div>
 							</div>
+							<div class="pageBar"></div>
 						</div>
 						<hr>
 						 
@@ -426,7 +434,7 @@ select::-ms-expand { /* for IE 11 */
 						<a href="${path}/shop/user/writeInQuiry.do?no=${ product.productNo }" class="btn hvr-hover">문의하기</a>
 						</c:if>
 						<c:if test="${loginMember.memberId eq null}">
-						<a onclick="alert('로그인 후 이용해주세요');" class="btn hvr-hover">문의하기</a>
+						<a onclick="swal('','로그인 후 이용해주세요');" class="btn hvr-hover">문의하기</a>
 						</c:if>
 						<c:if test="${loginMember.memberId eq 'admin' }">
 						<!-- form adminFrm -->
@@ -461,7 +469,7 @@ $(function(){
 			var form =$(e.target).parent(); 
 			console.log(insertReply);
 				if(form.children("textarea").val()==""){
-					alert("내용을 입력해주세요.");
+					swal('',"내용을 입력해주세요.");
 				}else{
 					replyInsert(insertReply);
  					$("[name=pirContent]").val("");
@@ -488,10 +496,10 @@ $(document).on("click",'[name=after_adminModi]',function(e){
 	if(confirm("답글을 수정하시겠습니까?")){
 		var updateFrm = $("form[name='afterAdminReply']").serializeArray();
 		if($("#rmContent").val()==""){
-			alert("수정할 답글을 입력해주세요");
+			swal('',"수정할 답글을 입력해주세요");
 		}else{
 			modiAdminReply(updateFrm);
-			alert("답글수정성공");
+			swal('',"답글수정성공","success");
 			location.reload();
 		}
 	}
@@ -519,10 +527,10 @@ $(document).on("click",'[name=after_userModi]',function(e){
 	if(confirm("답글을 수정하시겠습니까?")){
 		var updateFrm = $("form[name='userModiInquiry']").serializeArray();
 		if($("#umContent").val()==""){
-			alert("수정할 문의 내용을 입력해주세요");
+			swal('',"수정할 문의 내용을 입력해주세요");
 		}else{
 			modiUserReply(updateFrm);
-			alert("문의글 수정 성공");
+			swal('',"문의글 수정 성공","success");
 			location.reload();
 		}
 	}
@@ -533,7 +541,7 @@ $(document).on("click",'[name=after_userModi]',function(e){
 			var no = $(this).prev().val();
 			if(confirm("문의를 삭제하시겠습니까?")){
 				delUserInquiry(no);
-				alert("문의 삭제 성공");
+				swal('',"문의 삭제 성공","success");
 				location.reload();
 			}
 		})
@@ -542,7 +550,7 @@ $(document).on("click",'[name=after_userModi]',function(e){
 			var no = $(this).prev().val();
 			if(confirm("문의를 삭제하시겠습니까?")){
  				delUserInquiry(no);
-				alert("문의 삭제 성공");
+				swal('',"문의 삭제 성공","success");
 				location.reload();
 			}
 		})
@@ -566,9 +574,10 @@ function replyInsert(insertReply){
 
 //문의내역 리스트 보여주기 o
 function inquiryList(){
-	
+	var no=$("[name=productNo]").val();
 		$.ajax({
 			url:"${path}/shop/shopInquiry",
+			data:{"no":no},
 			type:"post",
 			dataType:"json",
 			/* data:{"pNo":pNo},//상품번호 넘겨주기 */
@@ -590,7 +599,7 @@ function inquiryList(){
 									str+="<a name='user_Ydel' id='user_Ydel' style='float:right;'>문의 삭제</a>";
 								}
 							}else{
-								str+="<tr class='replaceDel' style='color:lightgrey;'><td style='text-align:left;'>"+data[i].piNo+"</td><td></td><td>삭제된 문의글 입니다.</td><td style='text-align:left'>"+data[i].memberId+"</td><td colspan='2'></td></tr>";
+								str+="<tr class='replaceDel' style='color:lightgrey;'><td style='text-align:left;'>"+[dataLeng-i]+"</td><td></td><td>삭제된 문의글 입니다.</td><td style='text-align:left'>"+data[i].memberId+"</td><td colspan='2'></td></tr>";
 							}
 							//답글row추가
 							if(data[i].piStatus=='Y'){
@@ -668,7 +677,7 @@ function updateStatus(no){
 		success:function(data){
 			console.log("답변업뎃ajax통신성공");
 			if(data!=null){
-				alert("답글완료");
+				swal('',"답글완료","success");
 				location.reload();//답변여부 reload
 			}
 		},

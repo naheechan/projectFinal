@@ -16,6 +16,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="${path}/resources/js/datepickerSettings.js"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
   <!-- plugins:css -->
   <link rel="stylesheet" href="${path }/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="${path }/resources/admin/vendors/base/vendor.bundle.base.css">
@@ -128,21 +130,103 @@
                   		<i class="fa fa-search" aria-hidden="true" id="search" name="search"></i>
                   	</form>
                   </div>
-                  <div id="search-popular" >
-                  	<form action="${path}/admin/mypage/product/search.do">
+                  <div id="search-popular">
+                  	<form action="" id="pop">
                   		<input type="hidden" name="searchType" value="popular">
-                  		<label>인기상품&nbsp;1<input type="checkbox" name="searchKeyword"></label>
-                  		<label>인기상품&nbsp;2<input type="checkbox" name="searchKeyword"></label>
-                  		<label>인기상품&nbsp;3<input type="checkbox" name="searchKeyword"></label>
-                  		<i class="fa fa-search" aria-hidden="true" id="search" name="search"></i>
+                  		<label for="3"><input type="radio"  id="3" name="searchKeyword" >&nbsp;전체</label>
+                  		<c:forEach var="p" items="${popular}" varStatus="i" begin="0" end="2">
+                  		<label for="${i.index}"><input type="radio"  id="${i.index}" name="searchKeyword" ><strong>&nbsp;${i.index+1}위.</strong>&nbsp;${p.productName}</label>
+                  		<input type="hidden" name="name" value="${p.productName}">
+                  		</c:forEach>
                   	</form>
                   </div>
-                  <div id="search-productDate" >
-                  	<form action="${path}/admin/mypage/product/search.do">
+                  <script>
+                  $(function(){
+		                  	$("#0, #1, #2").click(function(){
+		                  		var val = $(this).parents().next().val();
+		                  		var table=$("[name=searchList]");
+		                		table.children('tbody').empty();
+	                  		$.ajax({
+	                  			url:"${path}/admin/mypage/product/searchTop3.do",
+	                  			data:{val:val},
+	                  			type:"post",
+	                  			dataType:"json",
+	                  			success:function(data){
+	                  				console.log("searchtop3 ajax통신성공");
+	                  				var str="";
+	                  				$.each(data,function(i){
+	                  					str+='<tr>'
+	                	                str+='<td>'+data[i].productNo+'</td>'
+	                	                str+='<td colspan="2"><img src="${path}/resources/upload/product/'+data[i].productImg+'">&nbsp;&nbsp;'+data[i].productName+'</td>'
+	                	                str+='<td>'+data[i].largeCate+'</td>'
+	                	                str+='<td>'+data[i].mcName+'</td>'
+	                	                str+='<td><span>'+data[i].productSummary+'</span></td>'
+	                	                str+='<td>'+data[i].productStatus+'</td>'
+	                	                str+='<td>'+data[i].productStock+'</td>'
+	                	                str+='<td>'+data[i].price+'</td>'
+	                	                str+='<td>'+data[i].defCycle+'</td>'
+	                	                str+='<td>'+data[i].productDate+'</td>'
+	                	                str+='<td onclick="event.cancelBubble=true">'
+	                	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
+	                	                str+='<a class="hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'"><i class="fa fa-pencil-square-o" aria-hidden="true">수정</a>'
+	                	                str+='</td>'
+	                	                str+='</tr>'
+	                  				});
+	                  				$("th:first-child").replaceWith("<th><small>상품<br>번호</small></th>");
+	                	                	table.append(str);
+	                  			},
+	                  			error:function(){
+	                  				console.log("searchtop3 ajax통신실패");
+	                  			}
+	                  		});	
+                	  })
+                	  $("#3").click(function(){
+	                  		var valFrm=$(this).parents().children().find('[name=name]').serializeArray();
+	                  		console.log(valFrm);
+	                  		var table=$("[name=searchList]");
+	                		table.children('tbody').empty();
+	                  		$.ajax({
+	                  			url:"${path}/admin/mypage/product/searchTopAll.do",
+	                  			data:valFrm,
+	                  			type:"post",
+	                  			dataType:"json",
+	                  			success:function(data){
+	                  				console.log("searchtop3전체 ajax통신성공");
+	                  				var str="";
+	                  				$.each(data,function(i){
+	                  					str+='<tr>'
+	                	                str+='<td>'+[i+1]+'</td>'
+	                	                str+='<td colspan="2"><img src="${path}/resources/upload/product/'+data[i].productImg+'">&nbsp;&nbsp;'+data[i].productName+'</td>'
+	                	                str+='<td>'+data[i].largeCate+'</td>'
+	                	                str+='<td>'+data[i].mcName+'</td>'
+	                	                str+='<td><span>'+data[i].productSummary+'</span></td>'
+	                	                str+='<td>'+data[i].productStatus+'</td>'
+	                	                str+='<td>'+data[i].productStock+'</td>'
+	                	                str+='<td>'+data[i].price+'</td>'
+	                	                str+='<td>'+data[i].defCycle+'</td>'
+	                	                str+='<td>'+data[i].productDate+'</td>'
+	                	                str+='<td onclick="event.cancelBubble=true">'
+	                	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
+	                	                str+='<a class="hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'"><i class="fa fa-pencil-square-o" aria-hidden="true">수정</a>'
+	                	                str+='</td>'
+	                	                str+='</tr>'
+	                  				});
+	                  				$("th:first-child").replaceWith("<th><small>판매<br>순위</small></th>");
+	                	                	table.append(str);
+	                  			},
+	                  			error:function(){
+	                  				console.log("searchtop3전체 ajax통신실패");
+	                  			}
+	                  		});	
+                	  })
+              });
+                  </script>
+                  <div id="search-productDate">
+                  	<form action="${path}/admin/mypage/product/search.do" id="pddate">
                   		<input type="hidden" name="searchType" value="productDate">
-                  		<input type="date" name="datepicker" size="20" placeholder="yyyy-mm-dd">
-                  		<label>~</label>&nbsp;&nbsp;&nbsp;
-                  		<input type="date" name="datepicker2" size="20" placeholder="yyyy-mm-dd">
+                  		<input type="date" id="datepicker" name="datepicker" size="20">
+                  		<label>~</label>&nbsp;
+                  		<input type="date" id="datepicker2" name="datepicker2" size="20">&nbsp;
                   		<i class="fa fa-search" aria-hidden="true" id="search" name="search"></i>
                   	</form>
                   </div>
@@ -162,7 +246,7 @@
                     <colgroup>
 						<col width="7%">
 						<col width="10%">
-						<col width="20%">
+						<col width="18%">
 						<col width="10%">
 						<col width="15%">
 						<col width="15%">
@@ -171,7 +255,7 @@
 						<col width="10%">
 						<col width="7%">
 						<col width="15%">
-						<col width="13%">
+						<col width="12%">
 					</colgroup>
                       <thead>
                         <tr>
@@ -204,9 +288,7 @@
                             <td>${list.productDate}</td>
                             <td onclick="event.cancelBubble=true">
                             	<input type="hidden" name="pno" id="pno" value="${list.productNo}">
-                            	<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no=${list.productNo}">수정</a>
-                            	<br><br>
-                            	<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no=${list.productNo}">이동</a>
+                            	<a class="hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no=${list.productNo}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>수정</a>
                            	</td>
                         </tr>
                         </c:forEach>
@@ -229,7 +311,6 @@
 </div>
 <script>
 $(document).ready(function(){
-	
 	$("#movemodi").click(function(){
 			var offset = $("#product-list").offset(); 
 	     $('html').animate({scrollTop : offset.top}, 1000);
@@ -244,7 +325,16 @@ $(document).ready(function(){
 		});
 	};
 $(function(){
+	document.getElementById('datepicker').value= new Date().toISOString().slice(0, 10);
+	document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 10);
+	
 	productView();
+	
+	var td = $(".badge").parent();
+	td.click(function(e){
+		var offset = $("#recent-purchases-listing_wrapper").offset(); 
+	     $('html').animate({scrollTop : offset.top}, 1000);
+	});
 	
 	//searchType change
 	$("#searchType").change(function(e){
@@ -260,7 +350,7 @@ $(function(){
 		$("#search-"+value).css("display","inline-block");
 	});
 	
-	function searchNameProduct(nameFrm){
+	/* function searchNameProduct(nameFrm){
 		$.ajax({
 			url:"${path}/admin/mypage/product/search.do",
 			data:nameFrm,
@@ -274,7 +364,7 @@ $(function(){
 				console.log("ajax통신실패");
 			}
 		})
-	};
+	}; */
 	
 	/* $(document).on("click",$("[name=search]"),function(e){
 		var nameFrm = $("form[name='search-name']").serializeArray();
@@ -309,8 +399,7 @@ $(function(){
 	                str+='<td>'+data[i].productDate+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
+	                str+='<a class="hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'"><i class="fa fa-pencil-square-o" aria-hidden="true">수정</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -347,8 +436,7 @@ $(function(){
 	                str+='<td>'+data[i].productDate+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
+	                str+='<a class="hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'"><i class="fa fa-pencil-square-o" aria-hidden="true">수정</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -385,8 +473,7 @@ $(function(){
 	                str+='<td>'+data[i].productDate+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
+	                str+='<a class="hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'"><i class="fa fa-pencil-square-o" aria-hidden="true">수정</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -422,8 +509,7 @@ $(function(){
 	                str+='<td>'+data[i].productDate+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
+	                str+='<a class="hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'"><i class="fa fa-pencil-square-o" aria-hidden="true">수정</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
@@ -467,14 +553,29 @@ $(function(){
 	                str+='<td>'+data[i].productDate+'</td>'
 	                str+='<td onclick="event.cancelBubble=true">'
 	                str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'">수정</a><br><br>'
-	                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="detailbtn" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">이동</a>'
+	                str+='<a class="hvr-hover" data-fancybox-close=""  id="modibtn" href="${ path }/admin/product/update.do?no='+data[i].productNo+'"><i class="fa fa-pencil-square-o" aria-hidden="true">수정</a>'
 	                str+='</td>'
 	                str+='</tr>'
 					})
 					table.append(str);
 				$("#searchName").val("");
 				$("[name=searchKeyword]").val("");
+				//날짜설정
+				var startDate = $( "input[name='datepicker']" ).val();
+		        var startDateArr = startDate.split('-');
+		         
+		        var endDate = $( "input[name='datepicker2']" ).val();
+		        var endDateArr = endDate.split('-');
+		                 
+		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+		         
+		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+		             
+		            swal('',"시작날짜와 종료날짜를 확인해 주세요.");
+		             
+		            return;
+		        }
 				productView();
 				
 			},
@@ -487,6 +588,9 @@ $(function(){
 })
 </script>
   <style>
+  #pddate{width:500px;}
+  #pop{width:700px;position:absolute;top:70px;}
+  label{margin:0 3% 0 3%;}
   [name=searchList] tr td{
     width:200px;
     padding:0 5px;

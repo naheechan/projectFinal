@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList;
+import com.kh.maison.shop.model.vo.InquiryReply;
 
 public interface InquiryMyMemberDao {
 
@@ -43,4 +44,8 @@ public interface InquiryMyMemberDao {
 	int deleteIq(SqlSession session,String no,String id);
 	
 	int deleteRep(SqlSession session,String no);
+	
+	int updateInq(SqlSession session,Map<String,Object> map);
+	
+	List<InquiryReply> selectReplyOne(SqlSession session,String no);
 }

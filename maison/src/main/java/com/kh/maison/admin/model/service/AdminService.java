@@ -1,6 +1,7 @@
 package com.kh.maison.admin.model.service;
 
 import java.util.List;
+
 import java.util.Map;
 
 import com.kh.maison.admin.model.vo.MemberSearch;
@@ -9,7 +10,11 @@ import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.member.model.vo.Grade;
 import com.kh.maison.member.model.vo.Member;
+
 import com.kh.maison.mileage.model.vo.Mileage;
+
+import com.kh.maison.order.model.vo.OrderDetail;
+
 import com.kh.maison.shop.model.vo.Request;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
@@ -53,6 +58,7 @@ public interface AdminService {
 	
 	//admin>member>memberShip.jsp 에 들어갈거
 	List<Map<String,Object>> selectAllMemberShip(int cPage, int numPerPage);
+
 	int selectAllMemberShipCount();
 	//마일리지 기본값 가져오기
 	int selectDefaultMileage();
@@ -75,5 +81,11 @@ public interface AdminService {
 	
 	List<Map<String,Object>> selectAllWithReport(WithSearch ws);
 	int selectAllWithReportCount(WithSearch ws);
+
+	int selectTotalPrice(int numDate);
+	int selectPriceChange(int numDate);
+	int selectDayTotal(int sendNum);
 	
+	List<OrderDetail> selectSalesList(int cPage,int numPerPage);
+	int selectTotalCount();
 }

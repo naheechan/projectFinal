@@ -5,7 +5,9 @@ import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,6 +95,7 @@ public class AdminSchedulerController {
 //	@Scheduled(cron="0/20 * * ? * ?") //테스트용
 	@Scheduled(cron="0 0 13 * * *") //매일 13시0분0초에 실행
 	public void sendCycleEmail() {
+		logger.debug("sendCycleEmail 실행");
 		List<CycleAdmin> cycleList = service.selectAllCycleList();
 		for(CycleAdmin cycle : cycleList) {
 			
@@ -140,7 +143,19 @@ public class AdminSchedulerController {
 				//해당 상품 정보 가져오기
 				Product product = productService.selectProductOne(cycle.getProductNo());
 				
-				int result = mss.sendCycleEmail(cycle.getEmail(), cycle.getMemberName(), cycle.getProductNo(), product.getProductName());
+				//해당 상품의 large카테고리를 기준으로 구매율TOP3 가져오기
+				Map<String,String> recommendMap = new HashMap<>();
+				recommendMap.put("no", String.valueOf(product.getProductNo()));
+				recommendMap.put("largeCate", product.getLargeCate());
+				List<Product> recommendList = service.selectRecommendList(recommendMap);
+				
+				logger.debug("추천 상품");
+				for(Product p : recommendList) {
+					logger.debug(p.getProductNo()+"번 : "+p.getProductName());
+				}
+				logger.debug("추천 상품 끝");
+				
+				int result = mss.sendCycleEmail(cycle.getEmail(), cycle.getMemberName(), cycle.getProductNo(), product.getProductName(), recommendList);
 				
 				if(result==1) logger.debug("오늘의 쇼핑주기 메일알림서비스. 상품번호 : "+cycle.getProductNo()+" 아이디 : "+cycle.getMemberId());					
 				else logger.debug("메일알림서비스 전송 실패!!! 상품번호 : "+cycle.getProductNo()+" 아이디 : "+cycle.getMemberId());

@@ -32,6 +32,7 @@ public interface OrderDao {
 	
 	int insertShippingDestination(SqlSession session,Order o);
 	
+
 	Order selectOneOrder(SqlSession session,int orderNo);
 	int updateOrderStatus(SqlSession session,int orderNo);
 	List<Map<String,Object>> selectCancelList(SqlSession session,int cPage,int numPerPage,CancelSearch cs);
@@ -39,4 +40,15 @@ public interface OrderDao {
 	List<Map<String,Object>> selectCancelOne(SqlSession session,int orderNo);
 	int updateOrderStatusSecond(SqlSession session,int orderNo);
 	int deleteOrderDetail(SqlSession session,int orderNo);
+
+	List<Order> selectMyOrderList(SqlSession session,Map param,int cPage, int numPerPage);
+ 
+	int deleteBasket(SqlSession session, Basket b);
+	
+	int countMyOrderList(SqlSession session,Map param);
+	
+	List<Order> selectMyOrderListAll(SqlSession session,Map param);	
+	
+	Order selectOrderOne(SqlSession session,int orderNo);
+
 }
