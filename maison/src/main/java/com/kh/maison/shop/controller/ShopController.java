@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.admin.product.model.vo.ProductCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.shop.model.service.ShopService;
 import com.kh.maison.shop.model.vo.InquiryReply;
@@ -295,6 +296,5 @@ public class ShopController {
 		}
 		return str;
 	}
-	
 	
 }
