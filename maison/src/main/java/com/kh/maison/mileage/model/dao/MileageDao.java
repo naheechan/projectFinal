@@ -26,4 +26,7 @@ public interface MileageDao {
 	List<Mileage> selectConditionMileage(SqlSessionTemplate session, int cPage, int numPerPage, Map<String,Object> condition);
 
 	int selectConditionMileageCount(SqlSessionTemplate session,Map<String,Object> condition);
+
+	int insertCancelMileageFirst(SqlSessionTemplate session,Mileage mil);
+	int insertCancelMileageSecond(SqlSessionTemplate session,Mileage mil2);
 }

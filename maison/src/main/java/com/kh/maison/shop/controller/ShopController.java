@@ -37,7 +37,7 @@ public class ShopController {
 	@RequestMapping("/shopView.do")
 	public String moveShopView(Model m,
 		@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
-		@RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage) {
+		@RequestParam(value="numPerPage", required=false, defaultValue="10") int numPerPage) {
 		List<Product> list = service.selectProductList(cPage,numPerPage);
 		int totalData = service.selectCount();
 		//대분류
@@ -116,20 +116,22 @@ public class ShopController {
 	@ResponseBody
 	@RequestMapping("/shopInquiry")
 	public String selectInquiryList(Model m,
+			@RequestParam(value="no")String no,
 			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
-			@RequestParam(value="numPerPage", required=false, defaultValue="10") int numPerPage,HttpServletResponse response) 
+			@RequestParam(value="numPerPage", required=false, defaultValue="16") int numPerPage,HttpServletResponse response) 
 	throws Exception{
 		
-
+		Map<String,Object> map = new HashMap<>();
+		map.put("no",no);
 		List<TotalInquiry> list = null;	
 		ObjectMapper mapper = new ObjectMapper();
 		String str = null;
 		int totalData=0;
 		try {
-				list = service.selectInquiryList(cPage, numPerPage);
+				list = service.selectInquiryList(cPage, numPerPage,map);
 				str=mapper.writeValueAsString(list);
 				System.out.println("list in shopcontroller문의"+list);
-				totalData = service.selectCountInquiry();
+				totalData = service.selectCountInquiry(map);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

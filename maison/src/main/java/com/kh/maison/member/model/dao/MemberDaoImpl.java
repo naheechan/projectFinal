@@ -80,6 +80,12 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.insert("member.updateMemberWithdraw",target);
 	}
+
+	@Override
+	public int updateMileage(SqlSessionTemplate session, Member m) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateMileageTwo",m);
+	}
 	
 	
 }

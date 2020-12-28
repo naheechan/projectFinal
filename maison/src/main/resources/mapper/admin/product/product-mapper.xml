@@ -39,7 +39,7 @@
 	</insert>
 	
 	<insert id="enrollCate" parameterType="map">
-		INSERT INTO MEDIUMCATE VALUES(SEQ_MEDIUMCATE.NEXTVAL,#{mcName},#{largeCate})
+		INSERT INTO MEDIUMCATE VALUES((SELECT NVL(MAX(MEDIUMCATE)+1,0) FROM MEDIUMCATE),#{mcName},#{largeCate},SYSDATE)
 	</insert>
 	
 	<select id="productView" resultType="com.kh.maison.admin.product.model.vo.ProductCate">

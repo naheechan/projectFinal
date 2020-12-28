@@ -75,7 +75,7 @@ public class OrderController {
 							@RequestParam String totalPrice,
 							 String[] basketNo
 							) {
-
+		
 		Order o=new Order();
 		o.setReceiver(receiver);
 		o.setOrPhone(orPhone);
@@ -139,7 +139,6 @@ public class OrderController {
 				Basket b=new Basket();
 				b.setBasketNo(Integer.parseInt(a));
 				int result3=service.insertOrderDetail(b);
-				int result6=service.deleteBasket(b);
 			}
 			
 			//재고 업데이트 productNo, productStock, amount
@@ -215,11 +214,15 @@ public class OrderController {
 				}
 			}
 			
-			
-			
-			
 
-
+		}
+		//결제 제대로 끝나면 basket삭제. transaction. 
+		if(result>0) {
+			for(String a: basketNo) {
+				Basket b=new Basket();
+				b.setBasketNo(Integer.parseInt(a));
+				int result6=service.deleteBasket(b);
+			}
 		}
 
 		return result;

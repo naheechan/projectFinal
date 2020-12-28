@@ -87,6 +87,12 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.updateMemberWithdraw(session,target);
 	}
+
+	@Override
+	public int updateMileage(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateMileage(session,m);
+	}
 	
 	
 	

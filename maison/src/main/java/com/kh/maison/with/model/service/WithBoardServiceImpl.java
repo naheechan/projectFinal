@@ -82,7 +82,7 @@ public class WithBoardServiceImpl implements WithBoardService {
 	public WithComment selectOneWithReply(int wcNo) {
 		// TODO Auto-generated method stub
 		WithComment wc = dao.selectOneWithReply(session,wcNo);
-		return null;
+		return wc;
 	}
 
 	@Override

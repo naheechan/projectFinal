@@ -62,6 +62,12 @@
          <beans:bean class="com.kh.maison.common.interceptor.AdminInterceptor" />
       </interceptor>
          </interceptors>
+	<interceptors>
+      <interceptor>
+         <mapping path="/admin/mypage/product/*" />
+         <beans:bean class="com.kh.maison.common.interceptor.AdminInterceptor" />
+      </interceptor>
+         </interceptors>
 	
 	<!-- Resolver for File Upload -->
 	<beans:bean id="multipartResolver"

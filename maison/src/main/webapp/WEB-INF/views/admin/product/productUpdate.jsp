@@ -110,7 +110,7 @@
           </div>
           <div class="form-group right">
             <label for="productStock" class="label-title">재고수량 *</label>
-            <input type="range" min="0" max="1000" step="10"  value="0" name="productStock" id="productStock" class="form-input" 
+            <input type="range" min="0" max="1000" step="10"  value="${list.productStock}" name="productStock" id="productStock" class="form-input" 
             required="required" onChange="change();" style="height:28px;width:78%;padding:0;">
             <br>
             <span id="range-label">${list.productStock }</span>
@@ -138,6 +138,7 @@
       <!-- form-footer -->
       <div class="form-footer">
         <span>* required</span>
+        <button type="button" class="btn" id="enrollView" onclick="fn_back();">돌아가기</button>
         <button type="button" id="updatebtn" class="btn">수정</button>
       </div>
       </div>
@@ -152,15 +153,19 @@
       function change() {
       rangeLabel.innerText = productStock.value + "개";
       }
+      function fn_back(){
+      	if(confirm("마이페이지로 이동하시겠습니까?")){
+  	    	location.href="${path}/admin/mypage/product/enrollView.do";
+      	}
+      };
     </script>
     
     <!-- category등록 -->
     <script>
-   
     		$("#createbtn").click(function(){
-    			alert("카테고리를 추가로 등록하시겠습니까?");
-    		
-    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=550, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=no");
+    			if(confirm("카테고리를 추가로 등록하시겠습니까?")){
+	    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=550, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=no");
+    			}
     			
     		})
    
@@ -256,14 +261,17 @@
 			var defCycle=$("#defCycle");
     		var option= $("#largeCate option:selected").val();
     		if(option==""){
-    			swal("Are you sure?","카테고리를 선택해주세요.","info");
+    			swal('',"카테고리를 선택해주세요.","info");
     		}else{
 	    		if(!pName.val()==""&&!pSummary.val()==""&&!img.val()==""&&!price.val()==""&&!defCycle.val()==""){
     				$("#Frm").submit();
 	    		}else{
-	    			swal("Are you sure?","빈칸이 있으면 수정하실 수 없습니다.","info");
+	    			swal("","빈칸이 있으면 수정하실 수 없습니다.","info");
 	    		}
     		}
+   	   		if($("#productStock").val()==0){
+   	   			swal('',"재고수량을 다시 선택해주세요.");
+   	   		}
     	})
     	
    		$("#productName").click(function(){
@@ -297,7 +305,7 @@
     				let img=new Image();
     				img.onload=function(e){
         				if(e.target.width != $width && e.target.height != $height){          
-        					alert('파일사이즈는 ('+$width+'x'+$height+')입니다.');
+        					swal('','파일사이즈는 ('+$width+'x'+$height+')입니다.');
         					$target.val('');
         					$('#temp_img').remove();
         					return;

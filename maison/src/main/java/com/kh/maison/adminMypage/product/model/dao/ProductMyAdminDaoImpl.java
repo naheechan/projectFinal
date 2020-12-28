@@ -296,6 +296,47 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 			System.out.println("countdaoIm"+map);
 		return session.selectOne("myAdminProduct.EnrollsearchCount",map);
 	}
+
+	@Override
+	public int selectPdCateCount(SqlSession session) {
+		return session.selectOne("myAdminProduct.selectPdCateCount");
+	}
+
+	@Override
+	public int deleteInq(SqlSession session, int no) {
+		return session.update("myAdminProduct.deleteInq",no);
+	}
+
+	@Override
+	public int deleteRep(SqlSession session, int no) {
+		return session.delete("myAdminProduct.deleteRep",no);
+	}
+
+	@Override
+	public int updateRep(SqlSession session, int no) {
+		return session.update("myAdminProduct.updateRep",no);
+	}
+
+	@Override
+	public List<MyAdminEnroll> searchTop(SqlSession session, String searchType, String val, int cPage, int numPerPage) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("searchType",searchType);
+		map.put("val",val);
+		System.out.println(map);
+		return session.selectList("myAdminProduct.searchTop",map,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public List<MyAdminEnroll> searchTopAll(SqlSession session, String name, int cPage, int numPerPage) {
+		System.out.println(name);
+		Map<String,Object> map = new HashMap<>();
+		map.put("name1",name.split(",")[0]);
+		map.put("name2",name.split(",")[1]);
+		map.put("name3",name.split(",")[2]);
+		return session.selectList("myAdminProduct.searchTopAll",map,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
 	
 	
 

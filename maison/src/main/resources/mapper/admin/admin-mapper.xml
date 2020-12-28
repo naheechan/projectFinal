@@ -248,14 +248,254 @@
 
 	
 	<select id="selectAllMemberShip" resultType="HashMap">
-		SELECT MAX(G.GRADECODE), MAX(G.ACCRATE), MAX(G.GRADEBASE),
-                    COUNT(1)
-        FROM GRADE G
-        INNER JOIN MEMBER M
-        ON G.GRADECODE = M.GRADECODE
-        GROUP BY G.GRADECODE
+        SELECT G.GRADECODE, G.ACCRATE, G.GRADEBASE, A.AMOUNT
+        FROM GRADE G,(SELECT COUNT(*) AS AMOUNT, GRADECODE
+                                  FROM MEMBER
+                                  GROUP BY GRADECODE) A
+        WHERE G.GRADECODE = A.GRADECODE
+	</select>
+
+	<select id="selectAllMembershipCount" resultType="Integer">
+		SELECT COUNT(*) FROM GRADE
 	</select>
 	
+	<insert id="insertMemberWithdraw" parameterType="String">
+		INSERT INTO MEMBERWITHDRAW VALUES(#{memberId},'관리자 탈퇴',SYSDATE)
+	</insert>
+	
+	<select id="selectDefaultMileage" resultType="Integer">
+		SELECT DATA_DEFAULT
+        FROM USER_TAB_COLUMNS
+        WHERE TABLE_NAME='MILEAGE'
+        AND COLUMN_NAME='MILE'
+	</select>
+	
+	<update id="updateDefaultMileageOne" parameterType="mileage">
+		ALTER TABLE MEMBER MODIFY MEILEAGE NUMBER DEFAULT ${mile}
+	</update>
+	
+	<update id="updateDefaultMileageTwo" parameterType="mileage">
+		ALTER TABLE MILEAGE MODIFY MILE NUMBER DEFAULT ${mile}
+	</update>
+	
+	<select id="selectOneMembership" parameterType="String" resultType="grade">
+		SELECT * FROM GRADE
+		WHERE GRADECODE=#{gradecode}
+	</select>
+	
+	<update id="updateMembership" parameterType="grade">
+		UPDATE GRADE
+        SET ACCRATE=#{accRate},
+                GRADEBASE=#{gradeBase}
+        WHERE GRADECODE=#{gradeCode}
+	</update>
+	
+	<resultMap id="withMap" type="withBoard">
+		<result column="wbship" property="wbShip" typeHandler="strArr"/>
+	</resultMap>
+	
+	<select id="selectAllWithBoard" parameterType="withSearch" resultMap="withMap">
+		SELECT * FROM WITHBOARD
+		WHERE WBDEL = 'Y'
+		<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wbTitle')">
+				AND WBTITLE LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wbContent')">
+				AND WBCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('both')">
+				AND (WBTITLE LIKE '%'||#{keyword}||'%'
+				OR WBCONTENT LIKE '%'||#{keyword}||'%')
+			</if>
+		</if>
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND WBDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>
+		<if test="!wbType.equals('')">
+			<if test="wbType.equals('free')">
+				AND WBTYPE = 'free'
+			</if>
+			<if test="wbType.equals('sell')">
+				AND WBTYPE='sell'
+			</if>
+		</if>
+		<if test="!wbStatus.equals('')">
+			<if test="wbStatus.equals('N')">
+				AND WBSTATUS='N'
+			</if>
+			<if test="wbStatus.equals('P')">
+				AND WBSTATUS='P'
+			</if>
+			<if test="wbStatus.equals('Y')">
+				AND WBSTATUS='Y'
+			</if>
+		</if>
+		
+		ORDER BY WBDATE DESC		
+	</select>
+	
+	<select id="selectAllWithBoardCount" resultType="_int" parameterType="withSearch">
+		SELECT COUNT(*) 
+		FROM WITHBOARD
+		WHERE WBDEL = 'Y'
+		<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wbTitle')">
+				AND WBTITLE LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wbContent')">
+				AND WBCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('both')">
+				AND (WBTITLE LIKE '%'||#{keyword}||'%'
+				OR WBCONTENT LIKE '%'||#{keyword}||'%')
+			</if>
+		</if>
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND WBDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>
+		<if test="!wbType.equals('')">
+			<if test="wbType.equals('free')">
+				AND WBTYPE LIKE '%'||#{wbType}||'%'
+			</if>
+			<if test="wbType.equals('sell')">
+				AND WBTYPE LIKE '%'||#{wbType}||'%'
+			</if>
+		</if>
+		<if test="!wbStatus.equals('')">
+			<if test="wbStatus.equals('N')">
+				AND WBSTATUS LIKE '%'||#{wbStatus}||'%'
+			</if>
+			<if test="wbStatus.equals('P')">
+				AND WBSTATUS LIKE '%'||#{wbStatus}||'%'
+			</if>
+			<if test="wbStatus.equals('Y')">
+				AND WBSTATUS LIKE '%'||#{wbStatus}||'%'
+			</if>
+		</if>
+	</select>
+	
+	<select id="selectAllWithComment" parameterType="memberSearch" resultType="withComment">
+      		SELECT WCNO,
+				WBNO,
+				WCLEVEL,
+				WCPARENT,
+				CASE WHEN WCDEL='N' THEN '*** 작성자에 의해 삭제된 댓글입니다 ***'
+				ELSE WCCONTENT END WCCONTENT,
+				MEMBERID,
+				WCADDDATE,
+				WCUPDATE,
+				WCDELDATE,
+				WCDEL
+		FROM WITHCOMMENT
+        WHERE WBNO IN (
+                       SELECT WBNO 
+                       FROM WITHBOARD
+                       WHERE WBDEL='Y'
+                       )
+       <if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wcContent')">
+				AND WCCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>   
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND WCADDDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>		            
+		START WITH WCPARENT=0
+		CONNECT BY PRIOR WCNO=WCPARENT
+		ORDER SIBLINGS BY MEMBERID		
+	</select>
+	
+	<select id="selectAllWithCommentCount" parameterType="memberSearch" resultType="_int">
+		SELECT COUNT(*) FROM WITHCOMMENT
+        WHERE WBNO IN (
+                       SELECT WBNO 
+                       FROM WITHBOARD
+                       WHERE WBDEL='Y'
+                       )
+       <if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wcContent')">
+				AND WCCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>   
+		<if test="!startDate.equals('')">
+			<if test="!endDate.equals('')">
+				AND WCADDDATE BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD')
+							AND TO_DATE(#{endDate},'YYYY-MM-DD')
+			</if>
+		</if>	
+	</select>
+	
+	<select id="selectAllWithReport" parameterType="withSearch" resultType="Map">
+        SELECT R.*, B.MEMBERID AS REPORTED
+        FROM WITHREPORT R, WITHBOARD B
+        WHERE R.WBNO = B.WBNO
+		<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND R.MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wrContent')">
+				AND R.WRCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>
+		<if test="!wrStatus.equals('')">
+			<if test="wrStatus.equals('N')">
+				AND R.WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+			<if test="wrStatus.equals('P')">
+				AND R.WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+			<if test="wrStatus.equals('Y')">
+				AND R.WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+		</if>		
+	</select>
+	
+	<select id="selectAllWithReportCount" parameterType="withSearch" resultType="_int">
+		SELECT COUNT(*) FROM WITHREPORT
+		WHERE 1=1
+		<if test="!type.equals('')">
+			<if test="type.equals('memberId')">
+				AND MEMBERID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type.equals('wrContent')">
+				AND WRCONTENT LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>
+		<if test="!wrStatus.equals('')">
+			<if test="wrStatus.equals('N')">
+				AND WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+			<if test="wrStatus.equals('P')">
+				AND WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+			<if test="wrStatus.equals('Y')">
+				AND WRSTATUS LIKE '%'||#{wrStatus}||'%'
+			</if>
+		</if>	
+	</select>
+
 	<select id="selectTotalPrice" parameterType="Integer" resultType="Integer">
 		SELECT SUM(ORDERPRICE) FROM ORDER_TB
 	</select>
@@ -297,6 +537,5 @@
                             WHERE RNUM BETWEEN 1 AND 3)
 	</select>
 	
-
 	
 </mapper>

@@ -11,14 +11,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>관리자 페이지</title>
-  <link rel="stylesheet" href="${path }/resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="${path }/resources/css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="${path}/resources/js/datepickerSettings.js"/>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <link rel="${path}/resources/js/datepickerSettings.js"/>
 <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+  <%-- <link rel="stylesheet" href="${path }/resources/css/bootstrap.min.css"> --%>
+  <link rel="stylesheet" href="${path }/resources/css/style.css">
   <!-- plugins:css -->
   <link rel="stylesheet" href="${path }/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="${path }/resources/admin/vendors/base/vendor.bundle.base.css">
@@ -71,8 +71,8 @@
 					<!-- 관리자일경우에만 상품등록버튼 보이게 -->
                     <c:if test="${loginMember.memberId ne null && loginMember.memberId eq 'admin' }">
                         <div class="btn">
-							<a class="btn hvr-hover" data-fancybox-close="" id="enrollCate">카테고리 등록</a>
-                            <a class="btn hvr-hover" data-fancybox-close="" id="moveCate">카테고리 수정</a><!--하단 박스로 이동 -->
+							<a class="btn" data-fancybox-close="" id="enrollCate">카테고리<br>등록</a>
+                            <a class="btn hvr-hover" data-fancybox-close="" id="moveCate">카테고리<br>수정</a><!--하단 박스로 이동 -->
                          </div>
 					</c:if>
                   <div class="col-lg-8">
@@ -157,9 +157,9 @@
                   <div id="search-date" >
                   	<form action="${path}/admin/mypage/product/search.do">
                   		<input type="hidden" name="searchType" value="date">
-                  		<input type="date" id="datepicker" name="datepicker" size="20" placeholder="yyyy-mm-dd">
+                  		<input type="date" id="datepicker" name="datepicker" size="20">
                   		<label>~</label>&nbsp;&nbsp;&nbsp;
-                  		<input type="date" id="datepicker2" name="datepicker" size="20" placeholder="yyyy-mm-dd">
+                  		<input type="date" id="datepicker2" name="datepicker" size="20">
                   		<i class="fa fa-search" aria-hidden="true" id="searchdate"></i>
                   	</form>
                   </div>
@@ -176,7 +176,6 @@
              	$("#searchdate").click(function(){
              		var first = $("#datepicker").val();
              		var second=$("#datepicker2").val();
-             		
              		$.ajax({
              			url:"${path}/admin/mypage/product/searchDate.do",
              			data:{one:first,two:second},
@@ -205,20 +204,31 @@
                                 str+='<td>'+data[i].enrollCate+'</td>';
                                 str+='<td>';
                                 str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">';
-                                str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movePd" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>';
-                                str+='<br><br>';
-                                str+='<a class="btn hvr-hover" data-fancybox-close="" >상품카테고리수정</a>';
                                 str+='</td>';
                                 str+='</tr>';
              					}
              					});
             					$("#recent-purchases-listing").append(str);
+            				
+                         		
         					var offset = $("#list-view").offset(); 
         				     $('html').animate({scrollTop : offset.top}, 1000);
         				     $("#fath").parent().attr('class','');
         				     $("#fath").attr('class','nav-link');
         				     $("#listul").parent().attr('class','active');
         				     $("#listul").attr('class','nav-link active');
+        				     
+        				   //날짜설정
+             		        var startDateArr = first.split('-');
+             		        var endDateArr = second.split('-');
+             		                 
+             		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+             		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+             		         
+             		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+             		            swal('',"시작날짜와 종료날짜를 확인해 주세요.");
+             		            return;
+             		        }
              			},
              			error:function(){
              				console.log("날짜검색 ajax실패");
@@ -243,18 +253,19 @@
                      </li>
                  </ul>
              </div>
-         </div> 
-         <div class="row" id="list-view">
+         </div>
+         <div  id="list-view">
+         <div class="row">
             <div class="col-md-12 stretch-card">
               <div class="card">
                 <div class="card-body">
                   <p class="card-title">상품 리스트</p>
                   <div class="table-responsive">
                     <table id="recent-purchases-listing" class="table" style="text-align:center;">
-            <%--         <colgroup>
-						<col width="5%">
-						<col width="12%">
-						<col width="20%">
+            		<colgroup>
+						<col width="7%">
+						<col width="10%">
+						<col width="15%">
 						<col width="10%">
 						<col width="15%">
 						<col width="15%">
@@ -263,8 +274,8 @@
 						<col width="10%">
 						<col width="7%">
 						<col width="15%">
-						<col width="13%">
-					</colgroup> --%>
+						<col width="15%">
+					</colgroup>
                       <thead>
                         <tr>
                             <th><small>상품<br>번호</small></th>
@@ -278,10 +289,28 @@
                             <th><small>주기</small></th>
                             <th><small>상품<br>등록일</small></th>
                             <th><small>카테고리<br>등록일</small></th>
-                            <th><small>상품<br>수정</small></th>
                         </tr>
                       </thead>
                       <tbody>
+                      <c:forEach var="list" items="${list}" varStatus="i">
+                      	<tr class="append">
+		                    <td>${list.productNo}</td>
+		                    <td><img src="${path}/resources/upload/product/${list.productImg}" style="width:50px;"></td>
+		                    <td><span>${list.productName}</span></td>
+		                    <td>${list.largeCate}</td>
+		                    <td>${list.mcName}</td>
+		                    <td><span>${list.productSummary}</span></td>
+		                    <td>${list.productStatus}</td>
+		                    <td>${list.productStock}</td>
+		                    <td>${list.price}</td>
+		                    <td>${list.defCycle}</td>
+		                    <td>${list.productDate}</td>
+		                    <td>${list.enrollCate}</td>
+		                    <td>
+			                    <input type="hidden" name="pno" id="pno" value="${list.productNo}">
+		                    </td>
+	                    </tr>
+	                    </c:forEach>
                       </tbody>
                     </table>
                   </div>
@@ -291,7 +320,7 @@
           </div>
             <div id="pageBar">
 	        		${pageBar }	        
-        	</div>
+        	</div></div>
 		<br><br>        
         <!--그리드형식 -->
         <div class="row" id="grid-view">
@@ -347,7 +376,6 @@
 
 <script>
 	$(document).ready(function(){
-		
 		$("#moveCate").click(function(){
 			if($("#grid-view").show()){
 			}
@@ -369,12 +397,16 @@
 		})
 	});
 $(function(){
+document.getElementById('datepicker').value= new Date().toISOString().slice(0, 10);
+document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 10);
+	
 	$("#list-view").hide();
 	var tr = $("#recent-purchases-listing tbody tr");
 	var td = $(".badge").parent();
 	
 	tr.click(function(e){
-		location.href="#";
+		var no = $(this).find('#pno').val();
+		location.href="${path}/shop/shopDetail.do?no="+no;
 	});
 	
 	//count클릭이벤트->ajax로 조건에 맞는 리스트 불러오기 
@@ -387,6 +419,10 @@ $(function(){
 		     $("#listul").attr('class','nav-link');
 			var offset = $("#grid-view").offset(); 
 		     $('html').animate({scrollTop : offset.top}, 1000);
+	});
+	
+	$("#modibtn").click(function(){
+		location.href="";
 	});
 	//searchType change
 	$("#searchType").change(function(e){
@@ -480,9 +516,6 @@ $(function(){
                     str+='<td>'+data[i].enrollCate+'</td>';
                     str+='<td>';
                     str+='<input type="hidden" name="pno" id="pno" value="'+data[i].productNo+'">';
-                    str+='<a class="btn hvr-hover" data-fancybox-close=""  id="movePd" href="${ path }/shop/shopDetail.do?no='+data[i].productNo+'">상품이동</a>';
-                    str+='<br><br>';
-                    str+='<a class="btn hvr-hover" data-fancybox-close="" >상품카테고리수정</a>';
                     str+='</td>';
                     str+='</tr>';
 				}
@@ -506,8 +539,8 @@ $(function(){
 	});
 	//mediView show + update버튼
 	$("[name=cateSearch]").click(function(e){
-		alert($(this).attr('id'));
-		var value=$(this).attr('id');
+		alert($(this).text());
+		var value=$(this).attr('value');
 		$.ajax({
 			url:"${path}/admin/mypage/product/cateView.do",
 			data:{value:value},
@@ -543,7 +576,7 @@ $(function(){
            		str+='<div style="position:absolute"></div>'
 				str+='<div id="modiCate"><label>수정할 중분류 이름<br>'
 				str+='<input type="text" name="modiCate" size="50"></label>'
-				str+='<input type="hidden" id="chkId" name="chkId" value="'+value+'"><br>'
+				str+='<input type="hidden" id="chkId" name="chkId" value="'+value+'"><br><br>'
 				str+='<a class="btn hvr-hover" data-fancybox-close="" id="deleteCate">카테고리 삭제</a>'
 				str+='<a class="btn hvr-hover" data-fancybox-close="" id="updateCate">카테고리 수정</a></div>'//mediumCate 번호 같이 넘기기
 				str+='<div id="addCate"><label>추가할 중분류 이름<br><input type="text" name="addCate" size="50"></label><br>'
@@ -572,6 +605,10 @@ $(function(){
 			swal("","추가할 분류명을 입력해주세요.");
 			return;
 		}
+		if($("#checkText").attr('style').split(":")[1]!=' green;'){
+			swal("","같은 이름의 카테고리명이 있습니다.","info");
+			return;
+		};
 		var large =$("#ajaxlargeCate").val();
 		var mcName = $("[name=addCate]").val();
 		$.ajax({
@@ -632,11 +669,11 @@ $(function(){
 			swal("","대분류를 선택해주세요");
 			return;
 		}
-		if($("#modiCate").val()==""){
+		if($("[name=modiCate]").val()==""){
 			swal("","수정할 분류명을 입력해주세요.");
 			return;
 		}
-///수정할분류명 return이 계속됨 수정하기//////////////////////////		
+
 		var id=	$("#chkId").val();
 		var large =$("#ajaxlargeCate").val();
 		var mcName = $("[name=modiCate]").val();
@@ -685,27 +722,40 @@ $(function(){
 	$(document).on("click","#deleteCate",function(){
 		var id = $("#chkId").val();
 		console.log(id);
-		if(confirm("해당 카테고리를 삭제하시겠습니까?")){
-			
-		$.ajax({
-			url:"${path}/admin/mypage/product/deleteCate.do",
-			data:{id:id},
-			type:"post",
-			dataType:"json",
-			success:function(data){
-				console.log("삭제 ajax통신성공");
-				swal("","카테고리 삭제 성공","success");
-				location.reload();
-			},
-			error:function(){
-				console.log("삭제 ajax통신실패");
-			}
-		})
-		}
+		console.log($("[name=cateSearch]").attr('id'));
+		
+			$.ajax({
+				url:"${path}/admin/mypage/product/deleteCate.do",
+				data:{id:id},
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					console.log("삭제 ajax통신성공");
+					if(confirm("해당 카테고리를 삭제하시겠습니까?")){
+						swal("","카테고리 삭제 성공","success");
+					};
+					location.reload();
+				},
+				error:function(){
+					console.log("삭제 ajax통신실패");
+				}
+			})
+
 	});
 });
 </script>
 <style>
+#recent-purchases-listing{border:1.5px solid #f3f3f3;}
+#recent-purchases-listing tr:nth-child(2n) {
+    background-color: #f3f3f3;
+  }
+#deleteCate{color:#F2BB9C;}
+#updateCate{color:#F2BB9C;}
+#addCategory{color:#F2BB9C;}
+.rowbtn{
+    	color:#F2BB9C;
+    	text-align:center;
+	}
 .color{color:#000000;}
 /*datepicer 버튼 롤오버 시 손가락 모양 표시*/
 .ui-datepicker-trigger{cursor: pointer;}

@@ -257,6 +257,39 @@ public class ProductMyAdminServiceImpl implements ProductMyAdminService {
 		return dao.EnrollsearchCount(session,searchType,searchKeyword,datepicker,datepicker2);
 	}
 
+	@Override
+	public int selectPdCateCount() {
+		return dao.selectPdCateCount(session);
+	}
+
+	@Override
+	public int deleteInq(int no) {
+		return dao.deleteInq(session,no);
+	}
+
+	@Override
+	public int deleteRep(int no) {
+		return dao.deleteRep(session,no);
+	}
+
+	@Override
+	public int updateRep(int no) {
+		return dao.updateRep(session,no);
+	}
+
+	@Override
+	public List<MyAdminEnroll> searchTop(String searchType, String val, int cPage, int numPerPage) {
+		return dao.searchTop(session,searchType,val,cPage,numPerPage);
+	}
+
+	@Override
+	public List<MyAdminEnroll> searchTopAll(String name, int cPage, int numPerPage) {
+		return dao.searchTopAll(session,name,cPage,numPerPage);
+	}
+
+	
+
+	
 	
 	
 	
