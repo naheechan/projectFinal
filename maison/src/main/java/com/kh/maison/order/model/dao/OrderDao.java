@@ -32,6 +32,8 @@ public interface OrderDao {
 	int insertShippingDestination(SqlSession session,Order o);
 	
 	List<Order> selectMyOrderList(SqlSession session,Map param,int cPage, int numPerPage);
+ 
+	int deleteBasket(SqlSession session, Basket b);
 	
 	int countMyOrderList(SqlSession session,Map param);
 	

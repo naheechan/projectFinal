@@ -139,6 +139,7 @@ public class OrderController {
 				Basket b=new Basket();
 				b.setBasketNo(Integer.parseInt(a));
 				int result3=service.insertOrderDetail(b);
+				int result6=service.deleteBasket(b);
 			}
 			
 			//재고 업데이트 productNo, productStock, amount

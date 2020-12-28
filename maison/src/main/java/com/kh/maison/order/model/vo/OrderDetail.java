@@ -1,5 +1,7 @@
 package com.kh.maison.order.model.vo;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -14,4 +16,5 @@ public class OrderDetail {
 	private String productImg;
 	private int price;
 	private String productName;
+	private Date orderDate;
 }

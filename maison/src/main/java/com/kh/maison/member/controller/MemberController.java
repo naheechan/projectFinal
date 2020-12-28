@@ -185,7 +185,7 @@ public class MemberController {
 			milService.updateMemberMileage(mem.getMemberId());
 			
 			mv.addObject("email",email);
-			String authKey = mss.sendAuthMail(email, mem.getMemberId());
+			String authKey = mss.sendAuthMail(email, mem.getMemberId(), mem.getMemberName());
 			Map<String,String> map = new HashMap<>();
 			map.put("id",mem.getMemberId());
 			map.put("key",authKey);
@@ -242,7 +242,7 @@ public class MemberController {
 	public String naverLogin(Model m) throws UnsupportedEncodingException {
 		
 		String clientId = "ox1UH2H5tD1qdFjz7mFS"; //네이버 api에서 부여받은 id값
-		String redirectURI = URLEncoder.encode("http://localhost:9090/maison/member/naver/checkStatus","UTF-8"); //돌아갈 주소
+		String redirectURI = URLEncoder.encode("http://rclass.iptime.org:9999/20AM_MAISON_final/member/naver/checkStatus","UTF-8"); //돌아갈 주소
 		//상태토큰 생성(사용자 인증용)
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString(32);
@@ -267,7 +267,7 @@ public class MemberController {
 			String clientId = "ox1UH2H5tD1qdFjz7mFS";
 			String clientSecret = "BSJvDH8Kk8";
 			String code = String.valueOf(map.get("code"));
-			//String redirectURI = URLEncoder.encode("http://localhost:9090/maison/member/naver/loginEnd", "UTF-8");
+			//String redirectURI = URLEncoder.encode("http://rclass.iptime.org:9999/20AM_MAISON_final/member/naver/loginEnd", "UTF-8");
 			apiURL += "&client_id="+clientId;
 			apiURL += "&client_secret="+clientSecret;
 			//apiURL += "&redirect_uri="+redirectURI;
@@ -656,7 +656,7 @@ public class MemberController {
 			// 이메일을 변경했고, 이메일 인증을 발송해야하는 경우.
 			if(mem.getAuthStatus().equals("N")) {
 				mv.addObject("email",email);
-				String authKey = mss.sendAuthMail(email, mem.getMemberId());
+				String authKey = mss.sendAuthMail(email, mem.getMemberId(), mem.getMemberName());
 				Map<String,String> map = new HashMap<>();
 				map.put("id",mem.getMemberId());
 				map.put("key",authKey);
@@ -1106,7 +1106,10 @@ public class MemberController {
 		MultiValueMap<String,String> params=new LinkedMultiValueMap<>();
 		params.add("grant_type","authorization_code");
 		params.add("client_id", "818a08c8e17c0dda3c071f31ea989c44");
-		params.add("redirect_uri", "http://localhost:9090/maison/auth/kakao/callback");
+
+		//params.add("redirect_uri", "http://localhost:9090/maison/auth/kakao/callback");
+
+		params.add("redirect_uri", "http://rclass.iptime.org:9999/20AM_MAISON_final/auth/kakao/callback");
 		params.add("code", code);
 		
 		HttpEntity<MultiValueMap<String,String>> kakaoTokenRequest=
@@ -1189,7 +1192,7 @@ public class MemberController {
 			memKakao.setMemberId(Integer.toString(kakaoProfile.getId()));
 			memKakao.setEmail(kakaoProfile.getKakao_account().getEmail());
 			memKakao.setMemberName(kakaoProfile.getKakao_account().getProfile().getNickname());
-			memKakao.setMemberPw(garbagePassword.toString());
+			//memKakao.setMemberPw(garbagePassword.toString());
 			//memKakaor을 세션에 넣음
 			m.addAttribute("memKakao", memKakao);
 			loc= "redirect:/member/kakao/enroll";

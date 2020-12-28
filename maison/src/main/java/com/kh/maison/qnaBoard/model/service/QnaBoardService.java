@@ -8,6 +8,8 @@ import com.kh.maison.qnaBoard.model.vo.QnaCommentVo;
 public interface QnaBoardService {
 	
 	List<QnaBoardVo> selectList(int cPage, int numPerPage);
+	List<QnaBoardVo> selectCommentList(int cPage, int numPerPage,String msg);
+	List<QnaBoardVo> selectSearchList(int cPage, int numPerPage,String keyword,String select);
 	
 	int selectCount();
 	

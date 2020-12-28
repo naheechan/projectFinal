@@ -14,8 +14,8 @@
 <script>
 	//submit할때 유효성검사
 	function checkSubmit() {
-		if($("#brithCheck").val()=="0") alert("생년월일을 정확히 입력해주세요");
-		else if($("#phoneCheck").val()=="0") alert("전화번호를 정확히 입력해주세요");
+		if($("#brithCheck").val()=="0") swal("생년월일을 정확히 입력해주세요");
+		else if($("#phoneCheck").val()=="0") swal("전화번호를 정확히 입력해주세요");
 		else return true;
 		
 		return false; 
@@ -183,7 +183,7 @@
 			<input type="hidden" id="memberId" name="memberId" value="${memKakao.memberId }">
 			<input type="hidden" id="memberName" name="memberName" value="${memKakao.memberName}">
 			<input type="hidden" id="email" name="email" value="${memKakao.email}">
-			<input type="hidden" id="memberPw" name="memberPw" value="${memKakao.memberPw}">
+			<%-- <input type="hidden" id="memberPw" name="memberPw" value="${memKakao.memberPw}"> --%>
 	
 	
 			<!-- 주소부분 -->

@@ -51,6 +51,30 @@ public class QnaBoardDaoImpl implements QnaBoardDao{
 		
 		return session.update("qnaBoard.updateStatus", bno);
 	}
+
+	@Override
+	public List<QnaBoardVo> selectCommentList(SqlSession session, int cPage, int numPerPage, String msg) {
+
+		return session.selectList("qnaBoard.selectCommentList",msg,new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public List<QnaBoardVo> selectSearchList(SqlSession session, int cPage, int numPerPage, String keyword,
+			String select) {
+
+		// TODO Auto-generated method stub
+		if(select.equals("title")) {
+			return session.selectList("qnaBoard.selectSearchTitleList",keyword,new RowBounds((cPage-1)*numPerPage,numPerPage));			
+		}else if(select.equals("both")) {
+
+			return session.selectList("qnaBoard.selectSearchBothList",keyword,new RowBounds((cPage-1)*numPerPage,numPerPage));	
+			
+		}else if(select.equals("id")) {
+
+			return session.selectList("qnaBoard.selectSearchIdList",keyword,new RowBounds((cPage-1)*numPerPage,numPerPage));	
+		}
+		return session.selectList("qnaBoard.selectSearchTitleList",keyword,new RowBounds((cPage-1)*numPerPage,numPerPage));	
+	}
 	
 	
 

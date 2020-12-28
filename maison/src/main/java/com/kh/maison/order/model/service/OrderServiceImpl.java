@@ -106,13 +106,15 @@ public class OrderServiceImpl implements OrderService {
 		return dao.selectOrderOne(session,orderNo);
 	}
 
-	
-	
-	
+
+	@Override
+	public int deleteBasket(Basket b) {
+		// TODO Auto-generated method stub
+		return dao.deleteBasket(session,b);
+	}
 	
 	
 
-	
 	
 	
 	

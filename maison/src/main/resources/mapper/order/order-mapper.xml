@@ -130,4 +130,18 @@
 		WHERE O.ORDERNO=#{orderNo}
   	</select>
   	
+	<delete id="deleteBasket" parameterType="basket">
+		DELETE FROM BASKET WHERE BASKETNO=#{basketNo}
+	</delete>
+	
+	<select id="selectOrderList" resultType="order">
+		SELECT * FROM ORDER_TB ORDER BY ORDERDATE DESC
+	</select>
+	
+	<select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM ORDER_TB
+	</select>
+	
+	
+  
 </mapper>

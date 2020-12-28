@@ -107,7 +107,7 @@
 <script>
 	function enrollQna(){
 		if(${loginMember.memberId ==null}){
-			alert("로그인이 필요한 페이지 입니다.");
+			swal("로그인이 필요한 페이지 입니다.");
 		}else{
 			location.href='${path}/qnaboard/qnaboardEnroll.do';
 		}
@@ -115,7 +115,7 @@
 	}
 	function myQna(){
 		if(${loginMember.memberId ==null}){
-			alert("로그인이 필요한 페이지 입니다.");
+			swal("로그인이 필요한 페이지 입니다.");
 		}else{
 			location.href='${path}/qnaboard/myQna.do';
 		}

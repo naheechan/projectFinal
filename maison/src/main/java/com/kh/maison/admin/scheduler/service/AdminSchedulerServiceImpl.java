@@ -1,7 +1,7 @@
 package com.kh.maison.admin.scheduler.service;
 
 import java.util.List;
-
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,4 +76,12 @@ public class AdminSchedulerServiceImpl implements AdminSchedulerService {
 		return result;
 	}
 
+	@Override
+	public List<Product> selectRecommendList(Map<String,String> map) {
+		return dao.selectRecommendList(session, map);
+	}
+
+	
+	
+	
 }

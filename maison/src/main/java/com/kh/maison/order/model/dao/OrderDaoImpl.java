@@ -83,6 +83,12 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
+	public int deleteBasket(SqlSession session, Basket b) {
+		// TODO Auto-generated method stub
+		return session.delete("order.deleteBasket",b);
+	}
+
+	@Override
 	public int countMyOrderList(SqlSession session, Map param) {
 		// TODO Auto-generated method stub
 		return session.selectOne("order.countMyOrderList",param);

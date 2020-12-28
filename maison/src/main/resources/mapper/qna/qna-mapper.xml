@@ -32,4 +32,22 @@
 		UPDATE qnaboard SET QNASTATUS = '답변완료' WHERE QNANO=#{bno}
 	</update>
 	
+	<select id="selectCommentList"  resultMap="qnaBoardMap">
+		SELECT*FROM QNABOARD WHERE QNASTATUS=#{msg} ORDER BY QNANO DESC
+	</select>
+	
+ 	<select id="selectSearchTitleList"  resultMap="qnaBoardMap">
+		SELECT*FROM QNABOARD WHERE qnaTitle LIKE '%' ||  #{keyword} || '%' ORDER BY QNANO DESC
+	</select>
+	
+	<select id="selectSearchBothList"  resultMap="qnaBoardMap">
+		SELECT*FROM QNABOARD WHERE qnaTitle LIKE'%' ||  #{keyword} || '%'
+								OR qnaContent LIKE '%' ||  #{keyword} || '%'
+												 ORDER BY QNANO DESC
+	</select>
+	
+	<select id="selectSearchIdList"  resultMap="qnaBoardMap">
+		SELECT*FROM QNABOARD WHERE memberId LIKE '%' ||  #{keyword} || '%' ORDER BY QNANO DESC
+	</select> 
+	
 </mapper>

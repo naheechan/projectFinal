@@ -11,6 +11,7 @@ import com.kh.maison.admin.model.vo.MemberSearch;
 import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.member.model.vo.Member;
+import com.kh.maison.order.model.vo.OrderDetail;
 import com.kh.maison.shop.model.vo.Request;
 
 @Repository
@@ -170,5 +171,57 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.selectAllMemberShip",null,new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
+
+	@Override
+	public int selectTotalPrice(SqlSessionTemplate session, int numDate) {
+		// TODO Auto-generated method stub
+		Integer result = session.selectOne("admin.selectTotalPrice",numDate);
+		if(result==null) {
+			return 0;
+		}else {
+			return session.selectOne("admin.selectTotalPrice",numDate);
+		}
+	}
+
+	@Override
+	public int selectPriceChange(SqlSessionTemplate session, int numDate) {
+		Integer result = session.selectOne("admin.selectPriceChange",numDate);
+		if(result==null) {
+			return 0;
+		}else {
+			return session.selectOne("admin.selectPriceChange",numDate);
+		}
+	}
+
+	@Override
+	public int selectDayTotal(SqlSessionTemplate session, int sendNum) {
+		Integer result = session.selectOne("admin.selectDayTotal",sendNum);
+		if(result==null) {
+			return 0;
+		}else {
+			return session.selectOne("admin.selectDayTotal",sendNum);
+		}
+	}
+
+	@Override
+	public List<OrderDetail> selectSalesList(SqlSessionTemplate session, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.selectSalesList",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
+	}
+
+	@Override
+	public int selectTotalCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.selectTotalCount");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
