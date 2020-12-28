@@ -3,6 +3,7 @@ package com.kh.maison.order.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.maison.basket.model.service.BasketService;
 import com.kh.maison.basket.model.service.BasketServiceImpl;
 import com.kh.maison.basket.model.vo.Basket;
+import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
@@ -45,7 +47,6 @@ public class OrderController {
 	
 	@Autowired
 	private ProductService pservice=new ProductServiceImpl();
-	
 	@Autowired
 	private BasketService bservice=new BasketServiceImpl();
 	
@@ -138,6 +139,7 @@ public class OrderController {
 				Basket b=new Basket();
 				b.setBasketNo(Integer.parseInt(a));
 				int result3=service.insertOrderDetail(b);
+				int result6=service.deleteBasket(b);
 			}
 			
 			//재고 업데이트 productNo, productStock, amount
@@ -433,7 +435,83 @@ public class OrderController {
 		return mv;
 	}
 	
+	@RequestMapping("/member/order/orderList.do")
+	public ModelAndView selectMyOrderList(ModelAndView mv,HttpSession session,
+			@RequestParam Map param,
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
+			@RequestParam(value="numPerPage",required=false,defaultValue="5")int numPerPage
+			) {
+		Member m=(Member)(session.getAttribute("loginMember"));
+		
+		//order를 받아옴 => order_tb+orderdetail+product
+		//+페이징 
+		param.put("memberId", m.getMemberId());
+		List<Order> list=service.selectMyOrderList(param,cPage,numPerPage);
+		int totalData=service.countMyOrderList(param);
+		
+		//orderStatus의 a,b,c,d갯수
+		int a=0;
+		int b=0;
+		int c=0;
+		int d=0;
+		
+		//페이징말고 통째로도 필요함
+		List<Order> list2=service.selectMyOrderListAll(param);
+		for(Order o :list2) {
+
+			switch (o.getOrderStatus()) {
+				case "a": a++; o.setOrderStatus("주문완료"); break;
+				case "b": b++; o.setOrderStatus("배송완료"); break;
+				case "c": c++; o.setOrderStatus("취소신청"); break;
+				case "d": d++; o.setOrderStatus("취소완료"); break;
+			
+			}
+			
+		}
+		
+		for(Order o : list) {
+			
+			switch (o.getOrderStatus()) {
+			case "a": o.setOrderStatus("주문완료"); break;
+			case "b": o.setOrderStatus("배송완료"); break;
+			case "c": o.setOrderStatus("취소신청"); break;
+			case "d": o.setOrderStatus("취소완료"); break;
+		
+			}
+			o.setOdCount(o.getOds().size());
+		}
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "/orderList.do"));
+		mv.addObject("a",a);
+		mv.addObject("b",b);
+		mv.addObject("c",c);
+		mv.addObject("d",d);
+		mv.addObject("list",list);
+		mv.addObject("start",param.get("start"));
+		mv.addObject("end",param.get("end"));
+		
+		mv.setViewName("member/order/orderList");
+		return mv;
+	}
 	
+	@RequestMapping("/member/order/orderDetail.do")
+	ModelAndView orderDetail(ModelAndView mv,int orderNo,HttpSession session) {
+		
+		Order o=service.selectOrderOne(orderNo);
+		System.out.println(o);
+		
+		switch (o.getOrderStatus()) {
+		case "a": o.setOrderStatus("주문완료"); break;
+		case "b": o.setOrderStatus("배송완료"); break;
+		case "c": o.setOrderStatus("취소신청"); break;
+		case "d": o.setOrderStatus("취소완료"); break;
+	
+	}
+		
+		
+		mv.addObject("o",o);
+		mv.setViewName("/member/order/orderDetail");
+		return mv;
+	}
 	
 	
 	

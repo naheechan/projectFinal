@@ -1,6 +1,7 @@
 package com.kh.maison.admin.scheduler.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -66,5 +67,12 @@ public class AdminSchedulerDaoImpl implements AdminSchedulerDao {
 		// TODO Auto-generated method stub
 		return session.update("admin.updateToMvg",memberId);
 	}
+
+	@Override
+	public List<Product> selectRecommendList(SqlSessionTemplate session, Map<String,String> map) {
+		return session.selectList("admin.selectRecommendList", map);
+	}
+	
+	
 
 }

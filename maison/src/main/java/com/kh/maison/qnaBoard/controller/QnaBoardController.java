@@ -30,7 +30,7 @@ public class QnaBoardController {
 	
 	@Autowired 
 	private QnaBoardService service;
-	
+
 
 	
 	@RequestMapping("/qnaboard/qnaboardList.do")
@@ -179,6 +179,65 @@ public class QnaBoardController {
 		return mv;
 	}
 	
+	
+	
+
+
+		
+	@RequestMapping("/admin/adminQnaList.do")
+	public ModelAndView adminQnaList(ModelAndView mv, 
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, 
+			@RequestParam(value="numPerPage", required=false, defaultValue="10") int numPerPage) {
+				
+		List<QnaBoardVo> list=service.selectList(cPage,numPerPage);
+		int totalData=service.selectCount();
+		
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "adminQnaList.do"));
+		mv.addObject("cPage",cPage);
+		mv.addObject("totalData",totalData);
+		mv.addObject("list",list);
+		mv.setViewName("admin/notice/qnaList");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/admin/adminQnacomment.do")
+	public ModelAndView adminQnacomment(ModelAndView mv, 
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, 
+			@RequestParam(value="numPerPage", required=false, defaultValue="10") int numPerPage) {
+		
+		String msg="미답변";
+		List<QnaBoardVo> list=service.selectCommentList(cPage,numPerPage,"미답변");
+		int totalData=service.selectCount();
+		
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "adminQnacomment.do"));
+		mv.addObject("cPage",cPage);
+		mv.addObject("totalData",totalData);
+		mv.addObject("list",list);
+		mv.setViewName("admin/notice/qnaList");
+		
+		return mv;
+	}
+	
+	
+	@RequestMapping("/admin/adminQnaSearch.do")
+	public ModelAndView adminQnaSearch(ModelAndView mv, 
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, 
+			@RequestParam(value="numPerPage", required=false, defaultValue="10") int numPerPage,String keyword,String select) {
+
+
+		List<QnaBoardVo> list=service.selectSearchList(cPage,numPerPage,keyword,select);
+		int totalData=service.selectCount();
+		
+		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "adminQnaSearch.do"));
+		mv.addObject("cPage",cPage);
+		mv.addObject("totalData",totalData);
+		mv.addObject("list",list);
+		mv.setViewName("admin/notice/qnaList");
+		
+		return mv;
+	}
+
 }
 
 	

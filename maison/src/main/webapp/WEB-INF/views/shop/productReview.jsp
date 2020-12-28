@@ -285,6 +285,8 @@ function adjustHeight() {
 			dataType: "json",
 			success : function(data){
 				var str='';
+				
+				if(data.length!=0){
 				$.each(data,function(i,v){
 					var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
 					str+="<div class='row' style='margin-top:20px;'>";
@@ -305,9 +307,14 @@ function adjustHeight() {
 					str+="삭제";
 					str+="</button>";
 					str+="<input type='hidden' value='"+v.rrNo+"'>";
-					str+="</c:if>"
+					str+="</c:if>";
 					str+="</div>";
 				});
+				}else{
+					str+="<div class='col-8' style='background-color:#EAEAEA; padding:10px'>";
+					str+="<p style='margin:10px;'>아직 등록된 답변이 없습니다 !</p>";
+					str+="</div>";
+				}
 				$("#open_"+reviewNo).html(str);
 				
 			},
