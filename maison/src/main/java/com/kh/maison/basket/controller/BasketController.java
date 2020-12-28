@@ -81,14 +81,13 @@ public class BasketController {
 
 	
 	  @RequestMapping("basket/orderBasket.do") 
-	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request,
-			  @RequestParam(value="soldout",required=false,defaultValue="false")Boolean soldout,
-			  @RequestParam Map param) {
+	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request
+			 ) {
 	  
 			String msg = "";
 			String loc = "";
 			String[] basketNos = request.getParameterValues("basketChecked");
-			
+			Boolean soldout=false;
 			
 			// 장바구니에 상품이 없을때
 			if (basketNos == null) {
@@ -105,7 +104,7 @@ public class BasketController {
 				List<Basket> list = new ArrayList<Basket>();
 				Map<String, Basket> mapf = new HashMap<String, Basket>();
 				soldout=false;
-
+				String subMsg="";
 				// 상품 수량이 있음
 				// 1.일단 장바구니를 다 받아옴
 				for (String basketNo : basketNos) {
@@ -117,7 +116,7 @@ public class BasketController {
 					//상품 수량이 부족함
 					if(b.getAmount()>p.getProductStock()) {
 						soldout=true;
-						
+						subMsg+=b.getProductName()+",";
 					}else {
 						//상품 수량이 있으면 list에 추가
 						list.add(b);
@@ -125,13 +124,15 @@ public class BasketController {
 				}
 				
 				mv.addObject("list",list);
-				mv.addObject("soldout",soldout);
 				if(soldout) {
-					msg = "수량이 부족한 상품은 목록에서 제외됩니다 ! !";
-					loc = "/basket/orderBasketRe.do";
+					msg = "수량이 부족한 상품이 있습니다 !";
+					loc = "/basket/basket.do";
+					subMsg=subMsg.substring(0, subMsg.length()-1);
 					mv.addObject("msg", msg);
+					mv.addObject("subMsg",subMsg);
+					mv.addObject("status","error");
 					mv.addObject("loc", loc);
-					mv.setViewName("common/msg");
+					mv.setViewName("common/sweetMsg");
 					
 				}else {
 //					msg="결제 페이지로 이동합니다.";
@@ -148,21 +149,7 @@ public class BasketController {
 			return mv;
 		}
 	  
-	  @RequestMapping("basket/orderBasketRe.do")
-	  public ModelAndView orderBasketRe(ModelAndView mv,@RequestParam Map param) {
-		  
-		  List<Basket> list=(List)param.get("list");
-		  
-		  if(list!=null && list.size()!=0) {
-			 mv.addObject("list",list);
-			 mv.setViewName("basket/payment");
-		  }else {
-			  
-		  }
-				  
-		  
-		  return mv;
-	  }
+	  
 	 
 
 	  @RequestMapping("basket/insertBasket.do")

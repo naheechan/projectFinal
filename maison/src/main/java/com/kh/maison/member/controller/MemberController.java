@@ -492,7 +492,8 @@ public class MemberController {
 			Map param=new HashMap<String,String>();
 			param.put("memberId", m.getMemberId());
 			List<Order> list=oservice.selectMyOrderList(param,1,10);
-			mv.addObject("o",list.get(0));
+			mv.addObject("list",list);
+				
 		
 			mv.setViewName("member/mypage");
 		}

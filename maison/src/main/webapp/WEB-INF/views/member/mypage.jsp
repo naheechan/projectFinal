@@ -100,7 +100,7 @@
 								orderNo자릿수 채크해서 8자리에서 자릿수 뺀만큼 앞에 0붙이고 
 									orderDate fmt로 앞에 잘라서 2020120400000001 이런식으로 만들기
 								 -->
-							<c:forEach var="od" items="${o.ods }">
+							<c:forEach var="od" items="${list[0].ods }">
 							<tr>
 								<td>
 									<img src="${path }/resources/upload/product/${od.productImg}" style="width:60px;"/>
@@ -109,11 +109,11 @@
 									${od.productName }	
 								</td>
 								<td>
-									<fmt:formatDate value="${o.orderDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+									<fmt:formatDate value="${list[0].orderDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 									
 								</td>
 								<td>
-									<a href="#">${o.orderNo }</a>
+									<a href="#">${list[0].orderNo }</a>
 								</td>
 								<td>
 									<p>${od.price }</p>
@@ -136,7 +136,12 @@
 								</td>
 							</tr>
 							</c:forEach>
-						
+							<c:if test="${empty list }">
+								<tr>
+									<th colspan="5"> 주문내역이 없습니다.
+									</th>
+								</tr>
+							</c:if>
 						</tbody>
 					</table>	
 				</div>
