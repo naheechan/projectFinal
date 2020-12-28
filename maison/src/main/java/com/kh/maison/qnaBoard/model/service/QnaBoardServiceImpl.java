@@ -59,6 +59,18 @@ public class QnaBoardServiceImpl implements QnaBoardService{
 		
 		return dao.updateStatus(session,bno);
 	}
+
+	@Override
+	public List<QnaBoardVo> selectCommentList(int cPage, int numPerPage, String msg) {
+		
+		return dao.selectCommentList(session,cPage,numPerPage,msg);
+	}
+
+	@Override
+	public List<QnaBoardVo> selectSearchList(int cPage, int numPerPage, String keyword, String select) {
+		// TODO Auto-generated method stub
+		return dao.selectSearchList(session,cPage,numPerPage,keyword,select);
+	}
 	
 	
 	

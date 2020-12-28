@@ -1089,7 +1089,8 @@ public class MemberController {
 		MultiValueMap<String,String> params=new LinkedMultiValueMap<>();
 		params.add("grant_type","authorization_code");
 		params.add("client_id", "818a08c8e17c0dda3c071f31ea989c44");
-		params.add("redirect_uri", "http://localhost:9090/maison/auth/kakao/callback");
+		//params.add("redirect_uri", "http://localhost:9090/maison/auth/kakao/callback");
+		params.add("redirect_uri", "http://rclass.iptime.org:9999/20AM_MAISON_final/auth/kakao/callback");
 		params.add("code", code);
 		
 		HttpEntity<MultiValueMap<String,String>> kakaoTokenRequest=
