@@ -359,7 +359,6 @@ public class MemberController {
 			JSONObject jsonData = (JSONObject)((JSONObject)parser.parse(responseBody)).get("response");
 			String id = jsonData.get("id").toString();
 
-			String gender = jsonData.get("gender").toString();
 			String email = jsonData.get("email").toString();
 			String name = jsonData.get("name").toString();
 
@@ -394,7 +393,6 @@ public class MemberController {
 				logger.debug("네이버 회원가입으로 가자");
 				Member memNaver = new Member();
 				memNaver.setMemberId(id);
-				memNaver.setGender(gender);
 				memNaver.setEmail(email);
 				memNaver.setMemberName(name);
 				//memNaver을 세션에 넣음

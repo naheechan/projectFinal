@@ -108,18 +108,20 @@
 			</tr>
 			<tr>
 				<td>
-					<br><p class="text-muted">소셜계정으로 메종서비스 이용하기</p>			
+					<br><p class="text-muted">소셜계정으로 메종서비스 이용하기</p>		
+					<!-- 소셜 로그인 -->
+					<div style="padding-left: 1vh;">
+						<a href="${path}/member/naver/login"><img height="50" width="200px;" src="${path}/resources/images/naverBtn.PNG"></a><br><br>
+						<%--로컬 
+						<a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://localhost:9090/maison/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>
+	                                               서버--%>
+	                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://http://rclass.iptime.org:9999/20AM_MAISON_final/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>			
+ 					</div>	
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<!-- 소셜 로그인 -->
-					<a href="${path}/member/naver/login"><img height="50" width="200px;" src="${path}/resources/images/naverBtn.PNG"></a><br><br>
-					<%--로컬 
-					<a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://localhost:9090/maison/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>
-                                               서버--%>
-                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=818a08c8e17c0dda3c071f31ea989c44&redirect_uri=http://http://rclass.iptime.org:9999/20AM_MAISON_final/auth/kakao/callback&response_type=code"> <img height="50" src="${path}/resources/images/kakao.png" /></a>			
- 
+					
   
   
   <p id="token-result"></p>
