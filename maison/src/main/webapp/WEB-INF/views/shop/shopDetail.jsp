@@ -276,6 +276,10 @@ select::-ms-expand { /* for IE 11 */
 					<!-- ck에디터 이미지 띄우기 -->
 					<img src="${path }/resources/upload/product/${product.productImg }" style="width: 600px;height: 600px;">
 					<p>${product.productContent }</p>
+					<textarea id="imgContent" hidden="hidden"><c:out value="${product.productContent}"/></textarea>
+					<%-- <div class="col-lg-12" id="imgShow" style="text-align:center;">
+				<textarea id="imgContent" hidden="hidden"><c:out value="${product.productContent}"/></textarea>
+			</div> --%>
 				</div>
 		 	</div>
 			<!-- 상품 리뷰 -->
@@ -444,7 +448,10 @@ select::-ms-expand { /* for IE 11 */
 			</div>
 			
 <script>
-
+/* $(document).ready(function(){
+	var replaced = $("#imgContent").val().replace('maison','20AM_MAISON_final');
+	$("#imgShow").html(replaced);
+}); */
 $(function(){
 		//상품번호
 		var pNo = $("#SessionProductNo").val();

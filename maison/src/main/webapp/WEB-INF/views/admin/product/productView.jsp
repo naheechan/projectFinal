@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="상품등록내역" />
 </jsp:include>
-<script src="${ path }/ckeditor/ckeditor.js"></script>
+<script src="${ path }/resources/ckeditor/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="상품등록내역" />
 </jsp:include>

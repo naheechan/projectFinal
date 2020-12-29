@@ -133,17 +133,17 @@
                   <div id="search-popular">
                   	<form action="" id="pop">
                   		<input type="hidden" name="searchType" value="popular">
-                  		<label for="3"><input type="radio"  id="3" name="searchKeyword" >&nbsp;전체</label>
+                  		<label for="3"><input type="radio"  id="3" name="searchKeyword" >&nbsp;전체</label><br>
                   		<c:forEach var="p" items="${popular}" varStatus="i" begin="0" end="2">
-                  		<label for="${i.index}"><input type="radio"  id="${i.index}" name="searchKeyword" ><strong>&nbsp;${i.index+1}위.</strong>&nbsp;${p.productName}</label>
+                  		<label for="${i.index}"><input type="radio"  id="${i.index}" name="searchKeyword" ><strong>&nbsp;${i.index+1}위.</strong>&nbsp;${p.productName}</label><br>
                   		<input type="hidden" name="name" value="${p.productName}">
                   		</c:forEach>
                   	</form>
                   </div>
                   <script>
                   $(function(){
-		                  	$("#0, #1, #2").click(function(){
-		                  		var val = $(this).parents().next().val();
+           					$("#0, #1, #2").click(function(){
+		                  		var val = $(this).parents().next().next().val();
 		                  		var table=$("[name=searchList]");
 		                		table.children('tbody').empty();
 	                  		$.ajax({
@@ -174,6 +174,7 @@
 	                  				});
 	                  				$("th:first-child").replaceWith("<th><small>상품<br>번호</small></th>");
 	                	                	table.append(str);
+	                	                	productView()
 	                  			},
 	                  			error:function(){
 	                  				console.log("searchtop3 ajax통신실패");
@@ -213,6 +214,7 @@
 	                  				});
 	                  				$("th:first-child").replaceWith("<th><small>판매<br>순위</small></th>");
 	                	                	table.append(str);
+	                	                	productView()
 	                  			},
 	                  			error:function(){
 	                  				console.log("searchtop3전체 ajax통신실패");
@@ -571,9 +573,9 @@ $(function(){
 		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
 		         
 		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
-		             
 		            swal('',"시작날짜와 종료날짜를 확인해 주세요.");
-		             
+		            document.getElementById('datepicker').value= new Date().toISOString().slice(0, 10);
+		        	document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 10);
 		            return;
 		        }
 				productView();
@@ -589,7 +591,7 @@ $(function(){
 </script>
   <style>
   #pddate{width:500px;}
-  #pop{width:700px;position:absolute;top:70px;}
+  #pop{width:700px;position:absolute;top:15px;margin-left:3%;}
   label{margin:0 3% 0 3%;}
   [name=searchList] tr td{
     width:200px;

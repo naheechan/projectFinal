@@ -38,7 +38,7 @@ public class ShopController {
 	@RequestMapping("/shopView.do")
 	public String moveShopView(Model m,
 		@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
-		@RequestParam(value="numPerPage", required=false, defaultValue="10") int numPerPage) {
+		@RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage) {
 		List<Product> list = service.selectProductList(cPage,numPerPage);
 		int totalData = service.selectCount();
 		//대분류
