@@ -3,8 +3,6 @@
 //전체체크/전체해제
 	function allChecked() {
 		var checked = $("#allCheck").prop("checked")
-		console.log(checked);
-		console.log($("input:checkbox[name=basketChecked]").prop("checked"));
 		if (checked == true) {
 			$("input:checkbox[name=basketChecked]").prop("checked", true);
 		}
@@ -72,7 +70,6 @@
     		prtotal+=val2;
     	})
   	
-    	console.log(prtotal);
     	$(".subTotal").html(prtotal+"원");
 		
     	$(".grandTotal").html(prtotal+"원");

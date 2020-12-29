@@ -98,7 +98,6 @@ public class OrderController {
 
 		o.setTotalPrice(Integer.parseInt(totalPrice));
 		
-		System.out.println(o);
 	
 
 		//마일리지 계산
@@ -432,7 +431,6 @@ public class OrderController {
 	
 	@RequestMapping("/order/deleteShippingDestination.do")
 	public ModelAndView insertShippingEnrollEnd(ModelAndView mv,String no) {
-		System.out.println(no);
 		
 		return mv;
 	}
@@ -482,7 +480,14 @@ public class OrderController {
 			}
 			o.setOdCount(o.getOds().size());
 		}
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "/orderList.do"));
+		String pageBar="";
+		if(param.get("start")!=null&&param.get("end")!=null) {
+			pageBar=PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "orderList.do?start="+param.get("start")+"&end="+param.get("end"));
+			
+		}else {
+			pageBar=PageBarFactory.getPageBar(totalData, cPage, numPerPage, "orderList.do");
+		}
+		mv.addObject("pageBar",pageBar);
 		mv.addObject("a",a);
 		mv.addObject("b",b);
 		mv.addObject("c",c);
@@ -499,7 +504,6 @@ public class OrderController {
 	ModelAndView orderDetail(ModelAndView mv,int orderNo,HttpSession session) {
 		
 		Order o=service.selectOrderOne(orderNo);
-		System.out.println(o);
 		
 		switch (o.getOrderStatus()) {
 		case "a": o.setOrderStatus("주문완료"); break;

@@ -99,7 +99,6 @@
 								<td>${o.orderStatus }</td>
 								<td>
 								<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
-								<input type="hidden" value="${o.orderNo }"
 								<input type="hidden" value="${ods.productNo }" >
 								<input type="hidden" value="${ods.orderDetailNo }">
 									<button class="btn btn-sm addreview" style="background:#F2BB9C">리뷰작성</button>

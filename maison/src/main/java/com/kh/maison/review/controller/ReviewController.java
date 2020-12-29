@@ -198,7 +198,7 @@ public class ReviewController {
 			
 			mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "reviewList.do"));
 			
-			
+			System.out.println("list : "+list);
 			mv.addObject("list",list);
 			mv.setViewName("/member/review/reviewList");
 			
@@ -227,7 +227,7 @@ public class ReviewController {
 			list=service.selectReviewWithRR(param,cPage,numPerPage);
 			totalData=service.countReviewWithRR(param);
 		}
-		
+		System.out.println("list : "+list);
 		
 		mv.addObject("pageBar",PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "selectPeriodReview.do?select="+select+"&start="+param.get("start")+"&end="+param.get("end")));
 		mv.addObject("list",list);
@@ -267,8 +267,18 @@ public class ReviewController {
 			totalData=service.countReviewAdminWithRR(param);
 		}
 		
+		System.out.println("list : "+list);
+		
+		String pageBar="";
+		if(param.get("start")!=null && param.get("end")!=null) {
+			pageBar=PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "selectPeriodReview.do?select="+select+"&start="+param.get("start")+"&end="+param.get("end"));
+			
+		}else {
+			pageBar=PageBarFactory.getPageBar(totalData, cPage, numPerPage, "selectPeriodReview.do");
+		}
 		mv.addObject("list",list);
-		mv.addObject("pageBar",PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "selectPeriodReview.do?select="+select+"&start="+param.get("start")+"&end="+param.get("end")));
+		
+		mv.addObject("pageBar",pageBar);
 		mv.addObject("start",param.get("start"));
 		mv.addObject("end",param.get("end"));
 		mv.addObject("select",select);
