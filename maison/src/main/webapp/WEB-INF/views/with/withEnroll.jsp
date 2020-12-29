@@ -17,7 +17,7 @@
 </jsp:include>
 
 <!-- ckeditor쓰는 법 
-	1. <script src = "${path}/ckeditor/ckeditor.js"></script>추가
+	1. <script src = "${path}/resources/ckeditor/ckeditor.js"></script>추가
 	2. id가 홍길동인 textarea 만들기.
     3. <script>
 			CKEDITOR.replace("홍길동",{

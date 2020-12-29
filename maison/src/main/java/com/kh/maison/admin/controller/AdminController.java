@@ -614,20 +614,12 @@ public class AdminController {
 					result=mileageService.insertCancelMileageSecond(mil2);
 				}if(result>0) {
 					//할거 다했으면 orderDetail에서 delete때리기
-					result = orderService.deleteOrderDetail(orderNo);
-					if(result>0) {
-						result = cycleService.checkCycleExist(o);
-						mv.addObject("msg", "취소 처리가 완료되었습니다.");
-						mv.addObject("subMsg","주문 취소 관리 페이지를 다시 로드합니다.");
-						mv.addObject("status","success");
-						mv.addObject("loc", "/admin/order/cancelList.do");
-
-					}else {
-						mv.addObject("msg", "취소 처리 실패!");
-						mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");
-						mv.addObject("status","error");
-						mv.addObject("loc", "/admin/order/cancelList.do");						
-					}
+//					result = orderService.deleteOrderDetail(orderNo);
+//					result = cycleService.checkCycleExist(o);
+					mv.addObject("msg", "취소 처리가 완료되었습니다.");
+					mv.addObject("subMsg","주문 취소 관리 페이지를 다시 로드합니다.");
+					mv.addObject("status","success");
+					mv.addObject("loc", "/admin/order/cancelList.do");
 				}else {
 					mv.addObject("msg", "취소 처리 실패!");
 					mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요");
