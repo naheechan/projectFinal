@@ -276,6 +276,10 @@ select::-ms-expand { /* for IE 11 */
 					<!-- ck에디터 이미지 띄우기 -->
 					<img src="${path }/resources/upload/product/${product.productImg }" style="width: 600px;height: 600px;">
 					<p>${product.productContent }</p>
+					<textarea id="imgContent" hidden="hidden"><c:out value="${product.productContent}"/></textarea>
+					<%-- <div class="col-lg-12" id="imgShow" style="text-align:center;">
+				<textarea id="imgContent" hidden="hidden"><c:out value="${product.productContent}"/></textarea>
+			</div> --%>
 				</div>
 		 	</div>
 			<!-- 상품 리뷰 -->
@@ -444,7 +448,10 @@ select::-ms-expand { /* for IE 11 */
 			</div>
 			
 <script>
-
+/* $(document).ready(function(){
+	var replaced = $("#imgContent").val().replace('maison','20AM_MAISON_final');
+	$("#imgShow").html(replaced);
+}); */
 $(function(){
 		//상품번호
 		var pNo = $("#SessionProductNo").val();
@@ -510,7 +517,7 @@ $(document).on("click",'[name=after_adminModi]',function(e){
 		$(document).on("click",'[name=reply_modi]',function(e){
 			var no = $(this).prev().prev().val();
 			if(confirm("문의를 수정하시겠습니까?")){
-				$(this).prev().prev().prev().replaceWith("<form name='userModiInquiry'><select name='piCate'><option value='상품문의'>상품문의</option><option value='배송문의'>배송문의</option></select><br><textarea id='umContent' name='umContent' rows='6' cols='120' style='resize:none;' required></textarea><input type='hidden' id='piNo' name='piNo' value='"+no+"'></form>");
+				$(this).prev().prev().prev().replaceWith("<form name='userModiInquiry'><select name='piCate'><option value='상품문의'>상품문의</option><option value='배송문의'>배송문의</option></select><br><textarea id='umContent' name='umContent' rows='6' cols='115' style='resize:none;' required></textarea><input type='hidden' id='piNo' name='piNo' value='"+no+"'></form>");
 				$(this).replaceWith("<a name='after_cancel' id='after_cancel' style='float:right;'>취소</a><a name='after_userModi' id='after_userModi' style='float:right;'>수정</a>");
 				$("#after_userModi").prev().prev().detach();
 				$("#after_cancel").click(function(e){

@@ -873,9 +873,9 @@
 		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
 		         
 		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
-		             
 		            swal('',"시작날짜와 종료날짜를 확인해 주세요.");
-		             
+		            document.getElementById('datepicker').value= new Date().toISOString().slice(0, 10);
+		        	document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 10);
 		            return;
 		        }
 			},

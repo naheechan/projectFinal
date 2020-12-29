@@ -43,17 +43,49 @@
         </div>
         <div class="item">
             <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_18_100230583_15.png" alt="" />
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_28_235428767_110.png" alt="" />
                 <div class="hov-in">
-                    <a href="${path }/shop/shopDetail.do?no=8"><i class="fas fa-check"></i></a>
+                    <a href="${path }/shop/shopDetail.do?no=18"><i class="fas fa-check"></i></a>
                 </div>
             </div>
         </div>        
         <div class="item">
             <div class="ins-inner-box">
-                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_08_232902839_101.png" alt="" />
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_28_230724828_914.png" alt="" />
                 <div class="hov-in">
-                    <a href="${path }/shop/shopDetail.do?no=7"><i class="fas fa-check"></i></a>
+                    <a href="${path }/shop/shopDetail.do?no=27"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
+        </div> 
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_28_232130211_39.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=31"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
+        </div> 
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_28_231217477_825.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=29"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
+        </div> 
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_28_230950877_853.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=28"><i class="fas fa-check"></i></a>
+                </div>
+            </div>
+        </div> 
+        <div class="item">
+            <div class="ins-inner-box">
+                <img src="<%=request.getContextPath() %>/resources/upload/product/2020_12_28_040147628_359.png" alt="" />
+                <div class="hov-in">
+                    <a href="${path }/shop/shopDetail.do?no=22"><i class="fas fa-check"></i></a>
                 </div>
             </div>
         </div> 

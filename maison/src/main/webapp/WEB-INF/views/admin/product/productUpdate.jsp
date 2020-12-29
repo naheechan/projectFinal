@@ -108,22 +108,21 @@
             <input type="number" name="price" id="price" class="form-input" placeholder="원" required="required"
             value="${list.price}">
           </div>
-          <div class="form-group right">
+          <div class="form-group left">
             <label for="productStock" class="label-title">재고수량 *</label>
-            <input type="range" min="0" max="1000" step="10"  value="${list.productStock}" name="productStock" id="productStock" class="form-input" 
-            required="required" onChange="change();" style="height:28px;width:78%;padding:0;">
+            <input type="number" value="${list.productStock}" name="productStock" id="productStock" class="form-input" 
+            required="required" onChange="change();">
             <br>
-            <span id="range-label">${list.productStock }</span>
           </div>
-        </div>	
-        
-        <!-- ProductStatus -->
-        <div class="horizontal-group">
           <div class="form-group left">
             <label for="productStatus" class="label-title">판매상태 *</label><br>
             <input type="radio" id="productStatusY" name="productStatus" value="Y" <c:if test="${list.productStatus eq 'Y'}">checked="checked"</c:if>>예
             <input type="radio" id="productStatusN" name="productStatus" value="N" <c:if test="${list.productStatus eq 'N'}">checked="checked"</c:if>>아니오
           </div>
+        </div>	
+        
+        <!-- ProductStatus -->
+        <div class="horizontal-group">
           <!-- DefCycle -->
           <div class="form-group left">
           <label for="defCycle" class="label-title">주기일 *</label><br>

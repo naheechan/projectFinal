@@ -10,8 +10,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-<script src="${path }/resources/ckeditor/ckeditor.js"></script>
 
+<script src="${path }/resources/ckeditor/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="상품등록" />
 </jsp:include>
@@ -138,6 +138,7 @@
       <!-- form-footer -->
       <div class="form-footer">
         <span>* required</span>
+        <button type="button" class="btn" id="enrollView" onclick="fn_back();">돌아가기</button>
         <button type="submit" class="btn" onclick="${path}/admin/product/enroll.do">등록</button>
       </div>
       </div>
@@ -151,17 +152,21 @@
 
       function change() {
       rangeLabel.innerText = productStock.value + "개";
-      }
+      };
+      function fn_back(){
+        	if(confirm("마이페이지로 이동하시겠습니까?")){
+    	    	location.href="${path}/admin/mypage/product/enrollView.do";
+        	}
+        };
     </script>
     
     <!-- category등록 -->
     <script>
    
     		$("#createbtn").click(function(){
-    			swal('',"카테고리를 추가로 등록하시겠습니까?");
-    		
-    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=550, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=no");
-    			
+    			if(confirm("카테고리를 추가로 등록하시겠습니까?")){
+	    			window.open("${path}/admin/product/moveEnrollCate.do", "카테고리등록", "width=550, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=no");
+    			}
     		})
    
     </script>

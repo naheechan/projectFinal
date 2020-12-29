@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.admin.product.model.vo.ProductCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.shop.model.service.ShopService;
 import com.kh.maison.shop.model.vo.InquiryReply;
@@ -37,7 +38,7 @@ public class ShopController {
 	@RequestMapping("/shopView.do")
 	public String moveShopView(Model m,
 		@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
-		@RequestParam(value="numPerPage", required=false, defaultValue="10") int numPerPage) {
+		@RequestParam(value="numPerPage", required=false, defaultValue="9") int numPerPage) {
 		List<Product> list = service.selectProductList(cPage,numPerPage);
 		int totalData = service.selectCount();
 		//대분류
@@ -295,6 +296,5 @@ public class ShopController {
 		}
 		return str;
 	}
-	
 	
 }

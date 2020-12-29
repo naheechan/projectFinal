@@ -121,8 +121,8 @@ public class ProductMyAdminServiceImpl implements ProductMyAdminService {
 	}
 
 	@Override
-	public List<MyAdminCate> searchDate(Map<String, Object> param) {
-		return dao.searchDate(session,param);
+	public List<MyAdminCate> searchDate(Map<String, Object> param, int cPage, int numPerPage) {
+		return dao.searchDate(session,param,cPage,numPerPage);
 	}
 
 	//문의
