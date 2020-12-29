@@ -140,7 +140,9 @@ public class MemberController {
 				mv.setViewName("redirect:/");
 			}else {
 				logger.debug("이메일 인증 미완료");
+				mv.addObject("warn", "1");
 				mv.addObject("msg", "이메일이 아직 인증되지 않았습니다.");
+				mv.addObject("extraMsg", "회원가입 시 작성한 이메일을 통해 인증을 해주세요.");
 				mv.addObject("loc", "/member/login");
 				mv.setViewName("common/msg");
 			}

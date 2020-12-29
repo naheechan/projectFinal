@@ -92,8 +92,8 @@ public class AdminSchedulerController {
 	}
 	
 	
-//	@Scheduled(cron="0/20 * * ? * ?") //테스트용
-	@Scheduled(cron="0 0 13 * * *") //매일 13시0분0초에 실행
+	@Scheduled(cron="0/20 * * ? * ?") //테스트용
+//	@Scheduled(cron="0 0 13 * * *") //매일 13시0분0초에 실행
 	public void sendCycleEmail() {
 		logger.debug("sendCycleEmail 실행");
 		List<CycleAdmin> cycleList = service.selectAllCycleList();
