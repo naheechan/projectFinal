@@ -10,7 +10,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-<script src="${ path }/ckeditor/ckeditor.js"></script>
+<script src="${path }/resources/ckeditor/ckeditor.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="상품등록" />

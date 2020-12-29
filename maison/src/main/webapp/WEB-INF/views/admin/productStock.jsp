@@ -419,9 +419,9 @@ function bringSecondDiv(sendNum){
               zeroLineColor: "#e9e9e9",
             },
             ticks: {
-              min:	-500,
-              max: 500,
-              stepSize: 100,
+              min:	-300,
+              max: 3000,
+              stepSize: 300,
               fontColor: "#6c7383",
               fontSize: 16,
               fontStyle: 300,
