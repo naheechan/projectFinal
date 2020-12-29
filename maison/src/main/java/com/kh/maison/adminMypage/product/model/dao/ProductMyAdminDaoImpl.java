@@ -117,9 +117,10 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 	}
 
 	@Override
-	public List<MyAdminCate> searchDate(SqlSession session,Map<String, Object> param) {
+	public List<MyAdminCate> searchDate(SqlSession session,Map<String, Object> param, int cPage, int numPerPage) {
 		System.out.println(param);
-		return session.selectList("myAdminProduct.searchDate",param);
+		return session.selectList("myAdminProduct.searchDate",param,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
 	@Override

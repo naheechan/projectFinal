@@ -517,7 +517,7 @@ $(document).on("click",'[name=after_adminModi]',function(e){
 		$(document).on("click",'[name=reply_modi]',function(e){
 			var no = $(this).prev().prev().val();
 			if(confirm("문의를 수정하시겠습니까?")){
-				$(this).prev().prev().prev().replaceWith("<form name='userModiInquiry'><select name='piCate'><option value='상품문의'>상품문의</option><option value='배송문의'>배송문의</option></select><br><textarea id='umContent' name='umContent' rows='6' cols='120' style='resize:none;' required></textarea><input type='hidden' id='piNo' name='piNo' value='"+no+"'></form>");
+				$(this).prev().prev().prev().replaceWith("<form name='userModiInquiry'><select name='piCate'><option value='상품문의'>상품문의</option><option value='배송문의'>배송문의</option></select><br><textarea id='umContent' name='umContent' rows='6' cols='115' style='resize:none;' required></textarea><input type='hidden' id='piNo' name='piNo' value='"+no+"'></form>");
 				$(this).replaceWith("<a name='after_cancel' id='after_cancel' style='float:right;'>취소</a><a name='after_userModi' id='after_userModi' style='float:right;'>수정</a>");
 				$("#after_userModi").prev().prev().detach();
 				$("#after_cancel").click(function(e){

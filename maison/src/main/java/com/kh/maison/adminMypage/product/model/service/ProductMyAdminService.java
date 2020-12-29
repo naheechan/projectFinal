@@ -52,7 +52,7 @@ public interface ProductMyAdminService {
 	
 	int deleteCate(String id);
 	
-	List<MyAdminCate> searchDate(Map<String,Object> param);
+	List<MyAdminCate> searchDate(Map<String,Object> param, int cPage, int numPerPage);
 	
 	//문의
 	List<MyAdminInquiry> selectInquiryList(int cPage, int numPerPage);
