@@ -108,12 +108,17 @@ public class MailSendService {
 		String imgPath = "";
 		switch(productNo) {
 		//case 1: imgPath=""; break;
+		case 1: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfNzMg/MDAxNjA5Mjg3NzU4MjE3._ta0WX4ZDdLu-pk55Gquc6APOwcAA9Z6KxsoRtoHFrUg.849i10PULPNk2PN_hcDdw-IShsB_n-s3xCwjm1IJHuAg.PNG.nhchihi/a24.png?type=w773"; break;
 		case 3: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfOTgg/MDAxNjA5MjYwNDkxNTIw.iINRi-mzeR6nwQq_uRaGaRRQy4bnlo-An-f7lNDCFOgg.MYmMYErqX8yTIQvsBDHyK-qKTrUqT7kf0creND37wi4g.PNG.nhchihi/zz1.png?type=w773"; break;
+		case 4: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMTQ0/MDAxNjA5Mjg3NzkxNjMw.-nD1tZkDMtFvxLBzd0yNmvUAI_1JgD3Dccg5_YnkjSAg.Om3qdQR6cZW7FZM_ggoljOD9qrtTR5Q662cSZZlL588g.PNG.nhchihi/a25.png?type=w773"; break;
+		case 5: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMjU2/MDAxNjA5Mjg3ODA5Njcx.d0JBXjY5wRsYkn_qlT3LBvSXyt7d_9fSqNy5R0jYsyog.EATt4TkFSYobVYWQVTu-yqk7gWYuorQqEhssnjz6OzIg.PNG.nhchihi/a26.png?type=w773"; break;
+		case 6: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMTM4/MDAxNjA5Mjg3ODIzMTEy.ZIg_chZOvnTrmT88_G2HV5DN5eMmO2__DksUmIZiAQAg.rP0BgkwvV4O5TbHeYuD-HrsWVZGGlgDLJpPP6KkRPiQg.PNG.nhchihi/a27.png?type=w773"; break;
 		case 7: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMTg5/MDAxNjA5MjYxMTI5Mzk1.bgz1vjfBCN5VYk4vJfAKkkGF-FqB2GFxFdk_uzQrKFIg.HYEebjmM_O77wWksgiTL5En79gcSU7cfR3n5Kpz9q58g.PNG.nhchihi/a11.png?type=w773"; break;
 		case 8: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMTYx/MDAxNjA5MjYxMTk4MjY4.fRqKGPnWSmvhDP-6-jABhC0H6_MV2vjd3IUErmOT1xUg.iPF31genQo-H2ggTs8O_ciVvOMmCiqEETEvx6HW1j4Ag.PNG.nhchihi/a12.png?type=w773"; break;
 		case 18: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMjcz/MDAxNjA5MjYxMjEyOTYy.HySww3yaM9hCvgKwlnB6pELRt-2vLyNTdDHBPANiDNEg.LeZ_EFe4H_vh-omSCexrSASXemfb0NQh-FCYCXFphXog.PNG.nhchihi/a13.png?type=w773"; break;
 		case 19: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMjEx/MDAxNjA5MjYxMjI1NTA3.cEdBFc80Nmt6ZUhHhmisMg1VZ4NEgkRfjVK5-faNobYg.S97Ndx42zhSBekmmHU-ZwAhT7ND1ZJysQaqM32F5bq0g.PNG.nhchihi/a14.png?type=w773"; break;
 		case 20: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMjMz/MDAxNjA5MjYxMjQ2MzU5.3GW00uJTow68oCG3cpQWgpNNzfQI5KGmSPntEFI_4_wg.MC-7z1LuVMAdjCZlE_uOxy50H3z6d4lzlFrZwK5Ljc8g.PNG.nhchihi/a15.png?type=w773"; break;
+		case 21: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfOTIg/MDAxNjA5Mjg3ODMyMjUx.2QtJ2DbBaE_-B7MdlrVD_znvi8L_Bx7RuBgyj8_jcnAg.s4ap8BaXA58P4kXMYCnFkNKWc2HTkDhP2zcrTSSJgfMg.PNG.nhchihi/a28.png?type=w773"; break;
 		case 22: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfNjYg/MDAxNjA5MjYxMjgwODI3.zNbcss6P7Om6hFQeWk99xGoc29e7oBXkefspLHHJKCwg.EEFAyjmNpX64twLuaPMxz4KWp6bS0OYYHsPNpmJ4GdEg.PNG.nhchihi/a16.png?type=w773"; break;
 		case 24: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMTEx/MDAxNjA5MjYxMzcwMzkw.AnKMXor5QYenoFwBUxwiAgM3oLLt7lqu9cWz4ToHQbkg.ba92yoN2WdA9HrPxPUZTaTDWAsGebQnj6rDzFVPpvwMg.PNG.nhchihi/a18.png?type=w773"; break;
 		case 26: imgPath="https://postfiles.pstatic.net/MjAyMDEyMzBfMTY5/MDAxNjA5MjYxMzk1NTU0.huzcltOXwM34_Y9uX8BhZpqaXXuoR3tsXuu3iGgFSEMg.ICSdtC1INW8PcM_kkSgOJKWWrRPcVn24fMTfuBnUPOUg.PNG.nhchihi/a20.png?type=w773"; break;
