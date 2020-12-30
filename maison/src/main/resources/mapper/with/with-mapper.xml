@@ -224,4 +224,14 @@
 		UPDATE WITHCOMMENT SET WCDEL='N' WHERE WCNO=#{checkStatus}
 	</update>
 
+	<select id="selectOneWithReport" parameterType="_int" resultType="withReport">
+		SELECT * FROM WITHREPORT 
+		WHERE WRNO=#{no}
+	</select>
+	
+	<update id="updateWithReport" parameterType="withReport">
+		UPDATE WITHREPORT
+		SET WRSTATUS=#{wrStatus}
+		WHERE WRNO=#{wrNo}
+	</update>
 </mapper>

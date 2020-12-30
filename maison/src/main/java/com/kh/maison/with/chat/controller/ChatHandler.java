@@ -40,7 +40,7 @@ public class ChatHandler extends TextWebSocketHandler {
 	@Override 
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{
 		list.add(session);
-		System.out.println("하나의 클라이언트가 연결됨");
+		
 	}
 	
 	//클라이언트가 메시지를 보냈을 때 호출되는 메소드
@@ -74,7 +74,7 @@ public class ChatHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session,
 			CloseStatus status) throws Exception {
-		System.out.println("클라이언트와 연결 해제됨");
+		
 		list.remove(session);
 	}
 

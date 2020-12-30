@@ -175,6 +175,8 @@
 		                    </table>
 		                  </div>
 		                  <br>
+		                    <p>※ 신고상태를 변경하시려면 변공하고자하는 신고 행을 클릭하세요.</p>
+		                  <br>
 		                  <div id="pageBar">
 		                  	${pageBar }
 		                  </div>
@@ -190,6 +192,18 @@
 </div>
 <jsp:include page="/WEB-INF/views/admin/jses.jsp"/>	
 <script>
+$(function(){
+	$("#recent-purchases-tbody tr").click(function(){
+		var str="";
+		var tdArr = new Array();
+		var tr = $(this);
+		var td = tr.children();
+		var no = td.eq(0).text();
+		window.name="parentForm";
+		openWin= window.open('${path }/admin/reportStatusChange?no='+no,'신고상태 변경하기','width=440,height=320,scrollbars=no,left=200,top=50,resizable=no');
+
+	})
+})
 </script>
 </body>
 </html>

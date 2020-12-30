@@ -261,7 +261,7 @@
 	 	})
 	 });
 	 $("#resultTable tbody tr").click(function(){
-		 var no = $("#pdNo").val();//pdno
+		 var no = $(this).find("#pdNo").val();//pdno
 		location.href="${path}/shop/shopDetail.do?no="+no;
 	 });
 	

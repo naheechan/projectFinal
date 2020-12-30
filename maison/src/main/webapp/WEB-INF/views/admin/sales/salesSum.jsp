@@ -229,25 +229,13 @@
 		            </div>
           
           <div class="row">
-            <div class="col-md-7 grid-margin stretch-card">
+            <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                  
                   <div id="cash-deposits-chart-legend" class="d-flex justify-content-center pt-3"></div>
                   <canvas id="cash-deposits-chart"></canvas>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-5 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-title">Total sales</p>
-                  <h1>$ 28835</h1>
-                  <h4>Gross sales over the years</h4>
-                  <p class="text-muted">Today, many people rely on computers to do homework, work, and create or store useful information. Therefore, it is important </p>
-                  <div id="total-sales-chart-legend"></div>                  
-                </div>
-                <canvas id="total-sales-chart"></canvas>
               </div>
             </div>
           </div>
@@ -405,8 +393,8 @@ function bringSecondData(sendNum){
 	            },
 	            ticks: {
 	              min: 0,
-	              max: 1000000,
-	              stepSize: 100000,
+	              max: 2000000,
+	              stepSize: 200000,
 	              fontColor: "#6c7383",
 	              fontSize: 16,
 	              fontStyle: 300,

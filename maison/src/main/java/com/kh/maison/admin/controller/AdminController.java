@@ -36,6 +36,7 @@ import com.kh.maison.shopCycle.model.service.ShopCycleService;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
+import com.kh.maison.with.model.vo.WithReport;
 import com.kh.spring.common.PageBarFactory;
 
 @Controller
@@ -714,7 +715,24 @@ public class AdminController {
 		return map;
 	}
 	
-
+	//함께해요 신고상태 변경하기 
+	@RequestMapping("/admin/reportStatusChange")
+	public ModelAndView reportStatusChange(ModelAndView mv, @RequestParam int no) {
+		WithReport wr = withBoardService.selectOneWithReport(no);
+		mv.addObject("withReport",wr);
+		mv.setViewName("admin/with/withReportChange");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/reportChangeEnd.do")
+	@ResponseBody
+	public int reportChangeEnd(@RequestParam int wrNo,@RequestParam String wrStatus ) {
+		WithReport wr = new WithReport();
+		wr.setWrNo(wrNo);
+		wr.setWrStatus(wrStatus);
+		int result = withBoardService.updateWithReport(wr);
+		return result;
+	}
 	
 	
 }

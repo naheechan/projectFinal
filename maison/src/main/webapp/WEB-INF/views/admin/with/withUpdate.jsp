@@ -32,7 +32,7 @@
 <link rel="shortcut icon" href="${path }/resources/admin/images/favicon.png" />
 <!-- sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src = "${path }/ckeditor/ckeditor.js"></script>
+<script src = "${path }/resources/ckeditor/ckeditor.js"></script>
 <style>
 	#update-div{
 		border:1px solid lightgray;

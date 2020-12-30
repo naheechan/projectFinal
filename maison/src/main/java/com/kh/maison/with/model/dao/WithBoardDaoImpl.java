@@ -167,6 +167,18 @@ public class WithBoardDaoImpl implements WithBoardDao {
 		// TODO Auto-generated method stub
 		return session.update("with.deleteBringAllWithComment",checkStatus);
 	}
+
+	@Override
+	public WithReport selectOneWithReport(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("with.selectOneWithReport",no);
+	}
+
+	@Override
+	public int updateWithReport(SqlSessionTemplate session, WithReport wr) {
+		// TODO Auto-generated method stub
+		return session.update("with.updateWithReport",wr);
+	}
 	
 
 

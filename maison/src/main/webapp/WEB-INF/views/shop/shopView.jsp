@@ -296,7 +296,7 @@
 							/* divResult.empty(); */
 							if(data[i].productStatus=='Y'){
 			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
-							+"	<div class='products-single fix' onclick='searchCate("+data[i].mediumCate+")'>"
+							+"	<div class='products-single fix'>"
 							+"	<div class='box-img-hover'>																"
 							+"	<div class='type-lb'>																		"
 							+"	<p class='sale'>NEW</p>																"

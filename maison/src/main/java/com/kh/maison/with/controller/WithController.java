@@ -100,10 +100,18 @@ public class WithController {
 	public ModelAndView enrollWithEnd(WithBoard wb, ModelAndView mv) {
 		
 		int result = service.insertWith(wb);
-		
-		mv.addObject("msg",result>0?"등록성공":"등록실패");
-		mv.addObject("loc","/with/withList.do");
-		mv.setViewName("common/msg");
+		if(result>0) {
+			mv.addObject("msg","함께해요 게시글 등록 성공!");
+			mv.addObject("subMsg","함께해요 메인화면으로 전환합니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc","/with/withList.do");
+		}else {
+			mv.addObject("msg","함께해요 게시글 등록 실패!");
+			mv.addObject("subMsg","게시글 작성 화면으로 돌아갑니다.");
+			mv.addObject("status","error");
+			mv.addObject("loc","/with/withEnroll.do");
+		}
+		mv.setViewName("common/sweetMsg");
 	
 		return mv;
 	}
@@ -234,11 +242,18 @@ public class WithController {
 	@RequestMapping("/with/withUpdateEnd.do")
 	public ModelAndView withUpdateEnd(WithBoard wb, ModelAndView mv) {		
 		int result = service.updateWith(wb);
-		
-		mv.addObject("msg",result>0?"등록성공":"등록실패");
-		mv.addObject("loc","/with/withList.do");
-		mv.setViewName("common/msg");
-	
+		if(result>0) {
+			mv.addObject("msg","성공적으로 수정했습니다.");
+			mv.addObject("subMsg","함께해요 메인화면으로 전환합니다.");
+			mv.addObject("status","success");
+			mv.addObject("loc","/with/withList.do");
+		}else {
+			mv.addObject("msg","게시글 수정 실패!");
+			mv.addObject("subMsg","다시 시도하신 후 관리자에게 문의해주세요.");
+			mv.addObject("status","error");
+			mv.addObject("loc","/with/withList.do");
+		}
+		mv.setViewName("common/sweetMsg");
 		return mv;
 	}
 	

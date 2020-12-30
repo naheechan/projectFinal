@@ -514,13 +514,17 @@ public class MemberController {
 
 		if(mem!=null && encoder.matches(m.getMemberPw(), mem.getMemberPw())) {
 			mv.addObject("msg", "비밀번호가 인증되었습니다.");
+			mv.addObject("subMsg","회원정보 변경 화면으로 전환합니다.");
+			mv.addObject("status","success");
 			mv.addObject("loc", "/member/updateEnd.do");
-
+			
 		}else {
-			mv.addObject("msg", "비밀번호 인증 실패! 비밀번호를 다시 입력해주세요.");
+			mv.addObject("msg", "비밀번호 인증 실패!");
+			mv.addObject("subMsg","비밀번호를 다시 입력해주세요.");
+			mv.addObject("status","error");
 			mv.addObject("loc", "/member/update.do");
 		}
-			mv.setViewName("common/msg");
+		mv.setViewName("common/sweetMsg");
 		return mv;
 	}
 	
@@ -669,24 +673,29 @@ public class MemberController {
 						status.setComplete();
 					}
 				}else {
-					mv.addObject("msg","인증 이메일 발송 실패 - 관리자에게 문의하세요");
+					mv.addObject("msg","인증 이메일 발송 실패");
+					mv.addObject("subMsg","관리자에게 문의해주세요.");
+					mv.addObject("status","error");
 					mv.addObject("loc","/");
-					mv.setViewName("common/msg");
+					mv.setViewName("common/sweetMsg");
 				}		
 				// 회원정보 변경 자체는 성공해서, 다른 정보들을 바꿨는데 이메일은 안바꿨어. 
 			}else {
 				if(!status.isComplete()) {
 					status.setComplete();
 				}
-				mv.addObject("msg","회원정보가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
+				mv.addObject("msg","회원정보가 성공적으로 변경되었습니다.");
+				mv.addObject("subMsg","다시 로그인해주세요.");
+				mv.addObject("status","success");
 				mv.addObject("loc","/");
-				mv.setViewName("common/msg");
+				mv.setViewName("common/sweetMsg");
 			}
 		// 회원정보 update자체가 실패했을때. 
 		}else {
-			mv.addObject("msg","회원정보 변경 실패 - 관리자에게 문의하세요.");
+			mv.addObject("msg","회원정보 변경 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
 			mv.addObject("loc","/member/mypage.do");
-			mv.setViewName("common/msg");
+			mv.setViewName("common/sweetMsg");
 		}
 		
 		return mv;
@@ -730,14 +739,18 @@ public class MemberController {
 		Member mem = service.selectMemberOne(m.getMemberId());
 
 		if(mem!=null && encoder.matches(m.getMemberPw(), mem.getMemberPw())) {
-			mv.addObject("msg", "비밀번호가 인증되었습니다.비밀번호 변경 화면으로 전환합니다.");
+			mv.addObject("msg", "비밀번호가 인증되었습니다.");
+			mv.addObject("subMsg","비밀번호 변경 화면으로 전환합니다.");
+			mv.addObject("status","success");
 			mv.addObject("loc", "/member/updatePwEnd.do");
 
 		}else {
-			mv.addObject("msg", "비밀번호 인증 실패!비밀번호를 다시 입력해주세요.");
+			mv.addObject("msg", "비밀번호 인증 실패!");
+			mv.addObject("subMsg","비밀번호를 다시 입력해주세요.");
+			mv.addObject("status","error");
 			mv.addObject("loc", "/member/updatePw.do");
 		}
-			mv.setViewName("common/msg");
+			mv.setViewName("common/sweetMsg");
 		return mv;
 	}
 	
@@ -812,14 +825,18 @@ public class MemberController {
 			if(!status.isComplete()) {
 				status.setComplete();
 			}
-			mv.addObject("msg","비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
+			mv.addObject("msg","비밀번호 변경 성공!");
+			mv.addObject("subMsg","로그인이 해제되었습니다.다시 로그인해주세요.");
+			mv.addObject("status","success");
 			mv.addObject("loc","/");
 			
 		}else {
-			mv.addObject("msg","비밀번호 변경 실패 - 관리자에게 문의하세요.");
+			mv.addObject("msg","비밀번호 변경 실패!");
+			mv.addObject("subMsg","관리자에게 문의해주세요.");
+			mv.addObject("status","error");
 			mv.addObject("loc","/member/mypage.do");	
 		}
-		mv.setViewName("common/msg");
+		mv.setViewName("common/sweetMsg");
 		return mv;
 	}
 	

@@ -62,4 +62,8 @@ public interface WithBoardDao {
 	int bringCommentedWithCount(SqlSessionTemplate session,String memberId);
 	
 	int deleteBringAllWithComment(SqlSessionTemplate session,int checkStatus);
+	
+	WithReport selectOneWithReport(SqlSessionTemplate session,int no);
+	
+	int updateWithReport(SqlSessionTemplate session,WithReport wr);
 }

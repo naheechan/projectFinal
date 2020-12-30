@@ -197,4 +197,16 @@ public class WithBoardServiceImpl implements WithBoardService {
 		int result = dao.deleteBringAllWithComment(session,checkStatus);
 		return result;
 	}
+
+	@Override
+	public WithReport selectOneWithReport(int no) {
+		// TODO Auto-generated method stub
+		return dao.selectOneWithReport(session,no);
+	}
+
+	@Override
+	public int updateWithReport(WithReport wr) {
+		// TODO Auto-generated method stub
+		return dao.updateWithReport(session,wr);
+	}
 }

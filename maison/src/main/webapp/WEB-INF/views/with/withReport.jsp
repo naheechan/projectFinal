@@ -23,6 +23,7 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path }/resources/css/custom.css"> 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>신고하기</title>
 <style>
 	#reportFrm{
@@ -122,10 +123,15 @@
 				data:insertData,
 				success:function(data){
 					if(data==1){
-						alert("신고가 접수되었습니다. 신고하기 화면을 종료합니다.");
-						self.close();
+						swal("신고가 접수되었습니다.","신고하기 화면을 종료합니다.","success")
+						.then((value)=>{
+							self.close();
+						});
 					}else{
-						alert("신고 접수가 실패했습니다. 다시 시도해주세요.");
+						swal("신고 접수가 실패했습니다.","다시 시도하신 후, 관리자에게 문의해주세요.","error")
+						.then((value)=>{
+							
+						});
 					}
 				}
 			})

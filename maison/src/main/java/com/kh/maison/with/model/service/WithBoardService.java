@@ -60,4 +60,7 @@ public interface WithBoardService {
 	int deleteBringAllWith(int checkfordelete);
 	
 	int deleteBringAllWithComment(int checkStatus);
+	
+	WithReport selectOneWithReport(int no);
+	int updateWithReport(WithReport wr);
 }
