@@ -42,7 +42,7 @@
 		background:#FCF7E1;
 	}
 	#replySubmit{
-		color:#000000;
+		color:#F2BB9C;
 		text-align:center;
 	}
 	#replySubmit:hover{
@@ -222,12 +222,11 @@ select::-ms-expand { /* for IE 11 */
 								<c:if test="${loginMember.memberId!=null }">
 									<div class="container">
 									  
-									  <form action="${path }/shop/wishList.do" method="post" target="frm">
+									  <form action="${path }/shop/wishList.do" method="post">
 									    <div class="form-group">
 									      <input type="hidden" class="form-control" value="${product.productNo }" name="no" id="SessionProductNo">
 									      <input type="hidden" class="form-control" value="${loginMember.memberId }" name="id" id="sessionMemberId">
-									    </div>
-									    <iframe name="frm" style="width: 1px; height: 1px;border: 0;"></iframe>
+									    </div>									    
 									    <button type="submit" class="btn hvr-hover">Add to WishList</button>
 									  </form>
 									  
@@ -492,7 +491,7 @@ $(function(){
 $(document).on("click",'[name=admin_repModi]',function(e){
 	var no = $(this).prev().val();//pirNo
 		if(confirm("답글을 수정하시겠습니까?")){
-			$(this).prev().prev().replaceWith("<form name='afterAdminReply'><textarea id='rmContent' name='rmContent' rows='6' cols='120' style='resize:none;' required></textarea><input type='hidden' id='pirNo' name='pirNo' value='"+no+"'></form>");
+			$(this).prev().prev().replaceWith("<form name='afterAdminReply'><textarea id='rmContent' name='rmContent' rows='6' cols='115' style='resize:none;' required></textarea><input type='hidden' id='pirNo' name='pirNo' value='"+no+"'></form>");
 			$(this).replaceWith("<a name='after_adminModi' id='after_adminModi' style='float:right;'>답글 수정</a>");
 		}
 });

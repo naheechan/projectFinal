@@ -59,7 +59,23 @@
 		ORDER BY REVIEWDATE DESC		
 	</select>
 	<select id="countReviewId" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM REVIEW WHERE MEMBERID=#{memberId}
+		SELECT COUNT(*)
+		FROM   (
+        SELECT ROW_NUMBER() OVER (PARTITION BY REVIEWNO ORDER BY REVIEWDATE desc)  AS RNUM
+              ,T1.*
+        FROM   (
+                SELECT *
+                FROM   REVIEW R
+                       JOIN PRODUCT P ON R.PRODUCTNO = P.PRODUCTNO
+                       JOIN ORDERDETAIL OD ON R.ORDERDETAILNO=OD.ORDERDETAILNO
+                       JOIN ORDER_TB O ON OD.ORDERNO=O.ORDERNO
+                WHERE  R.MEMBERID=#{memberId}
+                ORDER BY r.reviewno DESC
+               ) T1
+       ) S1
+
+		WHERE  S1.RNUM = 1
+		ORDER BY REVIEWDATE DESC
 	</select>
 	<select id="selectReviewOdNo" parameterType="_int" resultType="review">
 		SELECT * FROM REVIEW WHERE ORDERDETAILNO=#{orderDetailNo}
@@ -92,8 +108,30 @@
 	
 	</select>
 	<select id="countPeriodReview" parameterType="map" resultType="_int">
-		SELECT count(*) FROM REVIEW WHERE MEMBERID=#{memberId} AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
-              AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
+	SELECT COUNT(*)
+		FROM   (
+        SELECT ROW_NUMBER() OVER (PARTITION BY REVIEWNO ORDER BY REVIEWDATE desc)  AS RNUM
+              ,T1.*
+        FROM   (
+                SELECT *
+                FROM   REVIEW R
+
+                       JOIN PRODUCT P ON R.PRODUCTNO = P.PRODUCTNO
+
+                       JOIN ORDERDETAIL OD ON R.ORDERDETAILNO=OD.ORDERDETAILNO
+
+                       JOIN ORDER_TB O ON OD.ORDERNO=O.ORDERNO
+
+                WHERE  R.MEMBERID=#{memberId} AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
+             AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
+                ORDER BY r.reviewno DESC
+
+               ) T1
+
+       ) S1
+
+	WHERE  S1.RNUM = 1
+	ORDER BY REVIEWDATE DESC
 	</select>
 	<select id="selectReviewWithRR" parameterType="map" resultType="review">
 		 SELECT R.REVIEWNO, R.REVIEWCONTENT, R.REVIEWDATE,
@@ -148,7 +186,7 @@
                        JOIN ORDER_TB O ON OD.ORDERNO=O.ORDERNO
 
                 WHERE 1=1 
-                <if test="end!=null and start!=null">
+                <if test="end!=null">
                 AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
              	AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
                 </if>
@@ -162,11 +200,33 @@
 	ORDER BY REVIEWDATE DESC
 	</select>
 	<select id="countPeriodReviewAdmin" parameterType="map" resultType="_int">
-		SELECT count(*) FROM REVIEW WHERE 1=1 
-		<if test="end!=null and start!=null">
-		AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
-              AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
-        </if>
+		SELECT COUNT(*)
+		FROM   (
+        SELECT ROW_NUMBER() OVER (PARTITION BY REVIEWNO ORDER BY REVIEWDATE desc)  AS RNUM
+              ,T1.*
+        FROM   (
+                SELECT *
+                FROM   REVIEW R
+
+                       JOIN PRODUCT P ON R.PRODUCTNO = P.PRODUCTNO
+
+                       JOIN ORDERDETAIL OD ON R.ORDERDETAILNO=OD.ORDERDETAILNO
+
+                       JOIN ORDER_TB O ON OD.ORDERNO=O.ORDERNO
+
+                WHERE 1=1 
+                <if test="end!=null">
+                AND REVIEWDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
+             	AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
+                </if>
+                ORDER BY r.reviewno DESC
+
+               ) T1
+
+       ) S1
+
+	WHERE  S1.RNUM = 1
+	ORDER BY REVIEWDATE DESC
 	</select>
 	<select id="selectReviewAdminWithRR" parameterType="map" resultType="review">
 		 SELECT R.REVIEWNO, R.REVIEWCONTENT, R.REVIEWDATE,

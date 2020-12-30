@@ -496,8 +496,6 @@
 			</if>
 		</if>	
 	</select>
-
-
 	<select id="selectTotalPrice" parameterType="Integer" resultType="Integer">
 		SELECT SUM(ORDERPRICE) FROM ORDER_TB
 	</select>

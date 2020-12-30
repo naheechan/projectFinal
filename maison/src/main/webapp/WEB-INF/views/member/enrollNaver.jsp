@@ -190,7 +190,6 @@
 			<input type="hidden" id="memberId" name="memberId" value="${memNaver.memberId }">
 			<input type="hidden" id="memberName" name="memberName" value="${memNaver.memberName}">
 			<input type="hidden" id="email" name="email" value="${memNaver.email}">
-			<input type="hidden" id="gender" name="gender" value="${memNaver.gender}">
 	
 			<!-- 주소부분 -->
 		 	<div class="form-group" id="address-container">
@@ -201,6 +200,25 @@
 				<input type="text" class="form-control" id="detailAddress" name="detailAddress" placeholder="상세주소" required>
 				<input type="text" class="form-control" id="extraAddress" name="extraAddress" placeholder="참고항목">			 	
 		 	</div>
+		 	
+		 	<div class="form-group">
+			    <label>성별</label>
+		 	</div>
+		 	<div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="radio" class="form-check-input" name="gender" value="M">남
+			  </label>
+			</div>
+			<div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="radio" class="form-check-input" name="gender" value="F">여
+			  </label>
+			</div>
+			<div class="form-check-inline disabled">
+			  <label class="form-check-label">
+			    <input type="radio" class="form-check-input" name="gender" value="U" checked>공개안함
+			  </label>
+			</div>
 		 	
 		 	<div class="form-group">
 			    <label for="datepicker">생년월일</label><br>

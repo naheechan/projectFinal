@@ -140,7 +140,9 @@ public class MemberController {
 				mv.setViewName("redirect:/");
 			}else {
 				logger.debug("이메일 인증 미완료");
+				mv.addObject("warn", "1");
 				mv.addObject("msg", "이메일이 아직 인증되지 않았습니다.");
+				mv.addObject("extraMsg", "회원가입 시 작성한 이메일을 통해 인증을 해주세요.");
 				mv.addObject("loc", "/member/login");
 				mv.setViewName("common/msg");
 			}
@@ -357,11 +359,8 @@ public class MemberController {
 			JSONObject jsonData = (JSONObject)((JSONObject)parser.parse(responseBody)).get("response");
 			String id = jsonData.get("id").toString();
 
-			//String age = jsonData.get("age").toString();
-			String gender = jsonData.get("gender").toString();
 			String email = jsonData.get("email").toString();
 			String name = jsonData.get("name").toString();
-			//String birthday = jsonData.get("birthday").toString();
 
 			//회원이 DB에 있는지 확인
 			Member mem = service.selectMemberOne(id);
@@ -394,7 +393,6 @@ public class MemberController {
 				logger.debug("네이버 회원가입으로 가자");
 				Member memNaver = new Member();
 				memNaver.setMemberId(id);
-				memNaver.setGender(gender);
 				memNaver.setEmail(email);
 				memNaver.setMemberName(name);
 				//memNaver을 세션에 넣음
@@ -492,7 +490,9 @@ public class MemberController {
 			Map param=new HashMap<String,String>();
 			param.put("memberId", m.getMemberId());
 			List<Order> list=oservice.selectMyOrderList(param,1,10);
-			mv.addObject("o",list.get(0));
+
+			mv.addObject("list",list);
+				
 			mv.setViewName("member/mypage");
 		}
 		return mv;

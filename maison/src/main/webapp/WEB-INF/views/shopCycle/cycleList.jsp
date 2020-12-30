@@ -194,6 +194,11 @@
 	                                                    	cal.setTime(startDa);
 	                                                    	
 	                                                    	Calendar calToday = Calendar.getInstance(); //지금 현재 날짜
+	                                                    	calToday.set(Calendar.HOUR_OF_DAY, 0);
+	                                                    	calToday.set(Calendar.MINUTE, 0);
+	                                                    	calToday.set(Calendar.SECOND, 0);
+	                                                    	calToday.set(Calendar.MILLISECOND, 0);
+	                                            			
 	                                                    	//오늘보다 다음구매예상일이 더 커질때까지 더함.
 	                                                    	do{
 	                                                    		cal.add(Calendar.DATE, cycleDay*amount);

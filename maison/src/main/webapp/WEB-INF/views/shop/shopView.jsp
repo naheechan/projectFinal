@@ -84,7 +84,8 @@
                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                         </ul>
-                                                        <a class="cart" href="#">Add to Cart</a>
+                                                        <input type="hidden" value="${list.productNo }">
+                                                        <a class="cart basketA" href="#">Add to Cart</a>
                                                     </div>
                                                 </div>
                                                 <div class="why-text">
@@ -157,6 +158,22 @@
    <br>
     <script>
     	$(function(){
+    		
+    		$(".basketA").click(
+    				function() {
+    					var amount = 1;
+    					const productNo = $(this).prev().val();
+    					console.log(amount+":"+productNo);
+    					$(this).attr('href',
+    					'${path}/basket/insertBasket.do?productNo='+ productNo
+    					+ '&amount=' + amount);
+    					});
+
+    				
+    		
+    		
+    		
+    		
     		var mId = $("#memberId").val();
 			var html = '';
 			var divResult = $("#divResult");
