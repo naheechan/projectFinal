@@ -42,7 +42,7 @@
 		background:#FCF7E1;
 	}
 	#replySubmit{
-		color:#000000;
+		color:#F2BB9C;
 		text-align:center;
 	}
 	#replySubmit:hover{
@@ -492,7 +492,7 @@ $(function(){
 $(document).on("click",'[name=admin_repModi]',function(e){
 	var no = $(this).prev().val();//pirNo
 		if(confirm("답글을 수정하시겠습니까?")){
-			$(this).prev().prev().replaceWith("<form name='afterAdminReply'><textarea id='rmContent' name='rmContent' rows='6' cols='120' style='resize:none;' required></textarea><input type='hidden' id='pirNo' name='pirNo' value='"+no+"'></form>");
+			$(this).prev().prev().replaceWith("<form name='afterAdminReply'><textarea id='rmContent' name='rmContent' rows='6' cols='115' style='resize:none;' required></textarea><input type='hidden' id='pirNo' name='pirNo' value='"+no+"'></form>");
 			$(this).replaceWith("<a name='after_adminModi' id='after_adminModi' style='float:right;'>답글 수정</a>");
 		}
 });
