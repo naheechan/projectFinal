@@ -118,7 +118,7 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 
 	@Override
 	public List<MyAdminCate> searchDate(SqlSession session,Map<String, Object> param, int cPage, int numPerPage) {
-		System.out.println(param);
+		
 		return session.selectList("myAdminProduct.searchDate",param,
 				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
@@ -230,7 +230,7 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 		map.put("keyword",searchKeyword);
 		map.put("datepicker",datepicker);
 		map.put("datepicker2",datepicker2);
-		System.out.println("daoIm"+map);
+		
 		return session.selectOne("myAdminProduct.searchCountInq",map);
 	}
 
@@ -281,7 +281,7 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 			map.put("keyword",searchKeyword);
 			map.put("datepicker",datepicker);
 			map.put("datepicker2",datepicker2);
-			System.out.println("daoIm"+map);
+			
 		return session.selectList("myAdminProduct.Enrollsearch",map,
 				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
@@ -294,7 +294,7 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 			map.put("keyword",searchKeyword);
 			map.put("datepicker",datepicker);
 			map.put("datepicker2",datepicker2);
-			System.out.println("countdaoIm"+map);
+			
 		return session.selectOne("myAdminProduct.EnrollsearchCount",map);
 	}
 
@@ -323,14 +323,14 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 		Map<String,Object> map = new HashMap<>();
 		map.put("searchType",searchType);
 		map.put("val",val);
-		System.out.println(map);
+		
 		return session.selectList("myAdminProduct.searchTop",map,
 				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
 	@Override
 	public List<MyAdminEnroll> searchTopAll(SqlSession session, String name, int cPage, int numPerPage) {
-		System.out.println(name);
+		
 		Map<String,Object> map = new HashMap<>();
 		map.put("name1",name.split(",")[0]);
 		map.put("name2",name.split(",")[1]);

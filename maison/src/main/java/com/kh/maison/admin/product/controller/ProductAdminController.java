@@ -48,7 +48,7 @@ public class ProductAdminController {
 		List<Category> largeCate = service.selectCategory(null);
 		
 		model.addAttribute("largeCate",largeCate);
-		System.out.println(largeCate.toString());
+		
 		return "admin/product/productEnroll";
 	}
 	
@@ -60,7 +60,7 @@ public class ProductAdminController {
 		   List<Category> list = null;
 		   ObjectMapper mapper = new ObjectMapper();
 		   String str = null;
-	      System.err.println("category.do`s Data : " + data);
+	      
 		   try {
 			 list = service.selectMediumCategory(data);  
 			 str = mapper.writeValueAsString(list);
@@ -76,12 +76,12 @@ public class ProductAdminController {
 	   @RequestMapping("/medicategory.do")
 	   public String selectOneCategory(@RequestParam Map<String,Object> param) 
 			   											throws JsonMappingException,JsonGenerationException,IOException{
-		   System.out.println("in controller"+param);
+		   
 		   Category c=null;
 		   ObjectMapper mapper = new ObjectMapper();
 		   try {
 			   c = service.selectOneCategory(param);
-			   System.out.println("medi in controll"+c);
+			   
 		   }catch(Exception e) {
 			   e.printStackTrace();
 		   }
@@ -140,20 +140,22 @@ public class ProductAdminController {
 //					int result = service.insertEnroll(pd); 
 //					return "redirect:getBoardList.do";
 
-		System.out.println("파일명: "+imageFile.getOriginalFilename());
-		System.out.println("파일크기 "+"파일크기: "+imageFile.getSize());
-		System.out.println("상품이름: "+pd.getProductName());
-		System.out.println("상품요약: "+pd.getProductSummary());
-		System.out.println("상품상세: "+pd.getProductContent());
-		System.out.println("category number:"+pd.getMediumCate());
-		System.out.println("카테고리: "+pd.getMediumCate().split(",")[1]);
+		/*
+		 * System.out.println("파일명: "+imageFile.getOriginalFilename());
+		 * System.out.println("파일크기 "+"파일크기: "+imageFile.getSize());
+		 * System.out.println("상품이름: "+pd.getProductName());
+		 * System.out.println("상품요약: "+pd.getProductSummary());
+		 * System.out.println("상품상세: "+pd.getProductContent());
+		 * System.out.println("category number:"+pd.getMediumCate());
+		 * System.out.println("카테고리: "+pd.getMediumCate().split(",")[1]);
+		 */
 		String mediumCate = pd.getMediumCate().split(",")[1];
-		System.out.println(mediumCate);
+		
 		pd.setMediumCate(mediumCate);
 		
 		//파일업로드처리 (업로드경로불러오기, 리네임처리후 파일저장하기)
 //		MultipartFile productImg=pd.getProductImg();
-		System.out.println("컨트롤러 "+imageFile);
+		
 		String saveDir = request.getServletContext().getRealPath("/resources/upload/product");
 		File dir = new File(saveDir);
 		if(!dir.exists()) {
@@ -195,7 +197,7 @@ public class ProductAdminController {
 		   ObjectMapper mapper = new ObjectMapper();
 		   try {
 			   c = service.selectMediumCategory(largeCate);
-			   System.out.println("카테고리등록 리스트"+c);
+			   
 		   }catch(Exception e) {
 			   e.printStackTrace();
 		   }
@@ -210,7 +212,7 @@ public class ProductAdminController {
 		Category c = new Category();
 		c.setLargeCate(largeCate);
 		c.setMcName(mcName);
-		System.out.println("enrollCate"+c);
+		
 		int result = service.enrollCate(c);
 		
 		
@@ -221,7 +223,7 @@ public class ProductAdminController {
 	@RequestMapping("/productView.do")
 	public ModelAndView productView(ModelAndView mv,@RequestParam(value="no") int no) {
 		List<ProductCate> list = service.productView(no);
-		System.out.println("productView:"+list);
+		
 		mv.addObject("list",list);
 		mv.setViewName("admin/product/productView");
 		return mv;
@@ -242,12 +244,12 @@ public class ProductAdminController {
 			throws IllegalAccessException,IOException{
 				pd.setProductNo(no);
 				String mediumCate = pd.getMediumCate().split(",")[1];
-				System.out.println(mediumCate);
+				
 				pd.setMediumCate(mediumCate);
 				
 				//파일업로드처리 (업로드경로불러오기, 리네임처리후 파일저장하기)
 //				MultipartFile productImg=pd.getProductImg();
-				System.out.println("컨트롤러 "+imageFile);
+				
 				String saveDir = request.getServletContext().getRealPath("/resources/upload/product");
 				File dir = new File(saveDir);
 				if(!dir.exists()) {
@@ -269,8 +271,6 @@ public class ProductAdminController {
 					pd.setProductImg(renamedFileName);
 				}
 				int result = service.updateEnroll(pd);
-				System.out.println(pd);
-				System.out.println("결과가ㅓㅄ:"+result);
 				mv.addObject("msg",result>0?"수정성공":"수정실패");
 				mv.addObject("loc","/admin/mypage/product/enrollView.do");
 				mv.setViewName("/common/msg");

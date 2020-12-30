@@ -51,7 +51,7 @@ public class InquiryMyMemberController {
 		mv.addObject("map",map);
 		mv.setViewName("member/mypage/inquiry/viewList");
 		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "viewList.do"));
-		System.out.println("totalList in controller : "+list);
+		
 		
 		return mv;
 	}
@@ -196,7 +196,7 @@ public class InquiryMyMemberController {
 		map.put("piCate",piCate);
 		
 		int result = service.updateInq(map);
-		System.out.println(map);
+		
 		
 			mv.addObject("msg",result>0?"문의수정이 성공적으로 완료되었습니다.":"문의수정을 실패하였습니다.");
 			mv.addObject("loc","/member/mypage/inquiry/viewList.do");
@@ -212,7 +212,7 @@ public class InquiryMyMemberController {
 		ObjectMapper mapper= new ObjectMapper();
 		try {
 			reply = service.selectReplyOne(no);
-			System.out.println(reply);
+			
 			str=mapper.writeValueAsString(reply);
 		}catch(Exception e) {
 			e.printStackTrace();

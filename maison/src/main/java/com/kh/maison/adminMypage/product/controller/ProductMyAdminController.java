@@ -47,8 +47,8 @@ public class ProductMyAdminController {
 		m.addAttribute("totalCount",totalData);
 		m.addAttribute("product",list);
 		m.addAttribute("popular",popular);
-		System.out.println("인기리스트"+popular);
-		System.out.println("상품카테 리스트"+list);
+//		System.out.println("인기리스트"+popular);
+//		System.out.println("상품카테 리스트"+list);
 		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "enrollView.do"));
 		
 		return "admin/mypage/product/productEnrollModi";
@@ -76,8 +76,8 @@ public class ProductMyAdminController {
 		m.addAttribute("todayCount",todayData);
 		m.addAttribute("list",IQlist);//문의리스트
 		m.addAttribute("RepList",Replist);//답글리스트
-		System.out.println("문의"+IQlist);
-		System.out.println("답글"+Replist);
+//		System.out.println("문의"+IQlist);
+//		System.out.println("답글"+Replist);
 		
 		m.addAttribute("pageBar",PageBarFactory.getPageBar(totalData1, cPage, numPerPage, "inquiryView.do"));
 		m.addAttribute("pageBar2",PageBarFactory.getPageBar(totalData2, cPage, numPerPage, "inquiryView.do"));
@@ -133,7 +133,7 @@ public class ProductMyAdminController {
 		m.addAttribute("list",list);
 		m.addAttribute("largeCate",largeClist);
 		m.addAttribute("mediCate",mediClist);
-		System.out.println(mediClist);
+		
 		m.addAttribute("total",totalData);
 		m.addAttribute("largeCount",largeCate);
 		m.addAttribute("mediCount",mediumCate);
@@ -150,13 +150,13 @@ public class ProductMyAdminController {
 		Map<String,Object> param = new HashMap<>();
 		param.put("largeCate",large);
 		param.put("mcName",medi);
-		System.out.println(param);
+		
 		List<MyAdminCate> c = null;
 		String str=null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			c=service.selectListInMedi(param);
-			System.out.println("list in medi.do :ajax리스트"+c);
+//			System.out.println("list in medi.do :ajax리스트"+c);
 			str=mapper.writeValueAsString(c);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -182,9 +182,9 @@ public class ProductMyAdminController {
 	@ResponseBody
 	@RequestMapping("/cateCheck.do")
 	public Category cateNameCheck(@RequestParam(value="name", required=false)String name) {
-		System.out.println(name);
+//		System.out.println(name);
 		Category c =service.cateNameCheck(name);
-		System.out.println(c);
+//		System.out.println(c);
 		return c;
 	}
 	
@@ -196,7 +196,7 @@ public class ProductMyAdminController {
 		param.put("largeCate",largeCate);
 		param.put("mcName",mcName);
 		param.put("mediumCate",id);
-		System.out.println(param+"값");
+//		System.out.println(param+"값");
 		int result=0;
 		result=service.updateCate(param);
 		
@@ -236,7 +236,7 @@ public class ProductMyAdminController {
 				try {
 					list=service.searchDate(param,cPage,numPerPage);
 					str=mapper.writeValueAsString(list);
-					System.out.println("date"+list);
+//					System.out.println("date"+list);
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
@@ -350,8 +350,8 @@ public class ProductMyAdminController {
 		map.put("keyword",searchKeyword);
 		mv.addObject("map",map);
 		mv.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage, "search"));
-		System.out.println("컨트롤러search리스트"+list);
-		System.out.println(map);
+//		System.out.println("컨트롤러search리스트"+list);
+//		System.out.println(map);
 //		mv.setViewName("admin/mypage/product/productInquiry");
 		return str;
 	}
@@ -428,7 +428,7 @@ public class ProductMyAdminController {
 			list = service.pdStatus(cPage,numPerPage);
 			count = service.selectShowCount();
 			str=mapper.writeValueAsString(list);
-			System.out.println("값!"+list);
+//			System.out.println("값!"+list);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -446,7 +446,7 @@ public class ProductMyAdminController {
 			list = service.pdStock(cPage,numPerPage);
 			count = service.selectStockCount();
 			str=mapper.writeValueAsString(list);
-			System.out.println("값!"+list);
+//			System.out.println("값!"+list);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -481,8 +481,7 @@ public class ProductMyAdminController {
 		map.put("keyword",searchKeyword);
 		mv.addObject("map",map);
 		mv.addObject("pageBar",PageBarFactory.getPageBar(count, cPage, numPerPage, "search"));
-		System.out.println("컨트롤러search리스트"+list);
-		System.out.println(map);
+		
 		return str;
 	}
 	
@@ -514,7 +513,7 @@ public class ProductMyAdminController {
 			e.printStackTrace();
 		}
 		Map<String,Object> map = new HashMap<>();
-		System.out.println("Top3list"+list);
+		
 		return str;
 	}
 		
@@ -535,7 +534,7 @@ public class ProductMyAdminController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Top3list"+list);
+		
 		return str;
 	}
 }
