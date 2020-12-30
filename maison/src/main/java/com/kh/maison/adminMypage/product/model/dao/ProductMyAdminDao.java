@@ -54,7 +54,7 @@ public interface ProductMyAdminDao {
 	
 	int deleteCate(SqlSession session, String id);
 	
-	List<MyAdminCate> searchDate(SqlSession session,Map<String,Object> param);
+	List<MyAdminCate> searchDate(SqlSession session,Map<String,Object> param, int cPage, int numPerPage);
 	//문의
 	List<MyAdminInquiry> selectInquiryList(SqlSession session,int cPage, int numPerPage);
 	

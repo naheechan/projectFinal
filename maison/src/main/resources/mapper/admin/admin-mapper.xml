@@ -259,6 +259,7 @@
 		SELECT COUNT(*) FROM GRADE
 	</select>
 	
+
 	<insert id="insertMemberWithdraw" parameterType="String">
 		INSERT INTO MEMBERWITHDRAW VALUES(#{memberId},'관리자 탈퇴',SYSDATE)
 	</insert>
@@ -495,7 +496,6 @@
 			</if>
 		</if>	
 	</select>
-
 	<select id="selectTotalPrice" parameterType="Integer" resultType="Integer">
 		SELECT SUM(ORDERPRICE) FROM ORDER_TB
 	</select>

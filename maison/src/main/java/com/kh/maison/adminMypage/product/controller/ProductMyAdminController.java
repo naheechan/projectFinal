@@ -224,7 +224,9 @@ public class ProductMyAdminController {
 	
 	@ResponseBody
 	@RequestMapping("/searchDate.do")
-	public String searchDate(@RequestParam(value="one")String one,@RequestParam(value="two")String two) {
+	public String searchDate(@RequestParam(value="one")String one,@RequestParam(value="two")String two,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="7") int numPerPage) {
 		Map<String,Object> param = new HashMap<>();
 		param.put("one",one);
 		param.put("two",two);
@@ -232,7 +234,7 @@ public class ProductMyAdminController {
 		String str=null;
 		ObjectMapper mapper = new ObjectMapper();
 				try {
-					list=service.searchDate(param);
+					list=service.searchDate(param,cPage,numPerPage);
 					str=mapper.writeValueAsString(list);
 					System.out.println("date"+list);
 				}catch(Exception e) {

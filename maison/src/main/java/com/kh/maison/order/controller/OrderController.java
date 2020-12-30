@@ -133,12 +133,14 @@ public class OrderController {
 			mservice.updateUseMileage(mil2);
 			
 			
+
 			//orderDetail insert
 			for(String a: basketNo) {
 				Basket b=new Basket();
 				b.setBasketNo(Integer.parseInt(a));
 				int result3=service.insertOrderDetail(b);
 			}
+
 			
 			//재고 업데이트 productNo, productStock, amount
 			for(String basketno : basketNo) {
@@ -214,18 +216,27 @@ public class OrderController {
 			}
 			
 
-		}
+		
 		//결제 제대로 끝나면 basket삭제. transaction. 
-		if(result>0) {
-			for(String a: basketNo) {
-				Basket b=new Basket();
-				b.setBasketNo(Integer.parseInt(a));
-				int result6=service.deleteBasket(b);
+			if(result>0) {
+				for(String a: basketNo) {
+					Basket b=new Basket();
+					b.setBasketNo(Integer.parseInt(a));
+					int result6=service.deleteBasket(b);
+				}
 			}
 		}
-
 		return result;
 	}
+	
+	@RequestMapping("/order/calMileage.do")
+		public ModelAndView calMileage(ModelAndView mv,@RequestParam String useMile) {
+			System.out.println(useMile);
+			
+			
+			return mv;
+		}
+	
 
 	//바로구매
 	@RequestMapping("/order/buy.do")
@@ -253,11 +264,12 @@ public class OrderController {
 			@RequestParam String useMile,
 			@RequestParam String stackMile,
 			@RequestParam String totalPrice,
-			@RequestParam String amount,
+			String amount,
 
 			String productName, String productNo) {
 
-		
+		System.out.println("productNo: "+productNo);
+		System.out.println("amount: "+amount);
 		Order o=new Order();
 		o.setReceiver(receiver);
 		o.setOrPhone(orPhone);
