@@ -72,13 +72,13 @@
 				<c:if test="${select eq '1' }">
 				<select class="form-select" name="select" aria-label="Default select example">
 				  <option selected value="1">전체보기</option>
-				  <option value="2">답글달린 리뷰</option>
+				  <option value="2">답변 달린 리뷰</option>
 				</select>
 				</c:if>
 				<c:if test="${select eq '2' }">
 				<select class="form-select" name="select" aria-label="Default select example">
 				  <option  value="1">전체보기</option>
-				  <option selected value="2">답글달린 리뷰</option>
+				  <option selected value="2">답변 달린 리뷰</option>
 				</select>
 				</c:if>
 				&nbsp;&nbsp;
@@ -178,7 +178,6 @@
 $(function(){
 	
 	$("#revradio1").click(function(){
-		console.log("클릭함");
 		if($(this).prop('checked')){
 			$("input[type='checkbox'][name='revradio']").prop("checked",false);
 			$(this).prop("checked",false);
@@ -200,7 +199,6 @@ $(function(){
 			dataType: "json",
 			success : function(data){
 				var str='';
-				console.log(data.legnth);
 				if(data.length!=0){
 				$.each(data,function(i,v){
 					var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
@@ -320,7 +318,6 @@ $(function(){
 	$(".deleteBtn").click(function(){
 		if(confirm("정말 삭제하시겠습니까? ")){
 			var reviewNo=$(this).prev().prev().val();
-			console.log(reviewNo);
 			location.href="${path}/member/deleteReview.do?reviewNo="+reviewNo;
 		}
 		
@@ -334,7 +331,6 @@ $(function(){
 	});
 	
 	$(".datepicker").click(function(){
-		console.log("누름");
 		$("#revradio1").prop("checked", false);
 		$("#revradio2").prop("checked", false);
 	});

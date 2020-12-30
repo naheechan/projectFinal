@@ -84,7 +84,8 @@
                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                         </ul>
-                                                        <a class="cart" href="#">Add to Cart</a>
+                                                        <input type="hidden" value="${list.productNo }">
+                                                        <a class="cart basketA" href="#">Add to Cart</a>
                                                     </div>
                                                 </div>
                                                 <div class="why-text">
@@ -157,6 +158,21 @@
    <br>
     <script>
     	$(function(){
+    		
+    		$(".basketA").click(
+    				function() {
+    					var amount = 1;
+    					const productNo = $(this).prev().val();
+    					$(this).attr('href',
+    					'${path}/basket/insertBasket.do?productNo='+ productNo
+    					+ '&amount=' + amount);
+    					});
+
+    				
+    		
+    		
+    		
+    		
     		var mId = $("#memberId").val();
 			var html = '';
 			var divResult = $("#divResult");
@@ -173,7 +189,6 @@
 					success:function(data){
 						var obj = Object.keys(data).length;
 						divResult.empty();
-						console.log("ajax통신성공"+data);
 						
 						
 						if(obj >0){
@@ -201,7 +216,7 @@
 							+"	</div>																							"
 							+"	</div>																							"
 							+"	<div class='why-text'>																		"
-							+"	<h4>																								"
+							+"	<h4 class='ellipsis'>																								"
 							+"	<a href='${ path }/shop/shopDetail.do?no="+data[i].productNo+"'>"+data[i].productName+"</a>	"
 							+"	</h4>																							"
 							+"	<br>																								"
@@ -239,7 +254,6 @@
 	                		+"</form>																																										"
 	                		+"<script>"
 	                		+"$('#reqBtn').click(function(){"
-	            			+"console.log('여기오니');"
 	            			+"swal('','로그인 후 이용해 주세요.');"
 	            			+"});//reqBtn"
 	            			+"<script>";
@@ -252,9 +266,6 @@
 						}
 						
 						$("#autocomplete").val("");
-					},
-					error:function(){
-						console.log("ajax통신실패");
 					}
 				})
     	});
@@ -272,14 +283,12 @@
 						
 						var obj = Object.keys(data).length;
 						divResult.empty();
-						console.log("카테서치 ajax통신성공"+data);
 						if(obj>0){
 						$.each(data,function(i){
-							console.log(data[i].mediumCate);
 							/* divResult.empty(); */
 							if(data[i].productStatus=='Y'){
 			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
-							+"	<div class='products-single fix' onclick='searchCate("+data[i].mediumCate+")'>"
+							+"	<div class='products-single fix'>"
 							+"	<div class='box-img-hover'>																"
 							+"	<div class='type-lb'>																		"
 							+"	<p class='sale'>NEW</p>																"
@@ -299,7 +308,7 @@
 							+"	</div>																							"
 							+"	</div>																							"
 							+"	<div class='why-text'>																		"
-							+"	<h4>																								"
+							+"	<h4 class='ellipsis'>																								"
 							+"	<a href='${ path }/shop/shopDetail.do?no="+data[i].productNo+"'>"+data[i].productName+"</a>	"
 							+"	</h4>																							"
 							+"	<br>																								"
@@ -342,15 +351,12 @@
 				                		+"</form>																																										"
 				                		+"<script>"
 				                		+"$('#reqBtn').click(function(){"
-				            			+"console.log('여기오니');"
 				            			+"swal('','로그인 후 이용해 주세요.');"
 				            			+"});//reqBtn"
 				            			+"<script>";
 				                		requestContainer.append(html);
 							}
 						};
-					},error:function(){
-						console.log("카테 서치 ajax통신실패");
 					}
 				})
 				return false;

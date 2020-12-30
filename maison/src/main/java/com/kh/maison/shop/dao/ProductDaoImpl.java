@@ -44,8 +44,11 @@ public class ProductDaoImpl implements ProductDao {
 		return session.delete("wishList.deleteWishList",w);
 	}
 
-	
-	
+	@Override
+	public int countMyWish(SqlSession session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("wishList.countMyWish",param);
+	}
 	
 	
 

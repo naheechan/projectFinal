@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="title" value="상품등록내역" />
 </jsp:include>
-<script src="${ path }/ckeditor/ckeditor.js"></script>
+<script src="${ path }/resources/ckeditor/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/common/menuTitle.jsp">
 	<jsp:param name="menuTitle" value="상품등록내역" />
 </jsp:include>
@@ -170,7 +170,7 @@
    
    		$("#viewSubmit").click(function(){
    			var no = $("#productNo").val();
-   			console.log("상품번호:"+no);
+   			
     		if(confirm("수정페이지로 이동하시겠습니까?")){
     			location.href="${path}/admin/product/update.do?no="+no;
     		}

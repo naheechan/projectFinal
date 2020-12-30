@@ -133,17 +133,17 @@
                   <div id="search-popular">
                   	<form action="" id="pop">
                   		<input type="hidden" name="searchType" value="popular">
-                  		<label for="3"><input type="radio"  id="3" name="searchKeyword" >&nbsp;전체</label>
+                  		<label for="3"><input type="radio"  id="3" name="searchKeyword" >&nbsp;전체</label><br>
                   		<c:forEach var="p" items="${popular}" varStatus="i" begin="0" end="2">
-                  		<label for="${i.index}"><input type="radio"  id="${i.index}" name="searchKeyword" ><strong>&nbsp;${i.index+1}위.</strong>&nbsp;${p.productName}</label>
+                  		<label for="${i.index}"><input type="radio"  id="${i.index}" name="searchKeyword" ><strong>&nbsp;${i.index+1}위.</strong>&nbsp;${p.productName}</label><br>
                   		<input type="hidden" name="name" value="${p.productName}">
                   		</c:forEach>
                   	</form>
                   </div>
                   <script>
                   $(function(){
-		                  	$("#0, #1, #2").click(function(){
-		                  		var val = $(this).parents().next().val();
+           					$("#0, #1, #2").click(function(){
+		                  		var val = $(this).parents().next().next().val();
 		                  		var table=$("[name=searchList]");
 		                		table.children('tbody').empty();
 	                  		$.ajax({
@@ -152,7 +152,6 @@
 	                  			type:"post",
 	                  			dataType:"json",
 	                  			success:function(data){
-	                  				console.log("searchtop3 ajax통신성공");
 	                  				var str="";
 	                  				$.each(data,function(i){
 	                  					str+='<tr>'
@@ -174,15 +173,15 @@
 	                  				});
 	                  				$("th:first-child").replaceWith("<th><small>상품<br>번호</small></th>");
 	                	                	table.append(str);
+	                	                	productView()
 	                  			},
 	                  			error:function(){
-	                  				console.log("searchtop3 ajax통신실패");
+	                  				
 	                  			}
 	                  		});	
                 	  })
                 	  $("#3").click(function(){
 	                  		var valFrm=$(this).parents().children().find('[name=name]').serializeArray();
-	                  		console.log(valFrm);
 	                  		var table=$("[name=searchList]");
 	                		table.children('tbody').empty();
 	                  		$.ajax({
@@ -191,7 +190,7 @@
 	                  			type:"post",
 	                  			dataType:"json",
 	                  			success:function(data){
-	                  				console.log("searchtop3전체 ajax통신성공");
+	                  				
 	                  				var str="";
 	                  				$.each(data,function(i){
 	                  					str+='<tr>'
@@ -213,9 +212,10 @@
 	                  				});
 	                  				$("th:first-child").replaceWith("<th><small>판매<br>순위</small></th>");
 	                	                	table.append(str);
+	                	                	productView()
 	                  			},
 	                  			error:function(){
-	                  				console.log("searchtop3전체 ajax통신실패");
+	                  				
 	                  			}
 	                  		});	
                 	  })
@@ -320,7 +320,6 @@ $(document).ready(function(){
 		var tr = $("#recent-purchases-listing tbody tr");
 		tr.click(function(e){
 			var no = $(this).find("[type=hidden]").val();
-			console.log(no);
 			location.href="${ path }/admin/product/productView.do?no="+no;
 		});
 	};
@@ -384,7 +383,6 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("AllProductList ajax 통신성공"+data);
 				$.each(data,function(i){
 					str+='<tr>'
 	                str+='<td>'+data[i].productNo+'</td>'
@@ -407,7 +405,7 @@ $(function(){
 					productView();
 			},
 			error:function(){
-				console.log("AllProductList ajax 통신실패");
+				
 			}
 		});
 	});
@@ -421,7 +419,6 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("today ajax 통신성공"+data);
 				$.each(data,function(i){
 					str+='<tr>'
 	                str+='<td>'+data[i].productNo+'</td>'
@@ -444,7 +441,7 @@ $(function(){
 					productView();
 			},
 			error:function(){
-				console.log("today ajax 통신실패");
+				
 			}
 		});
 	});
@@ -458,7 +455,6 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("today ajax 통신성공"+data);
 				$.each(data,function(i){
 					str+='<tr>'
 	                str+='<td>'+data[i].productNo+'</td>'
@@ -481,7 +477,7 @@ $(function(){
 					productView();
 			},
 			error:function(){
-				console.log("today ajax 통신실패");
+				
 			}
 		});
 	});
@@ -494,7 +490,7 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("today ajax 통신성공"+data);
+				
 				$.each(data,function(i){
 					str+='<tr>'
 	                str+='<td>'+data[i].productNo+'</td>'
@@ -517,7 +513,7 @@ $(function(){
 					productView();
 			},
 			error:function(){
-				console.log("today ajax 통신실패");
+				
 			}
 		});
 	});
@@ -528,7 +524,6 @@ $(function(){
 		var table = $("[name=searchList]").children('tbody').empty();
 		var frm = $(e.target).parent();
 		var searchfrm= frm.serializeArray();
-		console.log(searchfrm);
 		var offset = $("[name=searchList").offset(); 
 	     $('html').animate({scrollTop : offset.top}, 1000);
 		$.ajax({
@@ -537,7 +532,7 @@ $(function(){
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("search ajax통신 성공"+data);
+				
 				var str="";
 				$.each(data,function(i){
 					str+='<tr>'
@@ -567,20 +562,22 @@ $(function(){
 		        var endDate = $( "input[name='datepicker2']" ).val();
 		        var endDateArr = endDate.split('-');
 		                 
-		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
-		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-		         
+		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1]), startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1]), endDateArr[2]);
+		        /* console.log(startDateArr[0]);
+		    	console.log(parseInt(startDateArr[1]));
+		    	console.log(startDateArr[2]); */
 		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
-		             
 		            swal('',"시작날짜와 종료날짜를 확인해 주세요.");
-		             
+		            document.getElementById('datepicker').value= new Date().toISOString().slice(0, 10);
+		        	document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 10);
 		            return;
 		        }
 				productView();
 				
 			},
 			error:function(){
-				console.log("search ajax통신 실패");
+				
 			}
 		})
 	});
@@ -589,7 +586,7 @@ $(function(){
 </script>
   <style>
   #pddate{width:500px;}
-  #pop{width:700px;position:absolute;top:70px;}
+  #pop{width:700px;position:absolute;top:15px;margin-left:3%;}
   label{margin:0 3% 0 3%;}
   [name=searchList] tr td{
     width:200px;

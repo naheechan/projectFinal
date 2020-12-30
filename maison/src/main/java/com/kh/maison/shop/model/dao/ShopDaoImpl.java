@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.admin.product.model.vo.ProductCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
@@ -45,21 +46,21 @@ public class ShopDaoImpl implements ShopDao {
 
 	@Override
 	public int insertRequestProduct(SqlSession session, Request rq) {
-		System.out.println("요청해요 "+rq);
+		
 		return session.insert("shop.insertRequestProduct",rq);
 	}
 
 
 	@Override
 	public List<Product> selectOneMediCate(SqlSession session, String keyword) {
-		System.err.println("shopDaoImpl keyword :   : "+keyword);
+		
 		return session.selectList("shop.selectOneMediCate",keyword);
 	}
 
 
 	@Override
 	public List<ProductCate> searchCate(SqlSession session, String category) {
-		System.out.println("shop dao category"+category);
+		
 		return session.selectList("shop.searchCate",category);
 	}
 
@@ -85,7 +86,7 @@ public class ShopDaoImpl implements ShopDao {
 
 	@Override
 	public int writeInquiry(SqlSession session, PdInquiry pi) {
-		System.err.println("shopDaiImple:"+pi);
+		
 		return session.insert("shop.writeInquiry",pi);
 	}
 
@@ -147,7 +148,9 @@ public class ShopDaoImpl implements ShopDao {
 	public int deleteRep(SqlSession session, int no) {
 		return session.delete("shop.deleteRep",no);
 	}
+
+
 	
-	
+
 
 }

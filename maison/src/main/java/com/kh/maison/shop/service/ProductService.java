@@ -3,7 +3,6 @@ package com.kh.maison.shop.service;
 import java.util.List;
 import java.util.Map;
 
-import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.vo.Product;
 import com.kh.maison.shop.vo.WishList;
 
@@ -19,4 +18,5 @@ public interface ProductService {
 	
 	int deleteWishList(WishList w);
 
+	int countMyWish(Map param);
 }

@@ -81,4 +81,6 @@ public interface AdminDao {
 	int selectDayTotal(SqlSessionTemplate session, int sendNum);
 	List<OrderDetail> selectSalesList(SqlSessionTemplate session,int cPage, int numPerPage);
 	int selectTotalCount(SqlSessionTemplate session);
+	
+	int countMyRequest(SqlSessionTemplate session,Map param);
 }

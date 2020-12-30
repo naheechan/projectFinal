@@ -271,6 +271,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.selectTotalCount(session);
 	}
+
+	@Override
+	public int countMyRequest(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countMyRequest(session, param);
+	}
 	
 	
 

@@ -14,6 +14,7 @@
 </head>
 <body>
 	<script>
+
 	/* alert('${msg}');
 	location.replace('${pageContext.request.contextPath }${loc}');  */
       swal("${msg }")
@@ -21,6 +22,20 @@
        location.replace('${pageContext.request.contextPath }${loc}');
     });
 	
+
+
+	if("${warn}"==1) {
+		swal("${msg }", "${extraMsg}", "warning")
+		.then((value)=>{      
+	       location.replace('${pageContext.request.contextPath }${loc}');
+	    });
+	}else {
+	    swal("${msg }")
+	    .then((value)=>{      
+	       location.replace('${pageContext.request.contextPath }${loc}');
+	    });
+	}
+
 	</script>
 
 </body>

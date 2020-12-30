@@ -181,7 +181,6 @@ $(function(){
 		
 		$(":checkbox").click(function(){
 			var score= $(this).val();
-			console.log(score);
 			switch(score){
 			
 			case '1': 

@@ -53,7 +53,7 @@ public class InquiryMyMemberDaoImpl implements InquiryMyMemberDao {
 		map.put("searchType",searchType);
 		map.put("keyword",keyword);
 		map.put("id",id);
-		System.out.println(map+"이거니?");
+		
 		return session.selectList("myMemInquiry.searchList",map,
 				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
@@ -69,7 +69,7 @@ public class InquiryMyMemberDaoImpl implements InquiryMyMemberDao {
 		param.put("searchType",searchType);
 		param.put("keyword",keyword);
 		param.put("id",id);
-		System.out.println(param+"in daoImpl");
+		
 		return session.selectOne("myMemInquiry.searchCount",param);
 	}
 

@@ -129,7 +129,12 @@
                         </div>
                         <hr> </div>
                 </div>
-                <div class="col-12 d-flex shopping-box"><input type="button" id="orderbtn" style="color:white" class="ml-auto btn hvr-hover" value="전체 상품 주문"> </div>
+                <div class="col-12 d-flex shopping-box">
+                <span class="offset-md-9">
+                <input type="button" id="selectOrderbtn" style="color:white" class="ml-auto btn hvr-hover" value="선택 상품 주문"> 
+                <input type="button" id="orderbtn" style="color:white" class="ml-auto btn hvr-hover" value="전체 상품 주문">
+                </span>
+                </div>
             </div>
 
         </div>
@@ -143,7 +148,12 @@ $(function(){
 	
 	
 	$("#orderbtn").on('click',function(e){
+		$("input:checkbox[name=basketChecked]").prop("checked", true);
 		$("#basketFrm").submit();
+	});
+	
+	$("#selectOrderbtn").on('click',function(){
+		$("#basketFrm").submit();	
 	});
 	
 	$("#continueBtn").on('click',function(e){
@@ -181,7 +191,6 @@ $(function(){
     				var val=$(this).prop("innerHTML");
     				
     				var val2=Number((val.substring(0,val.length-1)).trim());
-    				console.log(val2);
     				prtotal+=val2;
     			})
     			$(".subTotal").html(prtotal+"원");

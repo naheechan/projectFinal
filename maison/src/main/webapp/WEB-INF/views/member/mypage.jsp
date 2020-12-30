@@ -32,7 +32,7 @@
 
 					<hr style="background-color:rgba(242,187,156,0.5);"/> 
 					<div class="row">
-						<div class="col-lg-5">
+						<div class="col-lg-4">
 							<br>
 						 <h4><strong>${loginMember.memberName }</strong>님의</h4>
 						 <h5>회원등급은 
@@ -52,7 +52,7 @@
 						 </script>
 						 <h5>적립금 : <c:out value="${loginMember.meileage }"/> 원</h5>
 						</div>
-						<div class="col-lg-7">
+						<div class="col-lg-8">
 							<div class="table-main table-responseive">
 								<table class="table table-bordered">
 									<tbody>
@@ -71,10 +71,10 @@
 											</td>
 										</tr>
 										<tr style="text-align:center;">
-											<td>입고신청&nbsp;<span class="badge">5</span></td>
-											<td>위시리스트&nbsp;<span class="badge">1</span></td>
-											<td>질문 / 답변&nbsp;<span class="badge">3</span></td>
-											<td>주문 / 배송&nbsp;<span class="badge">2</span></td>
+											<td>입고신청&nbsp;<span class="badge">${request }</span></td>
+											<td>위시리스트&nbsp;<span class="badge">${wish }</span></td>
+											<td>질문 / 답변&nbsp;<span class="badge">${qna }</span></td>
+											<td>주문 / 배송&nbsp;<span class="badge">${order }</span></td>
 										</tr>
 									</tbody>
 								</table>
@@ -100,7 +100,7 @@
 								orderNo자릿수 채크해서 8자리에서 자릿수 뺀만큼 앞에 0붙이고 
 									orderDate fmt로 앞에 잘라서 2020120400000001 이런식으로 만들기
 								 -->
-							<c:forEach var="od" items="${o.ods }">
+							<c:forEach var="od" items="${list[0].ods }">
 							<tr>
 								<td>
 									<img src="${path }/resources/upload/product/${od.productImg}" style="width:60px;"/>
@@ -109,11 +109,11 @@
 									${od.productName }	
 								</td>
 								<td>
-									<fmt:formatDate value="${o.orderDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+									<fmt:formatDate value="${list[0].orderDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 									
 								</td>
 								<td>
-									<a href="#">${o.orderNo }</a>
+									<a href="#">${list[0].orderNo }</a>
 								</td>
 								<td>
 									<p>${od.price }</p>
@@ -127,7 +127,7 @@
 								<!-- status에 따라서 보이는 버튼이 달라야함. 
 									결제완료일 경우에는 취소와 리뷰작성 모두 가능해야하고, 배송완료일때는 리뷰쓰기만 가능 -->
 									<div class="form-group col-md-12">
-										<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;" onclick="location.href='${path }/member/order/cancel.do?orderNo=${o.orderNo }'">취소요청</button>
+										<button class="btn" type="button" style="width:100%;height:45%;margin-bottom:4%;background:#FCF7E1;" onclick="location.href='${path }/member/order/cancel.do?orderNo=${list[0].orderNo }'">취소요청</button>
 										<br>
 										<input type="hidden" name="productNo" value="${od.productNo }">
 										<input type="hidden" name="orderDetailNo" value="${od.orderDetailNo }">
@@ -136,7 +136,12 @@
 								</td>
 							</tr>
 							</c:forEach>
-						
+							<c:if test="${empty list }">
+								<tr>
+									<th colspan="5"> 주문내역이 없습니다.
+									</th>
+								</tr>
+							</c:if>
 						</tbody>
 					</table>	
 				</div>
@@ -187,7 +192,7 @@
 		
 		$(":checkbox").click(function(){
 			var score= $(this).val();
-			console.log(score);
+
 			switch(score){
 			
 			case '1': 

@@ -1,6 +1,7 @@
 package com.kh.maison.qnaBoard.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,12 @@ public class QnaBoardServiceImpl implements QnaBoardService{
 	public List<QnaBoardVo> selectSearchList(int cPage, int numPerPage, String keyword, String select) {
 		// TODO Auto-generated method stub
 		return dao.selectSearchList(session,cPage,numPerPage,keyword,select);
+	}
+
+	@Override
+	public int countMyQna(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countMyQna(session,param);
 	}
 	
 	

@@ -15,7 +15,7 @@ public class InquiryInterceptor extends HandlerInterceptorAdapter {
 		Member loginMember = (Member)(request.getSession().getAttribute("loginMember"));
 		String msg="";
 		String loc="";
-		if(loginMember==null || !loginMember.getMemberId().contains("user")) {
+		if(loginMember==null || loginMember.getMemberId()==null) {
 			msg="회원 로그인 후 이용해주세요";
 			loc="/";
 			request.setAttribute("msg", msg);

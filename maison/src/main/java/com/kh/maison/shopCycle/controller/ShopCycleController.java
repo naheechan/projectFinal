@@ -174,7 +174,7 @@ public class ShopCycleController {
 		m.addAttribute("tab",tab);
 		m.addAttribute("detailTab",detailTab);
 		m.addAttribute("countCycleMap",countCycleMap);
-		m.addAttribute("pageBar", PageBarFactory.getPageBar(cycleList.size(), cPage, numPerPage, request.getRequestURI()));
+		m.addAttribute("pageBar", PageBarFactory.getPageBar(totalData, cPage, numPerPage, request.getRequestURI()));
 		return "shopCycle/cycleList";
 	}
 	

@@ -42,7 +42,7 @@
 		background:#FCF7E1;
 	}
 	#replySubmit{
-		color:#000000;
+		color:#F2BB9C;
 		text-align:center;
 	}
 	#replySubmit:hover{
@@ -276,6 +276,10 @@ select::-ms-expand { /* for IE 11 */
 					<!-- ck에디터 이미지 띄우기 -->
 					<img src="${path }/resources/upload/product/${product.productImg }" style="width: 600px;height: 600px;">
 					<p>${product.productContent }</p>
+					<textarea id="imgContent" hidden="hidden"><c:out value="${product.productContent}"/></textarea>
+					<%-- <div class="col-lg-12" id="imgShow" style="text-align:center;">
+				<textarea id="imgContent" hidden="hidden"><c:out value="${product.productContent}"/></textarea>
+			</div> --%>
 				</div>
 		 	</div>
 			<!-- 상품 리뷰 -->
@@ -444,7 +448,10 @@ select::-ms-expand { /* for IE 11 */
 			</div>
 			
 <script>
-
+/* $(document).ready(function(){
+	var replaced = $("#imgContent").val().replace('maison','20AM_MAISON_final');
+	$("#imgShow").html(replaced);
+}); */
 $(function(){
 		//상품번호
 		var pNo = $("#SessionProductNo").val();
@@ -467,7 +474,6 @@ $(function(){
 			
 			var insertReply = $(e.target).parent().serializeArray();
 			var form =$(e.target).parent(); 
-			console.log(insertReply);
 				if(form.children("textarea").val()==""){
 					swal('',"내용을 입력해주세요.");
 				}else{
@@ -475,7 +481,6 @@ $(function(){
  					$("[name=pirContent]").val("");
  					//답변여부 업데이트시켜주기 o
  					var no = $(this).siblings("input[name='piNo']").val();
- 					console.log(no);
  					updateStatus(no);
 				}
 		})
@@ -485,7 +490,7 @@ $(function(){
 $(document).on("click",'[name=admin_repModi]',function(e){
 	var no = $(this).prev().val();//pirNo
 		if(confirm("답글을 수정하시겠습니까?")){
-			$(this).prev().prev().replaceWith("<form name='afterAdminReply'><textarea id='rmContent' name='rmContent' rows='6' cols='120' style='resize:none;' required></textarea><input type='hidden' id='pirNo' name='pirNo' value='"+no+"'></form>");
+			$(this).prev().prev().replaceWith("<form name='afterAdminReply'><textarea id='rmContent' name='rmContent' rows='6' cols='115' style='resize:none;' required></textarea><input type='hidden' id='pirNo' name='pirNo' value='"+no+"'></form>");
 			$(this).replaceWith("<a name='after_adminModi' id='after_adminModi' style='float:right;'>답글 수정</a>");
 		}
 });
@@ -510,7 +515,7 @@ $(document).on("click",'[name=after_adminModi]',function(e){
 		$(document).on("click",'[name=reply_modi]',function(e){
 			var no = $(this).prev().prev().val();
 			if(confirm("문의를 수정하시겠습니까?")){
-				$(this).prev().prev().prev().replaceWith("<form name='userModiInquiry'><select name='piCate'><option value='상품문의'>상품문의</option><option value='배송문의'>배송문의</option></select><br><textarea id='umContent' name='umContent' rows='6' cols='120' style='resize:none;' required></textarea><input type='hidden' id='piNo' name='piNo' value='"+no+"'></form>");
+				$(this).prev().prev().prev().replaceWith("<form name='userModiInquiry'><select name='piCate'><option value='상품문의'>상품문의</option><option value='배송문의'>배송문의</option></select><br><textarea id='umContent' name='umContent' rows='6' cols='115' style='resize:none;' required></textarea><input type='hidden' id='piNo' name='piNo' value='"+no+"'></form>");
 				$(this).replaceWith("<a name='after_cancel' id='after_cancel' style='float:right;'>취소</a><a name='after_userModi' id='after_userModi' style='float:right;'>수정</a>");
 				$("#after_userModi").prev().prev().detach();
 				$("#after_cancel").click(function(e){
@@ -564,10 +569,10 @@ function replyInsert(insertReply){
 			data:insertReply,
 			dataType:"json",
 			success:function(data){
-				console.log("댓글ajax통신성공");
+				
 			},
 			error:function(){
-				console.log("댓글ajax통신실패");
+				
 			}
 		});
 };
@@ -583,7 +588,6 @@ function inquiryList(){
 			/* data:{"pNo":pNo},//상품번호 넘겨주기 */
 			success:function(data){
 				
-				console.log("ajax통신성공");
 				var str ='';
 				var dataLeng = Object.keys(data).length;
 				$.each(data,function(i){
@@ -651,7 +655,6 @@ function inquiryList(){
 					/* $("#pdInquiryList tbody tr:not(.odd)").hide(); */
 					
 					$("#pdInquiryList tr.odd").click(function(){
-						console.log(dataLeng);
 						$(this).next("tr").toggle();
 						$("#replyAdmin").empty();
 						/* $("[name=replyAdmin]").append("<input type='hidden' name='piNo' id='piNo' value="+$(this).text()[0]+">"); */
@@ -661,28 +664,20 @@ function inquiryList(){
 						$(this).next("tr").toggle();
 					})
 				})
-			},
-			error:function(){
-				console.log("ajax통신실패");
 			}
 		})
 };
 
 //답변여부 업데이트 ok 
 function updateStatus(no){
-	console.log("업데이트"+no);
 	$.ajax({
 		url:"${path}/shop/updateStatus.do?no="+no,
 		type:"post",
 		success:function(data){
-			console.log("답변업뎃ajax통신성공");
 			if(data!=null){
 				swal('',"답글완료","success");
 				location.reload();//답변여부 reload
 			}
-		},
-		error:function(){
-			console.log("답변업뎃ajax통신실패");
 		}
 	})
 };
@@ -695,10 +690,10 @@ function modiAdminReply(updateFrm){
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			console.log("답글수정ajax통신성공");
+			
 		},
 		error:function(){
-			console.log("답글수정ajax통신실패");
+			
 		}
 	})
 }
@@ -711,10 +706,10 @@ function modiUserReply(updateFrm){
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			console.log("문의글 수정 ajax통신성공");
+			
 		},
 		error:function(){
-			console.log("문의글 수정 ajax통신실패");
+			
 		}
 	})
 }
@@ -726,10 +721,10 @@ function delUserInquiry(no){
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			console.log("문의삭제 ajax 통신 성공");
+			
 		},
 		error:function(){
-			console.log("문의삭제 ajax 통신 실패");
+			
 		}
 	})
 }
@@ -1158,7 +1153,6 @@ $(function(){
 		//$(this).parent().parent().parent().next().toggle();
 		
 		var reviewNo=$(this).next().val();
-		console.log(reviewNo);
 		$.ajax({
 			url: "${path}/shop/selectReviewReply.do",
 			data: {reviewNo : reviewNo},
@@ -1191,7 +1185,6 @@ $(function(){
 	$(".reply").click(function(){
 		var rrContent=$(this).prev().prev().find("textarea").val();
 		var reviewNo=$(this).prev().val();
-		console.log(rrContent+": "+reviewNo);
 		$.ajax({
 			url: "${path}/shop/insertReviewReply.do",
 			data: {

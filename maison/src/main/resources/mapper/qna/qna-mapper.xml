@@ -50,4 +50,8 @@
 		SELECT*FROM QNABOARD WHERE memberId LIKE '%' ||  #{keyword} || '%' ORDER BY QNANO DESC
 	</select> 
 	
+	<select id="countMyQna" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM QNABOARD WHERE MEMBERID=#{memberId}
+	</select>
+	
 </mapper>

@@ -1,6 +1,7 @@
 package com.kh.maison.qnaBoard.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -26,4 +27,6 @@ public interface QnaBoardDao {
 	List<QnaCommentVo> commentList(SqlSession session,int bno); 
 
 	int updateStatus(SqlSession session,int bno);
+	
+	int countMyQna(SqlSession session, Map param);
 }

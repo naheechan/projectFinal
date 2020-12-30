@@ -400,13 +400,13 @@
 					 	type:"post",
 					 	dataType:"json",
 					 	success:function(data){
-					 		console.log("답글전송 성공 ajax");
+					 		
 					 		swal("","답글달기 성공","success");
 					 		$("[name=pirContent]").val("");
 					 		updateStatus(no);
 					 	},
 					 	error:function(){
-					 		console.log("답글전송 실패 ajax");
+					 		
 					 	}
 					})
 			}else{
@@ -443,14 +443,14 @@
 				type:"post",
 				dataType:"json",
 				success:function(data){
-					console.log("문의삭제 ajax 통신 성공");
+					
 					swal("","답글삭제완료","success");
 					if(data!=null){
 						location.reload();
 					}
 				},
 				error:function(){
-					console.log("문의삭제 ajax 통신 실패");
+					
 				}
 			});
 		})
@@ -458,18 +458,18 @@
 		
 	});
 	function updateStatus(no){
-		console.log("업데이트"+no);
+		
 		$.ajax({
 			url:"${path}/shop/updateStatus.do?no="+no,
 			type:"post",
 			success:function(data){
-				console.log("답변업뎃ajax통신성공");
+				
 				if(data!=null){
 					location.reload();//답변여부 reload
 				}
 			},
 			error:function(){
-				console.log("답변업뎃ajax통신실패");
+				
 			}
 		})
 	};
@@ -480,7 +480,7 @@
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("답글수정ajax통신성공");
+				
 				swal("","답글수정완료","success");
 				$("[name=rmContent]").val("");
 				if(data!=null){
@@ -488,7 +488,7 @@
 				}
 			},
 			error:function(){
-				console.log("답글수정ajax통신실패");
+				
 			}
 		})
 	}
@@ -537,7 +537,7 @@
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("today ajax 통신성공"+data);
+				
 				$.each(data,function(i){
 					str+='<tr class="odd">'
 	                str+='<td>'+data[i].piNo+'</td>'
@@ -597,19 +597,19 @@
 						 	type:"post",
 						 	dataType:"json",
 						 	success:function(data){
-						 		console.log("답글전송 성공 ajax");
+						 		
 						 		swal("","답글달기 성공","success");
 						 		$("[name=pirContent]").val("");
 						 		updateStatus(no);
 						 	},
 						 	error:function(){
-						 		console.log("답글전송 실패 ajax");
+						 		
 						 	}
 						})	
 					});
 			},
 			error:function(){
-				console.log("today ajax 통신실패");
+				
 			}
 		});
 	});
@@ -627,7 +627,7 @@
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("statusNo ajax 통신성공"+data);
+				
 				$.each(data,function(i){
 					str+='<tr class="odd">'
 	                str+='<td>'+data[i].piNo+'</td>'
@@ -683,7 +683,7 @@
 					
 			},
 			error:function(){
-				console.log("statusNo ajax 통신실패");
+				
 			}
 		});
 	});
@@ -698,7 +698,7 @@
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("statusYes ajax 통신성공"+data);
+				
 				$.each(data,function(i){
 					str+='<tr class="odd">'
 	                str+='<td>'+data[i].piNo+'</td>'
@@ -748,7 +748,7 @@
 					});
 			},
 			error:function(){
-				console.log("statusYes ajax 통신실패");
+				
 			}
 		});
 	});
@@ -763,7 +763,7 @@
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("statusDel ajax 통신성공"+data);
+				
 				$.each(data,function(i){
 					str+='<tr class="odd">'
 	                str+='<td>'+data[i].piNo+'</td>'
@@ -789,7 +789,7 @@
 					table.append(str);
 			},
 			error:function(){
-				console.log("statusDel ajax 통신실패");
+				
 			}
 		});
 	});
@@ -806,7 +806,7 @@
 		$("[name=inquiry-list-table]").children('tbody').empty();
 		var frm = $(e.target).parent();
 		var searchfrm= frm.serializeArray();
-		console.log(searchfrm);
+		
 		$.ajax({
 			url:"${path}/admin/mypage/product/search.do",
 			data:searchfrm,
@@ -814,7 +814,7 @@
 			dataType:"json",
 			success:function(data){
 		/* frm.submit(); */
-				console.log("search ajax통신 성공"+data);
+				
 				var str="";
 				$.each(data,function(i){
 					str+='<tr class="odd">'
@@ -869,18 +869,18 @@
 		        var endDate = $( "input[name='datepicker2']" ).val();
 		        var endDateArr = endDate.split('-');
 		                 
-		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
-		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1]), startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1]), endDateArr[2]);
 		         
 		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
-		             
 		            swal('',"시작날짜와 종료날짜를 확인해 주세요.");
-		             
+		            document.getElementById('datepicker').value= new Date().toISOString().slice(0, 10);
+		        	document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 10);
 		            return;
 		        }
 			},
 			error:function(){
-				console.log("search ajax통신 실패");
+				
 			}
 		})
 	})

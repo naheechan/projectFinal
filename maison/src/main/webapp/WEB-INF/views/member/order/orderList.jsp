@@ -17,6 +17,14 @@
 	<c:set var="start" value="-1M"/>
 	<c:set var="end" value="today"/>
 </c:if>
+<style>
+	.big{
+		font-size:30px;
+		color:#F2BB9C;
+		padding-top:5px;
+		padding-bottom:5px;
+	}
+</style>
 <section>
 	<div class="container">
 		<div class="row">
@@ -27,13 +35,13 @@
 			<!-- Right Data page  -->
 			<div class="col-lg-9 col-md-7">
 			
-				<div id="summary" style="margin-top:50px; background-color:#EAEAEA; ">
+				<div id="summary" style="margin-top:50px; ">
 					<table class="col-lg-8 table table-bordered text-center" style="padding:15px;">
 						<tr>
-							<td><i class="fas fa-2x fa-box"></i></td>
-							<td><i class="fas fa-2x fa-truck"></i></td>
-							<td><i class="fas fa-2x fa-undo"></i></td>
-							<td><i class="fas fa-2x fa-ban"></i></td>
+							<td><i class="fas fa-2x fa-box big"></i></td>
+							<td><i class="fas fa-2x fa-truck big"></i></td>
+							<td><i class="fas fa-2x fa-undo big"></i></td>
+							<td><i class="fas fa-2x fa-ban big"></i></td>
 						</tr>
 						<tr>
 							<td>주문완료<br>${a }</td>
@@ -78,13 +86,9 @@
 							<td>${od.odAmount }</td>
 							<td><c:out value="${od.price*od.odAmount }"/></td>
 							<td>${o.orderStatus }</td>
-							<c:if test="${o.orderStatus eq '취소신청' or o.orderStatus eq '취소완료'}">
-								<td>
-									
-								</td>
-							</c:if>
-							<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
+						
 							<td>
+							<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
 								<input type="hidden" value="${od.productNo }" >
 								<input type="hidden" value="${od.orderDetailNo }">
 								<button class="btn btn-sm addreview" style="background:#F2BB9C">리뷰작성</button>
@@ -92,6 +96,7 @@
 								<button class="btn btn-sm " type="button" style="background:#FCF7E1" onclick="location.href='${path }/member/order/cancel.do?orderNo=${o.orderNo }'">취소신청</button>
 							</td>
 							</c:if>
+							</td>
 						</tr>
 							<c:forEach var="ods" items="${o.ods }" begin="1">
 							<tr>
@@ -101,15 +106,15 @@
 								<td>${ods.price*od.odAmount }</td>
 								<td>${o.orderStatus }</td>
 								<td>
-								<input type="hidden" value="${o.orderNo }"
-							<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
+								<c:if test="${o.orderStatus ne '취소신청' and o.orderStatus ne '취소완료'}">
 								<input type="hidden" value="${ods.productNo }" >
 								<input type="hidden" value="${ods.orderDetailNo }">
 									<button class="btn btn-sm addreview" style="background:#F2BB9C">리뷰작성</button>
 									<br>
 									<button class="btn btn-sm " style="background:#FCF7E1" type="button" onclick="location.href='${path }/member/order/cancel.do?orderNo=${o.orderNo }'">취소신청</button>
+								</c:if>
 								</td>
-							</c:if>
+							
 							</tr>
 							</c:forEach>
 						</c:forEach>
@@ -181,7 +186,6 @@ $(function(){
 		
 		$(":checkbox").click(function(){
 			var score= $(this).val();
-			console.log(score);
 			switch(score){
 			
 			case '1': 

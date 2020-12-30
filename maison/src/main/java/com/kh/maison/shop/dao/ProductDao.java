@@ -21,4 +21,5 @@ public interface ProductDao {
 	
 	int deleteWishList(SqlSession session, WishList w);
 	
+	int countMyWish(SqlSession session, Map param);
 }

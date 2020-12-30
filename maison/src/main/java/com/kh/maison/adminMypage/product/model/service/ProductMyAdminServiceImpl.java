@@ -121,8 +121,8 @@ public class ProductMyAdminServiceImpl implements ProductMyAdminService {
 	}
 
 	@Override
-	public List<MyAdminCate> searchDate(Map<String, Object> param) {
-		return dao.searchDate(session,param);
+	public List<MyAdminCate> searchDate(Map<String, Object> param, int cPage, int numPerPage) {
+		return dao.searchDate(session,param,cPage,numPerPage);
 	}
 
 	//문의
@@ -167,18 +167,18 @@ public class ProductMyAdminServiceImpl implements ProductMyAdminService {
 	}
 
 	@Override
-	public List<MyAdminInquiry> noreply() {
-		return dao.noreply(session);
+	public List<MyAdminInquiry> noreply(int cPage, int numPerPage) {
+		return dao.noreply(session,cPage,numPerPage);
 	}
 
 	@Override
-	public List<MyAdminInquiry> yesreply() {
-		return dao.yesreply(session);
+	public List<MyAdminInquiry> yesreply(int cPage,int numPerPage) {
+		return dao.yesreply(session,cPage,numPerPage);
 	}
 
 	@Override
-	public List<MyAdminInquiry> delreply() {
-		return dao.delreply(session);
+	public List<MyAdminInquiry> delreply(int cPage,int numPerPage) {
+		return dao.delreply(session,cPage,numPerPage);
 	}
 
 	@Override
@@ -197,8 +197,8 @@ public class ProductMyAdminServiceImpl implements ProductMyAdminService {
 	}
 
 	@Override
-	public List<MyAdminInquiry> todayEnroll() {
-		return dao.todayEnroll(session);
+	public List<MyAdminInquiry> todayEnroll(int cPage,int numPerPage) {
+		return dao.todayEnroll(session,cPage,numPerPage);
 	}
 
 	@Override
