@@ -43,9 +43,9 @@
 						 <script>
 						 	$(document).ready(function(){
 						 		var lower = $("#lowergradeCode").val();
-						 		console.log(lower);
+						 		
 						 		var upper = lower.toUpperCase();
-						 		console.log(upper);
+						 		
 						 		$("#uppergradeCode").html(upper);
 						 		
 						 	});
