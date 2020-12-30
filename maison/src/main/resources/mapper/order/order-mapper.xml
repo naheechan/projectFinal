@@ -108,16 +108,24 @@
 		JOIN PRODUCT P ON OD.PRODUCTNO=P.PRODUCTNO
 		WHERE O.MEMBERID=#{memberId}
 		<if test="start!=null and end!=null">
-		AND O.ORDERDATE BETWEEN #{start} AND #{end}
+		AND O.ORDERDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
+             	AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
 		</if>
-		ORDER BY O.ORDERDATE , O.ORDERNO DESC
+		ORDER BY O.ORDERNO DESC
 	</select>
 
   	<select id="countMyOrderList" resultType="_int" parameterType="map">
-  		SELECT COUNT(*) FROM ORDER_TB WHERE MEMBERID=#{memberId}
-  		<if test="start!=null and end!=null">
-  		AND O.ORDERDATE BETWEEN #{start} AND #{end}
-  		</if>
+  		SELECT COUNT(*)
+		FROM ORDER_TB O
+		JOIN ORDERDETAIL OD ON O.ORDERNO=OD.ORDERNO
+		JOIN PRODUCT P ON OD.PRODUCTNO=P.PRODUCTNO
+		WHERE O.MEMBERID=#{memberId}
+		<if test="start!=null and end!=null">
+		AND O.ORDERDATE BETWEEN TO_TIMESTAMP(#{start}, 'yyyy-mm-dd')
+             	AND TO_TIMESTAMP(#{end}, 'yyyy-mm-dd') + 0.99999
+		</if>
+		ORDER BY O.ORDERNO DESC
+  		
   	</select>
   	<select id="selectMyOrderListAll" resultType="order" parameterType="map">
   		SELECT ORDERSTATUS FROM ORDER_TB WHERE MEMBERID=#{memberId}

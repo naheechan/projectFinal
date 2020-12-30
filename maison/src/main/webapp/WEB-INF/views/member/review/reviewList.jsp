@@ -72,13 +72,13 @@
 				<c:if test="${select eq '1' }">
 				<select class="form-select" name="select" aria-label="Default select example">
 				  <option selected value="1">전체보기</option>
-				  <option value="2">답글달린 리뷰</option>
+				  <option value="2">답변 달린 리뷰</option>
 				</select>
 				</c:if>
 				<c:if test="${select eq '2' }">
 				<select class="form-select" name="select" aria-label="Default select example">
 				  <option  value="1">전체보기</option>
-				  <option selected value="2">답글달린 리뷰</option>
+				  <option selected value="2">답변 달린 리뷰</option>
 				</select>
 				</c:if>
 				&nbsp;&nbsp;

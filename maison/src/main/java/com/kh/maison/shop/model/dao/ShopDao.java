@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.admin.product.model.vo.ProductCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
@@ -50,5 +51,7 @@ public interface ShopDao {
 	int modiReply(SqlSession session, Map<String,Object> param);
 	
 	int deleteInquiry(SqlSession session, int no);
+	
 	int deleteRep(SqlSession session, int no);
+	
 }

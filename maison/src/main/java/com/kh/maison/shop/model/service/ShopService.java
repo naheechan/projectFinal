@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.maison.admin.product.model.vo.Category;
 import com.kh.maison.admin.product.model.vo.Product;
 import com.kh.maison.admin.product.model.vo.ProductCate;
+import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.shop.model.vo.InquiryReply;
 import com.kh.maison.shop.model.vo.PdInquiry;
 import com.kh.maison.shop.model.vo.Request;
@@ -49,4 +50,5 @@ public interface ShopService {
 	int deleteRep(int no);
 	
 	List<Category> searchMediCate(String category);
+	
 }

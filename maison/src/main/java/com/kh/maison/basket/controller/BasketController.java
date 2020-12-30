@@ -81,13 +81,13 @@ public class BasketController {
 
 	
 	  @RequestMapping("basket/orderBasket.do") 
-	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request) {
+	  public ModelAndView  orderBasket(ModelAndView mv,HttpServletRequest request
+			 ) {
 	  
 			String msg = "";
 			String loc = "";
-			boolean soldout=false;
 			String[] basketNos = request.getParameterValues("basketChecked");
-			
+			Boolean soldout=false;
 			
 			// 장바구니에 상품이 없을때
 			if (basketNos == null) {
@@ -104,13 +104,10 @@ public class BasketController {
 				List<Basket> list = new ArrayList<Basket>();
 				Map<String, Basket> mapf = new HashMap<String, Basket>();
 				soldout=false;
-
+				String subMsg="";
 				// 상품 수량이 있음
 				// 1.일단 장바구니를 다 받아옴
 				for (String basketNo : basketNos) {
-					
-					//mapf.put(basketNo, service.selectBasketOne(Integer.parseInt(basketNo)));
-					// list.add(service.selectBasketOne(Integer.parseInt(basketNo)));
 					
 					// 2. basketNos에 담긴 장바구니의 상품을 product테이블에서 불러와서 stock과 amount를 비교
 					Basket b=service.selectBasketOne(Integer.parseInt(basketNo));
@@ -119,7 +116,7 @@ public class BasketController {
 					//상품 수량이 부족함
 					if(b.getAmount()>p.getProductStock()) {
 						soldout=true;
-						
+						subMsg+=b.getProductName()+",";
 					}else {
 						//상품 수량이 있으면 list에 추가
 						list.add(b);
@@ -127,13 +124,15 @@ public class BasketController {
 				}
 				
 				mv.addObject("list",list);
-				
 				if(soldout) {
-					msg = "수량이 부족한 상품은 결제화면에서 제외됩니다 !";
-					loc = "/basket/payment";
+					msg = "수량이 부족한 상품이 있습니다 !";
+					loc = "/basket/basket.do";
+					subMsg=subMsg.substring(0, subMsg.length()-1);
 					mv.addObject("msg", msg);
+					mv.addObject("subMsg",subMsg);
+					mv.addObject("status","error");
 					mv.addObject("loc", loc);
-					mv.setViewName("common/msg");
+					mv.setViewName("common/sweetMsg");
 					
 				}else {
 //					msg="결제 페이지로 이동합니다.";
@@ -144,18 +143,13 @@ public class BasketController {
 				
 				
 			}
+			
+			
 
 			return mv;
 		}
 	  
-//	  @RequestMapping("/basket/buy.do")
-//	  public ModelAndView productBuy(ModelAndView mv ) {
-//		  
-//		  mv.addObject("msg","결제페이지로 이동합니다.");
-//		  mv.addObject("loc","/basket/payment");
-//		  mv.setViewName("basket/payment");
-//		  return mv;
-//	  }
+	  
 	 
 
 	  @RequestMapping("basket/insertBasket.do")

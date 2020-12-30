@@ -98,7 +98,6 @@ public class OrderController {
 
 		o.setTotalPrice(Integer.parseInt(totalPrice));
 		
-		System.out.println(o);
 	
 
 		//마일리지 계산
@@ -134,12 +133,14 @@ public class OrderController {
 			mservice.updateUseMileage(mil2);
 			
 			
+
 			//orderDetail insert
 			for(String a: basketNo) {
 				Basket b=new Basket();
 				b.setBasketNo(Integer.parseInt(a));
 				int result3=service.insertOrderDetail(b);
 			}
+
 			
 			//재고 업데이트 productNo, productStock, amount
 			for(String basketno : basketNo) {
@@ -159,7 +160,6 @@ public class OrderController {
 			//쇼핑시계에 상품추가하는 부분
 			Map<String,String> cycleMap = new HashMap<>();
 			cycleMap.put("id",memberId);
-			
 			for(String basketno : basketNo) {
 				cycleMap.put("basketno",basketno);
 				//basket번호를 이용해서 productNo를 가져옴
@@ -216,16 +216,16 @@ public class OrderController {
 			}
 			
 
-		}
+		
 		//결제 제대로 끝나면 basket삭제. transaction. 
-		if(result>0) {
-			for(String a: basketNo) {
-				Basket b=new Basket();
-				b.setBasketNo(Integer.parseInt(a));
-				int result6=service.deleteBasket(b);
+			if(result>0) {
+				for(String a: basketNo) {
+					Basket b=new Basket();
+					b.setBasketNo(Integer.parseInt(a));
+					int result6=service.deleteBasket(b);
+				}
 			}
 		}
-		
 		//결제 제대로 끝나면 basket삭제(if 조건 손봐야됨 or 트랜젝션AOP)
 		if(result>0) {
 			for(String a: basketNo) {
@@ -234,9 +234,17 @@ public class OrderController {
 				int result6=service.deleteBasket(b);
 			}
 		}
-
 		return result;
 	}
+	
+	@RequestMapping("/order/calMileage.do")
+		public ModelAndView calMileage(ModelAndView mv,@RequestParam String useMile) {
+			System.out.println(useMile);
+			
+			
+			return mv;
+		}
+	
 
 	//바로구매
 	@RequestMapping("/order/buy.do")
@@ -264,11 +272,12 @@ public class OrderController {
 			@RequestParam String useMile,
 			@RequestParam String stackMile,
 			@RequestParam String totalPrice,
-			@RequestParam String amount,
+			String amount,
 
 			String productName, String productNo) {
 
-		
+		System.out.println("productNo: "+productNo);
+		System.out.println("amount: "+amount);
 		Order o=new Order();
 		o.setReceiver(receiver);
 		o.setOrPhone(orPhone);
@@ -442,7 +451,6 @@ public class OrderController {
 	
 	@RequestMapping("/order/deleteShippingDestination.do")
 	public ModelAndView insertShippingEnrollEnd(ModelAndView mv,String no) {
-		System.out.println(no);
 		
 		return mv;
 	}
@@ -492,7 +500,14 @@ public class OrderController {
 			}
 			o.setOdCount(o.getOds().size());
 		}
-		mv.addObject("pageBar",PageBarFactory.getPageBar(totalData, cPage, numPerPage, "/orderList.do"));
+		String pageBar="";
+		if(param.get("start")!=null&&param.get("end")!=null) {
+			pageBar=PageBarFactory.getPageBar2(totalData, cPage, numPerPage, "orderList.do?start="+param.get("start")+"&end="+param.get("end"));
+			
+		}else {
+			pageBar=PageBarFactory.getPageBar(totalData, cPage, numPerPage, "orderList.do");
+		}
+		mv.addObject("pageBar",pageBar);
 		mv.addObject("a",a);
 		mv.addObject("b",b);
 		mv.addObject("c",c);
@@ -509,7 +524,6 @@ public class OrderController {
 	ModelAndView orderDetail(ModelAndView mv,int orderNo,HttpSession session) {
 		
 		Order o=service.selectOrderOne(orderNo);
-		System.out.println(o);
 		
 		switch (o.getOrderStatus()) {
 		case "a": o.setOrderStatus("주문완료"); break;

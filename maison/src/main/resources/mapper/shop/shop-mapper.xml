@@ -137,5 +137,4 @@
 	SELECT * FROM ORDERDETAIL WHERE ORDERDETAILNO=#{orderDetailNo}
 </select>
 
-
 </mapper>
