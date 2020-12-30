@@ -295,9 +295,7 @@ function updateReviewReply(rrNo,reviewNo){
          /* modiAdminReply(no); */
 
 	var rrContent=$("#p_"+rrNo).html();
-    console.log(rrContent);
 	var rrCont=rrContent.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
-	console.log(rrCont);
 	var update="<form name='updateReviewReplyFrm'><textarea class='col-8' id='rrContent_"+rrNo+"' name='rrContent' rows='6' style='resize:none;' required>"+rrCont+"</textarea><input type='hidden' id='rrNo' name='rrNo' value='"+rrNo+"'></form>";
 	update+="<input type='hidden' id='rrNo' name='rrNo' value='"+rrNo+"'></form>";
 	
@@ -312,7 +310,6 @@ function updateReviewReply(rrNo,reviewNo){
 function updateReviewReplyEnd(rrNo,reviewNo){
 	
 	var rrContent=$("#rrContent_"+rrNo).val().replace(/(?:\r\n|\r|\n)/g,'<br/>');
-	console.log(rrContent+":rrContent");
 	
 	$.ajax({
 		url : "${path}/shop/updateReviewReply.do",
@@ -435,7 +432,6 @@ function adjustHeight() {
 				dataType: "json",
 				success : function(data){
 					var str='';
-					console.log(data.legnth);
 					if(data.length!=0){
 					$.each(data,function(i,v){
 						var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
@@ -593,7 +589,6 @@ function adjustHeight() {
 		$(".deleteBtn").click(function(){
 			if(confirm("정말 삭제하시겠습니까? ")){
 				var reviewNo=$(this).prev().prev().val();
-				console.log(reviewNo);
 				location.href="${path}/member/deleteReview.do?reviewNo="+reviewNo;
 			}
 			
@@ -601,7 +596,6 @@ function adjustHeight() {
 		
 		//답변 달기
 		$(".insert-reply").click(function(){
-			console.log("답변등록 클릭");
 			var text=$(this).prev().val();
 			rrContent=text.replace(/(?:\r\n|\r|\n)/g,'<br/>');
 			var reviewNo=$(this).prev().prev().val();
@@ -652,7 +646,6 @@ function adjustHeight() {
 		$(".reply").click(function(){
 			var rrContent=$(this).prev().prev().find("textarea").val();
 			var reviewNo=$(this).prev().val();
-			console.log(rrContent+": "+reviewNo);
 			$.ajax({
 				url: "${path}/shop/insertReviewReply.do",
 				data: {

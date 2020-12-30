@@ -53,6 +53,8 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.maison.admin.model.service.AdminService;
+import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.common.captcha.CaptchaUtil;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.common.email.MailSendService;
@@ -65,10 +67,11 @@ import com.kh.maison.mileage.model.service.MileageService;
 import com.kh.maison.mileage.model.vo.Mileage;
 import com.kh.maison.order.model.service.OrderService;
 import com.kh.maison.order.model.vo.Order;
+import com.kh.maison.qnaBoard.model.service.QnaBoardService;
+import com.kh.maison.shop.service.ProductService;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
-import com.kh.spring.common.PageBarFactory;
 
 import nl.captcha.Captcha;
 
@@ -102,7 +105,12 @@ public class MemberController {
 	
 	@Autowired
 	private OrderService oservice;
-	
+	@Autowired
+	private QnaBoardService qservice;
+	@Autowired
+	private ProductService pservice;
+	@Autowired
+	private AdminService aservice;
 	
 	@RequestMapping(value="/member/login")
 	public ModelAndView login(ModelAndView mv) {
@@ -490,9 +498,16 @@ public class MemberController {
 			Map param=new HashMap<String,String>();
 			param.put("memberId", m.getMemberId());
 			List<Order> list=oservice.selectMyOrderList(param,1,10);
+			
+			int order=oservice.countMyOrder(param);
+			int qna=qservice.countMyQna(param);
+			int request=aservice.countMyRequest(param);
+			int wish=pservice.countMyWish(param);
 			mv.addObject("list",list);
-				
-		
+			mv.addObject("order",order);
+			mv.addObject("qna",qna);
+			mv.addObject("request",request);
+			mv.addObject("wish",wish);
 			mv.setViewName("member/mypage");
 		}
 		return mv;

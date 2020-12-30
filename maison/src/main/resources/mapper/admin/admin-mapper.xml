@@ -536,6 +536,8 @@
                                         ORDER BY SUMMOUNT DESC) A)
                             WHERE RNUM BETWEEN 1 AND 3)
 	</select>
-	
+	<select id="countMyRequest" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM REQUEST WHERE MEMBERID=#{memberId}
+	</select>
 	
 </mapper>

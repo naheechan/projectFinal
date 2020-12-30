@@ -1,6 +1,7 @@
 package com.kh.maison.qnaBoard.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.maison.qnaBoard.model.vo.QnaBoardVo;
 import com.kh.maison.qnaBoard.model.vo.QnaCommentVo;
@@ -22,4 +23,5 @@ public interface QnaBoardService {
 	List<QnaCommentVo> commentListService(int bno);
 
 	int updateStatus(int bno);
+	int countMyQna(Map param);
 }

@@ -152,7 +152,6 @@
 	                  			type:"post",
 	                  			dataType:"json",
 	                  			success:function(data){
-	                  				console.log("searchtop3 ajax통신성공");
 	                  				var str="";
 	                  				$.each(data,function(i){
 	                  					str+='<tr>'
@@ -177,13 +176,12 @@
 	                	                	productView()
 	                  			},
 	                  			error:function(){
-	                  				console.log("searchtop3 ajax통신실패");
+	                  				
 	                  			}
 	                  		});	
                 	  })
                 	  $("#3").click(function(){
 	                  		var valFrm=$(this).parents().children().find('[name=name]').serializeArray();
-	                  		console.log(valFrm);
 	                  		var table=$("[name=searchList]");
 	                		table.children('tbody').empty();
 	                  		$.ajax({
@@ -192,7 +190,7 @@
 	                  			type:"post",
 	                  			dataType:"json",
 	                  			success:function(data){
-	                  				console.log("searchtop3전체 ajax통신성공");
+	                  				
 	                  				var str="";
 	                  				$.each(data,function(i){
 	                  					str+='<tr>'
@@ -217,7 +215,7 @@
 	                	                	productView()
 	                  			},
 	                  			error:function(){
-	                  				console.log("searchtop3전체 ajax통신실패");
+	                  				
 	                  			}
 	                  		});	
                 	  })
@@ -322,7 +320,6 @@ $(document).ready(function(){
 		var tr = $("#recent-purchases-listing tbody tr");
 		tr.click(function(e){
 			var no = $(this).find("[type=hidden]").val();
-			console.log(no);
 			location.href="${ path }/admin/product/productView.do?no="+no;
 		});
 	};
@@ -386,7 +383,6 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("AllProductList ajax 통신성공"+data);
 				$.each(data,function(i){
 					str+='<tr>'
 	                str+='<td>'+data[i].productNo+'</td>'
@@ -409,7 +405,7 @@ $(function(){
 					productView();
 			},
 			error:function(){
-				console.log("AllProductList ajax 통신실패");
+				
 			}
 		});
 	});
@@ -423,7 +419,6 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("today ajax 통신성공"+data);
 				$.each(data,function(i){
 					str+='<tr>'
 	                str+='<td>'+data[i].productNo+'</td>'
@@ -446,7 +441,7 @@ $(function(){
 					productView();
 			},
 			error:function(){
-				console.log("today ajax 통신실패");
+				
 			}
 		});
 	});
@@ -460,7 +455,6 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("today ajax 통신성공"+data);
 				$.each(data,function(i){
 					str+='<tr>'
 	                str+='<td>'+data[i].productNo+'</td>'
@@ -483,7 +477,7 @@ $(function(){
 					productView();
 			},
 			error:function(){
-				console.log("today ajax 통신실패");
+				
 			}
 		});
 	});
@@ -496,7 +490,7 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				var str="";
-				console.log("today ajax 통신성공"+data);
+				
 				$.each(data,function(i){
 					str+='<tr>'
 	                str+='<td>'+data[i].productNo+'</td>'
@@ -519,7 +513,7 @@ $(function(){
 					productView();
 			},
 			error:function(){
-				console.log("today ajax 통신실패");
+				
 			}
 		});
 	});
@@ -530,7 +524,6 @@ $(function(){
 		var table = $("[name=searchList]").children('tbody').empty();
 		var frm = $(e.target).parent();
 		var searchfrm= frm.serializeArray();
-		console.log(searchfrm);
 		var offset = $("[name=searchList").offset(); 
 	     $('html').animate({scrollTop : offset.top}, 1000);
 		$.ajax({
@@ -539,7 +532,7 @@ $(function(){
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("search ajax통신 성공"+data);
+				
 				var str="";
 				$.each(data,function(i){
 					str+='<tr>'
@@ -569,9 +562,11 @@ $(function(){
 		        var endDate = $( "input[name='datepicker2']" ).val();
 		        var endDateArr = endDate.split('-');
 		                 
-		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
-		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-		         
+		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1]), startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1]), endDateArr[2]);
+		        /* console.log(startDateArr[0]);
+		    	console.log(parseInt(startDateArr[1]));
+		    	console.log(startDateArr[2]); */
 		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
 		            swal('',"시작날짜와 종료날짜를 확인해 주세요.");
 		            document.getElementById('datepicker').value= new Date().toISOString().slice(0, 10);
@@ -582,7 +577,7 @@ $(function(){
 				
 			},
 			error:function(){
-				console.log("search ajax통신 실패");
+				
 			}
 		})
 	});

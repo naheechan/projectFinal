@@ -159,6 +159,12 @@ public class OrderServiceImpl implements OrderService {
 		return dao.deleteOrderDetail(session,orderNo);
 	}
 
+	@Override
+	public int countMyOrder(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countMyOrder(session,param);
+	}
+
 
 	
 

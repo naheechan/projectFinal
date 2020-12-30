@@ -17,6 +17,14 @@
 	<c:set var="start" value="-1M"/>
 	<c:set var="end" value="today"/>
 </c:if>
+<style>
+	.big{
+		font-size:30px;
+		color:#F2BB9C;
+		padding-top:5px;
+		padding-bottom:5px;
+	}
+</style>
 <section>
 	<div class="container">
 		<div class="row">
@@ -27,13 +35,13 @@
 			<!-- Right Data page  -->
 			<div class="col-lg-9 col-md-7">
 			
-				<div id="summary" style="margin-top:50px; background-color:#EAEAEA; ">
+				<div id="summary" style="margin-top:50px; ">
 					<table class="col-lg-8 table table-bordered text-center" style="padding:15px;">
 						<tr>
-							<td><i class="fas fa-2x fa-box"></i></td>
-							<td><i class="fas fa-2x fa-truck"></i></td>
-							<td><i class="fas fa-2x fa-undo"></i></td>
-							<td><i class="fas fa-2x fa-ban"></i></td>
+							<td><i class="fas fa-2x fa-box big"></i></td>
+							<td><i class="fas fa-2x fa-truck big"></i></td>
+							<td><i class="fas fa-2x fa-undo big"></i></td>
+							<td><i class="fas fa-2x fa-ban big"></i></td>
 						</tr>
 						<tr>
 							<td>주문완료<br>${a }</td>
@@ -178,7 +186,6 @@ $(function(){
 		
 		$(":checkbox").click(function(){
 			var score= $(this).val();
-			console.log(score);
 			switch(score){
 			
 			case '1': 

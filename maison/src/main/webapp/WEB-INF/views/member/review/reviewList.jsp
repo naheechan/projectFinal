@@ -178,7 +178,6 @@
 $(function(){
 	
 	$("#revradio1").click(function(){
-		console.log("클릭함");
 		if($(this).prop('checked')){
 			$("input[type='checkbox'][name='revradio']").prop("checked",false);
 			$(this).prop("checked",false);
@@ -200,7 +199,6 @@ $(function(){
 			dataType: "json",
 			success : function(data){
 				var str='';
-				console.log(data.legnth);
 				if(data.length!=0){
 				$.each(data,function(i,v){
 					var rrCont=v.rrContent.replace(/<br>/gi, "\r\n");
@@ -320,7 +318,6 @@ $(function(){
 	$(".deleteBtn").click(function(){
 		if(confirm("정말 삭제하시겠습니까? ")){
 			var reviewNo=$(this).prev().prev().val();
-			console.log(reviewNo);
 			location.href="${path}/member/deleteReview.do?reviewNo="+reviewNo;
 		}
 		
@@ -334,7 +331,6 @@ $(function(){
 	});
 	
 	$(".datepicker").click(function(){
-		console.log("누름");
 		$("#revradio1").prop("checked", false);
 		$("#revradio2").prop("checked", false);
 	});

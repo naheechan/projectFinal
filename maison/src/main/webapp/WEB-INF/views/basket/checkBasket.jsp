@@ -14,7 +14,6 @@
 <body>
 
 	<script>
-		console.log("${amount}");
 		var check=confirm("${msg }");
 		if(check){
 		location.replace("${pageContext.request.contextPath }${loc}?productNo=${productNo}&amount=${amount}");

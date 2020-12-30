@@ -172,7 +172,7 @@ $(function(){
 				type:"post",
 				dataType:"json",
 				success:function(data){
-					console.log("ajax통신성공"+data);
+					
 					var mc = $("#mediumCate");
 					if(data.length>0){
 	    				mc.empty();
@@ -186,7 +186,7 @@ $(function(){
 	    			}
 				},
 				error:function(){
-					console.log("ajax통신실패");
+					
 				}
 			})
 		})
@@ -194,15 +194,13 @@ $(function(){
 	function enrollCate(){
 		var largeCate=$("#largeCate option:selected").val();
 		var mcName=$("#mcName").val();
-		console.log(largeCate);
-		console.log(mcName);
 		$.ajax({
 			url:"${ path }/admin/product/enrollCate.do",
 			type:"post",
 			data:{"largeCate":largeCate,"mcName":mcName},
 			success:function(data){
 				if(data==1){
-					console.log("ajax통신성공");
+					
 					swal("","카테고리 추가 등록 성공","success");
 					setTimeout(function() {
 					self.close();
@@ -213,7 +211,7 @@ $(function(){
 				}
 			},
 			error:function(){
-				console.log("ajax통신실패");
+				
 			}
 		})
 
@@ -222,21 +220,20 @@ $(function(){
 	//update 시 중복된 값 있으면 span에 띄우고 없으면 update시키기
 	$(document).on("keyup","[name=mcName]",function(e){
 		var name = $("#mcName").val();
-		console.log(name);
 		$.ajax({
 			url:"${path}/admin/mypage/product/cateCheck.do",
 			data:{name:name},
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("check ajax통신성공"+data);
+				
 				if(data!=null){
 					$("#checkText").text("해당 카테고리는 현재 존재합니다.");
 					$("#checkText").css('color','tomato');
 				}
 			},
 			error:function(data){
-				console.log("check ajax통신실패");
+				
 				$("#checkText").text("현재 카테고리는 사용가능합니다.");
 				$("#checkText").css('color','green');
 			}

@@ -300,6 +300,13 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectTotalCount");
 	}
+
+	@Override
+	public int countMyRequest(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.countMyRequest",param);
+	}
+	
 	
 
 }

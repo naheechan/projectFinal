@@ -72,11 +72,11 @@ public interface ProductMyAdminDao {
 	
 	int selectReplyCount(SqlSession session);
 	
-	List<MyAdminInquiry> noreply(SqlSession session);
+	List<MyAdminInquiry> noreply(SqlSession session,int cPage, int numPerPage);
 	
-	List<MyAdminInquiry> yesreply(SqlSession session);
+	List<MyAdminInquiry> yesreply(SqlSession session,int cPage,int numPerPage);
 	
-	List<MyAdminInquiry> delreply(SqlSession session);
+	List<MyAdminInquiry> delreply(SqlSession session,int cPage,int numPerPage);
 	
 	List<MyAdminInquiry> listAll(SqlSession session, String searchType,String searchKeyword,String selectKeyword,int cPage,int numPerPage);
 	
@@ -84,7 +84,7 @@ public interface ProductMyAdminDao {
 	
 	List<MyAdminInquiry> allList(SqlSession session);
 	
-	List<MyAdminInquiry> todayEnroll(SqlSession session);
+	List<MyAdminInquiry> todayEnroll(SqlSession session,int cPage,int numPerPage);
 	
 	List<MyAdminInquiry> selectsearch(SqlSession session, String searchType,String selectCate,String datepicker,String datepicker2,String searchKeyword,int cPage,int numPerPage);
 	
