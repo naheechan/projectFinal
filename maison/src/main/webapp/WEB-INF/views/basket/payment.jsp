@@ -49,7 +49,7 @@ String dDetailAddress = aes.decrypt(m.getDetailAddress());
 							<div class="row">
 								<div class="col-md-6 mb-3">
 									<label for="firstName">수령인 *</label> <input type="text"
-										class="form-control" id="firstName" name="receiver"
+										class="form-control" id="firstName" value="${loginMember.memberName }" name="receiver"
 										placeholder="" required>
 									<div class="invalid-feedback">Valid first name is
 										required.</div>
