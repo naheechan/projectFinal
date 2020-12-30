@@ -148,5 +148,13 @@ public class OrderDaoImpl implements OrderDao {
 		return session.delete("order.deleteOrderDetail",orderNo);
 	}
 
+	@Override
+	public int countMyOrder(SqlSession session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("order.countMyOrder",param);
+	}
 
+	
+
+	
 }

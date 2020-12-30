@@ -238,14 +238,14 @@
 				 type:"post",
 				 dataType:"json",
 				 success:function(data){
-					 console.log("ajax통신성공");
+					 
 					 $.each(data,function(i){
 						 var str = '<textarea cols="100%" rows="5"  id="pirContent" class="form-control" name="pirContent" required>'+data[i].pirContent+'</textarea>'
 						 $("#pirContent").replaceWith(str);
 					 })
 				 },
 				 error:function(){
-					 consol.log("ajax통신실패");
+					 
 				 }
 			 })
 		 });

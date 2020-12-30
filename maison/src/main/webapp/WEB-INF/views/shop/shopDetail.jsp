@@ -226,7 +226,9 @@ select::-ms-expand { /* for IE 11 */
 									    <div class="form-group">
 									      <input type="hidden" class="form-control" value="${product.productNo }" name="no" id="SessionProductNo">
 									      <input type="hidden" class="form-control" value="${loginMember.memberId }" name="id" id="sessionMemberId">
-									    </div>									    
+
+									    </div>
+									    <!-- <iframe name="frm" style="width: 1px; height: 1px;border: 0;"></iframe> -->
 									    <button type="submit" class="btn hvr-hover">Add to WishList</button>
 									  </form>
 									  
@@ -473,7 +475,6 @@ $(function(){
 			
 			var insertReply = $(e.target).parent().serializeArray();
 			var form =$(e.target).parent(); 
-			console.log(insertReply);
 				if(form.children("textarea").val()==""){
 					swal('',"내용을 입력해주세요.");
 				}else{
@@ -481,7 +482,6 @@ $(function(){
  					$("[name=pirContent]").val("");
  					//답변여부 업데이트시켜주기 o
  					var no = $(this).siblings("input[name='piNo']").val();
- 					console.log(no);
  					updateStatus(no);
 				}
 		})
@@ -570,10 +570,10 @@ function replyInsert(insertReply){
 			data:insertReply,
 			dataType:"json",
 			success:function(data){
-				console.log("댓글ajax통신성공");
+				
 			},
 			error:function(){
-				console.log("댓글ajax통신실패");
+				
 			}
 		});
 };
@@ -589,7 +589,6 @@ function inquiryList(){
 			/* data:{"pNo":pNo},//상품번호 넘겨주기 */
 			success:function(data){
 				
-				console.log("ajax통신성공");
 				var str ='';
 				var dataLeng = Object.keys(data).length;
 				$.each(data,function(i){
@@ -657,7 +656,6 @@ function inquiryList(){
 					/* $("#pdInquiryList tbody tr:not(.odd)").hide(); */
 					
 					$("#pdInquiryList tr.odd").click(function(){
-						console.log(dataLeng);
 						$(this).next("tr").toggle();
 						$("#replyAdmin").empty();
 						/* $("[name=replyAdmin]").append("<input type='hidden' name='piNo' id='piNo' value="+$(this).text()[0]+">"); */
@@ -667,28 +665,20 @@ function inquiryList(){
 						$(this).next("tr").toggle();
 					})
 				})
-			},
-			error:function(){
-				console.log("ajax통신실패");
 			}
 		})
 };
 
 //답변여부 업데이트 ok 
 function updateStatus(no){
-	console.log("업데이트"+no);
 	$.ajax({
 		url:"${path}/shop/updateStatus.do?no="+no,
 		type:"post",
 		success:function(data){
-			console.log("답변업뎃ajax통신성공");
 			if(data!=null){
 				swal('',"답글완료","success");
 				location.reload();//답변여부 reload
 			}
-		},
-		error:function(){
-			console.log("답변업뎃ajax통신실패");
 		}
 	})
 };
@@ -701,10 +691,10 @@ function modiAdminReply(updateFrm){
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			console.log("답글수정ajax통신성공");
+			
 		},
 		error:function(){
-			console.log("답글수정ajax통신실패");
+			
 		}
 	})
 }
@@ -717,10 +707,10 @@ function modiUserReply(updateFrm){
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			console.log("문의글 수정 ajax통신성공");
+			
 		},
 		error:function(){
-			console.log("문의글 수정 ajax통신실패");
+			
 		}
 	})
 }
@@ -732,10 +722,10 @@ function delUserInquiry(no){
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			console.log("문의삭제 ajax 통신 성공");
+			
 		},
 		error:function(){
-			console.log("문의삭제 ajax 통신 실패");
+			
 		}
 	})
 }
@@ -1164,7 +1154,6 @@ $(function(){
 		//$(this).parent().parent().parent().next().toggle();
 		
 		var reviewNo=$(this).next().val();
-		console.log(reviewNo);
 		$.ajax({
 			url: "${path}/shop/selectReviewReply.do",
 			data: {reviewNo : reviewNo},
@@ -1197,7 +1186,6 @@ $(function(){
 	$(".reply").click(function(){
 		var rrContent=$(this).prev().prev().find("textarea").val();
 		var reviewNo=$(this).prev().val();
-		console.log(rrContent+": "+reviewNo);
 		$.ajax({
 			url: "${path}/shop/insertReviewReply.do",
 			data: {

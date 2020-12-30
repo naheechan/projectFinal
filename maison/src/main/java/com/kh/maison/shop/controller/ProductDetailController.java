@@ -65,7 +65,7 @@ public class ProductDetailController {
 	
 	@RequestMapping("/deleteWishList.do")
 	public ModelAndView deleteWishList(ModelAndView mv, int no, String id) {
-		System.out.println("뭐가넘어오니: "+no+" "+id);
+		
 		WishList w=new WishList();
 		w.setMemberId(id);
 		w.setProductNo(no);

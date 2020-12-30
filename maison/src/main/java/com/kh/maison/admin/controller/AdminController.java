@@ -22,6 +22,7 @@ import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.admin.order.model.service.OrderAdminService;
+import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Grade;
@@ -37,7 +38,6 @@ import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
 import com.kh.maison.with.model.vo.WithReport;
-import com.kh.spring.common.PageBarFactory;
 
 @Controller
 public class AdminController {
@@ -698,23 +698,11 @@ public class AdminController {
 		}else {
 			map.put("change", total);
 		}
-//		if(in==0) {
-//			map.put("in",0);
-//		}else {
-//			map.put("in",in);
-//		}
-//		if(out==0) {
-//			map.put("out", 0);
-//		}else {
-//			if(out<0) {
-//				map.put("out", out*-1);
-//			}else {
-//				map.put("out", out);
-//			}
-//		}
+		
 		return map;
 	}
 	
+
 	//함께해요 신고상태 변경하기 
 	@RequestMapping("/admin/reportStatusChange")
 	public ModelAndView reportStatusChange(ModelAndView mv, @RequestParam int no) {
@@ -734,5 +722,6 @@ public class AdminController {
 		return result;
 	}
 	
+
 	
 }

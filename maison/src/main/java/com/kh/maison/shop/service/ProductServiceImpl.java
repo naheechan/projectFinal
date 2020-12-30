@@ -52,6 +52,12 @@ public class ProductServiceImpl implements ProductService {
 		return dao.deleteWishList(session,w);
 	}
 
+	@Override
+	public int countMyWish(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countMyWish(session,param);
+	}
+
 	
 	
 

@@ -511,6 +511,7 @@
 		WHERE TO_DATE(ORDERDATE,'YY/MM/DD')=TO_DATE(SYSDATE-#{sendNum},'YY/MM/DD')
 	</select>
 	
+
 	<select id="selectSalesList" resultType="orderDetail">
 		SELECT * FROM ORDERDETAIL OD JOIN PRODUCT P ON OD.PRODUCTNO=P.PRODUCTNO
 			JOIN ORDER_TB O ON O.ORDERNO=OD.ORDERNO ORDER BY O.ORDERDATE DESC
@@ -536,6 +537,8 @@
                                         ORDER BY SUMMOUNT DESC) A)
                             WHERE RNUM BETWEEN 1 AND 3)
 	</select>
-	
+	<select id="countMyRequest" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM REQUEST WHERE MEMBERID=#{memberId}
+	</select>
 	
 </mapper>

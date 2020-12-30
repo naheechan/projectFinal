@@ -21,4 +21,7 @@
   	DELETE FROM WISHLIST WHERE PRODUCTNO=#{productNo} AND MEMBERID=#{memberId}
   </delete>
   	
+  	<select id="countMyWish" parameterType="map" resultType="_int">
+  		SELECT COUNT(*) FROM WISHLIST WHERE MEMBERID=#{memberId}
+  	</select>
 </mapper>

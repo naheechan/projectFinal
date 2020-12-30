@@ -51,4 +51,5 @@ public interface OrderDao {
 	
 	Order selectOrderOne(SqlSession session,int orderNo);
 
+	int countMyOrder(SqlSession session,Map param);
 }

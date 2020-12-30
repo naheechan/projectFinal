@@ -184,7 +184,7 @@
              			success:function(data){
              					$("#recent-purchases-listing tbody").empty();
              				var str="";
-             				console.log("날짜검색 ajax성공"+data);
+             				
              				$.each(data,function(i){
              				if(data!=null){
              					$("#grid-view").hide();
@@ -222,8 +222,8 @@
              		        var startDateArr = first.split('-');
              		        var endDateArr = second.split('-');
              		                 
-             		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
-             		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+             		        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1]), startDateArr[2]);
+             		        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1]), endDateArr[2]);
              		         
              		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
              		            swal('',"시작날짜와 종료날짜를 확인해 주세요.");
@@ -233,7 +233,7 @@
              		        }
              			},
              			error:function(){
-             				console.log("날짜검색 ajax실패");
+             				
              			}
              		})
              	})
@@ -453,7 +453,6 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 	});
 	$("#largeCate1").change(function(){
     	var value = $("#largeCate1").val();
-    	console.log(value)
     	largeChange(value);
 	});
 	function largeChange(value){
@@ -465,7 +464,6 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
     		success:function(data){
     			var mc = $("#mediCate");
     			//list로받음
-    			console.log(data);
     			
     			if(data.length>0){
     				mc.empty();
@@ -479,7 +477,6 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
     			}
     		}
     		 ,error:function(request,error){
-    			console.log("ajax통신 실패");
     			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
     		} 
     	});
@@ -495,7 +492,6 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("ajax통신성공"+data);
 				var str="";
 				var dataLeng=Object.keys(data).length;
 				$("#grid-view").hide();
@@ -535,7 +531,7 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 				     $("#listul").attr('class','nav-link active');
 			},
 			error:function(){
-				console.log("ajax통신실패");
+				
 			}
 		})
 	});
@@ -549,7 +545,7 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("mediView ajax통신성공");
+				
 				var str="";
 				$.each(data,function(i){
 				str+='<h3>[카테고리 관리•수정]</h3><br><hr>';	
@@ -592,7 +588,7 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 			     $('html').animate({scrollTop : offset.top}, 1000);
 			},
 			error:function(){
-				console.log("mediView ajax통신실패");
+				
 			}
 		})
 	});
@@ -619,12 +615,12 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("추가 ajax통신성공");
+				
 				swal("","카테고리 추가 성공","success");
 				location.reload();
 			},
 			error:function(){
-				console.log("추가 ajax통신실패");
+				
 			}
 		})
 	})
@@ -646,7 +642,6 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 			    		success:function(data){
 			    			var mc = $("#addMedi");
 			    			//list로받음
-			    			console.log(data);
 			    			
 			    			if(data.length>0){
 			    				mc.empty();
@@ -660,7 +655,7 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 			    			}
 			    		}
 			    		 ,error:function(request,error){
-			    			console.log("ajax통신 실패");
+			    			
 			    			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			    		} 
 			    	});
@@ -685,12 +680,12 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("업데이트 ajax통신성공");
+				
 				swal("","수정성공","success");
 				location.reload();
 			},
 			error:function(){
-				console.log("업데이트 ajax통신실패");
+				
 			}
 		})
 	});
@@ -699,21 +694,20 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 	//update 시 중복된 값 있으면 span에 띄우고 없으면 update시키기
 	$(document).on("keyup","[name=addCate]",function(e){
 		var name = $("[name=addCate]").val();
-		console.log(name);
 		$.ajax({
 			url:"${path}/admin/mypage/product/cateCheck.do",
 			data:{name:name},
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				console.log("check ajax통신성공"+data);
+				
 				if(data!=null){
 					$("#checkText").text("해당 카테고리는 현재 존재합니다.");
 					$("#checkText").css('color','tomato');
 				}
 			},
 			error:function(data){
-				console.log("check ajax통신실패");
+				
 				$("#checkText").text("현재 카테고리는 사용가능합니다.");
 				$("#checkText").css('color','green');
 			}
@@ -723,8 +717,6 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 	//삭제
 	$(document).on("click","#deleteCate",function(){
 		var id = $("#chkId").val();
-		console.log(id);
-		console.log($("[name=cateSearch]").attr('id'));
 		
 			$.ajax({
 				url:"${path}/admin/mypage/product/deleteCate.do",
@@ -732,14 +724,14 @@ document.getElementById('datepicker2').value= new Date().toISOString().slice(0, 
 				type:"post",
 				dataType:"json",
 				success:function(data){
-					console.log("삭제 ajax통신성공");
+					
 					if(confirm("해당 카테고리를 삭제하시겠습니까?")){
 						swal("","카테고리 삭제 성공","success");
 					};
 					location.reload();
 				},
 				error:function(){
-					console.log("삭제 ajax통신실패");
+					
 				}
 			})
 

@@ -300,28 +300,7 @@
 		})
 	});
 	
-	/*  $("#result").click(function(){
-		
-		var useMile=Number($("#useMile").val());
-		var mileage=Number($("#mileage").val());
-		
-		if(useMile>mileage){
-			alert("보유중인 마일리지를 초과합니다.");
-			$("#useMile").val("");
-		}else{
-			if(useMile>price*0.05){
-				alert("마일리지 최대 사용액수는 상품구매가격의 5%입니다.");
-				$("#useMile").val("");
-			}else{
-				
-			var totalPrice=price-useMile;
-			$("#totalPrice").val(totalPrice);
-			console.log(totalPrice);
-			}
-			
-		}
-		
-	}); */ 
+	
 	$(function(){
 		var amount=$("[name='amount']").val();
 		var productName=$("#productName").val();

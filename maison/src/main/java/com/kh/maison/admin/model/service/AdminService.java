@@ -88,4 +88,6 @@ public interface AdminService {
 	
 	List<OrderDetail> selectSalesList(int cPage,int numPerPage);
 	int selectTotalCount();
+	
+	int countMyRequest(Map param);
 }

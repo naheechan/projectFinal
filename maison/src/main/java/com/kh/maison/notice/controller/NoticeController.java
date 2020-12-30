@@ -180,7 +180,6 @@ public class NoticeController {
 	public ModelAndView noticeDelete(int noticeNo,ModelAndView mv,
 			@RequestParam(value="admin",required=false)String admin) {
 		int result=service.deleteNotice(noticeNo);
-		System.out.println("admin: "+admin);
 		mv.addObject("msg", result>0?"공지가 삭제되었습니다.":"공지삭제에 실패하였습니다.");
 		if(admin.equals("yes")) {
 			mv.addObject("loc", "/admin/adminNoticeList.do");
@@ -216,7 +215,6 @@ public class NoticeController {
 			@RequestParam(value="keyword", required=false)String keyword) {
 		List<Notice> list=null;
 		int totalData=0;
-		System.out.println("keyword:"+keyword+"select"+select);
 		if(select!=null&&keyword!=null) {
 			Map<String,String> param=new HashMap();
 			

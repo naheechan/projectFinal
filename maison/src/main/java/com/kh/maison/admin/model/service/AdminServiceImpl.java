@@ -259,6 +259,7 @@ public class AdminServiceImpl implements AdminService {
 		return dao.selectDayTotal(session,sendNum);
 	}
 
+	
 	@Override
 	public List<OrderDetail> selectSalesList(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
@@ -269,6 +270,12 @@ public class AdminServiceImpl implements AdminService {
 	public int selectTotalCount() {
 		// TODO Auto-generated method stub
 		return dao.selectTotalCount(session);
+	}
+
+	@Override
+	public int countMyRequest(Map param) {
+		// TODO Auto-generated method stub
+		return dao.countMyRequest(session, param);
 	}
 	
 	

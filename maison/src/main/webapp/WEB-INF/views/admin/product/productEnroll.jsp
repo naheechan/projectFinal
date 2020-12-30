@@ -185,9 +185,6 @@
     		success:function(data){
     			var mc = $("#mediumCate");
     			//list로받음
-    			console.log(data);
-    			
-	    		console.log(data[0].mediumCate);
 	    		$("#mediHidden").attr("value",data[0].mediumCate);
     			
     			if(data.length>0){
@@ -214,7 +211,7 @@
     			}) */
     		}
     		 ,error:function(request,error){
-    			console.log("ajax통신 실패");
+    			
     			/* alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); */
     		} 
     	});
@@ -224,7 +221,7 @@
     	$("#mediumCate").change(function(){
     		var medival = $("#mediumCate").val();
     		$("#cateText2").empty();
-    		console.log(medival);
+    		
    			 var url = "${path}/admin/product/medicategory.do";
    		    	$.ajax({
    		    		url:url,
@@ -233,16 +230,16 @@
    		    		dataType:"json",
    		    		success:function(data){
    		    			var mc = $("#mediumCate");
-   		    			console.log("ajax 통신 성공"+data);
+   		    			
    		    			//console.log(JSON.parse(data));
-   		    			console.log("ajax mediumCate hidden"+data.mediumCate);
+   		    			
    		    			
    		    			/* $.each(data,function(mcName,medival){
 							return medival;   		    				
    		    			})
    		    			 */
  		    			$("input[type=hidden]").attr('value',data.mediumCate);
- 		    			console.log(data.mediumCate);
+ 		    			
  		    			
    		    			$("#cateText2").append(">"+medival);
    		    			$("#largeCate").change(function(){
@@ -255,8 +252,7 @@
    		    			});
    					},
    					error:function(){
-   						console.log("ajax통신실패");	
-   						console.log("medival in jsp"+medival);
+   						
    					}
   				})
     	});

@@ -288,6 +288,8 @@ public class AdminDaoImpl implements AdminDao {
 		}
 	}
 
+	
+
 	@Override
 	public List<OrderDetail> selectSalesList(SqlSessionTemplate session, int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
@@ -300,6 +302,13 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.selectTotalCount");
 	}
+
+	@Override
+	public int countMyRequest(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.countMyRequest",param);
+	}
+	
 	
 
 }

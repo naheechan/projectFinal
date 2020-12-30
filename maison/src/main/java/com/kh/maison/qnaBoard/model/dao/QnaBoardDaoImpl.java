@@ -1,6 +1,7 @@
 package com.kh.maison.qnaBoard.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -74,6 +75,12 @@ public class QnaBoardDaoImpl implements QnaBoardDao{
 			return session.selectList("qnaBoard.selectSearchIdList",keyword,new RowBounds((cPage-1)*numPerPage,numPerPage));	
 		}
 		return session.selectList("qnaBoard.selectSearchTitleList",keyword,new RowBounds((cPage-1)*numPerPage,numPerPage));	
+	}
+
+	@Override
+	public int countMyQna(SqlSession session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("qnaBoard.countMyQna",param);
 	}
 	
 	
