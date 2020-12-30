@@ -258,8 +258,6 @@
 
 	}
 	 function equalCheck(){
- 		console.log($("#emailCheck").val());
-		console.log($("#pwCheck").val());
 		$("#input").val(null);
 		
 	    if($("#emailCheck").val() == $("#pwCheck").val()){
