@@ -35,6 +35,13 @@
 		font-weight: bold;
 		padding: 5px;
 	}
+	.ellipsis{
+	    width:200px;
+	    padding:0 5px;
+	    overflow:hidden;
+	    text-overflow:ellipsis;
+	    white-space:nowrap;
+    }
 </style>
 <section>
 <div class="shop-box-inner">
@@ -134,7 +141,7 @@
                                 </div> 
                             </div>
                             <div class="col-12 col-sm-4 text-center text-sm-right">
-                            	<p>총 제품의 개수 ${fn:length(cycleList)}개</p>
+                            	<p>현재 페이지의 제품 개수 ${fn:length(cycleList)}개</p>
                             </div>
                         </div>
 				<!-- 상품 -->
@@ -166,7 +173,7 @@
 	                                                    </div>
 	                                                </div>
 	                                                <div class="why-text">
-	                                                    <h4><a class="pName" href="${path }/shopCycle/cycleDetail?no=${list.productNo}">${list.productName}</a></h4><br>
+	                                                    <h4><a class="pName ellipsis" href="${path }/shopCycle/cycleDetail?no=${list.productNo}">${list.productName}</a></h4><br>
 	                                                    
 	                                                    <button class="btn btn-outline-info pSetting" onclick="location.href='${path }/shopCycle/cycleDetail?no=${list.productNo}'">주기 설정하기</button>
 	                                                    <c:if test="${list.cycleMode eq 'onCycle' }">

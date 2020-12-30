@@ -19,7 +19,7 @@ public class MailSendService {
 	private JavaMailSenderImpl mailSender;
 	
 	private int size;
-	private String path = "http://localhost:9090/maison";
+	private String path = "http://rclass.iptime.org:9999/20AM_MAISON_final";
 	private String header1 = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n" + 
 			"<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n" + 
 			" <head>\r\n" + 
