@@ -166,18 +166,21 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 	}
 
 	@Override
-	public List<MyAdminInquiry> noreply(SqlSession session) {
-		return session.selectList("myAdminProduct.noreply");
+	public List<MyAdminInquiry> noreply(SqlSession session,int cPage, int numPerPage) {
+		return session.selectList("myAdminProduct.noreply",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
 	@Override
-	public List<MyAdminInquiry> yesreply(SqlSession session) {
-		return session.selectList("myAdminProduct.yesreply");
+	public List<MyAdminInquiry> yesreply(SqlSession session,int cPage,int numPerPage) {
+		return session.selectList("myAdminProduct.yesreply",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
 	@Override
-	public List<MyAdminInquiry> delreply(SqlSession session) {
-		return session.selectList("myAdminProduct.delreply");
+	public List<MyAdminInquiry> delreply(SqlSession session,int cPage,int numPerPage) {
+		return session.selectList("myAdminProduct.delreply",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
 	@Override
@@ -204,8 +207,9 @@ public class ProductMyAdminDaoImpl implements ProductMyAdminDao {
 	}
 
 	@Override
-	public List<MyAdminInquiry> todayEnroll(SqlSession session) {
-		return session.selectList("myAdminProduct.todayEnroll");
+	public List<MyAdminInquiry> todayEnroll(SqlSession session,int cPage,int numPerPage) {
+		return session.selectList("myAdminProduct.todayEnroll",null,
+				new RowBounds((cPage-1)*numPerPage,numPerPage));
 	}
 
 	@Override

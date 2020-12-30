@@ -19,7 +19,7 @@ import com.kh.maison.adminMypage.product.model.service.ProductMyAdminService;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminCate;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminEnroll;
 import com.kh.maison.adminMypage.product.model.vo.MyAdminInquiry;
-import com.kh.spring.common.PageBarFactory;
+import com.kh.maison.common.PageBarFactory;
 
 @Controller
 @RequestMapping("/admin/mypage/product")
@@ -246,12 +246,14 @@ public class ProductMyAdminController {
 //문의하기
 	@ResponseBody
 	@RequestMapping("/noreply.do")
-	public String noreply(ModelAndView mv){
+	public String noreply(ModelAndView mv,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="7") int numPerPage){
 		List<MyAdminInquiry> list = null;
 		String str=null;
 		ObjectMapper mapper=new ObjectMapper();
 		try {
-			list=service.noreply();
+			list=service.noreply(cPage,numPerPage);
 			str=mapper.writeValueAsString(list);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -261,12 +263,14 @@ public class ProductMyAdminController {
 	
 	@ResponseBody
 	@RequestMapping("/yesreply.do")
-	public String yesreply(ModelAndView mv){
+	public String yesreply(ModelAndView mv,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="7") int numPerPage){
 		List<MyAdminInquiry> list = null;
 		String str=null;
 		ObjectMapper mapper=new ObjectMapper();
 		try {
-			list=service.yesreply();
+			list=service.yesreply(cPage, numPerPage);
 			str=mapper.writeValueAsString(list);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -276,12 +280,14 @@ public class ProductMyAdminController {
 	
 	@ResponseBody
 	@RequestMapping("/delreply.do")
-	public String delreply(ModelAndView mv){
+	public String delreply(ModelAndView mv,
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="7") int numPerPage){
 		List<MyAdminInquiry> list = null;
 		String str=null;
 		ObjectMapper mapper=new ObjectMapper();
 		try {
-			list=service.delreply();
+			list=service.delreply(cPage,numPerPage);
 			str=mapper.writeValueAsString(list);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -306,12 +312,13 @@ public class ProductMyAdminController {
 	
 	@ResponseBody
 	@RequestMapping("/todayEnroll.do")
-	public String todayEnroll() {
+	public String todayEnroll(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+			@RequestParam(value="numPerPage", required=false, defaultValue="7") int numPerPage) {
 		List<MyAdminInquiry> list = null;
 		String str=null;
 		ObjectMapper mapper=new ObjectMapper();
 		try {
-			list = service.todayEnroll();
+			list = service.todayEnroll(cPage,numPerPage);
 			str=mapper.writeValueAsString(list);
 		}catch(Exception e) {
 			e.printStackTrace();

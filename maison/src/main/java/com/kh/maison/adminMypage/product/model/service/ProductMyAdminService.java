@@ -71,11 +71,11 @@ public interface ProductMyAdminService {
 	
 	int selectReplyCount();
 	
-	List<MyAdminInquiry> noreply();
+	List<MyAdminInquiry> noreply(int cPage, int numPerPage);
 	
-	List<MyAdminInquiry> yesreply();
+	List<MyAdminInquiry> yesreply(int cPage,int numPerPage);
 	
-	List<MyAdminInquiry> delreply();
+	List<MyAdminInquiry> delreply(int cPage,int numPerPage);
 	
 	List<MyAdminInquiry> listAll(String searchType,String searchKeyword,String selectKeyword,int cPage,int numPerPage);
 	
@@ -83,7 +83,7 @@ public interface ProductMyAdminService {
 	
 	List<MyAdminInquiry> allList();
 	
-	List<MyAdminInquiry> todayEnroll();
+	List<MyAdminInquiry> todayEnroll(int cPage,int numPerPage);
 	
 	List<MyAdminInquiry> selectsearch(String searchType,String selectCate,String searchKeyword,String datepicker,String datepicker2,int cPage,int numPerPage);
 	

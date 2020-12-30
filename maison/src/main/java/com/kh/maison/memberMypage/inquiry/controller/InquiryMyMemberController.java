@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.common.PageBarFactory2;
 import com.kh.maison.member.model.vo.Member;
 import com.kh.maison.memberMypage.inquiry.service.InquiryMyMemberService;
 import com.kh.maison.memberMypage.inquiry.vo.TotalInquiryList;
 import com.kh.maison.shop.model.vo.InquiryReply;
-import com.kh.spring.common.PageBarFactory;
 
 @Controller
 @RequestMapping("/member/mypage/inquiry")
