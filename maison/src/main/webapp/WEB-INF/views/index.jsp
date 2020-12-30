@@ -10,7 +10,7 @@
 
 <script>
 	if(${auth ne null || !empty auth}) {
-		swal("${auth}");
+		swal("${auth}","이제 로그인하여 서비스를 이용하실수있습니다.","success");
 	}
 </script>
 <style>

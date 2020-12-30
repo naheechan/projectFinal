@@ -22,6 +22,7 @@ import com.kh.maison.admin.model.vo.MemberWithdraw;
 import com.kh.maison.admin.model.vo.ProductStock;
 import com.kh.maison.admin.model.vo.WithSearch;
 import com.kh.maison.admin.order.model.service.OrderAdminService;
+import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.member.model.service.MemberService;
 import com.kh.maison.member.model.vo.Grade;
@@ -36,7 +37,6 @@ import com.kh.maison.shopCycle.model.service.ShopCycleService;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
-import com.kh.spring.common.PageBarFactory;
 
 @Controller
 public class AdminController {
@@ -616,7 +616,7 @@ public class AdminController {
 					//할거 다했으면 orderDetail에서 delete때리기
 					result = orderService.deleteOrderDetail(orderNo);
 					if(result>0) {
-						result = cycleService.checkCycleExist(o);
+						//result = cycleService.checkCycleExist(o);
 						mv.addObject("msg", "취소 처리가 완료되었습니다.");
 						mv.addObject("subMsg","주문 취소 관리 페이지를 다시 로드합니다.");
 						mv.addObject("status","success");

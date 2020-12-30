@@ -170,7 +170,7 @@
    
    		$("#viewSubmit").click(function(){
    			var no = $("#productNo").val();
-   			console.log("상품번호:"+no);
+   			
     		if(confirm("수정페이지로 이동하시겠습니까?")){
     			location.href="${path}/admin/product/update.do?no="+no;
     		}

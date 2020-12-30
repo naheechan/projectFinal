@@ -226,6 +226,14 @@ public class OrderController {
 				}
 			}
 		}
+		//결제 제대로 끝나면 basket삭제(if 조건 손봐야됨 or 트랜젝션AOP)
+		if(result>0) {
+			for(String a: basketNo) {
+				Basket b=new Basket();
+				b.setBasketNo(Integer.parseInt(a));
+				int result6=service.deleteBasket(b);
+			}
+		}
 		return result;
 	}
 	

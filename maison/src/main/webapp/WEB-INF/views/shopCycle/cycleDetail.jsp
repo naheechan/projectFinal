@@ -35,7 +35,7 @@
 	}
 	.cycle {
 		width: 40vh;
-		height: 45vh;
+		height: 50vh;
 		font-size: 3vh;
 		text-align: center;
 		color: white;
@@ -94,6 +94,10 @@
 	offCal.setTime(startDa);
 	
 	Calendar calToday = Calendar.getInstance(); //지금 현재 날짜
+	calToday.set(Calendar.HOUR_OF_DAY, 0);
+	calToday.set(Calendar.MINUTE, 0);
+	calToday.set(Calendar.SECOND, 0);
+	calToday.set(Calendar.MILLISECOND, 0);
 	//오늘보다 다음구매예상일이 더 커질때까지 더함.
 	do{
 		onCal.add(Calendar.DATE, onCycleDay*amount);
@@ -139,7 +143,7 @@
 		                     		<c:forEach var="largeCate" items="${category }" varStatus="i">
 										<a href="${path }/shopCycle/cycleList?tab=${largeCate.largeCate }" id="cateSearch" class="list-group-item list-group-item-action <c:if test="${product.largeCate eq largeCate.largeCate}">active</c:if>">
 											<c:set var="cate" value="${largeCate.largeCate}"/>
-											<c:out value="${cate}" />
+											<c:out value="- ${cate}" />
 											<c:choose>
 												<c:when test="${cate eq '주방'}"><c:out value="${countCycleMap.kitchen ne null?'('+=countCycleMap.kitchen+=')':''}"/></c:when>
 												<c:when test="${cate eq '세탁실'}"><c:out value="${countCycleMap.laundry ne null?'('+=countCycleMap.laundry+=')':''}"/></c:when>
@@ -175,7 +179,7 @@
 			            <div class="row">
 			                <div class="col-xl-5 col-lg-5 col-md-6">
 			                	<!-- 상품 상세 이미지 넣기 -->
-			                   <img class="d-block w-100" src="${path }/resources/images/big-img-01.jpg" alt="First slide">
+			                   <img class="d-block w-100" src="${path }/resources/upload/product/${product.productImg }">
 			                </div>
 			                <div class="col-xl-7 col-lg-7 col-md-6">
 			                    <div class="single-product-details">
@@ -212,7 +216,8 @@
 									<span>(상품 1개(set) 기준)</span>
 								</div>
 								<div class="">
-									<span>다음 예상 구매일 :</span>	
+									<p style="margin-bottom: 0px; padding-bottom: 0px;">다음 예상 구매일 :</p>
+									<p style="font-size:15px; margin-top: 0px; padding-top: 0px;">(주기일수 x 직전 구매 수량)</p>	
 								</div>
 								<div class="">
 									<span><c:out value="${onStartDate}" /></span>
@@ -239,7 +244,8 @@
 									<span>(상품 1개(set) 기준)</span>
 								</div>
 								<div class="">
-									<span>다음 예상 구매일 :</span>	
+									<p style="margin-bottom: 0px; padding-bottom: 0px;">다음 예상 구매일 :</p>
+									<p style="font-size:15px; margin-top: 0px; padding-top: 0px;">(주기일수 x 직전 구매 수량)</p>
 								</div>
 								<div class="">
 									<span><c:out value="${offStartDate}" /></span>
@@ -282,7 +288,7 @@
 										 	</label>
 										</div>
 										<div class="form-group">
-									  		<input type="number" class="form-control" id="offInput" name="offInput" disabled placeholder="직접 주기일을 지정하세요(현재: ${product.offCycle}) - 기준:일(day)">
+									  		<input type="number" class="form-control" id="offInput" name="offInput" disabled placeholder="직접 주기일을 지정하세요(현재 설정: ${product.offCycle}일) - 기준:일(day)">
 										</div>
 									</div>
 									
@@ -299,7 +305,7 @@
 										
 										<div class="form-group" id="dateDiv" style="display:none">
 										    <label for="datepicker"></label><br>
-										    <input type="text" class="form-control" id="datepicker" name="start" autocomplete="off">
+										    <input type="text" class="form-control" id="datepicker" name="start" autocomplete="off" placeholder="현재 설정 : ${product.startDate}">
 										    <div id="checkStart-container">
 											    <p class="text-danger" id="notRegStart" style="display:none">달력에서 시작일을 선택해주세요</p>
 										    </div>
@@ -326,7 +332,7 @@
 				
 				<!-- 구매이력 -->
 				<div class=""> 											<!-- 더보기 버튼은 마이페이지의 구매내역으로 갈거임 -->
-					<h3>&bull; 구매이력(최근 5개) <button class="btn btn-info" >더보기</button></h3>
+					<h3>&bull; 구매이력(최근 5개) <button class="btn btn-info" onclick="location.href='${path}/member/order/orderList.do'">더보기</button></h3>
 					<table class="table table-bordered">
 					    <thead class="thead-light">
 					      <tr>

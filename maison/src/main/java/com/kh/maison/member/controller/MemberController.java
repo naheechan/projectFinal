@@ -54,6 +54,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.maison.admin.model.service.AdminService;
+import com.kh.maison.common.PageBarFactory;
 import com.kh.maison.common.captcha.CaptchaUtil;
 import com.kh.maison.common.crypto.AES256Util;
 import com.kh.maison.common.email.MailSendService;
@@ -71,7 +72,6 @@ import com.kh.maison.shop.service.ProductService;
 import com.kh.maison.with.model.service.WithBoardService;
 import com.kh.maison.with.model.vo.WithBoard;
 import com.kh.maison.with.model.vo.WithComment;
-import com.kh.spring.common.PageBarFactory;
 
 import nl.captcha.Captcha;
 
@@ -148,7 +148,9 @@ public class MemberController {
 				mv.setViewName("redirect:/");
 			}else {
 				logger.debug("이메일 인증 미완료");
+				mv.addObject("warn", "1");
 				mv.addObject("msg", "이메일이 아직 인증되지 않았습니다.");
+				mv.addObject("extraMsg", "회원가입 시 작성한 이메일을 통해 인증을 해주세요.");
 				mv.addObject("loc", "/member/login");
 				mv.setViewName("common/msg");
 			}
@@ -365,11 +367,8 @@ public class MemberController {
 			JSONObject jsonData = (JSONObject)((JSONObject)parser.parse(responseBody)).get("response");
 			String id = jsonData.get("id").toString();
 
-			//String age = jsonData.get("age").toString();
-			String gender = jsonData.get("gender").toString();
 			String email = jsonData.get("email").toString();
 			String name = jsonData.get("name").toString();
-			//String birthday = jsonData.get("birthday").toString();
 
 			//회원이 DB에 있는지 확인
 			Member mem = service.selectMemberOne(id);
@@ -402,7 +401,6 @@ public class MemberController {
 				logger.debug("네이버 회원가입으로 가자");
 				Member memNaver = new Member();
 				memNaver.setMemberId(id);
-				memNaver.setGender(gender);
 				memNaver.setEmail(email);
 				memNaver.setMemberName(name);
 				//memNaver을 세션에 넣음

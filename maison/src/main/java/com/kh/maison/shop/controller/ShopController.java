@@ -53,9 +53,9 @@ public class ShopController {
 		m.addAttribute("medicate",medicate);
 		m.addAttribute("category",catelist);
 		m.addAttribute("product",list);
-		System.out.println("categorylist in controlloer"+catelist);
-		System.out.println("productlist in controller"+list);
-		System.out.println("medicate in controller "+medicate);
+//		System.out.println("categorylist in controlloer"+catelist);
+//		System.out.println("productlist in controller"+list);
+//		System.out.println("medicate in controller "+medicate);
 		return "shop/shopView";
 	}
 	
@@ -63,12 +63,12 @@ public class ShopController {
 	@RequestMapping("/product/requestP.do")
 	public ModelAndView insertRequestProduct(@RequestParam String memberId, @RequestParam String requestContent, ModelAndView mv) {
 		
-		System.out.println("id "+memberId+","+"content "+requestContent);
+//		System.out.println("id "+memberId+","+"content "+requestContent);
 		Request rq = new Request();
 		rq.setMemberId(memberId);
 		rq.setRequestContent(requestContent);
 		int result = service.insertRequestProduct(rq);
-		System.out.println(rq);
+		
 		
 		mv.addObject("msg",result>0?"요청성공":"요청실패");
 		mv.addObject("loc","/shop/shopView.do");
@@ -79,7 +79,6 @@ public class ShopController {
 	@ResponseBody
 	@RequestMapping("/cateSearch.do")
 	public String searchCate(@RequestParam(value="category")String category) {
-		System.out.println("category 카테고리서치 :"+category);
 		
 		List<ProductCate> list = null;
 		ObjectMapper mapper = new ObjectMapper();
@@ -90,8 +89,8 @@ public class ShopController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("shop controller category"+category);
-		System.out.println("shop controller 리스트"+list);
+//		System.out.println("shop controller category"+category);
+//		System.out.println("shop controller 리스트"+list);
 		/* m.addAttribute("cateSearchList",list); */
 		/* mv.setViewName("shop/shopView"); */
 		return str;
@@ -131,7 +130,7 @@ public class ShopController {
 		try {
 				list = service.selectInquiryList(cPage, numPerPage,map);
 				str=mapper.writeValueAsString(list);
-				System.out.println("list in shopcontroller문의"+list);
+//				System.out.println("list in shopcontroller문의"+list);
 				totalData = service.selectCountInquiry(map);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -170,7 +169,7 @@ public class ShopController {
 		
 		
 		int result = service.writeInquiry(pi);
-		System.out.println(pi);
+//		System.out.println(pi);
 		
 		if(result>0) {
 			mv.addObject("msg","문의가 등록되었습니다.");
@@ -201,7 +200,7 @@ public class ShopController {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			result = service.insertReply(ir);
-			System.out.println(ir);
+//			System.out.println(ir);
 			str=mapper.writeValueAsString(result);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -221,7 +220,7 @@ public class ShopController {
 		ObjectMapper mapper  = new ObjectMapper();
 		try {
 			result = service.updateStatus(no);
-			System.out.println("컨트롤러piNo값 : "+no);
+//			System.out.println("컨트롤러piNo값 : "+no);
 			str = mapper.writeValueAsString(result);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -236,7 +235,7 @@ public class ShopController {
 		Map<String,Object> param= new HashMap<String,Object>();
 		param.put("pirNo", pirNo);
 		param.put("pirContent",rmContent);
-		System.out.println("param관리자댓글수정"+param);
+//		System.out.println("param관리자댓글수정"+param);
 		int result = 0;
 		String str = null;
 		ObjectMapper mapper = new ObjectMapper();

@@ -20,13 +20,13 @@ public class ProductAdminDaoImpl implements ProductAdminDao {
 
 	@Override
 	public List<Category> selectMediumCategory(SqlSession session,String largeCate) {
-	System.out.println("in daoi,mple"+largeCate);
+//	System.out.println("in daoi,mple"+largeCate);
 		return session.selectList("product.selectMediumCategory",largeCate);
 	}
 	
 	@Override
 	public Category selectOneCategory(SqlSession session, Map<String,Object> param) {
-		System.out.println("map in dao"+param.toString());
+		
 		
 //		Category c = session.selectOne("product.selectOneCategory",param);
 //		System.out.println("daoImple"+c);
@@ -35,13 +35,13 @@ public class ProductAdminDaoImpl implements ProductAdminDao {
 
 	@Override
 	public int insertEnroll(SqlSession session, Product pd) {
-		System.out.println("Product in daoI,mpl"+pd.toString());
+//		System.out.println("Product in daoI,mpl"+pd.toString());
 		return session.insert("product.insertEnroll",pd);
 	}
 
 	@Override
 	public int enrollCate(SqlSession session, Category c) {
-		System.out.println(c);
+//		System.out.println(c);
 		return session.insert("product.enrollCate",c);
 	}
 

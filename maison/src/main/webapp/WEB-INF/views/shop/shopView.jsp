@@ -163,7 +163,6 @@
     				function() {
     					var amount = 1;
     					const productNo = $(this).prev().val();
-    					console.log(amount+":"+productNo);
     					$(this).attr('href',
     					'${path}/basket/insertBasket.do?productNo='+ productNo
     					+ '&amount=' + amount);
@@ -190,7 +189,6 @@
 					success:function(data){
 						var obj = Object.keys(data).length;
 						divResult.empty();
-						console.log("ajax통신성공"+data);
 						
 						
 						if(obj >0){
@@ -256,7 +254,6 @@
 	                		+"</form>																																										"
 	                		+"<script>"
 	                		+"$('#reqBtn').click(function(){"
-	            			+"console.log('여기오니');"
 	            			+"swal('','로그인 후 이용해 주세요.');"
 	            			+"});//reqBtn"
 	            			+"<script>";
@@ -269,9 +266,6 @@
 						}
 						
 						$("#autocomplete").val("");
-					},
-					error:function(){
-						console.log("ajax통신실패");
 					}
 				})
     	});
@@ -289,14 +283,12 @@
 						
 						var obj = Object.keys(data).length;
 						divResult.empty();
-						console.log("카테서치 ajax통신성공"+data);
 						if(obj>0){
 						$.each(data,function(i){
-							console.log(data[i].mediumCate);
 							/* divResult.empty(); */
 							if(data[i].productStatus=='Y'){
 			        html = "	<div class='col-sm-6 col-md-6 col-lg-4 col-xl-4'>									"
-							+"	<div class='products-single fix' onclick='searchCate("+data[i].mediumCate+")'>"
+							+"	<div class='products-single fix'>"
 							+"	<div class='box-img-hover'>																"
 							+"	<div class='type-lb'>																		"
 							+"	<p class='sale'>NEW</p>																"
@@ -359,15 +351,12 @@
 				                		+"</form>																																										"
 				                		+"<script>"
 				                		+"$('#reqBtn').click(function(){"
-				            			+"console.log('여기오니');"
 				            			+"swal('','로그인 후 이용해 주세요.');"
 				            			+"});//reqBtn"
 				            			+"<script>";
 				                		requestContainer.append(html);
 							}
 						};
-					},error:function(){
-						console.log("카테 서치 ajax통신실패");
 					}
 				})
 				return false;
