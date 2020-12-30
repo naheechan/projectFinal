@@ -241,5 +241,8 @@
         DELETE FROM ORDERDETAIL 
         WHERE ORDERNO=#{orderNo}
 	</delete>
+  	<select id="countMyOrder" parameterType="map" resultType="_int">
+  		SELECT COUNT(*) FROM ORDER_TB WHERE MEMBERID=#{memberId}
+  	</select>
   
 </mapper>

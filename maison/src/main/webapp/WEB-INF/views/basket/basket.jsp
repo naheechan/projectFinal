@@ -191,7 +191,6 @@ $(function(){
     				var val=$(this).prop("innerHTML");
     				
     				var val2=Number((val.substring(0,val.length-1)).trim());
-    				console.log(val2);
     				prtotal+=val2;
     			})
     			$(".subTotal").html(prtotal+"원");
