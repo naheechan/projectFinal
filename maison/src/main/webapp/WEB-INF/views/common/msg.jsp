@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>  
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +14,9 @@
 </head>
 <body>
 	<script>
-
-    swal("${msg }")
+	/* alert('${msg}');
+	location.replace('${pageContext.request.contextPath }${loc}');  */
+      swal("${msg }")
     .then((value)=>{      
        location.replace('${pageContext.request.contextPath }${loc}');
     });

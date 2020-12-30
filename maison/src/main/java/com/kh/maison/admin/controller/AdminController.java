@@ -704,24 +704,10 @@ public class AdminController {
 		}else {
 			map.put("change", total);
 		}
-//		if(in==0) {
-//			map.put("in",0);
-//		}else {
-//			map.put("in",in);
-//		}
-//		if(out==0) {
-//			map.put("out", 0);
-//		}else {
-//			if(out<0) {
-//				map.put("out", out*-1);
-//			}else {
-//				map.put("out", out);
-//			}
-//		}
+		
 		return map;
 	}
 	
 
-	
 	
 }

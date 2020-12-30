@@ -222,12 +222,12 @@ select::-ms-expand { /* for IE 11 */
 								<c:if test="${loginMember.memberId!=null }">
 									<div class="container">
 									  
-									  <form action="${path }/shop/wishList.do" method="post" target="frm">
+									  <form action="${path }/shop/wishList.do" method="post">
 									    <div class="form-group">
 									      <input type="hidden" class="form-control" value="${product.productNo }" name="no" id="SessionProductNo">
 									      <input type="hidden" class="form-control" value="${loginMember.memberId }" name="id" id="sessionMemberId">
 									    </div>
-									    <iframe name="frm" style="width: 1px; height: 1px;border: 0;"></iframe>
+									    <!-- <iframe name="frm" style="width: 1px; height: 1px;border: 0;"></iframe> -->
 									    <button type="submit" class="btn hvr-hover">Add to WishList</button>
 									  </form>
 									  

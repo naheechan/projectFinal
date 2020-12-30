@@ -215,6 +215,20 @@ function bestSeller(){
 	})
 }
 
+$(function(){
+	console.log("시작");
+	function makeMonth(num){
+		var nowDate=new Date();
+		console.log(nowDate.getFullYear());
+		console.log(nowDate.getMonth()+1);
+		console.log(nowDate.getDate());
+		var nowMonth=nowDate.getMonth()+1
+		var calMonth=nowMonth-num;
+		console.log(calMonth);
+	}
+	makeMonth(2);
+})
+
 
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>		

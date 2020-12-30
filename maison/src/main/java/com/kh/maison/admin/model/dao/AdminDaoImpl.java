@@ -288,6 +288,8 @@ public class AdminDaoImpl implements AdminDao {
 		}
 	}
 
+	
+
 	@Override
 	public List<OrderDetail> selectSalesList(SqlSessionTemplate session, int cPage, int numPerPage) {
 		// TODO Auto-generated method stub

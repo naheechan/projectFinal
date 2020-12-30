@@ -259,6 +259,7 @@ public class AdminServiceImpl implements AdminService {
 		return dao.selectDayTotal(session,sendNum);
 	}
 
+	
 	@Override
 	public List<OrderDetail> selectSalesList(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
