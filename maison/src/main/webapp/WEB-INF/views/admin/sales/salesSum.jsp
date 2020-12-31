@@ -228,11 +228,8 @@
 		              </div>
 		            </div>
           
-<<<<<<< HEAD
-          <div class="row">
-=======
-          <div class="row" style="width: 70%;">
->>>>>>> branch 'dev' of https://github.com/BrileyKim/finalProject_maison.git
+
+          <div class="row" style="width: 100%;">
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -242,11 +239,7 @@
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
-=======
-            
-            
->>>>>>> branch 'dev' of https://github.com/BrileyKim/finalProject_maison.git
+
           </div>
             
           <div class="row">
