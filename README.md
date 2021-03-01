@@ -1,8 +1,7 @@
 # MAISON STORE
 
 가정에서 사용되는 물품들을 판매하는 쇼핑몰로, 구입한 상품에 한해 재구매를 유도하도록 메일 서비스를 제공하고 있습니다.
-![GP BOOKSTORE _9](https://user-images.githubusercontent.com/52989474/103339444-c0957d80-4ac4-11eb-9427-fe73ee69b720.png)
-이미지 추가!!
+![index](https://user-images.githubusercontent.com/33804909/109511298-3da19b00-7ae6-11eb-8917-cbd4e45481df.PNG)
 
 ## About The Project
 
