@@ -5,10 +5,10 @@
 
 ## About The Project
 
-[Live Demo](http://rclass.iptime.org:9999/20AM_MAISON_final/):배포용 사이트로 연결  
-[AWS EC2서버에 배포](http://54.180.118.180:8080/maisonHeechan/):이 프로젝트를 AWS의 EC2서버(Ubuntu 18.04)에 배포만 한 버전
+[MAISON STORE 사이트 바로가기](http://rclass.iptime.org:9999/20AM_MAISON_final/) : 배포용 사이트로 연결  
+[AWS EC2서버에 배포](http://54.180.118.180:8080/maisonHeechan/) : 이 프로젝트를 AWS의 EC2서버(Ubuntu 18.04)에 배포만 한 버전
 
-[ERD](https://www.erdcloud.com/d/xXG7BEH2ykMKEKYHz):ERD 클라우드로 이동
+[DB테이블(ERDCloud)](https://www.erdcloud.com/d/xXG7BEH2ykMKEKYHz) : ERD 클라우드로 이동
 
 ## Built With
 
@@ -16,6 +16,7 @@
 
 - Spring
 - JDK 8
+- Mybatis
 - Oracle DB
 - Apache Tomcat 8.5
 
