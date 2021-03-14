@@ -26,7 +26,7 @@
 - Javascript
 - AJAX
 - JQuery
-- HTML/CSS  
+- HTML/CSS   
 
 ## Contributors
 
