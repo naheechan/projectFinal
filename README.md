@@ -54,33 +54,33 @@
 
 ## Explanation
 
-- 회원가입
+- **회원가입**
 ![회원가입1](https://user-images.githubusercontent.com/33804909/111795884-f8190680-890a-11eb-809d-9061bf997e44.PNG)
 ![회원가입2](https://user-images.githubusercontent.com/33804909/111796465-8bead280-890b-11eb-99c0-f25b52e3a72d.PNG)
 ![회원가입3](https://user-images.githubusercontent.com/33804909/111796499-94dba400-890b-11eb-9f34-a0e8809b0d20.PNG)
 
-  - **정규식** : 정규식을 이용하여 아이디, 이름, 비밀번호 등의 유효성 검사.    
-  - **AJAX** : 아이디 중복검사시 사용.    
-  - **BCryptPasswordEncoder** : 비밀번호는 모두 소문자로 변환 후 단방향 암호화    
-  - **AES 암호화** : 나머지 개인정보들은 AES양방향 암호화를 통해 암호화.    
-  - **다음 지도 API** : 주소를 입력할때 사용.    
-  - **DatePicker API** : 생년월일을 입력할때 사용.   
+  - 정규식 : 정규식을 이용하여 아이디, 이름, 비밀번호 등의 유효성 검사.    
+  - AJAX : 아이디 중복검사시 사용.    
+  - BCryptPasswordEncoder : 비밀번호는 모두 소문자로 변환 후 단방향 암호화    
+  - AES 암호화 : 나머지 개인정보들은 AES양방향 암호화를 통해 암호화.    
+  - 다음 지도 API : 주소를 입력할때 사용.    
+  - DatePicker API : 생년월일을 입력할때 사용.   
 
 ![회원가입4](https://user-images.githubusercontent.com/33804909/111803345-4f6ea500-8912-11eb-843f-e631193bcfcd.PNG)
 
-  - **E-mail 전송** : 회원가입 완료시 입력했던 e-mail로 인증메일이 전송됨.    
+  - E-mail 전송 : 회원가입 완료시 입력했던 e-mail로 인증메일이 전송됨.    
 
 ![회원가입5](https://user-images.githubusercontent.com/33804909/111805235-2fd87c00-8914-11eb-9d60-19b9a85a7937.PNG)
 
-  - **E-mail 미인증 시 로그인 불가능**
+  - E-mail 미인증 시 로그인 불가능
 
 ![회원가입6](https://user-images.githubusercontent.com/33804909/111805377-4c74b400-8914-11eb-838a-9f3ffe7c6946.PNG)
 
-  - **E-mail로 인증메일이 도착한 모습**
+  - E-mail로 인증메일이 도착한 모습
 
 ![회원가입7](https://user-images.githubusercontent.com/33804909/111805523-729a5400-8914-11eb-9e60-4d3441ef1173.PNG)
 
-  - **E-mail 인증 시 홈페이지로 이동하며 메일인증 완료**
+  - E-mail 인증 시 홈페이지로 이동하며 메일인증 완료
 
 
 
