@@ -82,10 +82,19 @@
 
 -E-mail 인증 시 홈페이지로 이동하며 메일인증 완료<br><br><br><br>
 
+- **네이버 아이디로 로그인 API**
+![네아로](https://user-images.githubusercontent.com/33804909/111809442-54365780-8918-11eb-94d5-fc56a1eefa7b.PNG)
+
+-네이버 아이디로 로그인 API : 네이버의 API를 이용하여 회원가입과 로그인 구현
+
 - **로그인**
 ![로그인1](https://user-images.githubusercontent.com/33804909/111808190-1c7ae000-8917-11eb-9427-ffc93ba1fae9.PNG)
 
--
+-아이디 저장하기 : Cookie를 이용하여 구현
+-비밀번호 인증 : 소문자로 바꾼뒤 암호화하여 DB의 비밀번호와 비교<br><br><br>
+
+
+
 
 
 
