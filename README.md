@@ -112,19 +112,17 @@
 
 -'쇼핑시계'의 상세화면으로, E-mail서비스의 주기를 설정하는 곳이다.    
 -자동주기계산 ON : 최근구매이력 최대 5건을 기준으로하여 상품의 사용일자를 계산해준다.    
--자동주기계산 OFF : 사용자가 직접 사용일자를 입력한다.    
+-자동주기계산 OFF : 사용자가 직접 사용일자를 입력한다.<br><br><br>
 
+![시계5](https://user-images.githubusercontent.com/33804909/111813774-fe17e300-891c-11eb-86bb-3d0a0d6519d4.PNG)
 
+-주기를 설정하는 상세설정화면이다.<br><br><br>
 
+![시계6](https://user-images.githubusercontent.com/33804909/111814185-85fded00-891d-11eb-9be9-e8dd05de7f0a.PNG)
+![시계7](https://user-images.githubusercontent.com/33804909/111814197-89917400-891d-11eb-9d5e-928a91dcf717.PNG)
 
-
-
-
-
-
-
-
-
+-'쇼핑시계'의 E-mail서비스를 통해 수신한 재구매알림 메일이다.    
+-비슷한 상품 추천 : 같은 카테고리의 상품들 중 인기상품 3가지를 추천해주는 기능.<br><br><br><br>
 
 
 
