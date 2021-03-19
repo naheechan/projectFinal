@@ -68,7 +68,6 @@
 
 ![회원가입4](https://user-images.githubusercontent.com/33804909/111803345-4f6ea500-8912-11eb-843f-e631193bcfcd.PNG)
 
-- 
   - E-mail 전송 : 회원가입 완료시 입력했던 e-mail로 인증메일이 전송됨<br><br>
    
 ![회원가입5](https://user-images.githubusercontent.com/33804909/111805235-2fd87c00-8914-11eb-9d60-19b9a85a7937.PNG)
