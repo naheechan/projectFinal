@@ -51,3 +51,20 @@
 - 박정연
 - 이성준
 - 장대은
+
+## Explanation
+
+- 회원가입
+![회원가입1](https://user-images.githubusercontent.com/33804909/111795884-f8190680-890a-11eb-809d-9061bf997e44.PNG)
+![회원가입2](https://user-images.githubusercontent.com/33804909/111796465-8bead280-890b-11eb-99c0-f25b52e3a72d.PNG)
+![회원가입3](https://user-images.githubusercontent.com/33804909/111796499-94dba400-890b-11eb-9f34-a0e8809b0d20.PNG)
+여기까지 회원가입Form
+
+
+
+
+
+
+
+
+
