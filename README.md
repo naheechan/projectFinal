@@ -60,7 +60,7 @@
 ![회원가입3](https://user-images.githubusercontent.com/33804909/111796499-94dba400-890b-11eb-9f34-a0e8809b0d20.PNG)
 
 - ㅇㅇ
-     -ㅇㅇ2 
+ - ㅇㅇ2
 **정규식** : 정규식을 이용하여 아이디, 이름, 비밀번호 등의 유효성 검사.    
 **AJAX** : 아이디 중복검사시 사용.    
 **BCryptPasswordEncoder** : 비밀번호는 모두 소문자로 변환 후 단방향 암호화    
