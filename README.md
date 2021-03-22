@@ -28,7 +28,7 @@
 
 - Spring
 - JDK 8
-- Mybatis
+- Mybatis  
 - Oracle DB
 - Apache Tomcat 8.5
 
