@@ -26,10 +26,10 @@
 
 ### Back-end/Server
 
-- Spring
+- Spring 5.2.0
 - JDK 8
 - Mybatis  
-- Oracle DB
+- Oracle DB 11g
 - Apache Tomcat 8.5
 
 ### Front-end
