@@ -27,7 +27,7 @@
 ### Back-end/Server
 
 - Spring 5.2.0
-- JDK 8
+- JDK 8    
 - Mybatis  
 - Oracle DB 11g
 - Apache Tomcat 8.5
