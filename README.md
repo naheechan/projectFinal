@@ -2,7 +2,7 @@
      관리자비밀번호 qwe123!
 
     유저아이디 qwer1234
-    유저비밀번호 qwer1234! 
+    유저비밀번호 qwer1234!  
     
     프로젝트관련 구글 아이디 maisonRclass@google.com
                      비밀번호 maison123!
