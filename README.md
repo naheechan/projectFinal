@@ -118,12 +118,7 @@
 ![시계5](https://user-images.githubusercontent.com/33804909/111813774-fe17e300-891c-11eb-86bb-3d0a0d6519d4.PNG)
 
 -주기를 설정하는 상세설정화면이다.<br><br><br>
-
-![시계6](https://user-images.githubusercontent.com/33804909/111814185-85fded00-891d-11eb-9be9-e8dd05de7f0a.PNG)
-![시계7](https://user-images.githubusercontent.com/33804909/111814197-89917400-891d-11eb-9d5e-928a91dcf717.PNG)
-
 ![111-down](https://user-images.githubusercontent.com/33804909/112407414-6588c500-8d59-11eb-885e-21dfba22b446.png)
-
 
 -'쇼핑시계'의 E-mail서비스를 통해 수신한 재구매알림 메일이다.    
 -비슷한 상품 추천 : 같은 카테고리의 상품들 중 인기상품 3가지를 추천해주는 기능.<br><br><br><br>
