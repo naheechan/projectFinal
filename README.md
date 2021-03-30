@@ -1,7 +1,7 @@
 <!-- 관리자아이디 admin
      관리자비밀번호 qwe123!
 
-    유저아이디 qwer1234
+    유저아이디 qwer1234 
     유저비밀번호 qwer1234!  
     
     프로젝트관련 구글 아이디 maisonRclass@google.com
@@ -10,7 +10,7 @@
     상품들의 사진 저장한 곳 : nhchihi의 네이버블로그
     -->
 
-# MAISON STORE
+# MAISON STORE  
  
 가정에서 사용되는 물품들을 판매하는 쇼핑몰로, 구입한 상품에 한해 재구매를 유도하도록 메일 서비스를 제공하고 있습니다.
 ![index](https://user-images.githubusercontent.com/33804909/109511298-3da19b00-7ae6-11eb-8917-cbd4e45481df.PNG)
